@@ -733,9 +733,12 @@ header {
 .lesson-player__header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   flex-shrink: 0;
   margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
 }
 
 .lesson-player__back {
@@ -758,29 +761,17 @@ header {
   color: var(--teal);
 }
 
-.lesson-player__meta {
+.lesson-player__lesson {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.lesson-player__lesson {
-  font-size: 0.78rem;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--teal);
+  color: var(--ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.lesson-player__step {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--ink);
 }
 
 .lesson-player__help {
@@ -821,6 +812,15 @@ header {
   line-height: 1.45;
 }
 
+.lesson-player__hint-list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.lesson-player__hint-list li + li {
+  margin-top: 4px;
+}
+
 .lesson-player__body {
   flex: 1;
   min-height: 0;
@@ -838,6 +838,36 @@ header {
   font-weight: 700;
   line-height: 1.35;
   color: var(--ink);
+}
+
+.lesson-player__steps {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.lesson-player__steps li {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.lesson-player__steps li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  transform: translateY(-50%);
 }
 
 .lesson-player__practice {

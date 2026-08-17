@@ -29,6 +29,7 @@ export type LessonStep = {
   id: string;
   type: StepType;
   instruction: string;
+  instructionLines?: string[];
   hint: string;
   expected?: string;
   target?: string;

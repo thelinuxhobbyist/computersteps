@@ -24,7 +24,6 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
 
   const currentStep = lesson.steps[stepIndex];
   const lessonLength = lesson.steps.length;
-  const progressPercent = lessonComplete ? 100 : ((stepIndex + 1) / lessonLength) * 100;
   const course = getCourseForLesson(lesson.id);
   const nextLesson = getNextLessonInCourse(lesson.id);
   const backLabel = course ? `Back to ${course.title}` : "Back to home";
@@ -111,17 +110,7 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
   return (
     <div className="lesson-player wrap">
       <header className="lesson-player__header">
-        <button type="button" onClick={onBack} className="lesson-player__back">
-          <FontAwesomeIcon icon={faArrowRight} rotation={180} aria-hidden="true" />
-          Back
-        </button>
-
-        <div className="lesson-player__meta">
-          <span className="lesson-player__lesson">{lesson.title}</span>
-          <span className="lesson-player__step">
-            Step {stepIndex + 1} of {lessonLength}
-          </span>
-        </div>
+        <p className="lesson-player__lesson">{lesson.title}</p>
 
         <button
           type="button"
@@ -134,18 +123,30 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
         </button>
       </header>
 
-      <div className="lesson-player__progress" aria-label="Lesson progress">
-        <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-      </div>
-
       {helpOpen ? (
         <div className="lesson-player__hint">
-          <p>{currentStep.hint}</p>
+          {currentStep.instructionLines?.length ? (
+            <ul className="lesson-player__hint-list">
+              {currentStep.instructionLines.map((line, index) => (
+                <li key={`hint-${line}-${index}`}>{line}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{currentStep.hint}</p>
+          )}
         </div>
       ) : null}
 
       <div className="lesson-player__body">
-        <p className="lesson-player__instruction">{currentStep.instruction}</p>
+        {currentStep.instructionLines?.length ? (
+          <ol className="lesson-player__steps">
+            {currentStep.instructionLines.map((line, index) => (
+              <li key={`${line}-${index}`}>{line}</li>
+            ))}
+          </ol>
+        ) : (
+          <p className="lesson-player__instruction">{currentStep.instruction}</p>
+        )}
 
         <div className="lesson-player__practice">
           <ExercisePanel
@@ -183,7 +184,7 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
             disabled={!stepComplete}
             aria-disabled={!stepComplete}
           >
-            {stepIndex >= lessonLength - 1 ? "Finish lesson" : "Next step"}
+            {stepIndex >= lessonLength - 1 ? "Finish" : "Next"}
             <FontAwesomeIcon icon={faArrowRight} />
           </button>
         </div>
