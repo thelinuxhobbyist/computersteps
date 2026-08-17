@@ -91,26 +91,28 @@ function HomeContent() {
             </div>
           </section>
 
-          <section className="section wrap section-muted" id="how-it-works">
-            <div className="section-head">
-              <h2>How it works</h2>
-              <p>No account needed. Open a course, pick a lesson, read the instruction, try the task, and move on when you are ready.</p>
-            </div>
+          <section className="section section-muted" id="how-it-works">
+            <div className="wrap">
+              <div className="section-head">
+                <h2>How it works</h2>
+                <p>No account needed. Open a course, pick a lesson, read the instruction, try the task, and move on when you are ready.</p>
+              </div>
 
-            <ol className="how-list">
-              <li>
-                <strong>Pick a course</strong>
-                <span>Each course covers one area, like email or staying safe online.</span>
-              </li>
-              <li>
-                <strong>Try it yourself</strong>
-                <span>Practise clicking, typing or navigating in a safe space.</span>
-              </li>
-              <li>
-                <strong>Move on when ready</strong>
-                <span>When you get it right, press Next step. There is no rush.</span>
-              </li>
-            </ol>
+              <ol className="how-list">
+                <li>
+                  <strong>Pick a course</strong>
+                  <span>Each course covers one area, like email or staying safe online.</span>
+                </li>
+                <li>
+                  <strong>Try it yourself</strong>
+                  <span>Practise clicking, typing or navigating in a safe space.</span>
+                </li>
+                <li>
+                  <strong>Move on when ready</strong>
+                  <span>When you get it right, press Next. There is no rush.</span>
+                </li>
+              </ol>
+            </div>
           </section>
 
           <section className="section wrap" id="about">

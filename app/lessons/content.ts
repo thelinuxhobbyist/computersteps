@@ -86,10 +86,10 @@ function selectFileStep(id: string, fileName: string, options: string[]): Lesson
   return {
     id,
     type: "selectFile",
-    ...lines(`Find ${fileName}.`, "Click it."),
+    ...lines(`Find ${fileName}.`, "Select it."),
     expected: fileName,
     options,
-    hint: `Find ${fileName}. Click it.`,
+    hint: `Find ${fileName}. Select it.`,
   };
 }
 
@@ -364,9 +364,9 @@ function uploadStep(id: string): LessonStep {
   return {
     id,
     type: "uploadFile",
-    ...lines("Click Choose file.", "Pick a file.", "Click Open."),
+    ...lines("Click Choose file.", "Pick a file.", "Click Select."),
     expected: "any-file",
-    hint: "Choose a file from your computer.",
+    hint: "Choose a file from your computer. Click Select.",
   };
 }
 
@@ -422,10 +422,10 @@ function pickSnackStep(id: string, snack: string, options: string[]): LessonStep
   return {
     id,
     type: "selectFile",
-    ...lines(`Find ${snack}.`, "Click it."),
+    ...lines(`Find ${snack}.`, "Select it."),
     expected: snack,
     options,
-    hint: `Find ${snack}. Click it.`,
+    hint: `Find ${snack}. Select it.`,
     theme: "playground",
   };
 }
@@ -438,10 +438,10 @@ function pickPlayItemStep(id: string, item: string, options: string[], instructi
   return {
     id,
     type: "selectFile",
-    ...lines(...(normalized ?? [`Find ${item}.`, "Click it."])),
+    ...lines(...(normalized ?? [`Find ${item}.`, "Select it."])),
     expected: item,
     options,
-    hint: `Find ${item}. Click it.`,
+    hint: `Find ${item}. Select it.`,
     theme: "playground",
   };
 }
@@ -1092,7 +1092,7 @@ const birthdaySteps: LessonStep[] = [
   typeStep("bd12", "thanks", "Type thanks."),
   popBalloonStep("bd13", "purple"),
   openGiftStep("bd14", "green"),
-  pickPlayItemStep("bd15", "Ice cream", ["Ice cream", "Cake", "Cookie"], "Find the ice cream. Click it."),
+  pickPlayItemStep("bd15", "Ice cream", ["Ice cream", "Cake", "Cookie"], ["Find Ice cream.", "Select it."]),
   tapStarStep("bd16"),
   clickStep("bd17", "Done", "Tap Done."),
 ];

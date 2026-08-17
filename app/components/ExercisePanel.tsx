@@ -681,7 +681,7 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
             <span className="upload-icon">
               <FontAwesomeIcon icon={faFileArrowUp} />
             </span>
-            {uploadedFileName ? `Chosen: ${uploadedFileName}` : "Choose a file from your computer"}
+            {uploadedFileName ? `Chosen: ${uploadedFileName}` : "Select a file from your computer"}
           </label>
         </div>
       );
