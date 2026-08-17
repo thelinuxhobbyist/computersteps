@@ -1,69 +1,142 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import CourseCard from "./components/CourseCard";
+import LessonPlayer from "./components/LessonPlayer";
+import SiteHeader from "./components/SiteHeader";
+import { getFeaturedCourses, courseGroups, getCourseForLesson } from "./lessons/courses";
+import { lessons } from "./lessons/content";
+
+function HomeContent() {
+  const [activeLessonIndex, setActiveLessonIndex] = useState<number | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedCourseId = searchParams.get("course");
+  const requestedLessonIndex = requestedCourseId ? lessons.findIndex((lesson) => lesson.id === requestedCourseId) : -1;
+  const visibleLessonIndex = requestedLessonIndex >= 0 ? requestedLessonIndex : activeLessonIndex;
+  const featuredCourses = getFeaturedCourses();
+
+  const startLesson = (index: number) => {
+    setActiveLessonIndex(index);
+    router.push(`/?course=${lessons[index].id}`);
+  };
+
+  const goHome = () => {
+    setActiveLessonIndex(null);
+    router.push("/");
+  };
+
+  const goBackFromLesson = () => {
+    const lessonIndex = visibleLessonIndex;
+    if (lessonIndex !== null && lessonIndex >= 0) {
+      const course = getCourseForLesson(lessons[lessonIndex].id);
+      setActiveLessonIndex(null);
+      if (course) {
+        router.push(`/courses/${course.id}/`);
+        return;
+      }
+    }
+    goHome();
+  };
+
+  return (
+    <div className="site">
+      <SiteHeader />
+
+      {visibleLessonIndex !== null && visibleLessonIndex >= 0 ? (
+        <LessonPlayer
+          key={visibleLessonIndex}
+          lesson={lessons[visibleLessonIndex]}
+          lessonIndex={visibleLessonIndex}
+          onBack={goBackFromLesson}
+          onStartLesson={startLesson}
+        />
+      ) : (
+        <>
+          <section className="hero wrap">
+            <h1>Learn by doing, one step at a time.</h1>
+            <p className="hero-lead">
+              Practise clicking, typing, browsing, files and email — with patient guidance at every step.
+            </p>
+            <div className="hero-actions">
+              <Link href="/courses/computer-basics/" className="btn btn-primary">
+                Start with the basics
+              </Link>
+              <Link href="/courses/" className="btn btn-outline">
+                See all courses
+              </Link>
+            </div>
+          </section>
+
+          <section className="section wrap" id="courses">
+            <div className="section-head">
+              <h2>Popular courses</h2>
+              <p>Three courses to get you started. Open one to see its lessons.</p>
+            </div>
+
+            <div className="course-grid course-grid--featured">
+              {featuredCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
+
+            <div className="section-foot">
+              <Link href="/courses/" className="btn btn-outline">
+                Browse all {courseGroups.length} courses <FontAwesomeIcon icon={faArrowRight} className="text-[0.85em]" />
+              </Link>
+            </div>
+          </section>
+
+          <section className="section wrap section-muted" id="how-it-works">
+            <div className="section-head">
+              <h2>How it works</h2>
+              <p>No account needed. Open a course, pick a lesson, read the instruction, try the task, and move on when you are ready.</p>
+            </div>
+
+            <ol className="how-list">
+              <li>
+                <strong>Pick a course</strong>
+                <span>Each course covers one area, like email or staying safe online.</span>
+              </li>
+              <li>
+                <strong>Try it yourself</strong>
+                <span>Practise clicking, typing or navigating in a safe space.</span>
+              </li>
+              <li>
+                <strong>Move on when ready</strong>
+                <span>When you get it right, press Next step. There is no rush.</span>
+              </li>
+            </ol>
+          </section>
+
+          <section className="section wrap" id="about">
+            <div className="about-panel">
+              <h2>Built for learners, not experts</h2>
+              <p>
+                Computer Steps is designed for people who are new to computers, learning in a library, studying English, or building confidence one small action at a time. It is free, simple, and focused on practice — not sales or scores.
+              </p>
+            </div>
+          </section>
+        </>
+      )}
+
+      <footer>
+        <div className="wrap footer-inner">
+          <span suppressHydrationWarning>© {new Date().getFullYear()} Computer Steps</span>
+        </div>
+      </footer>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <Suspense fallback={<div className="site"><main className="wrap" style={{ paddingTop: "32px" }}>Loading…</main></div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
