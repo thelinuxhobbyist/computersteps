@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm run build && wrangler pages deploy out --project-name=computersteps",
+    "deploy": "npm run build && wrangler pages deploy out --project-name=tutri",
     "deploy:worker": "npm run deploy --prefix workers/upload-cleanup"
   },
   "dependencies": {

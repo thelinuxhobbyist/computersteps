@@ -1,10 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ExercisePanel from "./ExercisePanel";
-import { getNextLessonInCourse, getCourseForLesson } from "../lessons/courses";
+import {
+  getCourseForLesson,
+  getFirstLessonInCourse,
+  getNextCourse,
+  getNextLessonInCourse,
+  isLastLessonInCourse,
+} from "../lessons/courses";
 import { lessons } from "../lessons/content";
 import type { Lesson } from "../lessons/types";
 
@@ -26,6 +33,8 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
   const lessonLength = lesson.steps.length;
   const course = getCourseForLesson(lesson.id);
   const nextLesson = getNextLessonInCourse(lesson.id);
+  const courseComplete = isLastLessonInCourse(lesson.id);
+  const nextCourse = course ? getNextCourse(course.id) : null;
   const backLabel = course ? `Back to ${course.title}` : "Back to home";
 
   const resetStep = () => {
@@ -76,6 +85,18 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
     }
   };
 
+  const startNextCourse = () => {
+    if (!nextCourse) return;
+
+    const firstLesson = getFirstLessonInCourse(nextCourse.id);
+    if (!firstLesson) return;
+
+    const nextIndex = lessons.findIndex((item) => item.id === firstLesson.id);
+    if (nextIndex >= 0) {
+      onStartLesson(nextIndex);
+    }
+  };
+
   if (lessonComplete) {
     return (
       <div className="lesson-main wrap">
@@ -95,8 +116,42 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
                 Start next lesson <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
+          ) : courseComplete && course ? (
+            <div className="completion-next completion-next--course">
+              <p className="completion-label">Course complete</p>
+              <h3>You finished {course.title}</h3>
+              <p className="completion-desc">
+                Well done. You completed every lesson in this course.
+              </p>
+
+              {nextCourse ? (
+                <>
+                  <p className="completion-suggestion">Try this next:</p>
+                  <h4 className="completion-next-course">{nextCourse.title}</h4>
+                  <p className="completion-desc">{nextCourse.description}</p>
+                  <button type="button" onClick={startNextCourse} className="btn btn-primary">
+                    Start {nextCourse.title} <FontAwesomeIcon icon={faArrowRight} />
+                  </button>
+                </>
+              ) : (
+                <p className="completion-desc">
+                  You have finished every course on Computer Steps. Great work!
+                </p>
+              )}
+
+              <div className="completion-actions">
+                <Link href="/courses/" className="btn btn-outline">
+                  Browse all courses
+                </Link>
+              </div>
+            </div>
           ) : (
-            <p className="completion-desc">You have finished all available lessons. Great work!</p>
+            <div className="completion-next">
+              <p className="completion-desc">Great work on this lesson.</p>
+              <Link href="/courses/" className="btn btn-primary">
+                Browse courses <FontAwesomeIcon icon={faArrowRight} />
+              </Link>
+            </div>
           )}
 
           <button type="button" onClick={onBack} className="btn btn-outline completion-back">

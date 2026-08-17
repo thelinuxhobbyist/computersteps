@@ -108,3 +108,24 @@ export function getNextLessonInCourse(lessonId: string): Lesson | null {
 
   return getLesson(course.items[lessonIndex + 1]) ?? null;
 }
+
+export function isLastLessonInCourse(lessonId: string): boolean {
+  const course = getCourseForLesson(lessonId);
+  if (!course) return false;
+
+  return course.items[course.items.length - 1] === lessonId;
+}
+
+export function getNextCourse(currentCourseId: string): CourseGroup | null {
+  const courseIndex = courseGroups.findIndex((course) => course.id === currentCourseId);
+  if (courseIndex < 0 || courseIndex >= courseGroups.length - 1) return null;
+
+  return courseGroups[courseIndex + 1];
+}
+
+export function getFirstLessonInCourse(courseId: string): Lesson | null {
+  const course = getCourse(courseId);
+  if (!course || course.items.length === 0) return null;
+
+  return getLesson(course.items[0]) ?? null;
+}
