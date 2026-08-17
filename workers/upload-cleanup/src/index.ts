@@ -2,37 +2,72 @@ export interface Env {
   UPLOADS_BUCKET: R2Bucket;
 }
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+function jsonResponse(body: unknown, status = 200): Response {
+  return Response.json(body, {
+    status,
+    headers: corsHeaders,
+  });
+}
+
+function getUploadedAt(object: R2Object): number {
+  const fromMeta = object.customMetadata?.uploadedAt;
+  if (fromMeta) {
+    const parsed = Number(fromMeta);
+    if (!Number.isNaN(parsed)) return parsed;
+  }
+
+  if (object.uploaded instanceof Date) {
+    return object.uploaded.getTime();
+  }
+
+  return 0;
+}
+
 const uploadCleanupWorker = {
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
-    const now = Date.now();
-    const cutoff = now - 24 * 60 * 60 * 1000;
-    const listed = await env.UPLOADS_BUCKET.list({
-      prefix: "uploads/",
-      include: ["httpMetadata", "customMetadata"],
-    });
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    let cursor: string | undefined;
+    let deletedCount = 0;
 
-    const deletions = listed.objects
-      .filter((object: R2Object) => {
-        const createdAt = object.uploaded || object.httpMetadata?.uploaded || 0;
-        return createdAt < cutoff;
-      })
-      .map((object: R2Object) => object.key);
+    do {
+      const listed = await env.UPLOADS_BUCKET.list({
+        prefix: "uploads/",
+        cursor,
+        include: ["customMetadata"],
+      });
 
-    for (const key of deletions) {
-      await env.UPLOADS_BUCKET.delete(key);
-    }
+      for (const object of listed.objects) {
+        const uploadedAt = getUploadedAt(object);
+        if (uploadedAt > 0 && uploadedAt < cutoff) {
+          await env.UPLOADS_BUCKET.delete(object.key);
+          deletedCount += 1;
+        }
+      }
 
-    console.log(`Deleted ${deletions.length} uploaded files older than 24 hours.`);
+      cursor = listed.truncated ? listed.cursor : undefined;
+    } while (cursor);
+
+    console.log(`Deleted ${deletedCount} uploaded files older than 24 hours.`);
   },
 
   async fetch(request: Request, env: Env): Promise<Response> {
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
     if (request.method === "POST") {
       try {
         const formData = await request.formData();
         const file = formData.get("file");
 
         if (!(file instanceof File)) {
-          return Response.json({ error: "Expected a file upload." }, { status: 400 });
+          return jsonResponse({ error: "Expected a file upload." }, 400);
         }
 
         const key = `uploads/${crypto.randomUUID()}-${file.name}`;
@@ -46,14 +81,17 @@ const uploadCleanupWorker = {
           },
         });
 
-        return Response.json({ key, success: true });
+        return jsonResponse({ key, success: true });
       } catch (error) {
         console.error("Upload failed", error);
-        return Response.json({ error: "Upload failed." }, { status: 500 });
+        return jsonResponse({ error: "Upload failed." }, 500);
       }
     }
 
-    return new Response("Tutri upload cleanup worker is running.", { status: 200 });
+    return new Response("Computer Steps upload worker is running.", {
+      status: 200,
+      headers: corsHeaders,
+    });
   },
 };
 

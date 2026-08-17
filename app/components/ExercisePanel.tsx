@@ -2,11 +2,14 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowUp, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import EmailPractice from "./EmailPractice";
+import { uploadFileToWorker } from "../lib/upload";
 import { isAnswerCorrect, isFileSafeForUpload } from "../lesson-utils";
+import { inboxMessagesFromSenders } from "../lessons/email-data";
 import type { LessonStep } from "../lessons/types";
 
-const UPLOAD_ENDPOINT = "https://tutri-upload-cleanup.yama-builds.workers.dev";
+const emailSendersFallback = ["Tutor", "Library", "Support", "Friend", "Doctor"];
 
 const BALLOON_COLORS: Record<string, string> = {
   red: "#e53e3e",
@@ -128,7 +131,6 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [messageText, setMessageText] = useState("");
-  const [attachedFiles, setAttachedFiles] = useState<string[]>([]);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const [scrollReached, setScrollReached] = useState(false);
   const [playAnimating, setPlayAnimating] = useState(false);
@@ -641,137 +643,253 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
 
     case "downloadAttachment":
       return (
-        <div className="task-panel flex flex-col items-center gap-3 py-6 sm:py-8">
-          <div className="email-card w-full max-w-md text-base font-medium sm:text-lg">
-            Attachment: {step.expected ?? "file.pdf"}
-          </div>
-          <button
-            type="button"
-            onClick={succeed}
-            className={`task-button px-6 py-4 sm:px-7 sm:py-5 ${stepComplete ? "is-success" : ""}`}
-          >
-            {successLabel(`Download ${step.expected ?? "attachment"}`, stepComplete)}
-          </button>
+        <div className="task-panel">
+          <EmailPractice
+            view="read"
+            from={step.emailFrom ?? "tutor@example.org"}
+            subject={step.emailSubject ?? "Message for you"}
+            attachment={step.expected ?? "attachment.pdf"}
+            body="Hello,\n\nPlease find the attached file."
+            activeField="download"
+            onDownloadClick={succeed}
+          />
         </div>
       );
 
     case "openInbox":
       return (
-        <div className="task-panel flex justify-center py-6 sm:py-8">
-          <button
-            type="button"
-            onClick={succeed}
-            className={`task-button secondary px-6 py-4 text-xl sm:px-8 sm:py-5 sm:text-2xl ${stepComplete ? "is-success" : ""}`}
-          >
-            {successLabel("Open inbox", stepComplete)}
-          </button>
+        <div className="task-panel">
+          <EmailPractice
+            view="inbox"
+            activeField="inbox"
+            inboxMessages={inboxMessagesFromSenders(emailSendersFallback)}
+            onInboxClick={succeed}
+          />
         </div>
       );
 
     case "openEmail":
       return (
-        <div className="task-panel task-list">
-          {(step.options ?? emailSendersFallback).map((sender) => (
-            <button
-              key={sender}
-              type="button"
-              onClick={() => {
-                if (sender === step.expected) succeed();
-                else fail();
-              }}
-              className={`task-option flex items-center justify-between gap-3 ${stepComplete && sender === step.expected ? "is-success" : ""}`}
-            >
-              <span>📨 {sender}</span>
-              <span className="text-sm text-[var(--ink-soft)]">Inbox</span>
-            </button>
-          ))}
+        <div className="task-panel">
+          <EmailPractice
+            view="inbox"
+            activeField="inbox"
+            inboxMessages={inboxMessagesFromSenders(step.options ?? emailSendersFallback, step.expected)}
+            onMessageClick={(sender) => {
+              if (sender === step.expected) succeed();
+              else fail();
+            }}
+          />
         </div>
       );
 
     case "replyEmail":
       return (
-        <div className="task-panel space-y-4">
-          <div className="email-card text-base font-medium sm:text-lg">From: Tutor</div>
-          <button type="button" onClick={succeed} className={`task-button ${stepComplete ? "is-success" : ""}`}>
-            {successLabel("Reply", stepComplete)}
-          </button>
+        <div className="task-panel">
+          <EmailPractice
+            view="read"
+            from={step.emailFrom ?? "tutor@example.org"}
+            subject={step.emailSubject ?? "Re: Your message"}
+            body="Hello,\n\nThank you for your message."
+            activeField="reply"
+            onReplyClick={succeed}
+          />
         </div>
       );
 
     case "typeRecipient":
       return (
-        <div className="task-panel space-y-4">
-          <input
-            value={recipient}
-            onChange={(event) => setRecipient(event.target.value)}
-            placeholder="To: email address"
-            className={`task-input ${stepComplete ? "is-success" : ""}`}
-            autoComplete="off"
-            spellCheck={false}
+        <div className="task-panel">
+          <EmailPractice
+            view="compose"
+            activeField="to"
+            toInput={(
+              <input
+                value={recipient}
+                onChange={(event) => setRecipient(event.target.value)}
+                placeholder="email address"
+                className={`email-field__input ${stepComplete ? "is-success" : ""}`}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            )}
+            subjectInput={<span className="email-field__value email-field__value--empty">subject line</span>}
+            bodyInput={<div className="email-app__body-placeholder">Write your message here…</div>}
+            attachInput={<span className="email-app__attach-name">No file attached</span>}
+            sendButton={(
+              <button
+                type="button"
+                className="email-app__send"
+                onClick={() => checkTyped(recipient, step.expected)}
+                disabled={stepComplete}
+              >
+                Check answer
+              </button>
+            )}
           />
-          <button type="button" onClick={() => checkTyped(recipient, step.expected)} className="task-button" disabled={stepComplete}>
-            Check answer
-          </button>
         </div>
       );
 
     case "typeSubject":
       return (
-        <div className="task-panel space-y-4">
-          <input
-            value={subject}
-            onChange={(event) => setSubject(event.target.value)}
-            placeholder="Subject"
-            className={`task-input ${stepComplete ? "is-success" : ""}`}
-            autoComplete="off"
-            spellCheck={false}
+        <div className="task-panel">
+          <EmailPractice
+            view="compose"
+            activeField="subject"
+            to={step.composeTo ?? ""}
+            subjectInput={(
+              <input
+                value={subject}
+                onChange={(event) => setSubject(event.target.value)}
+                placeholder="subject line"
+                className={`email-field__input ${stepComplete ? "is-success" : ""}`}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            )}
+            bodyInput={<div className="email-app__body-placeholder">Write your message here…</div>}
+            attachInput={<span className="email-app__attach-name">No file attached</span>}
+            sendButton={(
+              <button
+                type="button"
+                className="email-app__send"
+                onClick={() => checkTyped(subject, step.expected)}
+                disabled={stepComplete}
+              >
+                Check answer
+              </button>
+            )}
           />
-          <button type="button" onClick={() => checkTyped(subject, step.expected)} className="task-button" disabled={stepComplete}>
-            Check answer
-          </button>
+        </div>
+      );
+
+    case "typeEmailBody":
+      return (
+        <div className="task-panel">
+          <EmailPractice
+            view="compose"
+            activeField="body"
+            to={step.composeTo ?? ""}
+            subject={step.composeSubject ?? ""}
+            bodyInput={(
+              <>
+                <textarea
+                  value={messageText}
+                  onChange={(event) => setMessageText(event.target.value)}
+                  placeholder="Write your message here…"
+                  className={`email-app__textarea ${stepComplete ? "is-success" : ""}`}
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                <button
+                  type="button"
+                  className="task-button btn-compact mt-3"
+                  onClick={() => checkTyped(messageText, step.expected)}
+                  disabled={stepComplete}
+                >
+                  Check message
+                </button>
+              </>
+            )}
+            attachInput={<span className="email-app__attach-name">No file attached</span>}
+            sendButton={(
+              <button type="button" className="email-app__send" disabled>
+                <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" />
+                Send
+              </button>
+            )}
+          />
         </div>
       );
 
     case "composeEmail":
       return (
-        <div className="task-panel space-y-4">
-          <textarea
-            value={messageText}
-            onChange={(event) => setMessageText(event.target.value)}
-            placeholder="Write your message (optional for this step)"
-            className="task-input min-h-24 sm:min-h-28"
+        <div className="task-panel">
+          <EmailPractice
+            view="compose"
+            activeField="send"
+            to={step.composeTo ?? ""}
+            subject={step.composeSubject ?? ""}
+            body={step.composeBody ?? messageText}
+            attachment={step.composeAttachment ?? (uploadedFileName ? uploadedFileName : null)}
+            bodyInput={(
+              <div className="email-app__body-preview">
+                {(step.composeBody ?? messageText) || "Your message"}
+              </div>
+            )}
+            attachInput={(
+              <span className="email-app__attach-name">
+                {step.composeAttachment ?? uploadedFileName ?? "No file attached"}
+              </span>
+            )}
+            sendButton={(
+              <button
+                type="button"
+                onClick={() => {
+                  if (step.expected === "send") succeed();
+                  else if (messageText.trim().length > 0) succeed();
+                  else fail();
+                }}
+                className={`email-app__send ${stepComplete ? "is-success" : ""}`}
+              >
+                <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" />
+                {successLabel("Send", stepComplete)}
+              </button>
+            )}
           />
-          <button
-            type="button"
-            onClick={() => {
-              if (step.expected === "send") succeed();
-              else if (messageText.trim().length > 0) succeed();
-              else fail();
-            }}
-            className={`task-button secondary ${stepComplete ? "is-success" : ""}`}
-          >
-            {successLabel("Send", stepComplete)}
-          </button>
         </div>
       );
 
     case "attachFile":
       return (
-        <div className="task-panel task-list">
-          {(step.options ?? []).map((file) => (
-            <button
-              key={file}
-              type="button"
-              onClick={() => {
-                setAttachedFiles((current) => (current.includes(file) ? current : [...current, file]));
-                if (file === step.expected) succeed();
-                else fail();
-              }}
-              className={`task-option ${attachedFiles.includes(file) ? "is-selected" : ""} ${stepComplete && file === step.expected ? "is-success" : ""}`}
-            >
-              📎 {file}
-            </button>
-          ))}
+        <div className="task-panel">
+          <EmailPractice
+            view="compose"
+            activeField="attach"
+            to={step.composeTo ?? ""}
+            subject={step.composeSubject ?? ""}
+            body={step.composeBody ?? ""}
+            attachment={uploadedFileName}
+            bodyInput={(
+              <div className="email-app__body-preview">
+                {step.composeBody ?? "Write your message here…"}
+              </div>
+            )}
+            attachInput={(
+              <label className={`email-app__attach-button ${stepComplete ? "is-success" : ""}`}>
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={async (event) => {
+                    const file = event.target.files?.[0];
+                    if (!file) return;
+
+                    if (!isFileSafeForUpload(file)) {
+                      fail();
+                      return;
+                    }
+
+                    const uploaded = await uploadFileToWorker(file);
+                    if (!uploaded) {
+                      fail();
+                      return;
+                    }
+
+                    setUploadedFileName(file.name);
+                    succeed();
+                  }}
+                />
+                <FontAwesomeIcon icon={faFileArrowUp} aria-hidden="true" />
+                {uploadedFileName ? `Attached: ${uploadedFileName}` : "Attach file from computer"}
+              </label>
+            )}
+            sendButton={(
+              <button type="button" className="email-app__send" disabled>
+                <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" />
+                Send
+              </button>
+            )}
+          />
         </div>
       );
 
@@ -791,28 +909,20 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
                   return;
                 }
 
-                try {
-                  const formData = new FormData();
-                  formData.append("file", file);
-
-                  const response = await fetch(UPLOAD_ENDPOINT, {
-                    method: "POST",
-                    body: formData,
-                  });
-
-                  if (!response.ok) throw new Error("Upload failed");
-
-                  setUploadedFileName(file.name);
-                  succeed();
-                } catch {
+                const uploaded = await uploadFileToWorker(file);
+                if (!uploaded) {
                   fail();
+                  return;
                 }
+
+                setUploadedFileName(file.name);
+                succeed();
               }}
             />
             <span className="upload-icon">
               <FontAwesomeIcon icon={faFileArrowUp} />
             </span>
-            {uploadedFileName ? `Chosen: ${uploadedFileName}` : "Choose a file"}
+            {uploadedFileName ? `Chosen: ${uploadedFileName}` : "Choose a file from your computer"}
           </label>
         </div>
       );
@@ -821,5 +931,3 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
       return <div className="task-panel text-lg">Practice task ready.</div>;
   }
 }
-
-const emailSendersFallback = ["Tutor", "Library", "Support"];

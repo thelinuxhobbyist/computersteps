@@ -1627,11 +1627,298 @@ header {
   color: var(--ink-soft);
 }
 
-.email-card {
-  background: var(--paper);
+.email-app {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.email-app__titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, #eef6f4 0%, #e3efec 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.email-app__title {
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  color: var(--teal-dark);
+}
+
+.email-app__badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--paper);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.email-app__toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+}
+
+.email-app__tool {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.email-app__tool.is-active,
+.email-app__tool:not(:disabled):hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  background: var(--teal-tint);
+}
+
+.email-app__inbox-head,
+.email-app__message {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 12px;
+  text-align: left;
+}
+
+.email-app__inbox-head {
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--border);
+}
+
+.email-app__message {
+  width: 100%;
   padding: 14px 16px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.email-app__message:hover,
+.email-app__message.is-selected {
+  background: var(--teal-tint);
+}
+
+.email-app__message.is-target {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+}
+
+.email-app__message-from {
+  font-weight: 700;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email-app__message-subject {
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email-app__fields,
+.email-app__read {
+  padding: 12px 16px 0;
+}
+
+.email-field {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.email-field.is-target {
+  background: var(--teal-tint);
+  margin: 0 -16px;
+  padding: 10px 16px;
+}
+
+.email-field__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-faint);
+}
+
+.email-field__value {
+  font-size: 0.95rem;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.email-field__value--empty {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.email-field__input,
+.email-app__textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.email-app__textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.email-app__compose-body,
+.email-app__read-body {
+  padding: 16px;
+  min-height: 120px;
+}
+
+.email-app__compose-body.is-target {
+  background: var(--teal-tint);
+}
+
+.email-app__body-placeholder,
+.email-app__body-preview,
+.email-app__read-body {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.email-app__body-preview,
+.email-app__read-body {
+  color: var(--ink);
+}
+
+.email-app__attach-row,
+.email-app__attachment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--paper);
+}
+
+.email-app__attach-row.is-target,
+.email-app__attachment-row.is-target {
+  background: var(--teal-tint);
+}
+
+.email-app__attach-label,
+.email-app__attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.email-app__attach-name {
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.email-app__attach-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px dashed var(--teal);
+  background: var(--teal-tint);
+  color: var(--teal-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.email-app__attach-button.is-success {
+  border-color: rgba(47, 133, 90, 0.45);
+  background: var(--green-tint);
+  color: var(--green);
+}
+
+.email-app__download {
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--teal);
+  background: var(--surface);
+  color: var(--teal-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.email-app__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 16px 16px;
+}
+
+.email-app__actions.is-target {
+  background: var(--teal-tint);
+  margin-top: 0;
+}
+
+.email-app__send {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.email-app__send:hover:not(:disabled) {
+  background: var(--teal-dark);
+}
+
+.email-app__send.is-success,
+.email-app__send:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.email-app__send.is-success {
+  background: var(--green);
+  opacity: 1;
 }
 
 .upload-label {

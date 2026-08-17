@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm run build && wrangler pages deploy out --project-name=computersteps"
+    "deploy": "npm run build && wrangler pages deploy out --project-name=computersteps",
+    "deploy:worker": "npm run deploy --prefix workers/upload-cleanup"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

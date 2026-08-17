@@ -24,6 +24,7 @@ export type StepType =
   | "composeEmail"
   | "typeRecipient"
   | "typeSubject"
+  | "typeEmailBody"
   | "attachFile"
   | "uploadFile";
 
@@ -42,6 +43,12 @@ export type LessonStep = {
   linkLabel?: string;
   pageTitle?: string;
   emailFrom?: string;
+  emailSubject?: string;
+  emailBody?: string;
+  composeTo?: string;
+  composeSubject?: string;
+  composeBody?: string;
+  composeAttachment?: string;
   scrollTarget?: string;
   theme?: "balloon" | "gift" | "star" | "playground" | "treasure";
   themeColor?: string;
