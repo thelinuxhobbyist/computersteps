@@ -1,7 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { isAnswerCorrect, isFileSafeForUpload } from "./lesson-utils";
+import { endSentence, isAnswerCorrect, isFileSafeForUpload } from "./lesson-utils";
+
+test("endSentence adds a full stop when text has none", () => {
+  assert.equal(endSentence("Please find my file attached"), "Please find my file attached.");
+  assert.equal(endSentence("Click Save"), "Click Save.");
+});
+
+test("endSentence does not duplicate sentence-ending punctuation", () => {
+  assert.equal(endSentence("Please find my file attached."), "Please find my file attached.");
+  assert.equal(endSentence("Can I borrow a book?"), "Can I borrow a book?");
+  assert.equal(endSentence("Thanks!"), "Thanks!");
+  assert.equal(endSentence("."), ".");
+  assert.equal(endSentence("?"), "?");
+});
 
 test("accepts a real name in a name field", () => {
   assert.equal(isAnswerCorrect("James Alan", "your-name", "your-name"), true);

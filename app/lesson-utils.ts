@@ -1,3 +1,9 @@
+export function endSentence(text: string): string {
+  const trimmed = text.trimEnd();
+  if (!trimmed) return trimmed;
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`;
+}
+
 export function isAnswerCorrect(value: string, expected?: string, type?: string) {
   if (!expected) return false;
 

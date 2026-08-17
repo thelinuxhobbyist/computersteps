@@ -2,6 +2,7 @@ import {
   faCartShopping,
   faBoxOpen,
   faCakeCandles,
+  faCar,
   faCloudRain,
   faComputerMouse,
   faEnvelope,
@@ -20,6 +21,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { Lesson, LessonStep } from "./types";
 import { DEFAULT_INBOX_IDS, ADVANCED_INBOX_IDS, getContact } from "./email-data";
+import { endSentence } from "../lesson-utils";
+
+function clickInstruction(label: string) {
+  return `Click ${endSentence(label)}`;
+}
+
+function findInstruction(target: string) {
+  return `Find ${endSentence(target)}`;
+}
+
+function typeInstruction(text: string) {
+  return `Type ${endSentence(text)}`;
+}
 
 function keyHelpForText(text: string): string {
   const specialCharacterMap: Record<string, string> = {
@@ -66,9 +80,9 @@ function clickStep(id: string, label: string, instructionLines?: string | string
   return {
     id,
     type: "click",
-    ...lines(...(normalized ?? [`Click ${label}.`])),
+    ...lines(...(normalized ?? [clickInstruction(label)])),
     buttonLabel: label,
-    hint: `Click ${label}.`,
+    hint: clickInstruction(label),
   };
 }
 
@@ -76,7 +90,7 @@ function doubleClickStep(id: string, label: string): LessonStep {
   return {
     id,
     type: "doubleClick",
-    ...lines(`Click ${label}.`, "Click again."),
+    ...lines(clickInstruction(label), "Click again."),
     buttonLabel: label,
     hint: `Click ${label} two times.`,
   };
@@ -86,10 +100,10 @@ function selectFileStep(id: string, fileName: string, options: string[]): Lesson
   return {
     id,
     type: "selectFile",
-    ...lines(`Find ${fileName}.`, "Select it."),
+    ...lines(findInstruction(fileName), "Select it."),
     expected: fileName,
     options,
-    hint: `Find ${fileName}. Select it.`,
+    hint: `${findInstruction(fileName)} Select it.`,
   };
 }
 
@@ -97,10 +111,10 @@ function deleteFileStep(id: string, fileName: string, options: string[]): Lesson
   return {
     id,
     type: "deleteFile",
-    ...lines(`Find ${fileName}.`, "Click delete."),
+    ...lines(findInstruction(fileName), "Click delete."),
     expected: fileName,
     options,
-    hint: `Find ${fileName}. Click delete.`,
+    hint: `${findInstruction(fileName)} Click delete.`,
   };
 }
 
@@ -108,10 +122,10 @@ function openFolderStep(id: string, folderName: string, options: string[]): Less
   return {
     id,
     type: "openFolder",
-    ...lines(`Find ${folderName}.`, "Click it."),
+    ...lines(findInstruction(folderName), "Click it."),
     expected: folderName,
     options,
-    hint: `Find ${folderName}. Click it.`,
+    hint: `${findInstruction(folderName)} Click it.`,
   };
 }
 
@@ -119,7 +133,7 @@ function dragDropStep(id: string, item: string, dropLabel: string): LessonStep {
   return {
     id,
     type: "dragDrop",
-    ...lines(`Pick up ${item}.`, `Drop in ${dropLabel}.`),
+    ...lines(`Pick up ${endSentence(item)}`, `Drop in ${endSentence(dropLabel)}`),
     dragItem: item,
     dropLabel,
     expected: item,
@@ -131,10 +145,10 @@ function scrollStep(id: string, target: string): LessonStep {
   return {
     id,
     type: "scroll",
-    ...lines("Scroll down.", `Find ${target}.`),
+    ...lines("Scroll down.", findInstruction(target)),
     scrollTarget: target,
     expected: target,
-    hint: `Scroll down. Find ${target}.`,
+    hint: `Scroll down. ${findInstruction(target)}`,
   };
 }
 
@@ -149,11 +163,11 @@ function typeStep(id: string, word: string, instructionLines?: string | string[]
   if (normalized) {
     defaultLines = normalized;
   } else if (word.includes(" ")) {
-    defaultLines = [`Type ${word}.`];
+    defaultLines = [typeInstruction(word)];
   } else if (keyHelp && keyHelp !== `Press the ${word} key.`) {
-    defaultLines = [`Type ${word}.`, keyHelp];
+    defaultLines = [typeInstruction(word), keyHelp];
   } else {
-    defaultLines = [`Type ${word}.`];
+    defaultLines = [typeInstruction(word)];
   }
 
   return {
@@ -161,7 +175,7 @@ function typeStep(id: string, word: string, instructionLines?: string | string[]
     type: "typeText",
     ...lines(...defaultLines),
     expected: word,
-    hint: keyHelp ? `${keyHelp} You should see ${word}.` : `Type ${word}.`,
+    hint: keyHelp ? `${keyHelp} You should see ${endSentence(word)}` : typeInstruction(word),
   };
 }
 
@@ -186,7 +200,7 @@ function deleteTextStep(id: string, start: string, expected: string): LessonStep
   return {
     id,
     type: "deleteText",
-    ...lines("Use Backspace.", `Stop when you see ${expected}.`),
+    ...lines("Use Backspace.", `Stop when you see ${endSentence(expected)}`),
     expected,
     target: start,
     hint: "Use Backspace.",
@@ -197,9 +211,9 @@ function enterStep(id: string, word: string): LessonStep {
   return {
     id,
     type: "pressEnter",
-    ...lines(`Type ${word}.`, "Press Enter."),
+    ...lines(typeInstruction(word), "Press Enter."),
     expected: word,
-    hint: `Type ${word}. Press Enter.`,
+    hint: `${typeInstruction(word)} Press Enter.`,
   };
 }
 
@@ -216,9 +230,9 @@ function addressStep(id: string, address: string): LessonStep {
   return {
     id,
     type: "browserAddress",
-    ...lines(`Type ${address}.`),
+    ...lines(typeInstruction(address)),
     expected: address,
-    hint: `Type ${address}.`,
+    hint: typeInstruction(address),
   };
 }
 
@@ -226,10 +240,10 @@ function searchStep(id: string, query: string): LessonStep {
   return {
     id,
     type: "searchInternet",
-    ...lines(`Type ${query}.`, "Click Search."),
+    ...lines(typeInstruction(query), "Click Search."),
     searchQuery: query,
     expected: query,
-    hint: `Type ${query}. Click Search.`,
+    hint: `${typeInstruction(query)} Click Search.`,
   };
 }
 
@@ -237,10 +251,10 @@ function linkStep(id: string, label: string): LessonStep {
   return {
     id,
     type: "clickLink",
-    ...lines(`Find ${label}.`, "Click it."),
+    ...lines(findInstruction(label), "Click it."),
     linkLabel: label,
     expected: label,
-    hint: `Find ${label}. Click it.`,
+    hint: `${findInstruction(label)} Click it.`,
   };
 }
 
@@ -289,8 +303,8 @@ function openEmailStep(
     expected: contact.id,
     options: inboxIds,
     hint: bySubject
-      ? `Find subject: ${contact.subject}.`
-      : `Find name: ${contact.name}.`,
+      ? `Find subject: ${endSentence(contact.subject)}`
+      : `Find name: ${endSentence(contact.name)}`,
   };
 }
 
@@ -311,11 +325,11 @@ function replySendStep(id: string, contactId: string, body: string): LessonStep 
   return {
     id,
     type: "replyEmail",
-    ...lines("Click Reply.", `Type ${body}.`, "Click Send."),
+    ...lines("Click Reply.", typeInstruction(body), "Click Send."),
     expected: body,
     emailFrom: contact.id,
     emailSubject: `Re: ${contact.subject}`,
-    hint: `Type ${body}. ${keyHelpForText(body)}`.trim(),
+    hint: `${typeInstruction(body)} ${keyHelpForText(body)}`.trim(),
   };
 }
 
@@ -333,9 +347,9 @@ function composeEmailStep(
     composeStart: "new",
     ...lines(
       "Click New.",
-      `To: ${contact.name}.`,
-      `Subject: ${subject}.`,
-      `Type ${body}.`,
+      `To: ${endSentence(contact.name)}`,
+      `Subject: ${endSentence(subject)}`,
+      typeInstruction(body),
       ...(attachment ? ["Attach a file."] : []),
       "Click Send.",
     ),
@@ -352,11 +366,11 @@ function downloadStep(id: string, fileName: string, contactId = "tutor"): Lesson
   return {
     id,
     type: "downloadAttachment",
-    ...lines(`Find ${fileName}.`, "Click Download."),
+    ...lines(findInstruction(fileName), "Click Download."),
     expected: fileName,
     emailFrom: contact.id,
     emailSubject: contact.subject,
-    hint: `Click Download on ${fileName}.`,
+    hint: `Click Download on ${endSentence(fileName)}`,
   };
 }
 
@@ -398,7 +412,7 @@ function toyDropStep(id: string, toy: string, emoji: string): LessonStep {
   return {
     id,
     type: "dragDrop",
-    ...lines(`Pick up ${toy}.`, "Drop in Toy box."),
+    ...lines(`Pick up ${endSentence(toy)}`, "Drop in Toy box."),
     dragItem: toy,
     dropLabel: "Toy box",
     hint: `Drag the ${toy} to the toy box.`,
@@ -422,10 +436,10 @@ function pickSnackStep(id: string, snack: string, options: string[]): LessonStep
   return {
     id,
     type: "selectFile",
-    ...lines(`Find ${snack}.`, "Select it."),
+    ...lines(findInstruction(snack), "Select it."),
     expected: snack,
     options,
-    hint: `Find ${snack}. Select it.`,
+    hint: `${findInstruction(snack)} Select it.`,
     theme: "playground",
   };
 }
@@ -438,10 +452,10 @@ function pickPlayItemStep(id: string, item: string, options: string[], instructi
   return {
     id,
     type: "selectFile",
-    ...lines(...(normalized ?? [`Find ${item}.`, "Select it."])),
+    ...lines(...(normalized ?? [findInstruction(item), "Select it."])),
     expected: item,
     options,
-    hint: `Find ${item}. Select it.`,
+    hint: `${findInstruction(item)} Select it.`,
     theme: "playground",
   };
 }
@@ -450,7 +464,7 @@ function petBasketStep(id: string, pet: string, emoji: string): LessonStep {
   return {
     id,
     type: "dragDrop",
-    ...lines(`Pick up ${pet}.`, "Drop in Basket."),
+    ...lines(`Pick up ${endSentence(pet)}`, "Drop in Basket."),
     dragItem: pet,
     dropLabel: "Basket",
     hint: `Drag the ${pet} to the basket.`,
@@ -463,10 +477,23 @@ function potDropStep(id: string, item: string, emoji: string): LessonStep {
   return {
     id,
     type: "dragDrop",
-    ...lines(`Pick up ${item}.`, "Drop in Pot."),
+    ...lines(`Pick up ${endSentence(item)}`, "Drop in Pot."),
     dragItem: item,
     dropLabel: "Pot",
     hint: `Drag the ${item} to the flower pot.`,
+    theme: "playground",
+    themeEmoji: emoji,
+  };
+}
+
+function placeDropStep(id: string, item: string, dropLabel: string, emoji: string): LessonStep {
+  return {
+    id,
+    type: "dragDrop",
+    ...lines(`Pick up the ${item}.`, `Drop in the ${dropLabel}.`),
+    dragItem: item,
+    dropLabel,
+    hint: `Drag the ${item} to the ${dropLabel.toLowerCase()}.`,
     theme: "playground",
     themeEmoji: emoji,
   };
@@ -807,6 +834,17 @@ const mouseSkillsSteps: LessonStep[] = [
   clickStep("m41", "OK"),
   doubleClickStep("m42", "Photo album"),
   clickStep("m43", "Done"),
+];
+
+const putInPlaceSteps: LessonStep[] = [
+  placeDropStep("dd1", "car", "Parking space", "🚗"),
+  placeDropStep("dd2", "van", "Parking space", "🚐"),
+  placeDropStep("dd3", "letter", "Post box", "✉️"),
+  placeDropStep("dd4", "rubbish", "Bin", "🗑️"),
+  placeDropStep("dd5", "book", "Bookshelf", "📖"),
+  placeDropStep("dd6", "coat", "Coat hook", "🧥"),
+  placeDropStep("dd7", "puppy", "Dog bed", "🐶"),
+  clickStep("dd8", "Done", "Click Done."),
 ];
 
 const formsOnlineSteps: LessonStep[] = [
@@ -1218,6 +1256,13 @@ export const lessons: Lesson[] = [
     description: "Practise clicking and double-clicking with confidence.",
     icon: faHandPointer,
     steps: mouseSkillsSteps,
+  },
+  {
+    id: "put-in-place",
+    title: "Put Things in Place",
+    description: "Drag cars, letters and other items to where they belong.",
+    icon: faCar,
+    steps: putInPlaceSteps,
   },
   {
     id: "forms",

@@ -16,10 +16,10 @@ export const courseGroups: CourseGroup[] = [
   {
     id: "computer-basics",
     title: "Computer basics",
-    description: "Learn to click, double-click and use the mouse.",
+    description: "Learn to click, double-click, drag and drop.",
     number: "1",
     accent: "#0f766e",
-    items: ["computer", "mouse"],
+    items: ["computer", "mouse", "put-in-place"],
   },
   {
     id: "keyboard-skills",

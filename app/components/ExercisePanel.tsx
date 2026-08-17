@@ -45,12 +45,35 @@ const SNACK_EMOJI: Record<string, string> = {
   Coat: "🧥",
 };
 
-type PlayDropKind = "box" | "basket" | "pot";
+type PlayDropKind = "box" | "basket" | "pot" | "parking" | "postbox" | "bin" | "shelf" | "hook" | "bed";
+
+const PLAY_DROP_LABELS: Record<string, string> = {
+  Basket: "Basket",
+  Pot: "Flower pot",
+  "Toy box": "Toy box",
+  "Parking space": "Parking space",
+  "Post box": "Post box",
+  Bin: "Bin",
+  Bookshelf: "Bookshelf",
+  "Coat hook": "Coat hook",
+  "Dog bed": "Dog bed",
+};
 
 function getPlayDropKind(dropLabel?: string): PlayDropKind {
   if (dropLabel === "Basket") return "basket";
   if (dropLabel === "Pot") return "pot";
+  if (dropLabel === "Parking space") return "parking";
+  if (dropLabel === "Post box") return "postbox";
+  if (dropLabel === "Bin") return "bin";
+  if (dropLabel === "Bookshelf") return "shelf";
+  if (dropLabel === "Coat hook") return "hook";
+  if (dropLabel === "Dog bed") return "bed";
   return "box";
+}
+
+function getPlayDropLabel(dropLabel?: string) {
+  if (!dropLabel) return "Drop here";
+  return PLAY_DROP_LABELS[dropLabel] ?? dropLabel;
 }
 
 function PlayDropTarget({ kind, label, ready }: { kind: PlayDropKind; label: string; ready: boolean }) {
@@ -78,6 +101,81 @@ function PlayDropTarget({ kind, label, ready }: { kind: PlayDropKind; label: str
           <div className="play-drop__pot-soil" />
           <div className="play-drop__pot-rim" />
           <div className="play-drop__pot-body" />
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "parking") {
+    return (
+      <div className={`play-drop play-drop--parking ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__parking" aria-hidden="true">
+          <div className="play-drop__parking-bay">
+            <span className="play-drop__parking-mark">P</span>
+          </div>
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "postbox") {
+    return (
+      <div className={`play-drop play-drop--postbox ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__postbox" aria-hidden="true">
+          <div className="play-drop__postbox-slot" />
+          <div className="play-drop__postbox-body" />
+          <div className="play-drop__postbox-base" />
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "bin") {
+    return (
+      <div className={`play-drop play-drop--bin ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__bin" aria-hidden="true">
+          <div className="play-drop__bin-lid" />
+          <div className="play-drop__bin-body" />
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "shelf") {
+    return (
+      <div className={`play-drop play-drop--shelf ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__shelf" aria-hidden="true">
+          <div className="play-drop__shelf-board" />
+          <div className="play-drop__shelf-board" />
+          <div className="play-drop__shelf-board" />
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "hook") {
+    return (
+      <div className={`play-drop play-drop--hook ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__hook" aria-hidden="true">
+          <div className="play-drop__hook-plate" />
+          <div className="play-drop__hook-peg" />
+        </div>
+        <p className="play-drop__label">{label}</p>
+      </div>
+    );
+  }
+
+  if (kind === "bed") {
+    return (
+      <div className={`play-drop play-drop--bed ${ready ? "is-ready" : ""}`}>
+        <div className="play-drop__bed" aria-hidden="true">
+          <div className="play-drop__bed-cushion" />
+          <div className="play-drop__bed-rim" />
         </div>
         <p className="play-drop__label">{label}</p>
       </div>
@@ -321,7 +419,7 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
     case "dragDrop":
       if (step.theme === "playground") {
         const dropKind = getPlayDropKind(step.dropLabel);
-        const dropLabelText = step.dropLabel === "Basket" ? "Basket" : step.dropLabel === "Pot" ? "Flower pot" : "Toy box";
+        const dropLabelText = getPlayDropLabel(step.dropLabel);
 
         return (
           <div className="task-panel task-panel--play-drop">
