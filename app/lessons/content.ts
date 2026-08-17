@@ -143,16 +143,25 @@ function typeStep(id: string, word: string, instructionLines?: string | string[]
     ? [instructionLines]
     : instructionLines;
 
-  const defaultLine = word.includes(" ")
-    ? `Type ${word}.`
-    : (keyHelpForText(word) || `Type ${word}.`);
+  const keyHelp = keyHelpForText(word);
+  let defaultLines: string[];
+
+  if (normalized) {
+    defaultLines = normalized;
+  } else if (word.includes(" ")) {
+    defaultLines = [`Type ${word}.`];
+  } else if (keyHelp && keyHelp !== `Press the ${word} key.`) {
+    defaultLines = [`Type ${word}.`, keyHelp];
+  } else {
+    defaultLines = [`Type ${word}.`];
+  }
 
   return {
     id,
     type: "typeText",
-    ...lines(...(normalized ?? [defaultLine])),
+    ...lines(...defaultLines),
     expected: word,
-    hint: `Type ${word}. ${keyHelpForText(word)}`.trim(),
+    hint: keyHelp ? `${keyHelp} You should see ${word}.` : `Type ${word}.`,
   };
 }
 
@@ -943,14 +952,14 @@ const passwordsSteps: LessonStep[] = [
 ];
 
 const charactersSteps: LessonStep[] = [
-  typeStep("ch1", "?", "Hold Shift. Press /."),
-  typeStep("ch2", "@", "Hold Shift. Press the apostrophe key."),
-  typeStep("ch3", "/", "Press /."),
-  typeStep("ch4", "!", "Hold Shift. Press 1."),
-  typeStep("ch5", "&", "Hold Shift. Press 7."),
-  typeStep("ch6", "£", "Hold Shift. Press 3."),
-  typeStep("ch7", "$", "Hold Shift. Press 4."),
-  typeStep("ch8", "%", "Hold Shift. Press 5."),
+  typeStep("ch1", "?"),
+  typeStep("ch2", "@"),
+  typeStep("ch3", "/"),
+  typeStep("ch4", "!"),
+  typeStep("ch5", "&"),
+  typeStep("ch6", "£"),
+  typeStep("ch7", "$"),
+  typeStep("ch8", "%"),
   typeStep("ch9", "hello@example.com"),
   typeStep("ch10", "Tom & Sam"),
   typeStep("ch11", "£10.50"),

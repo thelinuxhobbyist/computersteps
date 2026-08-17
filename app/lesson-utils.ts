@@ -30,6 +30,10 @@ export function isAnswerCorrect(value: string, expected?: string, type?: string)
     return Boolean(normalizedInput) && normalizedInput.length >= 2;
   }
 
+  if (normalizedExpected.length === 1 && /[^A-Za-z0-9]/.test(normalizedExpected)) {
+    return normalizedInput === normalizedExpected;
+  }
+
   const requiresExactCase = /[A-Z]/.test(normalizedExpected);
   if (requiresExactCase) {
     return normalizedInput === normalizedExpected;

@@ -27,6 +27,8 @@ test("rejects non-matching typed answers", () => {
 test("accepts punctuation answers exactly", () => {
   assert.equal(isAnswerCorrect(",", ","), true);
   assert.equal(isAnswerCorrect(".", "."), true);
+  assert.equal(isAnswerCorrect("@", "@"), true);
+  assert.equal(isAnswerCorrect("'", "@"), false);
   assert.equal(isAnswerCorrect(",.", ","), false);
 });
 

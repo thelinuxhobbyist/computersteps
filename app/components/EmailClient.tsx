@@ -8,6 +8,8 @@ import { isAnswerCorrect, isFileSafeForUpload } from "../lesson-utils";
 import {
   DEFAULT_INBOX_IDS,
   PRACTICE_USER_EMAIL,
+  contactInitials,
+  emailBodyParagraphs,
   getContact,
   inboxFromContactIds,
   resolveContactId,
@@ -186,26 +188,28 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
   return (
     <div className="email-app">
       <div className="email-app__titlebar">
-        <span className="email-app__title">Practice Email</span>
-        <span className="email-app__badge">Practice only — nothing is really sent</span>
+        <span className="email-app__title">Practice email</span>
+        <span className="email-app__badge">Nothing is really sent</span>
       </div>
 
-      <div className="email-app__toolbar">
-        <button
-          type="button"
-          className={`email-app__tool ${showNewHighlight ? "is-active" : ""} ${screen === "compose" && step.type === "composeEmail" ? "is-active" : ""}`}
-          onClick={handleNewClick}
-        >
-          New
-        </button>
-        <button
-          type="button"
-          className={`email-app__tool ${showInboxHighlight && screen === "inbox" ? "is-active" : ""}`}
-          onClick={handleInboxOpen}
-        >
-          Inbox
-        </button>
-      </div>
+      {screen !== "read" ? (
+        <div className="email-app__toolbar">
+          <button
+            type="button"
+            className={`email-app__tool ${showNewHighlight ? "is-active" : ""} ${screen === "compose" && step.type === "composeEmail" ? "is-active" : ""}`}
+            onClick={handleNewClick}
+          >
+            New
+          </button>
+          <button
+            type="button"
+            className={`email-app__tool ${showInboxHighlight && screen === "inbox" ? "is-active" : ""}`}
+            onClick={handleInboxOpen}
+          >
+            Inbox
+          </button>
+        </div>
+      ) : null}
 
       {screen === "inbox" ? (
         <div className="email-app__inbox">
@@ -238,44 +242,50 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
               Back to Inbox
             </button>
           </div>
-          <div className="email-field">
-            <span className="email-field__label">From</span>
-            <span className="email-field__value">
-              {viewedContact.name}
-              <span className="email-field__sub">{viewedContact.email}</span>
-            </span>
-          </div>
-          <div className="email-field">
-            <span className="email-field__label">To</span>
-            <span className="email-field__value">{PRACTICE_USER_EMAIL}</span>
-          </div>
-          <div className="email-field">
-            <span className="email-field__label">Subject</span>
-            <span className="email-field__value">{step.emailSubject ?? viewedContact.subject}</span>
-          </div>
-          {step.type === "downloadAttachment" ? (
-            <div className={`email-app__attachment-row ${showDownloadHighlight ? "is-target" : ""}`}>
-              <span className="email-app__attachment-chip">
-                <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" />
-                {step.expected ?? "attachment.pdf"}
-              </span>
-              <button type="button" className="email-app__download" onClick={trySuccess}>
-                Download
-              </button>
+
+          <div className="email-app__read-panel">
+            <div className="email-app__sender">
+              <div className="email-app__avatar" aria-hidden="true">
+                {contactInitials(viewedContact.name)}
+              </div>
+              <div className="email-app__sender-meta">
+                <p className="email-app__sender-name">{viewedContact.name}</p>
+                <p className="email-app__sender-email">{viewedContact.email}</p>
+              </div>
             </div>
-          ) : null}
-          <div className="email-app__read-body">{step.emailBody ?? viewedContact.preview}</div>
-          {step.type === "replyEmail" ? (
-            <div className="email-app__actions">
-              <button
-                type="button"
-                className={`email-app__send ${showReplyHighlight ? "is-target" : ""}`}
-                onClick={handleReplyClick}
-              >
-                Reply
-              </button>
+
+            <p className="email-app__read-subject">{step.emailSubject ?? viewedContact.subject}</p>
+
+            <div className="email-app__read-content">
+              {emailBodyParagraphs(step.emailBody ?? viewedContact.preview).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
-          ) : null}
+
+            {step.type === "downloadAttachment" ? (
+              <div className={`email-app__attachment-row ${showDownloadHighlight ? "is-target" : ""}`}>
+                <span className="email-app__attachment-chip">
+                  <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" />
+                  {step.expected ?? "attachment.pdf"}
+                </span>
+                <button type="button" className="email-app__download" onClick={trySuccess}>
+                  Download
+                </button>
+              </div>
+            ) : null}
+
+            {step.type === "replyEmail" ? (
+              <div className="email-app__read-actions">
+                <button
+                  type="button"
+                  className={`email-app__reply ${showReplyHighlight ? "is-target" : ""}`}
+                  onClick={handleReplyClick}
+                >
+                  Reply
+                </button>
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : null}
 
@@ -287,76 +297,78 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
               {composeBackLabel}
             </button>
           </div>
-          <div className="email-app__fields">
-            <div className="email-field">
-              <span className="email-field__label">From</span>
-              <span className="email-field__value">{PRACTICE_USER_EMAIL}</span>
+          <div className="email-app__compose-panel">
+            <div className="email-app__fields">
+              <div className="email-field">
+                <span className="email-field__label">From</span>
+                <span className="email-field__value">{PRACTICE_USER_EMAIL}</span>
+              </div>
+              <div className="email-field">
+                <span className="email-field__label">To</span>
+                <input
+                  value={to}
+                  onChange={(event) => setTo(event.target.value)}
+                  placeholder="name or email address"
+                  className="email-field__input"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
+              <div className="email-field">
+                <span className="email-field__label">Subject</span>
+                <input
+                  value={subject}
+                  onChange={(event) => setSubject(event.target.value)}
+                  placeholder="Subject"
+                  className="email-field__input"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
             </div>
-            <div className="email-field">
-              <span className="email-field__label">To</span>
-              <input
-                value={to}
-                onChange={(event) => setTo(event.target.value)}
-                placeholder="name or email address"
-                className="email-field__input"
+
+            <div className="email-app__compose-body">
+              <textarea
+                value={body}
+                onChange={(event) => setBody(event.target.value)}
+                placeholder="Write your message here…"
+                className="email-app__textarea"
                 autoComplete="off"
                 spellCheck={false}
               />
             </div>
-            <div className="email-field">
-              <span className="email-field__label">Subject</span>
-              <input
-                value={subject}
-                onChange={(event) => setSubject(event.target.value)}
-                placeholder="Subject"
-                className="email-field__input"
-                autoComplete="off"
-                spellCheck={false}
-              />
+
+            <div className="email-app__attach-row">
+              <span className="email-app__attach-label">
+                <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" />
+                Attachment
+              </span>
+              <label className="email-app__attach-button">
+                <input
+                  type="file"
+                  className="hidden"
+                  disabled={uploading || stepComplete}
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) void handleAttach(file);
+                  }}
+                />
+                <FontAwesomeIcon icon={faFileArrowUp} aria-hidden="true" />
+                {uploading ? "Uploading…" : attachmentName ? `Attached: ${attachmentName}` : "Attach file from computer"}
+              </label>
             </div>
-          </div>
 
-          <div className="email-app__compose-body">
-            <textarea
-              value={body}
-              onChange={(event) => setBody(event.target.value)}
-              placeholder="Write your message here…"
-              className="email-app__textarea"
-              autoComplete="off"
-              spellCheck={false}
-            />
-          </div>
-
-          <div className="email-app__attach-row">
-            <span className="email-app__attach-label">
-              <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" />
-              Attachment
-            </span>
-            <label className="email-app__attach-button">
-              <input
-                type="file"
-                className="hidden"
-                disabled={uploading || stepComplete}
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) void handleAttach(file);
-                }}
-              />
-              <FontAwesomeIcon icon={faFileArrowUp} aria-hidden="true" />
-              {uploading ? "Uploading…" : attachmentName ? `Attached: ${attachmentName}` : "Attach file from computer"}
-            </label>
-          </div>
-
-          <div className="email-app__actions">
-            <button
-              type="button"
-              className={`email-app__send ${stepComplete ? "is-success" : ""}`}
-              onClick={handleSend}
-              disabled={stepComplete}
-            >
-              <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" />
-              Send
-            </button>
+            <div className="email-app__read-actions">
+              <button
+                type="button"
+                className={`email-app__reply ${stepComplete ? "is-success" : ""}`}
+                onClick={handleSend}
+                disabled={stepComplete}
+              >
+                <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" />
+                Send
+              </button>
+            </div>
           </div>
         </>
       ) : null}

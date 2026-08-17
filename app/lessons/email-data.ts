@@ -120,8 +120,19 @@ export const DEFAULT_INBOX_IDS = ["tutor", "library", "support", "james", "docto
 
 export const ADVANCED_INBOX_IDS = ["tutor", "library", "support", "james", "doctor", "eno", "bank", "mum", "council"];
 
-export function senderAddress(name: string): string {
-  return getContact(name).email;
+export function contactInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+export function emailBodyParagraphs(body: string): string[] {
+  return body
+    .split(/\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
 }
 
 export const INBOX_SUBJECTS: Record<string, string> = Object.fromEntries(
