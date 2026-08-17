@@ -19,7 +19,7 @@ import {
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import type { Lesson, LessonStep } from "./types";
-import { DEFAULT_INBOX_IDS, getContact } from "./email-data";
+import { DEFAULT_INBOX_IDS, ADVANCED_INBOX_IDS, getContact } from "./email-data";
 
 function keyHelpForText(text: string): string {
   const specialCharacterMap: Record<string, string> = {
@@ -253,17 +253,38 @@ function inboxStep(id: string): LessonStep {
   };
 }
 
-function openEmailStep(id: string, contactId: string, inboxIds: string[] = DEFAULT_INBOX_IDS): LessonStep {
+function openEmailStep(
+  id: string,
+  contactId: string,
+  inboxIds: string[] = DEFAULT_INBOX_IDS,
+  bySubject = false,
+): LessonStep {
   const contact = getContact(contactId);
   return {
     id,
     type: "openEmail",
-    instruction: `Find the email from ${contact.name}. Click it.`,
+    instruction: bySubject
+      ? `Find the email with subject "${contact.subject}". Click it.`
+      : `Find the email from ${contact.name}. Click it.`,
     emailFrom: contact.id,
     emailSubject: contact.subject,
     expected: contact.id,
     options: inboxIds,
-    hint: `Find the email from ${contact.name}. Click it.`,
+    hint: bySubject
+      ? `Look at the Subject column. Find "${contact.subject}". Click it.`
+      : `Find the email from ${contact.name}. Click it.`,
+  };
+}
+
+function backToInboxStep(id: string, contactId: string): LessonStep {
+  const contact = getContact(contactId);
+  return {
+    id,
+    type: "backToInbox",
+    instruction: "Click Back to return to your inbox.",
+    emailFrom: contact.id,
+    emailSubject: contact.subject,
+    hint: "Click Back to return to your inbox.",
   };
 }
 
@@ -711,6 +732,31 @@ const attachmentSteps: LessonStep[] = [
   composeEmailStep("a11", "james", "My photo", "Photo attached.", true),
 ];
 
+const advancedInbox = ADVANCED_INBOX_IDS;
+
+const emailAdvancedSteps: LessonStep[] = [
+  inboxStep("x1"),
+  openEmailStep("x2", "eno", advancedInbox, true),
+  backToInboxStep("x3", "eno"),
+  openEmailStep("x4", "bank", advancedInbox, true),
+  replySendStep("x5", "bank", "I have paid already"),
+  backToInboxStep("x6", "bank"),
+  openEmailStep("x7", "mum", advancedInbox),
+  replySendStep("x8", "mum", "yes I will be there"),
+  openEmailStep("x9", "council", advancedInbox, true),
+  replySendStep("x10", "council", "thank you for the reminder"),
+  composeEmailStep("x11", "bank", "Payment query", "Please confirm my payment was received."),
+  composeEmailStep("x12", "doctor", "Change appointment", "Can I move my appointment to next week?"),
+  openEmailStep("x13", "support", advancedInbox),
+  replySendStep("x14", "support", "I need help resetting my password"),
+  openEmailStep("x15", "james", advancedInbox),
+  backToInboxStep("x16", "james"),
+  openEmailStep("x17", "tutor", advancedInbox, true),
+  composeEmailStep("x18", "tutor", "Homework attached", "Please find my homework attached.", true),
+  downloadStep("x19", "invoice.pdf", "eno"),
+  composeEmailStep("x20", "eno", "Bill question", "I have a question about my latest bill.", true),
+];
+
 const mouseSkillsSteps: LessonStep[] = [
   ...["Start", "Continue", "Next", "OK", "Open", "Save", "Done", "Cancel", "Close", "Apply"].map((label, index) =>
     clickStep(`m${index + 1}`, label),
@@ -1130,6 +1176,13 @@ export const lessons: Lesson[] = [
     description: "Practise downloading and attaching files.",
     icon: faPaperclip,
     steps: attachmentSteps,
+  },
+  {
+    id: "email-advanced",
+    title: "Email — Next Steps",
+    description: "A fuller inbox, longer replies, and trickier tasks for people with some experience.",
+    icon: faEnvelope,
+    steps: emailAdvancedSteps,
   },
   {
     id: "mouse",

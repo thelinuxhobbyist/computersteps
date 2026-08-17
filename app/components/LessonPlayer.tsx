@@ -27,7 +27,6 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
   const progressPercent = lessonComplete ? 100 : ((stepIndex + 1) / lessonLength) * 100;
   const course = getCourseForLesson(lesson.id);
   const nextLesson = getNextLessonInCourse(lesson.id);
-  const backHref = course ? `/courses/${course.id}/` : "/";
   const backLabel = course ? `Back to ${course.title}` : "Back to home";
 
   const resetStep = () => {
@@ -110,42 +109,45 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
   }
 
   return (
-    <div className="lesson-main wrap">
-      <div className="lesson-header">
-        <button type="button" onClick={onBack} className="back-link">
-          <FontAwesomeIcon icon={faArrowRight} rotation={180} />
-          {backLabel}
+    <div className="lesson-player wrap">
+      <header className="lesson-player__header">
+        <button type="button" onClick={onBack} className="lesson-player__back">
+          <FontAwesomeIcon icon={faArrowRight} rotation={180} aria-hidden="true" />
+          Back
         </button>
 
-        <div className="lesson-header-top">
-          <div>
-            <p className="lesson-tag">{lesson.title}</p>
-            <h1>Step {stepIndex + 1}</h1>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setHelpOpen((current) => !current)}
-            className="btn help-btn btn-sm"
-            aria-expanded={helpOpen}
-          >
-            Need help?
-          </button>
+        <div className="lesson-player__meta">
+          <span className="lesson-player__lesson">{lesson.title}</span>
+          <span className="lesson-player__step">
+            Step {stepIndex + 1} of {lessonLength}
+          </span>
         </div>
 
-        <div className="progress-track" aria-label="Lesson progress">
-          <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-        </div>
+        <button
+          type="button"
+          onClick={() => setHelpOpen((current) => !current)}
+          className={`lesson-player__help ${helpOpen ? "is-open" : ""}`}
+          aria-expanded={helpOpen}
+          aria-label="Need help?"
+        >
+          ?
+        </button>
+      </header>
 
-        <div className={`help-panel ${helpOpen ? "open" : ""}`}>
-          <p>{currentStep.hint}</p>
-        </div>
+      <div className="lesson-player__progress" aria-label="Lesson progress">
+        <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
       </div>
 
-      <div className="step-card">
-        <h2>{currentStep.instruction}</h2>
+      {helpOpen ? (
+        <div className="lesson-player__hint">
+          <p>{currentStep.hint}</p>
+        </div>
+      ) : null}
 
-        <div className="practice-area">
+      <div className="lesson-player__body">
+        <p className="lesson-player__instruction">{currentStep.instruction}</p>
+
+        <div className="lesson-player__practice">
           <ExercisePanel
             key={`${lesson.id}-${currentStep.id}-${stepIndex}`}
             step={currentStep}
@@ -154,37 +156,38 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
             onError={handleError}
           />
         </div>
-
-        {feedback === "success" && (
-          <p className="feedback-inline" role="status" aria-live="polite">
-            Correct!
-          </p>
-        )}
-
-        {feedback === "error" && (
-          <p className="feedback-inline feedback-inline-error" role="status" aria-live="polite">
-            Not quite. Try again.
-          </p>
-        )}
-
-        <div className="step-footer">
-          <div className="step-nav-actions">
-            <button type="button" className="btn btn-outline btn-sm" onClick={goToPreviousStep}>
-              Previous
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm"
-              onClick={goToNextStep}
-              disabled={!stepComplete}
-              aria-disabled={!stepComplete}
-            >
-              {stepIndex >= lessonLength - 1 ? "Finish lesson" : "Next step"}
-              <FontAwesomeIcon icon={faArrowRight} />
-            </button>
-          </div>
-        </div>
       </div>
+
+      <footer className="lesson-player__footer">
+        <div className="lesson-player__feedback" aria-live="polite">
+          {feedback === "success" ? (
+            <p className="feedback-inline" role="status">
+              Correct!
+            </p>
+          ) : null}
+          {feedback === "error" ? (
+            <p className="feedback-inline feedback-inline-error" role="status">
+              Not quite. Try again.
+            </p>
+          ) : null}
+        </div>
+
+        <div className="step-nav-actions">
+          <button type="button" className="btn btn-outline btn-sm" onClick={goToPreviousStep}>
+            Previous
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={goToNextStep}
+            disabled={!stepComplete}
+            aria-disabled={!stepComplete}
+          >
+            {stepIndex >= lessonLength - 1 ? "Finish lesson" : "Next step"}
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -720,6 +720,190 @@ header {
   flex: 1;
 }
 
+.lesson-player {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: calc(100dvh - 68px);
+  max-height: calc(100dvh - 68px);
+  padding: 10px 0 12px;
+  overflow: hidden;
+}
+
+.lesson-player__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+
+.lesson-player__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.lesson-player__back:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.lesson-player__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.lesson-player__lesson {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lesson-player__step {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.lesson-player__help {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 118, 110, 0.15);
+  background: var(--teal-tint);
+  color: var(--teal-dark);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.lesson-player__help.is-open,
+.lesson-player__help:hover {
+  background: #d9ece8;
+}
+
+.lesson-player__progress {
+  flex-shrink: 0;
+  height: 5px;
+  background: var(--teal-tint);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.lesson-player__hint {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  background: var(--teal-tint);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.lesson-player__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.lesson-player__instruction {
+  flex-shrink: 0;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.lesson-player__practice {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 8px;
+}
+
+.lesson-player__footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  background: var(--paper);
+}
+
+.lesson-player__feedback {
+  min-height: 1.35rem;
+}
+
+.lesson-player__feedback .feedback-inline {
+  margin: 0;
+}
+
+.lesson-player__footer .step-nav-actions {
+  width: 100%;
+}
+
+.lesson-player__footer .step-nav-actions .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.site--in-lesson {
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.site--in-lesson > header {
+  flex-shrink: 0;
+}
+
+.site--in-lesson > .lesson-player {
+  flex: 1;
+  min-height: 0;
+}
+
+.site--in-lesson > header .header-inner {
+  min-height: 56px;
+}
+
+.site--in-lesson .lesson-player {
+  min-height: calc(100dvh - 56px);
+  max-height: calc(100dvh - 56px);
+}
+
 .lesson-header {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -831,6 +1015,20 @@ header {
   border-radius: var(--r-md);
   padding: 24px 16px;
   min-height: 140px;
+}
+
+.lesson-player__practice .task-panel {
+  max-width: none;
+  margin: 0;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.lesson-player__practice .email-app,
+.lesson-player__practice .browser-window {
+  max-width: none;
 }
 
 .feedback-inline {
@@ -1642,9 +1840,9 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   flex-wrap: wrap;
-  padding: 12px 16px;
+  padding: 8px 12px;
   background: linear-gradient(180deg, #eef6f4 0%, #e3efec 100%);
   border-bottom: 1px solid var(--border);
 }
@@ -1656,26 +1854,26 @@ header {
 }
 
 .email-app__badge {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--ink-soft);
   background: var(--paper);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 999px;
 }
 
 .email-app__toolbar {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  padding: 10px 16px;
+  padding: 6px 12px;
   border-bottom: 1px solid var(--border);
   background: var(--paper);
 }
 
 .email-app__tool {
-  min-height: 40px;
-  padding: 8px 14px;
+  min-height: 34px;
+  padding: 6px 12px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
@@ -1689,6 +1887,36 @@ header {
   border-color: var(--teal);
   color: var(--teal-dark);
   background: var(--teal-tint);
+}
+
+.email-app__screen-head {
+  padding: 10px 16px 0;
+}
+
+.email-app__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.email-app__back:hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  background: var(--teal-tint);
+}
+
+.email-app__back.is-target {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
 .email-app__inbox-head,
@@ -1711,7 +1939,7 @@ header {
 
 .email-app__message {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 12px;
   border: none;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
@@ -1808,14 +2036,15 @@ header {
 }
 
 .email-app__textarea {
-  min-height: 120px;
+  min-height: 72px;
+  max-height: 120px;
   resize: vertical;
 }
 
 .email-app__compose-body,
 .email-app__read-body {
-  padding: 16px;
-  min-height: 120px;
+  padding: 10px 12px;
+  min-height: 56px;
 }
 
 .email-app__compose-body.is-target {
@@ -2092,6 +2321,14 @@ footer {
 
   .step-card {
     padding: 22px 16px;
+  }
+
+  .lesson-player {
+    padding: 8px 0 10px;
+  }
+
+  .lesson-player__instruction {
+    font-size: 1rem;
   }
 
   .lesson-header {

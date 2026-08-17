@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileArrowUp, faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faFileArrowUp, faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { uploadFileToWorker } from "../lib/upload";
 import { isAnswerCorrect, isFileSafeForUpload } from "../lesson-utils";
 import {
@@ -39,7 +39,7 @@ function matchesRecipient(value: string, expected?: string): boolean {
 export default function EmailClient({ step, stepComplete, onSuccess, onError }: EmailClientProps) {
   const inboxIds = step.options?.map(resolveContactId) ?? DEFAULT_INBOX_IDS;
 
-  const readContact = step.type === "replyEmail" || step.type === "downloadAttachment"
+  const readContact = step.type === "replyEmail" || step.type === "downloadAttachment" || step.type === "backToInbox"
     ? getContact(step.emailFrom ?? step.expected ?? "tutor")
     : null;
 
@@ -47,7 +47,7 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
     if (step.type === "openInbox" || step.type === "openEmail" || step.type === "composeEmail" && step.composeStart === "new") {
       return "inbox";
     }
-    if (step.type === "replyEmail" || step.type === "downloadAttachment") return "read";
+    if (step.type === "replyEmail" || step.type === "downloadAttachment" || step.type === "backToInbox") return "read";
     if (step.type === "composeEmail") return "compose";
     return "inbox";
   });
@@ -90,6 +90,7 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
   const handleMessageClick = (contactId: string) => {
     const resolved = resolveContactId(contactId);
     setReadMessageId(resolved);
+    setScreen("read");
 
     if (step.type === "openEmail") {
       if (resolveContactId(step.expected ?? "") === resolved) {
@@ -97,10 +98,23 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
       } else {
         tryFail();
       }
+    }
+  };
+
+  const handleBack = () => {
+    if (screen === "compose") {
+      if (readMessageId) {
+        setScreen("read");
+      } else {
+        setScreen("inbox");
+      }
       return;
     }
 
-    setScreen("read");
+    if (screen === "read") {
+      setScreen("inbox");
+      if (step.type === "backToInbox") trySuccess();
+    }
   };
 
   const handleReplyClick = () => {
@@ -166,6 +180,8 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
   const showNewHighlight = step.type === "composeEmail" && step.composeStart === "new" && screen === "inbox";
   const showReplyHighlight = step.type === "replyEmail" && screen === "read";
   const showDownloadHighlight = step.type === "downloadAttachment";
+  const showBackHighlight = step.type === "backToInbox" && screen === "read";
+  const composeBackLabel = readMessageId ? "Back to message" : "Back to Inbox";
 
   return (
     <div className="email-app">
@@ -216,6 +232,12 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
 
       {screen === "read" && viewedContact ? (
         <div className="email-app__read">
+          <div className="email-app__screen-head">
+            <button type="button" className={`email-app__back ${showBackHighlight ? "is-target" : ""}`} onClick={handleBack}>
+              <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
+              Back to Inbox
+            </button>
+          </div>
           <div className="email-field">
             <span className="email-field__label">From</span>
             <span className="email-field__value">
@@ -259,6 +281,12 @@ export default function EmailClient({ step, stepComplete, onSuccess, onError }: 
 
       {screen === "compose" ? (
         <>
+          <div className="email-app__screen-head">
+            <button type="button" className="email-app__back" onClick={handleBack}>
+              <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
+              {composeBackLabel}
+            </button>
+          </div>
           <div className="email-app__fields">
             <div className="email-field">
               <span className="email-field__label">From</span>

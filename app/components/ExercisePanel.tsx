@@ -638,6 +638,7 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
     case "downloadAttachment":
     case "openInbox":
     case "openEmail":
+    case "backToInbox":
     case "replyEmail":
     case "composeEmail":
       return (

@@ -44,7 +44,7 @@ function HomeContent() {
   };
 
   return (
-    <div className="site">
+    <div className={`site ${visibleLessonIndex !== null && visibleLessonIndex >= 0 ? "site--in-lesson" : ""}`}>
       <SiteHeader />
 
       {visibleLessonIndex !== null && visibleLessonIndex >= 0 ? (
@@ -124,11 +124,13 @@ function HomeContent() {
         </>
       )}
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} Computer Steps</span>
-        </div>
-      </footer>
+      {visibleLessonIndex === null || visibleLessonIndex < 0 ? (
+        <footer>
+          <div className="wrap footer-inner">
+            <span suppressHydrationWarning>© {new Date().getFullYear()} Computer Steps</span>
+          </div>
+        </footer>
+      ) : null}
     </div>
   );
 }

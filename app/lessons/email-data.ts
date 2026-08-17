@@ -52,6 +52,27 @@ export const EMAIL_CONTACTS: Record<string, EmailContact> = {
     subject: "Your bill is ready",
     preview: "Hello,\n\nYour electricity bill is ready to view.",
   },
+  bank: {
+    id: "bank",
+    name: "Metro Bank",
+    email: "alerts@metrobank.example",
+    subject: "Payment due",
+    preview: "Hello,\n\nThis is a reminder that a payment is due on your account.",
+  },
+  mum: {
+    id: "mum",
+    name: "Mum",
+    email: "mum@example.org",
+    subject: "Sunday lunch?",
+    preview: "Hi love,\n\nAre you coming for Sunday lunch?",
+  },
+  council: {
+    id: "council",
+    name: "City Council",
+    email: "council-tax@city.example",
+    subject: "Council tax reminder",
+    preview: "Hello,\n\nThis is a reminder about your council tax payment.",
+  },
 };
 
 /** Legacy lesson ids (Tutor, Library, …) map to contact keys. */
@@ -96,6 +117,8 @@ export function inboxFromContactIds(contactIds: string[], highlightId?: string) 
 }
 
 export const DEFAULT_INBOX_IDS = ["tutor", "library", "support", "james", "doctor", "eno"];
+
+export const ADVANCED_INBOX_IDS = ["tutor", "library", "support", "james", "doctor", "eno", "bank", "mum", "council"];
 
 export function senderAddress(name: string): string {
   return getContact(name).email;

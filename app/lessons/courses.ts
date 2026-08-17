@@ -43,7 +43,7 @@ export const courseGroups: CourseGroup[] = [
     description: "Read, write and send email. Share files with people.",
     number: "4",
     accent: "#8b5cf6",
-    items: ["email", "attachments"],
+    items: ["email", "attachments", "email-advanced"],
   },
   {
     id: "files-photos",

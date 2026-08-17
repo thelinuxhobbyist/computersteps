@@ -20,6 +20,7 @@ export type StepType =
   | "downloadAttachment"
   | "openInbox"
   | "openEmail"
+  | "backToInbox"
   | "replyEmail"
   | "composeEmail"
   | "uploadFile";
