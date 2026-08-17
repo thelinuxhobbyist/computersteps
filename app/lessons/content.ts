@@ -19,7 +19,7 @@ import {
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import type { Lesson, LessonStep } from "./types";
-import { INBOX_SUBJECTS, senderAddress } from "./email-data";
+import { DEFAULT_INBOX_IDS, getContact } from "./email-data";
 
 function keyHelpForText(text: string): string {
   const specialCharacterMap: Record<string, string> = {
@@ -253,120 +253,64 @@ function inboxStep(id: string): LessonStep {
   };
 }
 
-function openEmailStep(id: string, from: string, senders: string[]): LessonStep {
+function openEmailStep(id: string, contactId: string, inboxIds: string[] = DEFAULT_INBOX_IDS): LessonStep {
+  const contact = getContact(contactId);
   return {
     id,
     type: "openEmail",
-    instruction: `Find the message from ${from}. Click it.`,
-    emailFrom: from,
-    emailSubject: INBOX_SUBJECTS[from] ?? "Message for you",
-    expected: from,
-    options: senders,
-    hint: `Find the message from ${from}. Click it.`,
+    instruction: `Find the email from ${contact.name}. Click it.`,
+    emailFrom: contact.id,
+    emailSubject: contact.subject,
+    expected: contact.id,
+    options: inboxIds,
+    hint: `Find the email from ${contact.name}. Click it.`,
   };
 }
 
-function replyStep(id: string, from: string): LessonStep {
-  const subject = INBOX_SUBJECTS[from];
+function replySendStep(id: string, contactId: string, body: string): LessonStep {
+  const contact = getContact(contactId);
   return {
     id,
     type: "replyEmail",
-    instruction: "Click Reply.",
-    emailFrom: senderAddress(from),
-    emailSubject: subject ? `Re: ${subject}` : "Re: Your message",
-    hint: "Click Reply.",
+    instruction: `Click Reply. Type ${body}. Click Send.`,
+    expected: body,
+    emailFrom: contact.id,
+    emailSubject: `Re: ${contact.subject}`,
+    hint: `Click Reply. Type ${body}. Click Send. ${keyHelpForText(body)}`.trim(),
   };
 }
 
-function recipientStep(id: string, email: string): LessonStep {
-  return {
-    id,
-    type: "typeRecipient",
-    instruction: `Type ${email}.`,
-    expected: email,
-    hint: `Type ${email}.`,
-  };
-}
-
-function subjectStep(id: string, subject: string, to?: string): LessonStep {
-  return {
-    id,
-    type: "typeSubject",
-    instruction: `Type "${subject}".`,
-    expected: subject,
-    hint: `Type "${subject}".`,
-    composeTo: to,
-  };
-}
-
-function messageStep(id: string, text: string): LessonStep {
-  return {
-    id,
-    type: "typeText",
-    instruction: `Type ${text}.`,
-    expected: text,
-    hint: `Type ${text}. ${keyHelpForText(text)}`.trim(),
-  };
-}
-
-function emailBodyStep(
+function composeEmailStep(
   id: string,
-  text: string,
-  preview?: { to?: string; subject?: string },
+  contactId: string,
+  subject: string,
+  body: string,
+  attachment = false,
 ): LessonStep {
-  return {
-    id,
-    type: "typeEmailBody",
-    instruction: `Type ${text}.`,
-    expected: text,
-    hint: `Type ${text}. ${keyHelpForText(text)}`.trim(),
-    composeTo: preview?.to,
-    composeSubject: preview?.subject,
-  };
-}
-
-function sendStep(
-  id: string,
-  preview?: { to?: string; subject?: string; body?: string; attachment?: string },
-): LessonStep {
+  const contact = getContact(contactId);
   return {
     id,
     type: "composeEmail",
-    instruction: "Click Send.",
-    expected: "send",
-    hint: "Click Send.",
-    composeTo: preview?.to,
-    composeSubject: preview?.subject,
-    composeBody: preview?.body,
-    composeAttachment: preview?.attachment,
+    composeStart: "new",
+    instruction: `Click New. Write to ${contact.name}. Subject: ${subject}. Type ${body}. Click Send.${attachment ? " Attach a file." : ""}`,
+    expectedTo: contact.email,
+    expectedSubject: subject,
+    expected: body,
+    requireAttachment: attachment,
+    hint: `Click New. Write your email. Click Send.${attachment ? " Attach a file from your computer." : ""}`,
   };
 }
 
-function downloadStep(id: string, fileName: string, from = "Tutor"): LessonStep {
+function downloadStep(id: string, fileName: string, contactId = "tutor"): LessonStep {
+  const contact = getContact(contactId);
   return {
     id,
     type: "downloadAttachment",
     instruction: `Find ${fileName}. Click Download.`,
     expected: fileName,
-    emailFrom: senderAddress(from),
-    emailSubject: INBOX_SUBJECTS[from] ?? "Message for you",
+    emailFrom: contact.id,
+    emailSubject: contact.subject,
     hint: `Find ${fileName}. Click Download.`,
-  };
-}
-
-function attachStep(
-  id: string,
-  preview?: { to?: string; subject?: string; body?: string },
-): LessonStep {
-  return {
-    id,
-    type: "attachFile",
-    instruction: "Click Attach file. Choose a file from your computer.",
-    expected: "any-file",
-    hint: "Click Attach file. Choose a file from your computer.",
-    composeTo: preview?.to,
-    composeSubject: preview?.subject,
-    composeBody: preview?.body,
   };
 }
 
@@ -731,117 +675,40 @@ const filesSteps: LessonStep[] = [
   uploadStep("f45"),
 ];
 
-const emailSenders = ["Tutor", "Library", "Support", "Friend", "Doctor"];
+const emailInbox = DEFAULT_INBOX_IDS;
 
 const emailSteps: LessonStep[] = [
   inboxStep("e1"),
-  openEmailStep("e2", "Tutor", emailSenders),
-  replyStep("e3", "Tutor"),
-  emailBodyStep("e4", "thanks"),
-  sendStep("e5"),
-  inboxStep("e6"),
-  openEmailStep("e7", "Library", emailSenders),
-  replyStep("e8", "Library"),
-  emailBodyStep("e9", "hello"),
-  sendStep("e10"),
-  inboxStep("e11"),
-  openEmailStep("e12", "Support", emailSenders),
-  replyStep("e13", "Support"),
-  emailBodyStep("e14", "please help"),
-  sendStep("e15"),
-  inboxStep("e16"),
-  openEmailStep("e17", "Friend", emailSenders),
-  replyStep("e18", "Friend"),
-  emailBodyStep("e19", "see you soon"),
-  sendStep("e20"),
-  recipientStep("e21", "tutor@example.org"),
-  subjectStep("e22", "My question", "tutor@example.org"),
-  emailBodyStep("e23", "I need help", { to: "tutor@example.org", subject: "My question" }),
-  sendStep("e24", { to: "tutor@example.org", subject: "My question", body: "I need help" }),
-  recipientStep("e25", "library@example.org"),
-  subjectStep("e26", "Book request", "library@example.org"),
-  emailBodyStep("e27", "Can I borrow a book?", { to: "library@example.org", subject: "Book request" }),
-  sendStep("e28", { to: "library@example.org", subject: "Book request", body: "Can I borrow a book?" }),
-  inboxStep("e29"),
-  openEmailStep("e30", "Doctor", emailSenders),
-  replyStep("e31", "Doctor"),
-  emailBodyStep("e32", "thank you"),
-  sendStep("e33"),
-  recipientStep("e34", "friend@example.org"),
-  subjectStep("e35", "Hello", "friend@example.org"),
-  emailBodyStep("e36", "How are you?", { to: "friend@example.org", subject: "Hello" }),
-  sendStep("e37", { to: "friend@example.org", subject: "Hello", body: "How are you?" }),
-  inboxStep("e38"),
-  openEmailStep("e39", "Tutor", emailSenders),
-  replyStep("e40", "Tutor"),
-  emailBodyStep("e41", "I finished the lesson"),
-  sendStep("e42"),
-  recipientStep("e43", "support@example.org"),
-  subjectStep("e44", "Account help", "support@example.org"),
-  emailBodyStep("e45", "I cannot log in", { to: "support@example.org", subject: "Account help" }),
-  sendStep("e46", { to: "support@example.org", subject: "Account help", body: "I cannot log in" }),
-  inboxStep("e47"),
-  openEmailStep("e48", "Library", emailSenders),
-  replyStep("e49", "Library"),
-  emailBodyStep("e50", "Thank you for your help"),
-  sendStep("e51"),
-  recipientStep("e52", "tutor@example.org"),
-  subjectStep("e53", "Practice", "tutor@example.org"),
-  emailBodyStep("e54", "I am practising email", { to: "tutor@example.org", subject: "Practice" }),
-  sendStep("e55", { to: "tutor@example.org", subject: "Practice", body: "I am practising email" }),
+  openEmailStep("e2", "tutor", emailInbox),
+  replySendStep("e3", "tutor", "thanks"),
+  openEmailStep("e4", "library", emailInbox),
+  replySendStep("e5", "library", "hello"),
+  openEmailStep("e6", "support", emailInbox),
+  replySendStep("e7", "support", "please help"),
+  openEmailStep("e8", "james", emailInbox),
+  replySendStep("e9", "james", "see you soon"),
+  openEmailStep("e10", "eno", emailInbox),
+  composeEmailStep("e11", "tutor", "My question", "I need help"),
+  composeEmailStep("e12", "library", "Book request", "Can I borrow a book?"),
+  openEmailStep("e13", "doctor", emailInbox),
+  replySendStep("e14", "doctor", "thank you"),
+  composeEmailStep("e15", "james", "Hello", "How are you?"),
+  composeEmailStep("e16", "support", "Account help", "I cannot log in"),
+  composeEmailStep("e17", "tutor", "Practice", "I am practising email"),
 ];
 
 const attachmentSteps: LessonStep[] = [
   inboxStep("a1"),
-  openEmailStep("a2", "Tutor", emailSenders),
-  downloadStep("a3", "practice.pdf"),
-  selectFileStep("a4", "practice.pdf", pickFiles(4, "practice.pdf")),
-  openFolderStep("a5", "Downloads", pickFolders(3, "Downloads")),
-  recipientStep("a6", "tutor@example.org"),
-  subjectStep("a7", "My homework", "tutor@example.org"),
-  emailBodyStep("a8", "Please find my file attached.", { to: "tutor@example.org", subject: "My homework" }),
-  attachStep("a9", { to: "tutor@example.org", subject: "My homework", body: "Please find my file attached." }),
-  sendStep("a10", { to: "tutor@example.org", subject: "My homework", body: "Please find my file attached.", attachment: "Attached file" }),
-  inboxStep("a11"),
-  openEmailStep("a12", "Library", emailSenders),
-  downloadStep("a13", "form.pdf"),
-  selectFileStep("a14", "form.pdf", ["form.pdf", "guide.pdf", "list.pdf"]),
-  attachStep("a15"),
-  sendStep("a16", { attachment: "Attached file" }),
-  inboxStep("a17"),
-  openEmailStep("a18", "Support", emailSenders),
-  downloadStep("a19", "instructions.pdf"),
-  selectFileStep("a20", "instructions.pdf", pickFiles(4, "instructions.pdf")),
-  recipientStep("a21", "support@example.org"),
-  subjectStep("a22", "Help with my account", "support@example.org"),
-  attachStep("a23", { to: "support@example.org", subject: "Help with my account" }),
-  sendStep("a24", { to: "support@example.org", subject: "Help with my account", attachment: "Attached file" }),
-  downloadStep("a25", "receipt.pdf"),
-  selectFileStep("a26", "receipt.pdf", pickFiles(4, "receipt.pdf")),
-  attachStep("a27"),
-  sendStep("a28", { attachment: "Attached file" }),
-  inboxStep("a29"),
-  openEmailStep("a30", "Tutor", emailSenders),
-  downloadStep("a31", "worksheet.pdf"),
-  openFolderStep("a32", "Downloads", pickFolders(3, "Downloads")),
-  selectFileStep("a33", "worksheet.pdf", pickFiles(4, "worksheet.pdf")),
-  recipientStep("a34", "tutor@example.org"),
-  subjectStep("a35", "Completed worksheet", "tutor@example.org"),
-  emailBodyStep("a36", "I finished the worksheet.", { to: "tutor@example.org", subject: "Completed worksheet" }),
-  attachStep("a37", { to: "tutor@example.org", subject: "Completed worksheet", body: "I finished the worksheet." }),
-  sendStep("a38", { to: "tutor@example.org", subject: "Completed worksheet", body: "I finished the worksheet.", attachment: "Attached file" }),
-  inboxStep("a39"),
-  openEmailStep("a40", "Library", emailSenders),
-  downloadStep("a41", "guide.pdf"),
-  selectFileStep("a42", "guide.pdf", ["guide.pdf", "form.pdf", "list.pdf"]),
-  attachStep("a43"),
-  sendStep("a44", { attachment: "Attached file" }),
-  downloadStep("a45", "photo.jpg"),
-  selectFileStep("a46", "photo.jpg", pickFiles(4, "photo.jpg")),
-  recipientStep("a47", "friend@example.org"),
-  subjectStep("a48", "My photo", "friend@example.org"),
-  attachStep("a49", { to: "friend@example.org", subject: "My photo" }),
-  sendStep("a50", { to: "friend@example.org", subject: "My photo", attachment: "Attached file" }),
+  openEmailStep("a2", "tutor", emailInbox),
+  downloadStep("a3", "practice.pdf", "tutor"),
+  composeEmailStep("a4", "tutor", "My homework", "Please find my file attached.", true),
+  openEmailStep("a5", "library", emailInbox),
+  downloadStep("a6", "form.pdf", "library"),
+  composeEmailStep("a7", "library", "Form attached", "Here is the form.", true),
+  openEmailStep("a8", "eno", emailInbox),
+  downloadStep("a9", "bill.pdf", "eno"),
+  composeEmailStep("a10", "support", "Help with my account", "Please see the file.", true),
+  composeEmailStep("a11", "james", "My photo", "Photo attached.", true),
 ];
 
 const mouseSkillsSteps: LessonStep[] = [
@@ -898,10 +765,10 @@ const formsOnlineSteps: LessonStep[] = [
   typeStep("o27", "Book request"),
   enterStep("o28", "Help please"),
   clickStep("o29", "Send"),
-  recipientStep("o30", "tutor@example.org"),
-  subjectStep("o31", "My details"),
-  messageStep("o32", "Please update my information."),
-  sendStep("o33"),
+  typeStep("o30", "tutor@example.org"),
+  typeStep("o31", "My details"),
+  typeStep("o32", "Please update my information."),
+  clickStep("o33", "Send"),
   typeStep("o34", "thanks"),
   typeStep("o35", "Thank you"),
   enterStep("o36", "good morning"),
