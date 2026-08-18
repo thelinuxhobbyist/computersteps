@@ -162,10 +162,21 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
     );
   }
 
+  const progressPercent = ((stepIndex + 1) / lessonLength) * 100;
+
   return (
     <div className="lesson-player wrap">
       <header className="lesson-player__header">
-        <p className="lesson-player__lesson">{lesson.title}</p>
+        <button type="button" onClick={onBack} className="lesson-player__back">
+          ← Back
+        </button>
+
+        <div className="lesson-player__header-main">
+          <p className="lesson-player__lesson">{lesson.title}</p>
+          <p className="lesson-player__step-count">
+            Step {stepIndex + 1} of {lessonLength}
+          </p>
+        </div>
 
         <button
           type="button"
@@ -177,6 +188,17 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
           ?
         </button>
       </header>
+
+      <div
+        className="lesson-player__progress"
+        role="progressbar"
+        aria-valuenow={stepIndex + 1}
+        aria-valuemin={1}
+        aria-valuemax={lessonLength}
+        aria-label={`Step ${stepIndex + 1} of ${lessonLength}`}
+      >
+        <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+      </div>
 
       {helpOpen ? (
         <div className="lesson-player__hint">

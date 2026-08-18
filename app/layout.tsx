@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible, Source_Serif_4 } from "next/font/google";
+import "./fontawesome";
 import "./globals.css";
 
 const displayFont = Source_Serif_4({
@@ -13,6 +14,12 @@ const bodyFont = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Computer Steps | Learn digital skills one step at a time",
