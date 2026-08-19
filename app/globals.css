@@ -4,7 +4,7 @@
   --ink: #1f2933;
   --ink-soft: #52606d;
   --ink-faint: #7b8794;
-  --paper: #f7f5f0;
+  --paper: #ffffff;
   --surface: #ffffff;
   --teal: #0f766e;
   --teal-dark: #0b5c56;
@@ -16,8 +16,7 @@
   --border: #d9e2ec;
   --error: #9b2c2c;
   --error-tint: #fdeaea;
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
+  --font-display: var(--font-body);
   --r-lg: 16px;
   --r-md: 12px;
   --shadow-card: 0 1px 3px rgba(31, 41, 51, 0.06);
@@ -191,7 +190,7 @@ p {
 
 @supports (backdrop-filter: blur(6px)) {
   .site-header {
-    background: rgba(247, 245, 240, 0.96);
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(6px);
   }
 }
@@ -208,7 +207,7 @@ p {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--ink);
@@ -224,6 +223,10 @@ p {
   align-items: center;
   justify-content: center;
   color: #fff;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .logo .accent {
@@ -344,7 +347,7 @@ body.nav-open {
 }
 
 .hero h1 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 700;
   font-size: clamp(2rem, 4.5vw, 2.8rem);
   line-height: 1.15;
@@ -377,7 +380,7 @@ body.nav-open {
 }
 
 .section-head h2 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.5rem, 3vw, 1.9rem);
   font-weight: 700;
   margin: 0 0 10px;
@@ -417,7 +420,7 @@ body.nav-open {
 }
 
 .course-banner__text h2 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.5rem;
   color: #fff;
   margin: 0 0 6px;
@@ -597,13 +600,13 @@ body.nav-open {
   border-radius: 999px;
   background: var(--course-accent);
   color: #fff;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 700;
   margin-bottom: 12px;
 }
 
 .course-hero h1 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.7rem, 4vw, 2.2rem);
   margin: 0 0 10px;
 }
@@ -658,7 +661,7 @@ body.nav-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
@@ -724,7 +727,7 @@ body.nav-open {
 }
 
 .lesson-card h3 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 8px;
@@ -759,7 +762,7 @@ body.nav-open {
 
 .how-list strong {
   display: block;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.05rem;
   margin-bottom: 4px;
 }
@@ -778,7 +781,7 @@ body.nav-open {
 }
 
 .about-panel h2 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.35rem;
   margin: 0 0 10px;
 }
@@ -839,18 +842,11 @@ body.nav-open {
 
 .lesson-player__lesson {
   margin: 0;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
-}
-
-.lesson-player__step-count {
-  margin: 4px 0 0;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--ink-faint);
 }
 
 .lesson-player__help {
@@ -919,7 +915,7 @@ body.nav-open {
 .lesson-player__instruction {
   flex-shrink: 0;
   margin: 0;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.15rem);
   font-weight: 700;
   line-height: 1.35;
@@ -1029,7 +1025,7 @@ body.nav-open {
 }
 
 .lesson-header-top h1 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 700;
   margin: 0;
@@ -1084,7 +1080,7 @@ body.nav-open {
 }
 
 .step-card h2 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.25rem, 3vw, 1.55rem);
   font-weight: 700;
   margin: 0 0 22px;
@@ -1848,7 +1844,7 @@ body.nav-open {
 .play-balloon__pop {
   position: absolute;
   top: 42px;
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--teal-dark);
@@ -2559,7 +2555,7 @@ body.nav-open {
 }
 
 .lesson-complete-card h2 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.7rem, 4vw, 2.2rem);
   margin: 0 0 10px;
 }
@@ -2588,7 +2584,7 @@ body.nav-open {
 }
 
 .completion-next h3 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.15rem;
   margin: 0 0 8px;
 }
@@ -2615,7 +2611,7 @@ body.nav-open {
 }
 
 .completion-next-course {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.05rem;
   margin: 0 0 8px;
 }

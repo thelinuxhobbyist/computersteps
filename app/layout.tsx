@@ -1,18 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible, Source_Serif_4 } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./fontawesome";
 import "./globals.css";
 
-const displayFont = Source_Serif_4({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
-
-const bodyFont = Atkinson_Hyperlegible({
+const roboto = Roboto({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
 });
 
 export const viewport: Viewport = {
@@ -31,9 +25,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
+      className={`${roboto.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className={`${roboto.className} min-h-full`}>{children}</body>
     </html>
   );
 }

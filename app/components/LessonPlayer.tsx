@@ -173,9 +173,6 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
 
         <div className="lesson-player__header-main">
           <p className="lesson-player__lesson">{lesson.title}</p>
-          <p className="lesson-player__step-count">
-            Step {stepIndex + 1} of {lessonLength}
-          </p>
         </div>
 
         <button
@@ -195,7 +192,7 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
         aria-valuenow={stepIndex + 1}
         aria-valuemin={1}
         aria-valuemax={lessonLength}
-        aria-label={`Step ${stepIndex + 1} of ${lessonLength}`}
+        aria-label="Lesson progress"
       >
         <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
       </div>

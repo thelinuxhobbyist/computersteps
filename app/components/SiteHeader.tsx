@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faShoePrints, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type SiteHeaderProps = {
   homeHref?: string;
@@ -38,8 +38,8 @@ export default function SiteHeader({ homeHref = "/" }: SiteHeaderProps) {
       <header className="site-header">
         <div className="wrap header-inner">
           <Link href={homeHref} className="logo" aria-label="Go home" onClick={closeMenu}>
-            <span className="logo-mark">
-              <FontAwesomeIcon icon={faShoePrints} className="text-[0.8rem]" />
+            <span className="logo-mark" aria-hidden="true">
+              C
             </span>
             Computer<span className="accent">Steps</span>
           </Link>
