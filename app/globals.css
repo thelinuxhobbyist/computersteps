@@ -3715,23 +3715,31 @@ a.product-card__add {
   color: var(--ink-soft);
 }
 
-.photo-credits summary {
-  cursor: pointer;
-  font-weight: 700;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
+.photo-credits {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.photo-credits h2 {
+  font-size: 0.95rem;
+  margin: 0 0 4px;
+  color: var(--ink);
 }
 
 .photo-credits p {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .photo-credits ul {
   list-style: disc;
   padding-left: 1.2rem;
-  display: grid;
-  gap: 2px;
+  columns: 2 320px;
+  column-gap: 32px;
+}
+
+.photo-credits li {
+  break-inside: avoid;
+  margin-bottom: 3px;
 }
 
 .photo-credits a {

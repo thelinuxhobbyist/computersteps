@@ -170,8 +170,8 @@ export default function ShopCatalog() {
           </div>
         ) : null}
 
-        <details className="photo-credits">
-          <summary>Photo credits</summary>
+        <section className="photo-credits" aria-labelledby="photo-credits-heading">
+          <h2 id="photo-credits-heading">Photo credits</h2>
           <p>Product photos are from Wikimedia Commons and are used under the licences shown.</p>
           <ul>
             {PHOTO_CREDITS.map((credit) => (
@@ -190,7 +190,7 @@ export default function ShopCatalog() {
               </li>
             ))}
           </ul>
-        </details>
+        </section>
       </main>
 
       <footer>
