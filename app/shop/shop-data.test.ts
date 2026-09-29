@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  PHOTO_CREDITS,
   PRODUCTS,
   calculateTotals,
   countBasketItems,
@@ -10,6 +11,7 @@ import {
   validateCardDetails,
   validateDeliveryDetails,
 } from "./shop-data";
+import { PRODUCT_DETAILS, getAverageRating } from "./product-details";
 
 const validCard = { nameOnCard: "YAMA STUDENT", cardNumber: "4532 0123 4567 8901", expiry: "12/28", cvv: "321" };
 
@@ -24,8 +26,8 @@ test("search filters by keyword, ignoring case", () => {
 });
 
 test("category filters include Under £5", () => {
-  assert.equal(filterProducts(PRODUCTS, { category: "household" }).length, 4);
-  assert.equal(filterProducts(PRODUCTS, { category: "groceries" }).length, 6);
+  assert.equal(filterProducts(PRODUCTS, { category: "household" }).length, 8);
+  assert.equal(filterProducts(PRODUCTS, { category: "groceries" }).length, 16);
   const underFive = filterProducts(PRODUCTS, { category: "under-5" });
   assert.ok(underFive.every((product) => product.pricePence < 500));
   assert.ok(!underFive.some((product) => product.id === "laundry-detergent"));
@@ -34,7 +36,7 @@ test("category filters include Under £5", () => {
 test("sorts by price in both directions", () => {
   const lowToHigh = filterProducts(PRODUCTS, { sort: "price-asc" });
   const highToLow = filterProducts(PRODUCTS, { sort: "price-desc" });
-  assert.equal(lowToHigh[0].id, "fresh-milk");
+  assert.equal(lowToHigh[0].id, "carrots");
   assert.equal(highToLow[0].id, "laundry-detergent");
 });
 
@@ -60,6 +62,24 @@ test("progress stays at 100% above the threshold", () => {
   const totals = calculateTotals({ "laundry-detergent": 10 });
   assert.equal(totals.freeDeliveryProgressPercent, 100);
   assert.equal(totals.remainingForFreeDeliveryPence, 0);
+});
+
+test("every product has a photo credit", () => {
+  const credited = new Set(PHOTO_CREDITS.map((credit) => credit.productId));
+  assert.deepEqual(PRODUCTS.filter((product) => !credited.has(product.id)).map((product) => product.id), []);
+});
+
+test("every product has a details page with reviews", () => {
+  for (const product of PRODUCTS) {
+    const details = PRODUCT_DETAILS[product.id];
+    assert.ok(details, `${product.id} is missing details`);
+    assert.ok(details.reviews.length > 0, `${product.id} has no reviews`);
+    if (product.category === "groceries") assert.ok(details.nutrition, `${product.id} is missing nutrition`);
+  }
+});
+
+test("average rating is rounded to one decimal place", () => {
+  assert.equal(getAverageRating([{ rating: 5 }, { rating: 4 }, { rating: 4 }].map((r) => ({ ...r, author: "", date: "", title: "", body: "" }))), 4.3);
 });
 
 test("counts items across lines and ignores unknown products", () => {

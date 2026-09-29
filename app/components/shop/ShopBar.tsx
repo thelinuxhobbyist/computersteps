@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { useBasket } from "../../shop/basket-store";
-import { formatItemCount } from "../../shop/shop-data";
+import { formatItemCount, formatPrice } from "../../shop/shop-data";
 
 const STEPS = [
   { id: "shop", label: "Shop", href: "/shop/" },
@@ -16,7 +16,8 @@ const STEPS = [
 type ShopStep = (typeof STEPS)[number]["id"];
 
 export default function ShopBar({ current }: { current: ShopStep }) {
-  const { itemCount } = useBasket();
+  const { itemCount, totals } = useBasket();
+  const basketLabel = itemCount > 0 ? `${formatItemCount(itemCount)} (${formatPrice(totals.subtotalPence)})` : formatItemCount(itemCount);
   const currentIndex = STEPS.findIndex((step) => step.id === current);
 
   return (
@@ -43,10 +44,10 @@ export default function ShopBar({ current }: { current: ShopStep }) {
           })}
         </ol>
 
-        <Link href="/basket/" className="shop-basket-link" aria-label={`Basket: ${formatItemCount(itemCount)}. Open basket.`}>
+        <Link href="/basket/" className="shop-basket-link" aria-label={`Basket: ${basketLabel}. Open basket.`}>
           <FontAwesomeIcon icon={faBasketShopping} aria-hidden="true" />
           <span>
-            Basket: <strong aria-live="polite">{formatItemCount(itemCount)}</strong>
+            Basket: <strong aria-live="polite">{basketLabel}</strong>
           </span>
         </Link>
       </div>

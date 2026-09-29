@@ -74,10 +74,6 @@ export function setQuantity(productId: string, quantity: number) {
   writeBasket(next);
 }
 
-export function addToBasket(productId: string) {
-  setQuantity(productId, (readBasket()[productId] ?? 0) + 1);
-}
-
 export function removeFromBasket(productId: string) {
   setQuantity(productId, 0);
 }

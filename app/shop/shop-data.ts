@@ -20,6 +20,20 @@ export const PRODUCTS: Product[] = [
   { id: "olive-oil", name: "Olive Oil (500ml)", pricePence: 450, category: "groceries", image: "/shop/products/olive-oil.jpg", imageAlt: "A glass bottle of golden olive oil with a cork" },
   { id: "kitchen-roll", name: "Kitchen Roll (2 Pack)", pricePence: 200, category: "household", image: "/shop/products/kitchen-roll.jpg", imageAlt: "A white roll of kitchen paper" },
   { id: "laundry-detergent", name: "Laundry Detergent (1.5L)", pricePence: 650, category: "household", image: "/shop/products/laundry-detergent.jpg", imageAlt: "Bottles of liquid laundry detergent on a shop shelf" },
+  { id: "carrots", name: "Carrots (1kg)", pricePence: 75, category: "groceries", image: "/shop/products/carrots.jpg", imageAlt: "A pile of fresh orange carrots" },
+  { id: "bananas", name: "Bananas (Pack of 5)", pricePence: 95, category: "groceries", image: "/shop/products/bananas.jpg", imageAlt: "Bunches of yellow bananas" },
+  { id: "apples", name: "Red Apples (Pack of 6)", pricePence: 160, category: "groceries", image: "/shop/products/apples.jpg", imageAlt: "A shiny red apple" },
+  { id: "eggs", name: "Free Range Eggs (6 Pack)", pricePence: 195, category: "groceries", image: "/shop/products/eggs.jpg", imageAlt: "Six eggs in a cardboard egg box" },
+  { id: "potatoes", name: "Red Potatoes (2kg)", pricePence: 180, category: "groceries", image: "/shop/products/potatoes.jpg", imageAlt: "Red potatoes on a dark background" },
+  { id: "cheddar-cheese", name: "Cheddar Cheese (400g)", pricePence: 375, category: "groceries", image: "/shop/products/cheddar-cheese.jpg", imageAlt: "A block of cheddar cheese with crackers" },
+  { id: "butter", name: "Butter (250g)", pricePence: 210, category: "groceries", image: "/shop/products/butter.jpg", imageAlt: "A block of butter in a butter dish" },
+  { id: "orange-juice", name: "Orange Juice (1L)", pricePence: 165, category: "groceries", image: "/shop/products/orange-juice.jpg", imageAlt: "Orange juice being poured into a glass" },
+  { id: "spaghetti", name: "Spaghetti (500g)", pricePence: 85, category: "groceries", image: "/shop/products/spaghetti.jpg", imageAlt: "Dry spaghetti spread out in a fan" },
+  { id: "baked-beans", name: "Baked Beans (415g)", pricePence: 95, category: "groceries", image: "/shop/products/baked-beans.jpg", imageAlt: "A tin of baked beans" },
+  { id: "bin-bags", name: "Bin Bags (Roll of 20)", pricePence: 240, category: "household", image: "/shop/products/bin-bags.jpg", imageAlt: "A roll of black bin bags" },
+  { id: "hand-soap", name: "Hand Soap (250ml)", pricePence: 125, category: "household", image: "/shop/products/hand-soap.jpg", imageAlt: "A white pump bottle of hand soap" },
+  { id: "toothpaste", name: "Toothpaste (75ml)", pricePence: 160, category: "household", image: "/shop/products/toothpaste.jpg", imageAlt: "A tube of toothpaste" },
+  { id: "sponges", name: "Cleaning Sponges (Pack of 3)", pricePence: 100, category: "household", image: "/shop/products/sponges.jpg", imageAlt: "A yellow cleaning sponge" },
 ];
 
 export type PhotoCredit = {
@@ -42,6 +56,20 @@ export const PHOTO_CREDITS: PhotoCredit[] = [
   { productId: "olive-oil", title: "Bottle of olive oil", author: "margenauer from Pixabay", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", sourceUrl: "https://commons.wikimedia.org/wiki/File:Bottle_of_olive_oil.jpg" },
   { productId: "kitchen-roll", title: "Paper towel", author: "Mets501", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Paper_towel.png" },
   { productId: "laundry-detergent", title: "Labour brand liquid detergent, Shau Kei Wan", author: "HAiEEMGAU MINGA", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:HK_SKW_%E7%AD%B2%E7%AE%95%E7%81%A3_Shau_Kei_Wan_%E6%9C%9B%E9%9A%86%E8%A1%97_Mong_Lung_Street_shop_%E5%A4%A9%E5%8A%9B%E8%97%A5%E6%88%BF_Tien_Lu_Dispensary_%E5%8B%9E%E5%B7%A5%E7%89%8C%E6%B4%97%E6%BD%94%E7%B2%BE_Labour_brand_liquid_detergent_December_2021_Px3.jpg" },
+  { productId: "carrots", title: "Carrots at Ljubljana Central Market", author: "domdomegg", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Carrots_at_Ljubljana_Central_Market.JPG" },
+  { productId: "bananas", title: "Bunch of bananas on sale", author: "Wilfredor", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", sourceUrl: "https://commons.wikimedia.org/wiki/File:Bunch_of_bananas_on_sale.jpg" },
+  { productId: "apples", title: "Red Apple", author: "Abhijit Tembhekar from Mumbai, India", license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Red_Apple.jpg" },
+  { productId: "eggs", title: "6-Pack-Chicken-Eggs", author: "Evan-Amos", license: "Public domain", sourceUrl: "https://commons.wikimedia.org/wiki/File:6-Pack-Chicken-Eggs.jpg" },
+  { productId: "potatoes", title: "Solanum tuberosum Red Scarlett", author: "Bff", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Solanum_tuberosum_Red_Scarlett20170523_7825.jpg" },
+  { productId: "cheddar-cheese", title: "White cheddar cheese", author: "Jon Sullivan", license: "Public domain", sourceUrl: "https://commons.wikimedia.org/wiki/File:White_cheddar_cheese.jpg" },
+  { productId: "butter", title: "Block of butter in butter dish", author: "Qwertyxp2000", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Block_of_butter_in_butter_dish.jpg" },
+  { productId: "orange-juice", title: "Orange juice", author: "U.S. Department of Agriculture", license: "Public domain", sourceUrl: "https://commons.wikimedia.org/wiki/File:Orange_juice_1_edit1.jpg" },
+  { productId: "spaghetti", title: "Spaghetti spiral, 2008", author: "Paolo Piscolla", license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Spaghetti_spiral,_2008.jpg" },
+  { productId: "baked-beans", title: "Heinz \"Beanz\" Baked Beans", author: "AhmedMX", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", sourceUrl: "https://commons.wikimedia.org/wiki/File:Heinz_%22Beanz%22_Baked_Beans_In_a_rich_tomato_sauce.jpg" },
+  { productId: "bin-bags", title: "Black garbage bag", author: "Wiki Farazi", license: "Public domain", sourceUrl: "https://commons.wikimedia.org/wiki/File:Black_garbage_bag.jpg" },
+  { productId: "hand-soap", title: "250ml HDPE pump plastic bottle", author: "Plasticbottlesupplier", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:250ml_HDPE_pump_plastic_bottle.jpg" },
+  { productId: "toothpaste", title: "Vitis Dentaid toothpaste tube, Rotterdam (2021)", author: "Donald Trung Quoc Don", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", sourceUrl: "https://commons.wikimedia.org/wiki/File:Vitis_Dentaid_toothpaste_tube,_Hillegersberg,_Rotterdam_(2021)_03.jpg" },
+  { productId: "sponges", title: "Sponge-viscose", author: "Johan", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/", sourceUrl: "https://commons.wikimedia.org/wiki/File:Sponge-viscose.jpg" },
 ];
 
 export const FREE_DELIVERY_THRESHOLD_PENCE = 3500;
@@ -183,7 +211,7 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
   if (!name) {
     errors.nameOnCard = "Please type the name shown on the card.";
   } else if (name !== PRACTICE_CARD.cardholderName) {
-    errors.nameOnCard = `The name does not match. Type it exactly as it appears on the practice card: ${PRACTICE_CARD.cardholderName}.`;
+    errors.nameOnCard = "The name does not match the card. Check the spelling against your card.";
   }
 
   const cardNumber = digitsOnly(details.cardNumber);
@@ -192,7 +220,7 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
   } else if (!/^\d{16}$/.test(cardNumber)) {
     errors.cardNumber = "A card number has 16 digits. Only type numbers (spaces are fine).";
   } else if (cardNumber !== digitsOnly(PRACTICE_CARD.cardNumber)) {
-    errors.cardNumber = "The card number does not match. Check each group of 4 numbers on the practice card.";
+    errors.cardNumber = "Your card number is incorrect. Check each group of 4 numbers against your card.";
   }
 
   const expiry = details.expiry.replace(/\s+/g, "");
@@ -201,7 +229,7 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
   } else if (!/^\d{2}\/?\d{2}$/.test(expiry)) {
     errors.expiry = "Type the expiry date as month and year, like 12/28.";
   } else if (expiry.replace("/", "") !== PRACTICE_CARD.expiry.replace("/", "")) {
-    errors.expiry = "The expiry date does not match the practice card.";
+    errors.expiry = "Your expiry date is incorrect. Check the date on your card.";
   }
 
   const cvv = details.cvv.trim();
@@ -210,7 +238,7 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
   } else if (!/^\d{3}$/.test(cvv)) {
     errors.cvv = "The security code is 3 numbers.";
   } else if (cvv !== PRACTICE_CARD.cvv) {
-    errors.cvv = "The security code does not match the practice card.";
+    errors.cvv = "Your security code is incorrect. It is the 3 numbers on the back of your card.";
   }
 
   return errors;

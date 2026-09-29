@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faLock, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import OrderSummary from "../components/shop/OrderSummary";
-import PracticeBankCard from "../components/shop/PracticeBankCard";
 import { clearBasket, savePracticeOrder, useBasket, useHasMounted } from "../shop/basket-store";
 import {
   validateCardDetails,
@@ -61,7 +60,7 @@ const FIELDS: Record<FieldName, FieldConfig> = {
   addressLine2: { label: "Address Line 2", optional: true },
   townOrCity: { label: "Town / City" },
   postcode: { label: "Postcode", placeholder: "For example: AB1 2CD", maxLength: 10, narrow: true },
-  nameOnCard: { label: "Name on Card", hint: "Type it as it is shown on the card" },
+  nameOnCard: { label: "Name on Card" },
   cardNumber: {
     label: "16-Digit Card Number",
     hint: "The long number on the front of the card. Spaces are fine.",
@@ -72,8 +71,7 @@ const FIELDS: Record<FieldName, FieldConfig> = {
   expiry: { label: "Expiry Date (MM/YY)", placeholder: "MM/YY", maxLength: 7, inputMode: "numeric", narrow: true },
   cvv: {
     label: "Security Code (CVV)",
-    hint: "3 numbers",
-    placeholder: "123",
+    hint: "The last 3 numbers on the back of your card",
     maxLength: 3,
     inputMode: "numeric",
     narrow: true,
@@ -179,8 +177,7 @@ export default function CheckoutForm() {
         <section className="shop-intro">
           <h1>Checkout</h1>
           <p>
-            Type where the shopping should be delivered, then pay with the <strong>Practice Bank Card</strong>. Take your
-            time — no real money is used.
+            Type where the shopping should be delivered, then enter your card details to pay.
           </p>
         </section>
 
@@ -226,17 +223,13 @@ export default function CheckoutForm() {
                 <legend>
                   <span className="checkout-section__num">2</span> Payment
                 </legend>
-                <PracticeBankCard />
+                <p className="checkout-section__intro">Type the details exactly as they appear on your card.</p>
                 {renderField("nameOnCard")}
                 {renderField("cardNumber")}
                 <div className="checkout-row">
                   {renderField("expiry")}
                   {renderField("cvv")}
                 </div>
-                <p className="checkout-safety">
-                  <FontAwesomeIcon icon={faLock} aria-hidden="true" /> A real shop will <strong>never</strong> ask for your
-                  4-digit PIN. If a website asks for it, stop.
-                </p>
               </fieldset>
 
               <button type="submit" className="btn btn-primary checkout-submit">

@@ -53,7 +53,9 @@ export default function BasketReview() {
                         <Image src={product.image} alt="" fill sizes="72px" />
                       </div>
                       <div className="basket-item__info">
-                        <h2 className="basket-item__name">{product.name}</h2>
+                        <h2 className="basket-item__name">
+                          <Link href={`/shop/${product.id}/`}>{product.name}</Link>
+                        </h2>
                         <p className="basket-item__each">{formatPrice(product.pricePence)} each</p>
                       </div>
                       <div className="basket-item__qty" role="group" aria-label={`Quantity of ${product.name}`}>

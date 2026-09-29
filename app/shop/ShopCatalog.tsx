@@ -4,11 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck, faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheck, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import FreeDeliveryBar from "../components/shop/FreeDeliveryBar";
-import { addToBasket, useBasket } from "./basket-store";
+import StarRating from "../components/shop/StarRating";
+import { useBasket } from "./basket-store";
+import { getAverageRating, getProductDetails } from "./product-details";
 import {
   CATEGORY_FILTERS,
   PHOTO_CREDITS,
@@ -40,12 +42,10 @@ export default function ShopCatalog() {
         <section className="shop-intro">
           <h1>Practice Shop</h1>
           <p>
-            Find the things you need and press <strong>Add to Basket</strong>. Nothing here costs real money — it is a safe
+            Click on an item to see more about it, then add it to your basket. Nothing here costs real money — it is a safe
             place to practise shopping online.
           </p>
         </section>
-
-        <FreeDeliveryBar totals={totals} />
 
         <section className="shop-controls" aria-label="Search and filter products">
           <div className="shop-search">
@@ -120,25 +120,29 @@ export default function ShopCatalog() {
           <ul className="product-grid">
             {products.map((product) => {
               const inBasket = lines[product.id] ?? 0;
+              const details = getProductDetails(product.id);
+              const rating = details ? getAverageRating(details.reviews) : 0;
+              const href = `/shop/${product.id}/`;
               return (
                 <li key={product.id} className="product-card">
-                  <div className="product-card__image">
-                    <Image src={product.image} alt={product.imageAlt} fill sizes="(max-width: 420px) 90vw, 260px" />
-                  </div>
+                  <Link href={href} className="product-card__image" tabIndex={-1} aria-hidden="true">
+                    <Image src={product.image} alt="" fill sizes="(max-width: 420px) 90vw, 260px" />
+                  </Link>
                   <div className="product-card__body">
-                    <h2 className="product-card__name">{product.name}</h2>
+                    <h2 className="product-card__name">
+                      <Link href={href}>{product.name}</Link>
+                    </h2>
+                    {details ? (
+                      <p className="product-card__rating">
+                        <StarRating rating={rating} size="sm" /> <span>({details.reviews.length})</span>
+                      </p>
+                    ) : null}
                     <p className="product-card__price">{formatPrice(product.pricePence)}</p>
                     <p className="product-card__category">{product.category === "groceries" ? "Groceries" : "Household"}</p>
                   </div>
-                  <button
-                    type="button"
-                    className={`product-card__add ${inBasket > 0 ? "is-added" : ""}`}
-                    onClick={() => addToBasket(product.id)}
-                    aria-label={`Add ${product.name} to basket`}
-                  >
-                    <FontAwesomeIcon icon={faPlus} aria-hidden="true" />
-                    Add to Basket
-                  </button>
+                  <Link href={href} className="product-card__add" aria-label={`View ${product.name}`}>
+                    View item <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
+                  </Link>
                   <p className="product-card__in-basket" aria-live="polite">
                     {inBasket > 0 ? (
                       <>
@@ -154,9 +158,12 @@ export default function ShopCatalog() {
 
         {itemCount > 0 ? (
           <div className="shop-next">
-            <p>
-              You have <strong>{formatItemCount(itemCount)}</strong> in your basket.
-            </p>
+            <div className="shop-next__delivery">
+              <p className="shop-next__count">
+                You have <strong>{formatItemCount(itemCount)}</strong> in your basket ({formatPrice(totals.subtotalPence)}).
+              </p>
+              <FreeDeliveryBar totals={totals} compact />
+            </div>
             <Link href="/basket/" className="btn btn-primary">
               Go to Basket <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
             </Link>
