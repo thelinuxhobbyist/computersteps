@@ -40,7 +40,8 @@ export default function OrderConfirmation() {
           <section className="success-hero" aria-labelledby="success-heading">
             <h1 id="success-heading">🎉 Order Complete! Your practice order is on its way.</h1>
             <p>
-              Order number <strong>{order.orderNumber}</strong>. Well done — you have finished every step of shopping online.
+              Thank you for your order. Your order number is <strong>{order.orderNumber}</strong>. We&rsquo;ll email you when
+              it has been dispatched.
             </p>
           </section>
         ) : (
@@ -50,22 +51,11 @@ export default function OrderConfirmation() {
           </section>
         )}
 
-        <div className="safety-banner safety-banner--simulation" role="note">
-          <FontAwesomeIcon icon={faShieldHalved} aria-hidden="true" className="safety-banner__icon" />
-          <p>
-            <strong>THIS IS A SIMULATION.</strong> No real money was charged, and no real products will be shipped.
-          </p>
-        </div>
-
-        <div className="safety-banner safety-banner--tip" role="note">
-          <FontAwesomeIcon icon={faLock} aria-hidden="true" className="safety-banner__icon" />
-          <p>
-            <strong>Security Tip:</strong> Real online stores will always show a padlock icon in the browser address bar
-            when paying safely. Never enter your 4-digit cash machine PIN on any website.
-          </p>
-        </div>
-
-        {hasMounted && order ? <OrderDetails order={order} /> : null}
+        {hasMounted && order ? (
+          <OrderDetails order={order} />
+        ) : (
+          <SafetyBanners />
+        )}
 
         <div className="success-actions">
           <button type="button" className="btn btn-primary" onClick={startNewOrder}>
@@ -126,7 +116,31 @@ function OrderDetails({ order }: { order: PracticeOrder }) {
         </address>
       </section>
 
-      <OrderSummary totals={calculateTotals(order.lines)} itemCount={countBasketItems(order.lines)} />
+      <div className="success-side">
+        <OrderSummary totals={calculateTotals(order.lines)} itemCount={countBasketItems(order.lines)} />
+        <SafetyBanners />
+      </div>
+    </div>
+  );
+}
+
+function SafetyBanners() {
+  return (
+    <div className="safety-banners">
+      <div className="safety-banner safety-banner--simulation" role="note">
+        <FontAwesomeIcon icon={faShieldHalved} aria-hidden="true" className="safety-banner__icon" />
+        <p>
+          <strong>THIS IS A SIMULATION.</strong> No real money was charged, and no real products will be shipped.
+        </p>
+      </div>
+
+      <div className="safety-banner safety-banner--tip" role="note">
+        <FontAwesomeIcon icon={faLock} aria-hidden="true" className="safety-banner__icon" />
+        <p>
+          <strong>Security Tip:</strong> Real online stores will always show a padlock icon in the browser address bar when
+          paying safely. Never enter your 4-digit cash machine PIN on any website.
+        </p>
+      </div>
     </div>
   );
 }

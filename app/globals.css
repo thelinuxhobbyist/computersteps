@@ -4090,7 +4090,31 @@ a.product-card__add {
 }
 
 .success-details {
-  margin-top: 24px;
+  margin-top: 8px;
+}
+
+.success-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.success-side .order-summary {
+  position: static;
+}
+
+.success-side .safety-banner {
+  font-size: 0.95rem;
+  padding: 14px 16px;
+  gap: 10px;
+}
+
+.success-side .safety-banner__icon {
+  font-size: 1.25rem;
+}
+
+.safety-banners .safety-banner:last-child {
+  margin-bottom: 0;
 }
 
 .success-card {
