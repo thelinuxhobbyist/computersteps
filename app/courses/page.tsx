@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CourseCard from "../components/CourseCard";
 import SiteHeader from "../components/SiteHeader";
+import PracticeShopFeature from "../components/shop/PracticeShopFeature";
 import { courseGroups } from "../lessons/courses";
 
 export default function CoursesPage() {
@@ -40,6 +41,10 @@ export default function CoursesPage() {
               <CourseCard key={course.id} course={course} />
             ))}
           </div>
+        </section>
+
+        <section className="section section--tight" aria-label="Practice Shop">
+          <PracticeShopFeature />
         </section>
       </main>
 

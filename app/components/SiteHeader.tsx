@@ -47,6 +47,7 @@ export default function SiteHeader({ homeHref = "/" }: SiteHeaderProps) {
           <nav className="desktop-nav" aria-label="Main navigation">
             <Link href="/">Home</Link>
             <Link href="/courses/">Courses</Link>
+            <Link href="/shop/">Practice Shop</Link>
           </nav>
 
           <button
@@ -67,6 +68,7 @@ export default function SiteHeader({ homeHref = "/" }: SiteHeaderProps) {
         <nav id={menuId} className="mobile-nav__panel" aria-label="Main navigation">
           <Link href="/" onClick={closeMenu}>Home</Link>
           <Link href="/courses/" onClick={closeMenu}>Courses</Link>
+          <Link href="/shop/" onClick={closeMenu}>Practice Shop</Link>
         </nav>
       </div>
     </>

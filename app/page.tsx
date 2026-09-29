@@ -8,6 +8,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CourseCard from "./components/CourseCard";
 import LessonPlayer from "./components/LessonPlayer";
 import SiteHeader from "./components/SiteHeader";
+import PracticeShopFeature from "./components/shop/PracticeShopFeature";
 import { getFeaturedCourses, courseGroups, getCourseForLesson } from "./lessons/courses";
 import { lessons } from "./lessons/content";
 
@@ -89,6 +90,10 @@ function HomeContent() {
                 Browse all {courseGroups.length} courses <FontAwesomeIcon icon={faArrowRight} className="text-[0.85em]" />
               </Link>
             </div>
+          </section>
+
+          <section className="section wrap section--tight" id="practice-shop" aria-label="Practice Shop">
+            <PracticeShopFeature />
           </section>
 
           <section className="section section-muted" id="how-it-works">
