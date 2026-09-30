@@ -15,12 +15,12 @@ import UrgentHelp from "./components/UrgentHelp";
 import { GP_BASE, NEWS, SURGERY } from "./surgery-data";
 
 const QUICK_LINKS = [
-  { href: `${GP_BASE}/online-consultation/`, icon: faLaptopMedical, title: "Contact us online", body: "Ask for help with a medical or admin request." },
-  { href: `${GP_BASE}/appointments/`, icon: faCalendarCheck, title: "Appointments", body: "How to book, change or cancel an appointment." },
-  { href: `${GP_BASE}/prescriptions/`, icon: faPills, title: "Prescriptions", body: "Order a repeat prescription." },
-  { href: `${GP_BASE}/contact/`, icon: faClock, title: "Opening hours and contact", body: "Our address, phone number and email." },
-  { href: `${GP_BASE}/new-patients/`, icon: faUserPlus, title: "Register with us", body: "How to join the surgery as a new patient." },
-  { href: `${GP_BASE}/our-team/`, icon: faUserDoctor, title: "Our team", body: "Meet our doctors, nurses and staff." },
+  { href: `${GP_BASE}/online-consultation/`, icon: faLaptopMedical, title: "Contact us online", body: "Ask for help." },
+  { href: `${GP_BASE}/appointments/`, icon: faCalendarCheck, title: "Appointments", body: "Get, change or cancel." },
+  { href: `${GP_BASE}/prescriptions/`, icon: faPills, title: "Prescriptions", body: "Order more medicine." },
+  { href: `${GP_BASE}/contact/`, icon: faClock, title: "Opening hours and contact", body: "Phone, email and address." },
+  { href: `${GP_BASE}/new-patients/`, icon: faUserPlus, title: "Join the surgery", body: "For new patients." },
+  { href: `${GP_BASE}/our-team/`, icon: faUserDoctor, title: "Our team", body: "Doctors, nurses and staff." },
 ];
 
 export default function GpHomePage() {
@@ -32,10 +32,7 @@ export default function GpHomePage() {
         <div className="gp-wrap gp-hero__inner">
           <div>
             <h1>Welcome to {SURGERY.name}</h1>
-            <p>
-              We are a friendly GP surgery caring for around 9,000 patients in Millbrook and the surrounding villages. Contact
-              us online at any time, or call us during opening hours.
-            </p>
+            <p>Your local GP surgery in Millbrook.</p>
             <div className="gp-hero__actions">
               <Link href={`${GP_BASE}/online-consultation/`} className="gp-btn gp-btn--primary">
                 Contact us online <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
@@ -82,9 +79,6 @@ export default function GpHomePage() {
           <section className="gp-card" aria-labelledby="gp-home-hours-heading">
             <h2 id="gp-home-hours-heading">Opening hours</h2>
             <OpeningHoursTable caption="The surgery and phone lines are open at these times." />
-            <p className="gp-card__foot">
-              <Link href={`${GP_BASE}/contact/`}>Extended hours and when we are closed</Link>
-            </p>
           </section>
 
           <section className="gp-card" aria-labelledby="gp-home-contact-heading">

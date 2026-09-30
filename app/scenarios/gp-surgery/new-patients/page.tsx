@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { faEnvelope, faPhone, faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import GpPageHeader from "../components/GpPageHeader";
+import { EmailAddress, GpCallout, GpCard, GpCards, GpDoDont, GpSection, GpSteps } from "../components/GpBlocks";
 import { SURGERY } from "../surgery-data";
 
 export const metadata: Metadata = { title: "New patients" };
@@ -8,33 +10,46 @@ export default function NewPatientsPage() {
   return (
     <>
       <GpPageHeader title="New patients">
-        <p>How to register with {SURGERY.name}.</p>
+        <p>How to join {SURGERY.name}.</p>
       </GpPageHeader>
 
       <div className="gp-wrap gp-content">
-        <article className="gp-prose">
-          <h2>Who can register</h2>
-          <p>
-            You can register with us if you live in our practice area, which covers Millbrook, Ashford Green and Lower Barton. You do not need proof of address or immigration status, an ID or an NHS number to register.
-          </p>
+        <GpSection title="Can I join?">
+          <GpDoDont
+            yesTitle="You can join if you live in"
+            yes={["Millbrook", "Ashford Green", "Lower Barton"]}
+            noTitle="You do not need"
+            no={["ID", "Proof of address", "An NHS number"]}
+          />
+        </GpSection>
 
-          <h2>How to register</h2>
-          <ol>
-            <li>Collect a registration form from reception, or ask us to post one to you.</li>
-            <li>Fill in the form. If you are registering children, fill in a separate form for each child.</li>
-            <li>Return the form to reception.</li>
-          </ol>
-          <p>
-            We will write to you within 2 weeks to confirm your registration. We may invite you to a new patient health check with
-            our healthcare assistant.
-          </p>
+        <GpSection title="How to join">
+          <GpSteps
+            steps={[
+              { title: "Get a form", text: "Ask at reception." },
+              { title: "Fill in the form", text: "One form for each person." },
+              { title: "Give the form back", text: "Bring it to reception." },
+              { title: "Wait for a letter", text: "We write to you within 2 weeks." },
+            ]}
+          />
+        </GpSection>
 
-          <h2>Changing your details</h2>
-          <p>
-            If you move house or change your phone number, please tell us straight away so that we can contact you. You can let
-            reception know in person, by phone on {SURGERY.phone}, or by email at {SURGERY.email}.
-          </p>
-        </article>
+        <GpSection title="New address or phone number?">
+          <GpCallout>Please tell us straight away.</GpCallout>
+          <GpCards>
+            <GpCard icon={faPersonWalking} title="Visit us">
+              <p>Come to reception.</p>
+            </GpCard>
+            <GpCard icon={faPhone} title="Call us">
+              <p className="gp-info-card__value">{SURGERY.phone}</p>
+            </GpCard>
+            <GpCard icon={faEnvelope} title="Email us">
+              <p className="gp-info-card__value">
+                <EmailAddress email={SURGERY.email} />
+              </p>
+            </GpCard>
+          </GpCards>
+        </GpSection>
       </div>
     </>
   );

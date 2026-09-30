@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import GpPageHeader from "../components/GpPageHeader";
+import { GpCallout } from "../components/GpBlocks";
 import { TEAM } from "../surgery-data";
 
 export const metadata: Metadata = { title: "Our team" };
@@ -17,13 +18,15 @@ export default function OurTeamPage() {
   return (
     <>
       <GpPageHeader title="Our team">
-        <p>Meet the doctors, nurses and staff who work at the surgery.</p>
+        <p>The people who work at the surgery.</p>
       </GpPageHeader>
 
       <div className="gp-wrap gp-content">
+        <GpCallout>You can ask to see a male or female doctor.</GpCallout>
+
         {TEAM.map((group, index) => (
-          <section key={group.heading} className="gp-section" aria-labelledby={`team-group-${index}`}>
-            <h2 id={`team-group-${index}`} className="gp-section__title">
+          <section key={group.heading} className="gp-block" aria-labelledby={`team-group-${index}`}>
+            <h2 id={`team-group-${index}`} className="gp-block__title">
               {group.heading}
             </h2>
             <ul className="gp-team">
@@ -35,7 +38,20 @@ export default function OurTeamPage() {
                   <div>
                     <h3>{member.name}</h3>
                     <p className="gp-team__role">{member.role}</p>
-                    <p>{member.details}</p>
+                    <dl className="gp-team__facts">
+                      {member.days ? (
+                        <div>
+                          <dt>Works</dt>
+                          <dd>{member.days}</dd>
+                        </div>
+                      ) : null}
+                      {member.helpsWith ? (
+                        <div>
+                          <dt>Helps with</dt>
+                          <dd>{member.helpsWith}</dd>
+                        </div>
+                      ) : null}
+                    </dl>
                   </div>
                 </li>
               ))}

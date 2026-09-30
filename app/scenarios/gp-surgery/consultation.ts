@@ -3,7 +3,7 @@ export type ConsultationReason = "new-problem" | "existing-problem" | "medicatio
 export const REASONS: { id: ConsultationReason; label: string; hint: string }[] = [
   { id: "new-problem", label: "A new medical problem", hint: "Something you have not spoken to us about before" },
   { id: "existing-problem", label: "An ongoing medical problem", hint: "Something you have already seen us about" },
-  { id: "medication", label: "A question about medication", hint: "Not for ordering repeat prescriptions" },
+  { id: "medication", label: "A question about medication", hint: "Not for ordering more medicine" },
   { id: "admin", label: "An admin request", hint: "For example a fit note, a letter or test results" },
 ];
 

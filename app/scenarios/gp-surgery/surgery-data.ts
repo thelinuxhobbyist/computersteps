@@ -21,8 +21,10 @@ export const OPENING_HOURS: OpeningHoursRow[] = [
   { day: "Sunday", hours: "Closed" },
 ];
 
-export const EXTENDED_HOURS =
-  "Pre-booked evening appointments are available on Tuesdays from 6:30pm to 8:00pm, and on the first Saturday of each month from 8:30am to 12:00pm.";
+export const EXTENDED_HOURS: OpeningHoursRow[] = [
+  { day: "Tuesday evenings", hours: "6:30pm to 8:00pm" },
+  { day: "First Saturday of the month", hours: "8:30am to 12:00pm" },
+];
 
 export const GP_NAV = [
   { href: `${GP_BASE}/`, label: "Home" },
@@ -34,30 +36,30 @@ export const GP_NAV = [
   { href: `${GP_BASE}/contact/`, label: "Contact and opening hours" },
 ] as const;
 
-export type TeamMember = { name: string; role: string; details: string };
+export type TeamMember = { name: string; role: string; days?: string; helpsWith?: string };
 
 export const TEAM: { heading: string; members: TeamMember[] }[] = [
   {
     heading: "Doctors",
     members: [
-      { name: "Dr Sarah Okafor", role: "Senior Partner (female)", details: "Works Monday, Tuesday, Thursday and Friday. Special interest in women's health." },
-      { name: "Dr James Whitfield", role: "Partner (male)", details: "Works Monday to Thursday. Special interest in diabetes and heart health." },
-      { name: "Dr Priya Nair", role: "Salaried GP (female)", details: "Works Tuesday, Wednesday and Friday. Special interest in children's health." },
-      { name: "Dr Tom Hughes", role: "GP Registrar (male)", details: "A qualified doctor completing his training as a GP. Works Monday to Friday." },
+      { name: "Dr Sarah Okafor", role: "GP (female)", days: "Mon, Tue, Thu, Fri", helpsWith: "Women's health" },
+      { name: "Dr James Whitfield", role: "GP (male)", days: "Mon to Thu", helpsWith: "Diabetes and heart health" },
+      { name: "Dr Priya Nair", role: "GP (female)", days: "Tue, Wed, Fri", helpsWith: "Children's health" },
+      { name: "Dr Tom Hughes", role: "GP in training (male)", days: "Mon to Fri" },
     ],
   },
   {
-    heading: "Nursing team",
+    heading: "Nurses",
     members: [
-      { name: "Emma Clarke", role: "Practice Nurse", details: "Asthma reviews, vaccinations, travel health and cervical screening." },
-      { name: "Daniel Price", role: "Healthcare Assistant", details: "Blood tests, blood pressure checks and NHS Health Checks." },
+      { name: "Emma Clarke", role: "Nurse", days: "Mon to Fri", helpsWith: "Asthma, vaccinations, smear tests" },
+      { name: "Daniel Price", role: "Healthcare Assistant", days: "Mon to Fri", helpsWith: "Blood tests, blood pressure" },
     ],
   },
   {
-    heading: "Practice staff",
+    heading: "Other staff",
     members: [
-      { name: "Linda Marsh", role: "Practice Manager", details: "Responsible for the running of the surgery, including feedback and complaints." },
-      { name: "Reception and admin team", role: "Care Navigators", details: "Our receptionists are trained to help you get the right care from the right person." },
+      { name: "Linda Marsh", role: "Practice Manager", helpsWith: "Feedback and complaints" },
+      { name: "Reception team", role: "Receptionists", helpsWith: "Appointments and questions" },
     ],
   },
 ];
@@ -65,17 +67,17 @@ export const TEAM: { heading: string; members: TeamMember[] }[] = [
 export const NEWS = [
   {
     date: "Wednesday 14 October",
-    title: "Surgery closed for staff training",
-    body: "The surgery will close at 1:00pm for staff training and reopen at 8:00am the next day. If you need medical help while we are closed, call 111.",
+    title: "Closed in the afternoon",
+    body: "We close at 1:00pm for staff training. Need help? Call 111.",
   },
   {
     date: "From 1 October",
-    title: "Flu vaccinations now available",
-    body: "Free flu vaccinations are available for patients aged 65 and over, pregnant women and people with some long-term health conditions. Contact reception to book.",
+    title: "Flu jabs",
+    body: "Free flu jabs for people aged 65 and over, and some other people. Ask at reception.",
   },
   {
     date: "September",
     title: "Contact us online",
-    body: "You can now send us a request using our online consultation form at any time. Requests are read by our practice team during opening hours.",
+    body: "You can now use our online form at any time of day.",
   },
 ];

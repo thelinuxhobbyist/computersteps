@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleCheck, faIdCard, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import UrgentHelp from "../components/UrgentHelp";
+import { GpDoDont, GpSteps } from "../components/GpBlocks";
 import { GP_BASE } from "../surgery-data";
 import {
   CONTACT_METHODS,
@@ -287,29 +288,23 @@ export default function ConsultationForm() {
             <h2 id="gp-consult-heading" className="gp-consult__title" ref={headingRef} tabIndex={-1}>
               Before you start
             </h2>
-            <div className="gp-prose">
-              <p>Use this form to ask us for help with:</p>
-              <ul>
-                <li>a new or ongoing medical problem</li>
-                <li>a question about your medicine</li>
-                <li>admin, such as a fit note, a letter or test results</li>
-              </ul>
-              <p>Please do not use this form to:</p>
-              <ul>
-                <li>
-                  order a repeat prescription. See <Link href={`${GP_BASE}/prescriptions/`}>prescriptions</Link>.
-                </li>
-                <li>
-                  change or cancel an appointment. See{" "}
-                  <Link href={`${GP_BASE}/appointments/#change-or-cancel`}>changing an appointment</Link>.
-                </li>
-                <li>ask for help with something urgent.</li>
-              </ul>
-            </div>
+            <GpDoDont
+              yesTitle="Use this form for"
+              yes={["A health problem", "A question about your medicine", "A fit note, letter or test results"]}
+              noTitle="Do not use this form for"
+              no={[
+                <>
+                  Ordering medicine. See <Link href={`${GP_BASE}/prescriptions/`}>prescriptions</Link>.
+                </>,
+                <>
+                  Changing an appointment. See <Link href={`${GP_BASE}/appointments/#change-or-cancel`}>appointments</Link>.
+                </>,
+                "Anything urgent",
+              ]}
+            />
             <UrgentHelp compact />
             <p className="gp-consult__timing">
-              The form takes about 5 minutes. Our team reads requests Monday to Friday, 8:00am to 6:00pm. Requests sent at other
-              times will be read on the next working day.
+              It takes about <strong>5 minutes</strong>. We read forms Monday to Friday, 8:00am to 6:00pm.
             </p>
             <button type="button" className="gp-btn gp-btn--primary gp-btn--start" onClick={() => goTo("reason")}>
               Start now
@@ -355,10 +350,10 @@ export default function ConsultationForm() {
                 {medical
                   ? renderTextarea(
                       "description",
-                      "Describe your problem",
-                      "Tell us about your symptoms and how they are affecting you.",
+                      "What is the problem?",
+                      "What is wrong? How does it affect you?",
                     )
-                  : renderTextarea("description", "What do you need?", "For example, which letter or document you need and why.")}
+                  : renderTextarea("description", "What do you need?", "For example: a fit note for work.")}
 
                 {medical ? (
                   <>
@@ -392,13 +387,13 @@ export default function ConsultationForm() {
                   "helpWanted",
                   "What would you like us to help you with?",
                   HELP_OPTIONS.map((option) => ({ value: option, label: option })),
-                  "We will do our best, but the practice team will decide the most suitable way to help you.",
+                  "The surgery will decide the best way to help.",
                 )}
 
                 {renderTextarea(
                   "extra",
                   "Is there anything else you think we should know?",
-                  "For example, times when you cannot take a phone call.",
+                  "For example: times when you cannot answer the phone.",
                   true,
                 )}
               </>
@@ -521,18 +516,16 @@ export default function ConsultationForm() {
                 Thank you. Your request has been submitted. A member of the practice team will review your request and contact you
                 if necessary.
               </p>
-              <h3>What happens next</h3>
-              <ul>
-                <li>Our team will read your request by the end of the next working day.</li>
-                <li>
-                  If we need to speak to you, we will contact you by {contactMethodLabel ?? "phone"}. This may be from a withheld
-                  number.
-                </li>
-                <li>You do not need to call the surgery to check that we have received your request.</li>
-              </ul>
+            </div>
+            <GpSteps
+              steps={[
+                { title: "We read your request", text: "By the end of the next working day." },
+                { title: `We contact you by ${contactMethodLabel ?? "phone"}`, text: "If we need to." },
+              ]}
+            />
+            <div className="gp-prose">
               <p>
-                If your symptoms get worse before we contact you, call <strong>111</strong>. In an emergency, call{" "}
-                <strong>999</strong>.
+                Feeling worse? Call <strong>111</strong>. Emergency? Call <strong>999</strong>.
               </p>
             </div>
 

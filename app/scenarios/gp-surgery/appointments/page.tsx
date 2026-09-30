@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRight,
+  faEnvelope,
+  faHospital,
+  faHouse,
+  faLanguage,
+  faLaptop,
+  faPersonWalking,
+  faPhone,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 import GpPageHeader from "../components/GpPageHeader";
+import OpeningHoursTable from "../components/OpeningHoursTable";
+import { EmailAddress, GpCallout, GpCard, GpCards, GpSection, GpSteps } from "../components/GpBlocks";
 import { EXTENDED_HOURS, GP_BASE, SURGERY } from "../surgery-data";
 
 export const metadata: Metadata = { title: "Appointments" };
@@ -9,76 +23,87 @@ export default function AppointmentsPage() {
   return (
     <>
       <GpPageHeader title="Appointments">
-        <p>How to ask for an appointment, the types of appointment we offer, and how to change or cancel one.</p>
+        <p>How to get, change or cancel an appointment.</p>
       </GpPageHeader>
 
       <div className="gp-wrap gp-content">
-        <article className="gp-prose">
-          <h2>How to ask for an appointment</h2>
-          <p>
-            To help us see everyone fairly, we ask all patients to tell us what they need help with first. A member of our
-            clinical team will read your request and decide who is the best person to help you. This might be a GP, a nurse, a
-            pharmacist or another member of our team.
-          </p>
-          <ul>
-            <li>
-              <strong>Online:</strong> fill in our <Link href={`${GP_BASE}/online-consultation/`}>online consultation form</Link>.
-              This is the quickest way to reach us, and you can use it at any time.
-            </li>
-            <li>
-              <strong>By phone:</strong> call us on {SURGERY.phone} from 8:00am, Monday to Friday. Our phone lines are busiest
-              first thing in the morning.
-            </li>
-            <li>
-              <strong>In person:</strong> visit reception during opening hours and a member of the team will help you.
-            </li>
-          </ul>
-          <p>We will contact you by the end of the next working day to let you know what happens next.</p>
+        <GpSection title="How to ask for an appointment">
+          <GpCards>
+            <GpCard icon={faLaptop} title="Online">
+              <p>Fastest. Any time of day.</p>
+              <Link href={`${GP_BASE}/online-consultation/`} className="gp-btn gp-btn--primary gp-btn--small">
+                Use the online form <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
+              </Link>
+            </GpCard>
+            <GpCard icon={faPhone} title="Phone">
+              <p className="gp-info-card__value">{SURGERY.phone}</p>
+              <p>Monday to Friday, from 8:00am.</p>
+            </GpCard>
+            <GpCard icon={faPersonWalking} title="In person">
+              <p>Come to reception when we are open.</p>
+            </GpCard>
+          </GpCards>
+        </GpSection>
 
-          <h2>Types of appointment</h2>
-          <ul>
-            <li>
-              <strong>Face-to-face appointments</strong> at the surgery with a GP, nurse or healthcare assistant.
-            </li>
-            <li>
-              <strong>Telephone appointments</strong> where a clinician calls you at a time agreed with you.
-            </li>
-            <li>
-              <strong>Video appointments</strong> using a secure link sent to your mobile phone by text message.
-            </li>
-            <li>
-              <strong>Home visits</strong> for patients who are housebound. Please call before 10:30am to ask for a home visit.
-            </li>
-          </ul>
+        <GpSection title="What happens next">
+          <GpSteps
+            steps={[
+              { title: "You tell us what you need" },
+              { title: "We read your request", text: "A doctor or nurse decides who can help." },
+              { title: "We contact you", text: "By the end of the next working day." },
+            ]}
+          />
+        </GpSection>
 
-          <h2>Evening and weekend appointments</h2>
-          <p>{EXTENDED_HOURS} These must be booked in advance.</p>
+        <GpSection title="Types of appointment">
+          <GpCards>
+            <GpCard icon={faHospital} title="At the surgery">
+              <p>See a doctor or nurse here.</p>
+            </GpCard>
+            <GpCard icon={faPhone} title="Phone call">
+              <p>A doctor or nurse calls you.</p>
+            </GpCard>
+            <GpCard icon={faVideo} title="Video call">
+              <p>We text you a link.</p>
+            </GpCard>
+            <GpCard icon={faHouse} title="Home visit">
+              <p>Only if you cannot leave home. Call before 10:30am.</p>
+            </GpCard>
+          </GpCards>
+        </GpSection>
 
-          <h2 id="change-or-cancel">Changing or cancelling an appointment</h2>
-          <p>
-            If you cannot attend your appointment, please let us know as soon as possible so that we can offer it to another
-            patient. You can:
-          </p>
-          <ul>
-            <li>
-              call reception on <strong>{SURGERY.phone}</strong>, or
-            </li>
-            <li>
-              email us at <strong>{SURGERY.email}</strong>. Please include your full name, date of birth, and the date and time of
-              your appointment.
-            </li>
-          </ul>
-          <p>
-            Last month, 142 appointments were missed without patients letting us know. That is over 23 hours of appointment time
-            that could have been used by other patients.
-          </p>
+        <GpSection title="Evening and Saturday appointments">
+          <OpeningHoursTable caption="You must book these in advance." rows={EXTENDED_HOURS} />
+        </GpSection>
 
-          <h2>Chaperones and interpreters</h2>
-          <p>
-            You can ask for a chaperone to be present at any appointment. If you need an interpreter or British Sign Language
-            support, please let us know when you contact us and we will arrange this for you.
-          </p>
-        </article>
+        <section className="gp-block" id="change-or-cancel">
+          <h2 className="gp-block__title">Cannot come to your appointment?</h2>
+          <GpCallout>Please tell us as soon as you can. Then someone else can have the appointment.</GpCallout>
+          <GpCards>
+            <GpCard icon={faPhone} title="Call us">
+              <p className="gp-info-card__value">{SURGERY.phone}</p>
+            </GpCard>
+            <GpCard icon={faEnvelope} title="Email us">
+              <p className="gp-info-card__value">
+                <EmailAddress email={SURGERY.email} />
+              </p>
+              <p>In your email, write:</p>
+              <ul className="gp-tick-list">
+                <li>your name</li>
+                <li>your date of birth</li>
+                <li>the day and time of your appointment</li>
+              </ul>
+            </GpCard>
+          </GpCards>
+        </section>
+
+        <GpSection title="Need an interpreter?">
+          <GpCards>
+            <GpCard icon={faLanguage} title="We can book one for you">
+              <p>Tell us when you contact us. We also offer British Sign Language.</p>
+            </GpCard>
+          </GpCards>
+        </GpSection>
       </div>
     </>
   );
