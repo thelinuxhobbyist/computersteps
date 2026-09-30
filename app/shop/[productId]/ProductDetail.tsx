@@ -51,6 +51,8 @@ export default function ProductDetail({ productId }: { productId: string }) {
 
       <main className="wrap shop-main">
         <nav className="breadcrumb product-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/scenarios/">Scenarios</Link>
+          <span aria-hidden="true">›</span>
           <Link href="/shop/">Practice Shop</Link>
           <span aria-hidden="true">›</span>
           <span>{categoryLabel}</span>

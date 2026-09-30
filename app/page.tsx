@@ -8,9 +8,10 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CourseCard from "./components/CourseCard";
 import LessonPlayer from "./components/LessonPlayer";
 import SiteHeader from "./components/SiteHeader";
-import PracticeShopFeature from "./components/shop/PracticeShopFeature";
+import ScenarioCard from "./components/ScenarioCard";
 import { getFeaturedCourses, courseGroups, getCourseForLesson } from "./lessons/courses";
 import { lessons } from "./lessons/content";
+import { SCENARIOS } from "./scenarios/scenarios";
 
 function HomeContent() {
   const [activeLessonIndex, setActiveLessonIndex] = useState<number | null>(null);
@@ -92,8 +93,17 @@ function HomeContent() {
             </div>
           </section>
 
-          <section className="section wrap section--tight" id="practice-shop" aria-label="Practice Shop">
-            <PracticeShopFeature />
+          <section className="section wrap section--tight" id="scenarios" aria-labelledby="scenarios-heading">
+            <div className="section-head">
+              <h2 id="scenarios-heading">Practise real tasks</h2>
+              <p>Realistic pretend websites where you can try everyday online tasks safely. Nothing you do is real.</p>
+            </div>
+
+            <div className="scenario-grid">
+              {SCENARIOS.map((scenario) => (
+                <ScenarioCard key={scenario.id} scenario={scenario} />
+              ))}
+            </div>
           </section>
 
           <section className="section section-muted" id="how-it-works">

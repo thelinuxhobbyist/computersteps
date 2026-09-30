@@ -253,6 +253,103 @@ p {
   border-color: var(--teal);
 }
 
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-dropdown__toggle:hover,
+.nav-dropdown__toggle[aria-expanded="true"] {
+  color: var(--ink);
+  border-color: var(--teal);
+}
+
+.nav-dropdown__chevron {
+  font-size: 0.75em;
+  transition: transform 0.15s ease;
+}
+
+.nav-dropdown__toggle[aria-expanded="true"] .nav-dropdown__chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: 0 10px 30px rgba(31, 41, 51, 0.14);
+}
+
+.nav-dropdown__menu[hidden] {
+  display: none;
+}
+
+.desktop-nav .nav-dropdown__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  color: var(--ink);
+}
+
+.desktop-nav .nav-dropdown__item:hover {
+  background: var(--teal-tint);
+}
+
+.nav-dropdown__icon {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.nav-dropdown__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.nav-dropdown__text span {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.desktop-nav .nav-dropdown__all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--teal-dark);
+}
+
+.desktop-nav .nav-dropdown__all:hover {
+  color: var(--teal);
+}
+
 .nav-toggle {
   display: none;
   width: 44px;
@@ -327,6 +424,11 @@ p {
 
 .mobile-nav__panel a:hover {
   color: var(--teal-dark);
+}
+
+.mobile-nav__panel .mobile-nav__sublink {
+  padding-left: 28px;
+  font-weight: 500;
 }
 
 body.nav-open {
@@ -2895,6 +2997,105 @@ footer {
   }
 }
 
+/* Scenarios */
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  gap: 20px;
+}
+
+.scenario-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--amber);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+}
+
+.scenario-card__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.scenario-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--amber-tint);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.scenario-card__title {
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.scenario-card__description {
+  color: var(--ink-soft);
+}
+
+.scenario-card__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.scenario-card__skills span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--teal-tint);
+  color: var(--teal-dark);
+}
+
+.scenario-card__tasks {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.scenario-card__tasks summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.scenario-card__tasks ul {
+  list-style: disc;
+  padding: 0 0 14px 1.2rem;
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+}
+
+.scenario-card__link {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+@media (max-width: 760px) {
+  .scenario-card {
+    padding: 18px;
+  }
+
+  .scenario-card__link {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
 /* Practice Shop */
 
 .section--tight {
@@ -3370,6 +3571,14 @@ a.product-card__add {
 
 .product-breadcrumb {
   padding-bottom: 16px;
+}
+
+.shop-breadcrumb {
+  padding-bottom: 0;
+}
+
+.shop-breadcrumb + .shop-intro {
+  padding-top: 8px;
 }
 
 .product-breadcrumb [aria-current="page"] {

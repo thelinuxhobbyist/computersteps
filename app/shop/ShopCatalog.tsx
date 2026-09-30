@@ -39,6 +39,12 @@ export default function ShopCatalog() {
       <ShopBar current="shop" />
 
       <main className="wrap shop-main">
+        <nav className="breadcrumb shop-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/scenarios/">Scenarios</Link>
+          <span aria-hidden="true">›</span>
+          <span aria-current="page">Practice Shop</span>
+        </nav>
+
         <section className="shop-intro">
           <h1>Practice Shop</h1>
           <p>

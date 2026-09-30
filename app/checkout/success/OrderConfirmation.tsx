@@ -61,8 +61,8 @@ export default function OrderConfirmation() {
           <button type="button" className="btn btn-primary" onClick={startNewOrder}>
             <FontAwesomeIcon icon={faRotateLeft} aria-hidden="true" /> Try Again / Start New Order
           </button>
-          <Link href="/courses/" className="btn btn-outline">
-            Back to courses
+          <Link href="/scenarios/" className="btn btn-outline">
+            Back to scenarios
           </Link>
         </div>
       </main>

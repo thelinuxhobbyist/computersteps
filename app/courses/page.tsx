@@ -1,7 +1,7 @@
 import Link from "next/link";
 import CourseCard from "../components/CourseCard";
 import SiteHeader from "../components/SiteHeader";
-import PracticeShopFeature from "../components/shop/PracticeShopFeature";
+import ScenariosFeature from "../components/ScenariosFeature";
 import { courseGroups } from "../lessons/courses";
 
 export default function CoursesPage() {
@@ -43,8 +43,8 @@ export default function CoursesPage() {
           </div>
         </section>
 
-        <section className="section section--tight" aria-label="Practice Shop">
-          <PracticeShopFeature />
+        <section className="section section--tight" aria-label="Scenarios">
+          <ScenariosFeature />
         </section>
       </main>
 
