@@ -34,7 +34,7 @@ export const SCENARIOS: Scenario[] = [
     icon: "🩺",
     summary: "Find surgery information and contact the practice online",
     description:
-      "The website of Riverside Medical Centre, a pretend GP surgery. Find opening hours and contact details, read about appointments and fill in an online consultation form.",
+      "The website of Yama Clinic, a pretend GP surgery. Find opening hours and contact details, read about appointments and fill in an online consultation form.",
     href: "/scenarios/gp-surgery/",
     skills: ["Finding information on a website", "Online consultation forms", "Finding contact details", "Sending an email"],
     tutorTasks: [

@@ -9,7 +9,7 @@ import SiteHeader from "../../components/SiteHeader";
 import ShopBar from "../../components/shop/ShopBar";
 import StarRating from "../../components/shop/StarRating";
 import { setQuantity, useBasket } from "../basket-store";
-import { MAX_QUANTITY_PER_ITEM, formatItemCount, formatPrice, getProduct } from "../shop-data";
+import { MAX_QUANTITY_PER_ITEM, formatItemCount, formatPrice, getPhotoCredit, getProduct } from "../shop-data";
 import { getAverageRating, getProductDetails, type Nutrition } from "../product-details";
 
 const NUTRITION_ROWS: { key: keyof Omit<Nutrition, "per" | "serving">; label: string; indent?: boolean }[] = [
@@ -26,6 +26,7 @@ const NUTRITION_ROWS: { key: keyof Omit<Nutrition, "per" | "serving">; label: st
 export default function ProductDetail({ productId }: { productId: string }) {
   const product = getProduct(productId)!;
   const details = getProductDetails(productId)!;
+  const credit = getPhotoCredit(productId);
   const { lines } = useBasket();
   const [quantity, setLocalQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState<number | null>(null);
@@ -61,9 +62,20 @@ export default function ProductDetail({ productId }: { productId: string }) {
         </nav>
 
         <div className="product-page">
-          <div className="product-page__image">
-            <Image src={product.image} alt={product.imageAlt} fill priority sizes="(max-width: 760px) 100vw, 520px" />
-          </div>
+          <figure className="product-page__figure">
+            <div className="product-page__image">
+              <Image src={product.image} alt={product.imageAlt} fill priority sizes="(max-width: 760px) 100vw, 520px" />
+            </div>
+            {credit ? (
+              <figcaption className="product-page__credit">
+                Photo:{" "}
+                <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {credit.author}
+                </a>
+                , {credit.license}
+              </figcaption>
+            ) : null}
+          </figure>
 
           <div className="product-page__buy">
             <h1>{product.name}</h1>

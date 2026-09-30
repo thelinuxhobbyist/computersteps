@@ -13,7 +13,6 @@ import { useBasket } from "./basket-store";
 import { getAverageRating, getProductDetails } from "./product-details";
 import {
   CATEGORY_FILTERS,
-  PHOTO_CREDITS,
   PRODUCTS,
   SORT_OPTIONS,
   filterProducts,
@@ -176,27 +175,10 @@ export default function ShopCatalog() {
           </div>
         ) : null}
 
-        <section className="photo-credits" aria-labelledby="photo-credits-heading">
-          <h2 id="photo-credits-heading">Photo credits</h2>
-          <p>Product photos are from Wikimedia Commons and are used under the licences shown.</p>
-          <ul>
-            {PHOTO_CREDITS.map((credit) => (
-              <li key={credit.productId}>
-                <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  {credit.title}
-                </a>{" "}
-                by {credit.author},{" "}
-                {credit.licenseUrl ? (
-                  <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">
-                    {credit.license}
-                  </a>
-                ) : (
-                  credit.license
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <p className="photo-credits-note">
+          Product photos from Wikimedia Commons, used under Creative Commons and public domain licences.{" "}
+          <Link href="/shop/credits/">See photo credits</Link>
+        </p>
       </main>
 
       <footer>

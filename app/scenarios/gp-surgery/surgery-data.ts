@@ -2,10 +2,10 @@ export const GP_BASE = "/scenarios/gp-surgery";
 
 // Phone numbers use Ofcom's reserved drama ranges, so they can never reach a real person.
 export const SURGERY = {
-  name: "Riverside Medical Centre",
-  addressLines: ["24 Riverside Road", "Millbrook", "MB4 7RD"],
+  name: "Yama Clinic",
+  addressLines: ["24 Yama Lane", "Millbrook", "MB4 7RD"],
   phone: "01632 960 482",
-  email: "reception@riversidemedical.practice",
+  email: "reception@yamaclinic.practice",
   practiceManager: "Linda Marsh",
 } as const;
 

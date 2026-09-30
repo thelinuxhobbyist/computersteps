@@ -80,7 +80,7 @@ export default function ContactPage() {
 
           <h2>Getting here</h2>
           <p>
-            We are on Riverside Road, opposite Millbrook Library. The number 12 and 34 buses stop outside the surgery. There is a
+            We are on Yama Lane, opposite Millbrook Library. The number 12 and 34 buses stop outside the surgery. There is a
             small car park with 4 disabled parking spaces, and a cycle rack by the main entrance.
           </p>
           <p>

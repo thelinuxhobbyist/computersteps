@@ -15,8 +15,7 @@ export default function NewPatientsPage() {
         <article className="gp-prose">
           <h2>Who can register</h2>
           <p>
-            You can register with us if you live in our practice area, which covers Millbrook, Riverside, Ashford Green and Lower
-            Barton. You do not need proof of address or immigration status, an ID or an NHS number to register.
+            You can register with us if you live in our practice area, which covers Millbrook, Ashford Green and Lower Barton. You do not need proof of address or immigration status, an ID or an NHS number to register.
           </p>
 
           <h2>How to register</h2>

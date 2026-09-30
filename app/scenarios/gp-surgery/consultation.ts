@@ -153,7 +153,7 @@ export function validateStep(step: ConsultationStep, answers: ConsultationAnswer
 }
 
 export function makeReference(random = Math.random): string {
-  return `RMC-${Math.floor(100000 + random() * 900000)}`;
+  return `YC-${Math.floor(100000 + random() * 900000)}`;
 }
 
 export type PracticePatient = {

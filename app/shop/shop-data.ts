@@ -72,6 +72,10 @@ export const PHOTO_CREDITS: PhotoCredit[] = [
   { productId: "sponges", title: "Sponge-viscose", author: "Johan", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/", sourceUrl: "https://commons.wikimedia.org/wiki/File:Sponge-viscose.jpg" },
 ];
 
+export function getPhotoCredit(productId: string): PhotoCredit | undefined {
+  return PHOTO_CREDITS.find((credit) => credit.productId === productId);
+}
+
 export const FREE_DELIVERY_THRESHOLD_PENCE = 3500;
 export const STANDARD_DELIVERY_PENCE = 399;
 export const UNDER_FIVE_LIMIT_PENCE = 500;

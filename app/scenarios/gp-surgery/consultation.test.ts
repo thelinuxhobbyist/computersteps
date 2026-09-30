@@ -73,7 +73,7 @@ test("the final step needs the emergency confirmation", () => {
   assert.deepEqual(validateStep("check", { ...EMPTY_ANSWERS, confirmedNotUrgent: true }), {});
 });
 
-test("reference numbers look like RMC-123456", () => {
-  assert.equal(makeReference(() => 0), "RMC-100000");
-  assert.match(makeReference(), /^RMC-\d{6}$/);
+test("reference numbers look like YC-123456", () => {
+  assert.equal(makeReference(() => 0), "YC-100000");
+  assert.match(makeReference(), /^YC-\d{6}$/);
 });
