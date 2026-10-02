@@ -4205,6 +4205,40 @@ a.product-card__add {
   margin-bottom: 14px;
 }
 
+.checkout-section__link {
+  color: var(--teal-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.checkout-errors > p {
+  font-weight: 700;
+}
+
+.bank-paid {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--teal-tint);
+  border: 2px solid var(--teal);
+  border-radius: var(--r-md);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.bank-paid__icon {
+  font-size: 1.5rem;
+  color: var(--teal-dark);
+  margin-top: 2px;
+}
+
+.bank-paid p {
+  flex: 1 1 320px;
+}
+
 .checkout-field {
   margin-bottom: 16px;
 }

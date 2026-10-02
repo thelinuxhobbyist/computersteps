@@ -8,17 +8,22 @@ import { faArrowLeft, faTriangleExclamation } from "@fortawesome/free-solid-svg-
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import OrderSummary from "../components/shop/OrderSummary";
-import { clearBasket, savePracticeOrder, useBasket, useHasMounted } from "../shop/basket-store";
+import { clearBasket, savePracticeOrder, useBasket, useHasMounted, type PracticeOrder } from "../shop/basket-store";
 import {
   formatCardNumberInput,
   formatCvvInput,
   formatExpiryInput,
+  formatPrice,
+  isPracticeCardNumber,
   validateCardDetails,
+  validateCardFormat,
   validateDeliveryDetails,
   type CardDetails,
   type DeliveryDetails,
   type FieldErrors,
 } from "../shop/shop-data";
+import { payWithPracticeBank } from "../scenarios/practice-bank/bank-api";
+import { BANK_BASE } from "../scenarios/practice-bank/bank-data";
 
 type FormValues = DeliveryDetails & CardDetails;
 type FieldName = keyof FormValues;
@@ -98,7 +103,9 @@ export default function CheckoutForm() {
   const { lines, totals, itemCount } = useBasket();
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors<FormValues>>({});
+  const [paymentError, setPaymentError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [checkingCard, setCheckingCard] = useState(false);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const update = (name: FieldName, rawValue: string) => {
@@ -116,19 +123,16 @@ export default function CheckoutForm() {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const nextErrors: FieldErrors<FormValues> = { ...validateDeliveryDetails(values), ...validateCardDetails(values) };
+  const showErrors = (nextErrors: FieldErrors<FormValues>, nextPaymentError = "") => {
     setErrors(nextErrors);
+    setPaymentError(nextPaymentError);
+    requestAnimationFrame(() => errorSummaryRef.current?.focus());
+  };
 
-    if (Object.keys(nextErrors).length > 0) {
-      requestAnimationFrame(() => errorSummaryRef.current?.focus());
-      return;
-    }
-
+  const placeOrder = (orderNumber: string, bankPayment?: PracticeOrder["bankPayment"]) => {
     setSubmitting(true);
     savePracticeOrder({
-      orderNumber: makeOrderNumber(),
+      orderNumber,
       placedAt: new Date().toISOString(),
       lines,
       delivery: {
@@ -138,9 +142,58 @@ export default function CheckoutForm() {
         townOrCity: values.townOrCity.trim(),
         postcode: values.postcode.trim().toUpperCase(),
       },
+      bankPayment,
     });
     clearBasket();
     router.push("/checkout/success/");
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (checkingCard) return;
+
+    const usesPracticeCard = isPracticeCardNumber(values.cardNumber);
+    const cardErrors = usesPracticeCard ? validateCardDetails(values) : validateCardFormat(values);
+    const nextErrors: FieldErrors<FormValues> = { ...validateDeliveryDetails(values), ...cardErrors };
+    if (Object.keys(nextErrors).length > 0) {
+      showErrors(nextErrors);
+      return;
+    }
+
+    const orderNumber = makeOrderNumber();
+    if (usesPracticeCard) {
+      placeOrder(orderNumber);
+      return;
+    }
+
+    setCheckingCard(true);
+    const details = {
+      fullName: values.fullName,
+      addressLine1: values.addressLine1,
+      townOrCity: values.townOrCity,
+      postcode: values.postcode,
+      nameOnCard: values.nameOnCard,
+      cardNumber: values.cardNumber,
+      expiry: values.expiry,
+      cvv: values.cvv,
+    };
+    const result = await payWithPracticeBank(details, totals.totalPence, orderNumber);
+    setCheckingCard(false);
+
+    if (result.ok) {
+      placeOrder(orderNumber, { username: result.username, amountPence: totals.totalPence, balancePence: result.balancePence });
+    } else if (result.reason === "card-not-found") {
+      showErrors({ cardNumber: "We don't recognise this card number. Check each group of 4 numbers against your card." });
+    } else if (result.reason === "card-details") {
+      showErrors(result.errors);
+    } else if (result.reason === "insufficient-funds") {
+      showErrors(
+        {},
+        `Payment declined: there is not enough money in your Practice Bank account. Your balance is ${formatPrice(result.balancePence)}. Remove something from your basket and try again.`,
+      );
+    } else {
+      showErrors({}, "We couldn't reach Practice Bank to take the payment. Check you are connected to the internet, then try again.");
+    }
   };
 
   const renderField = (name: FieldName) => {
@@ -213,7 +266,12 @@ export default function CheckoutForm() {
         ) : (
           <div className="basket-layout">
             <form className="checkout-form" onSubmit={handleSubmit} noValidate>
-              {errorList.length > 0 ? (
+              {paymentError ? (
+                <div className="checkout-errors" role="alert" tabIndex={-1} ref={errorSummaryRef}>
+                  <h2>Your payment did not go through</h2>
+                  <p>{paymentError}</p>
+                </div>
+              ) : errorList.length > 0 ? (
                 <div className="checkout-errors" role="alert" tabIndex={-1} ref={errorSummaryRef}>
                   <h2>Please check {errorList.length === 1 ? "1 thing" : `${errorList.length} things`}</h2>
                   <ul>
@@ -230,6 +288,10 @@ export default function CheckoutForm() {
                 <legend>
                   <span className="checkout-section__num">1</span> Delivery details
                 </legend>
+                <p className="checkout-section__intro">
+                  Paying with a Practice Bank card? Use the name and address shown in Practice Bank under <strong>My card</strong>.
+                  The bank checks they match the card.
+                </p>
                 {renderField("fullName")}
                 {renderField("addressLine1")}
                 {renderField("addressLine2")}
@@ -241,7 +303,14 @@ export default function CheckoutForm() {
                 <legend>
                   <span className="checkout-section__num">2</span> Payment
                 </legend>
-                <p className="checkout-section__intro">Type the details exactly as they appear on your card.</p>
+                <p className="checkout-section__intro">
+                  Type the details exactly as they appear on your card. You can use your Practice Bank card or the practice card
+                  you were given.{" "}
+                  <Link href={`${BANK_BASE}/`} className="checkout-section__link">
+                    No card? Open a Practice Bank account
+                  </Link>{" "}
+                  (your basket will be kept).
+                </p>
                 {renderField("nameOnCard")}
                 {renderField("cardNumber")}
                 <div className="checkout-row">
@@ -250,8 +319,8 @@ export default function CheckoutForm() {
                 </div>
               </fieldset>
 
-              <button type="submit" className="btn btn-primary checkout-submit">
-                Place Practice Order
+              <button type="submit" className="btn btn-primary checkout-submit" disabled={checkingCard}>
+                {checkingCard ? "Checking your card…" : "Place Practice Order"}
               </button>
               <Link href="/basket/" className="btn-text">
                 <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Back to basket

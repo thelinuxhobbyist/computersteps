@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faRotateLeft, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { faBuildingColumns, faLock, faRotateLeft, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import SiteHeader from "../../components/SiteHeader";
 import ShopBar from "../../components/shop/ShopBar";
 import OrderSummary from "../../components/shop/OrderSummary";
@@ -16,6 +16,7 @@ import {
   type PracticeOrder,
 } from "../../shop/basket-store";
 import { calculateTotals, countBasketItems, formatPrice, getBasketItems } from "../../shop/shop-data";
+import { BANK_BASE } from "../../scenarios/practice-bank/bank-data";
 
 export default function OrderConfirmation() {
   const router = useRouter();
@@ -50,6 +51,19 @@ export default function OrderConfirmation() {
             <p>Visit the Practice Shop, add some items to your basket and check out to see your order here.</p>
           </section>
         )}
+
+        {hasMounted && order?.bankPayment ? (
+          <div className="bank-paid" role="note">
+            <FontAwesomeIcon icon={faBuildingColumns} aria-hidden="true" className="bank-paid__icon" />
+            <p>
+              <strong>{formatPrice(order.bankPayment.amountPence)}</strong> was paid from your Practice Bank account. Your new
+              balance is <strong>{formatPrice(order.bankPayment.balancePence)}</strong>.
+            </p>
+            <Link href={`${BANK_BASE}/transactions/`} className="btn btn-outline">
+              Find this payment in Practice Bank
+            </Link>
+          </div>
+        ) : null}
 
         {hasMounted && order ? (
           <OrderDetails order={order} />

@@ -225,23 +225,17 @@ export function formatCvvInput(value: string): string {
   return value.replace(/\D/g, "").slice(0, 3);
 }
 
-export function validateCardDetails(details: CardDetails): FieldErrors<CardDetails> {
+/** Checks the details look like a card, without checking which card it is. */
+export function validateCardFormat(details: CardDetails): FieldErrors<CardDetails> {
   const errors: FieldErrors<CardDetails> = {};
 
-  const name = details.nameOnCard.trim().replace(/\s+/g, " ").toUpperCase();
-  if (!name) {
-    errors.nameOnCard = "Please type the name shown on the card.";
-  } else if (name !== PRACTICE_CARD.cardholderName) {
-    errors.nameOnCard = "The name does not match the card. Check the spelling against your card.";
-  }
+  if (!details.nameOnCard.trim()) errors.nameOnCard = "Please type the name shown on the card.";
 
   const cardNumber = digitsOnly(details.cardNumber);
   if (!cardNumber) {
     errors.cardNumber = "Please type the 16-digit card number.";
   } else if (!/^\d{16}$/.test(cardNumber)) {
     errors.cardNumber = "A card number has 16 digits. Only type numbers (spaces are fine).";
-  } else if (cardNumber !== digitsOnly(PRACTICE_CARD.cardNumber)) {
-    errors.cardNumber = "Your card number is incorrect. Check each group of 4 numbers against your card.";
   }
 
   const expiry = details.expiry.replace(/\s+/g, "");
@@ -249,8 +243,6 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
     errors.expiry = `Please type the expiry date, like ${PRACTICE_CARD.expiry}.`;
   } else if (!/^\d{2}\/?\d{2}$/.test(expiry)) {
     errors.expiry = `Type the expiry date as month and year, like ${PRACTICE_CARD.expiry}.`;
-  } else if (expiry.replace("/", "") !== PRACTICE_CARD.expiry.replace("/", "")) {
-    errors.expiry = "Your expiry date is incorrect. Check the date on your card.";
   }
 
   const cvv = details.cvv.trim();
@@ -258,7 +250,30 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
     errors.cvv = "Please type the 3-digit security code.";
   } else if (!/^\d{3}$/.test(cvv)) {
     errors.cvv = "The security code is 3 numbers.";
-  } else if (cvv !== PRACTICE_CARD.cvv) {
+  }
+
+  return errors;
+}
+
+export function isPracticeCardNumber(cardNumber: string): boolean {
+  return digitsOnly(cardNumber) === digitsOnly(PRACTICE_CARD.cardNumber);
+}
+
+/** Checks the details against the Sam Taylor practice card. Practice Bank cards are checked by the bank instead. */
+export function validateCardDetails(details: CardDetails): FieldErrors<CardDetails> {
+  const errors = validateCardFormat(details);
+
+  const name = details.nameOnCard.trim().replace(/\s+/g, " ").toUpperCase();
+  if (!errors.nameOnCard && name !== PRACTICE_CARD.cardholderName) {
+    errors.nameOnCard = "The name does not match the card. Check the spelling against your card.";
+  }
+  if (!errors.cardNumber && !isPracticeCardNumber(details.cardNumber)) {
+    errors.cardNumber = "Your card number is incorrect. Check each group of 4 numbers against your card.";
+  }
+  if (!errors.expiry && details.expiry.replace(/[\s/]/g, "") !== PRACTICE_CARD.expiry.replace("/", "")) {
+    errors.expiry = "Your expiry date is incorrect. Check the date on your card.";
+  }
+  if (!errors.cvv && details.cvv.trim() !== PRACTICE_CARD.cvv) {
     errors.cvv = "Your security code is incorrect. It is the 3 numbers on the back of your card.";
   }
 

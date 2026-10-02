@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tutri-practice-bank",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-18",
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  "triggers": {
+    // Weekly: close accounts nobody has opened for a year.
+    "crons": ["0 3 * * 1"]
+  },
+  "d1_databases": [
+    {
+      "binding": "BANK_DB",
+      "database_name": "tutri-practice-bank",
+      "database_id": "afc76186-8962-452a-ab73-279a8de6b8d5",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

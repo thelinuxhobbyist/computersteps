@@ -104,6 +104,8 @@ export type PracticeOrder = {
   placedAt: string;
   lines: BasketLines;
   delivery: DeliveryDetails;
+  /** Set when the order was paid with a Practice Bank card rather than the Sam Taylor practice card. */
+  bankPayment?: { username: string; amountPence: number; balancePence: number };
 };
 
 let cachedOrder: PracticeOrder | null | undefined;

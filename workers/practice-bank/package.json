@@ -1,0 +1,13 @@
+{
+  "name": "practice-bank",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler d1 migrations apply tutri-practice-bank --remote && wrangler deploy",
+    "dev": "wrangler d1 migrations apply tutri-practice-bank --local && wrangler dev",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "wrangler": "^4.114.0"
+  }
+}

@@ -20,7 +20,8 @@ test("every scenario has tasks a tutor can set", () => {
   }
 });
 
-test("includes the Practice Shop and GP Surgery", () => {
+test("includes the Practice Shop, Practice Bank and GP Surgery", () => {
   assert.equal(getScenario("practice-shop")?.href, "/shop/");
+  assert.equal(getScenario("practice-bank")?.href, "/scenarios/practice-bank/");
   assert.equal(getScenario("gp-surgery")?.href, "/scenarios/gp-surgery/");
 });

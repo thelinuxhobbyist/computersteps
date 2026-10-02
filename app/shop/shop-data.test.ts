@@ -11,7 +11,9 @@ import {
   formatCvvInput,
   formatExpiryInput,
   formatPrice,
+  isPracticeCardNumber,
   validateCardDetails,
+  validateCardFormat,
   validateDeliveryDetails,
 } from "./shop-data";
 import { PRODUCT_DETAILS, getAverageRating } from "./product-details";
@@ -102,6 +104,17 @@ test("rejects details that do not match the practice card", () => {
   assert.ok(errors.cardNumber);
   assert.ok(errors.expiry);
   assert.ok(errors.cvv);
+});
+
+test("format check accepts any well-formed card, like a Practice Bank card", () => {
+  assert.deepEqual(validateCardFormat({ nameOnCard: "JOHNSMITH", cardNumber: "4196 0714 6901 1277", expiry: "10/30", cvv: "901" }), {});
+  assert.equal(isPracticeCardNumber("4196 0714 6901 1277"), false);
+  assert.equal(isPracticeCardNumber("4532012345678901"), true);
+});
+
+test("format check still explains missing and badly typed details", () => {
+  const errors = validateCardFormat({ nameOnCard: " ", cardNumber: "4196", expiry: "1", cvv: "9" });
+  assert.deepEqual(Object.keys(errors).sort(), ["cardNumber", "cvv", "expiry", "nameOnCard"]);
 });
 
 test("explains badly formatted card numbers", () => {
