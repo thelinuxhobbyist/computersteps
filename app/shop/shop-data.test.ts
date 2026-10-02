@@ -13,7 +13,7 @@ import {
 } from "./shop-data";
 import { PRODUCT_DETAILS, getAverageRating } from "./product-details";
 
-const validCard = { nameOnCard: "YAMA STUDENT", cardNumber: "4532 0123 4567 8901", expiry: "12/28", cvv: "321" };
+const validCard = { nameOnCard: "SAM TAYLOR", cardNumber: "4532 0123 4567 8901", expiry: "12/35", cvv: "321" };
 
 test("formats pence as pounds", () => {
   assert.equal(formatPrice(90), "£0.90");
@@ -89,12 +89,12 @@ test("counts items across lines and ignores unknown products", () => {
 test("accepts the practice card, with or without spaces", () => {
   assert.deepEqual(validateCardDetails(validCard), {});
   assert.deepEqual(validateCardDetails({ ...validCard, cardNumber: "4532012345678901" }), {});
-  assert.deepEqual(validateCardDetails({ ...validCard, nameOnCard: " yama  student " }), {});
-  assert.deepEqual(validateCardDetails({ ...validCard, expiry: "1228" }), {});
+  assert.deepEqual(validateCardDetails({ ...validCard, nameOnCard: " sam  taylor " }), {});
+  assert.deepEqual(validateCardDetails({ ...validCard, expiry: "1235" }), {});
 });
 
 test("rejects details that do not match the practice card", () => {
-  const errors = validateCardDetails({ nameOnCard: "JOHN SMITH", cardNumber: "4532 0123 4567 8900", expiry: "11/28", cvv: "123" });
+  const errors = validateCardDetails({ nameOnCard: "YAMA STUDENT", cardNumber: "4532 0123 4567 8900", expiry: "12/28", cvv: "123" });
   assert.ok(errors.nameOnCard);
   assert.ok(errors.cardNumber);
   assert.ok(errors.expiry);

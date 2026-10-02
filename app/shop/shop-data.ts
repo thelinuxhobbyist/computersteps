@@ -172,11 +172,11 @@ export function calculateTotals(lines: BasketLines): OrderTotals {
 
 export const PRACTICE_CARD = {
   bankName: "Library Bank",
-  cardholderName: "YAMA STUDENT",
+  cardholderName: "SAM TAYLOR",
   cardNumber: "4532 0123 4567 8901",
   sortCode: "00-00-00",
   accountNumber: "12093653",
-  expiry: "12/28",
+  expiry: "12/35",
   cvv: "321",
 } as const;
 
@@ -229,9 +229,9 @@ export function validateCardDetails(details: CardDetails): FieldErrors<CardDetai
 
   const expiry = details.expiry.replace(/\s+/g, "");
   if (!expiry) {
-    errors.expiry = "Please type the expiry date, like 12/28.";
+    errors.expiry = `Please type the expiry date, like ${PRACTICE_CARD.expiry}.`;
   } else if (!/^\d{2}\/?\d{2}$/.test(expiry)) {
-    errors.expiry = "Type the expiry date as month and year, like 12/28.";
+    errors.expiry = `Type the expiry date as month and year, like ${PRACTICE_CARD.expiry}.`;
   } else if (expiry.replace("/", "") !== PRACTICE_CARD.expiry.replace("/", "")) {
     errors.expiry = "Your expiry date is incorrect. Check the date on your card.";
   }

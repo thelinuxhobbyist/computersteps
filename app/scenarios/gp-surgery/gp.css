@@ -1155,6 +1155,81 @@ select.gp-input {
   letter-spacing: 0.04em;
 }
 
+/* Prescription ordering */
+
+.gp-order-choices {
+  display: grid;
+  gap: 16px;
+}
+
+.gp-order-choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 88px;
+  padding: 18px 22px;
+  font: inherit;
+  text-align: left;
+  background: #fff;
+  color: var(--gp-text);
+  border: 3px solid var(--gp-blue);
+  border-radius: 10px;
+  box-shadow: 0 3px 0 var(--gp-blue-dark);
+  cursor: pointer;
+}
+
+.gp-order-choice:hover {
+  background: var(--gp-blue-tint);
+}
+
+.gp-order-choice:focus-visible {
+  outline: 3px solid var(--gp-yellow);
+  outline-offset: 2px;
+}
+
+.gp-order-choice:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.gp-order-choice__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gp-order-choice__text strong {
+  font-size: 1.3rem;
+  color: var(--gp-blue-dark);
+}
+
+.gp-order-choice__arrow {
+  font-size: 1.5rem;
+  color: var(--gp-blue);
+  flex-shrink: 0;
+}
+
+.gp-checkbox--boxed {
+  padding: 14px 16px;
+  border: 2px solid var(--gp-border);
+  border-radius: 8px;
+}
+
+.gp-checkbox--boxed:has(input:checked) {
+  border-color: var(--gp-blue);
+  background: var(--gp-blue-tint);
+}
+
+.gp-checkbox--boxed label {
+  flex: 1;
+}
+
+.gp-textarea--short {
+  min-height: 90px;
+}
+
 /* Practice card: styled as Computer Steps, not as part of the surgery website */
 
 .gp-practice-card {

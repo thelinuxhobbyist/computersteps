@@ -34,12 +34,20 @@ export const SCENARIOS: Scenario[] = [
     icon: "🩺",
     summary: "Find surgery information and contact the practice online",
     description:
-      "The website of Yama Clinic, a pretend GP surgery. Find opening hours and contact details, read about appointments and fill in an online consultation form.",
+      "The website of Yama Clinic, a pretend GP surgery. Find opening hours and contact details, read about appointments, order a prescription and fill in an online consultation form.",
     href: "/scenarios/gp-surgery/",
-    skills: ["Finding information on a website", "Online consultation forms", "Finding contact details", "Sending an email"],
+    skills: [
+      "Finding information on a website",
+      "Ordering a prescription",
+      "Online consultation forms",
+      "Finding contact details",
+      "Sending an email",
+    ],
     tutorTasks: [
       "Find out when the surgery is open on a Saturday.",
       "Find out how to contact the surgery about a problem.",
+      "Order a repeat prescription for your blood pressure tablets.",
+      "Order the cream the doctor said you could have. It is not on your repeat list.",
       "Complete the online consultation form using one of the practice situations.",
       "You need to change an appointment. Find the surgery's email address, then use your own email account to send them a message.",
       "Find out what to do if you need medical help when the surgery is closed.",
