@@ -10,6 +10,9 @@ import ShopBar from "../components/shop/ShopBar";
 import OrderSummary from "../components/shop/OrderSummary";
 import { clearBasket, savePracticeOrder, useBasket, useHasMounted } from "../shop/basket-store";
 import {
+  formatCardNumberInput,
+  formatCvvInput,
+  formatExpiryInput,
   validateCardDetails,
   validateDeliveryDetails,
   type CardDetails,
@@ -63,12 +66,19 @@ const FIELDS: Record<FieldName, FieldConfig> = {
   nameOnCard: { label: "Name on Card" },
   cardNumber: {
     label: "16-Digit Card Number",
-    hint: "The long number on the front of the card. Spaces are fine.",
+    hint: "The long number on the front of the card. Just type the numbers. The spaces are added for you.",
     placeholder: "0000 0000 0000 0000",
-    maxLength: 23,
+    maxLength: 19,
     inputMode: "numeric",
   },
-  expiry: { label: "Expiry Date (MM/YY)", placeholder: "MM/YY", maxLength: 7, inputMode: "numeric", narrow: true },
+  expiry: {
+    label: "Expiry Date (MM/YY)",
+    hint: "Just type the numbers. The / is added for you.",
+    placeholder: "MM/YY",
+    maxLength: 5,
+    inputMode: "numeric",
+    narrow: true,
+  },
   cvv: {
     label: "Security Code (CVV)",
     hint: "The last 3 numbers on the back of your card",
@@ -91,7 +101,15 @@ export default function CheckoutForm() {
   const [submitting, setSubmitting] = useState(false);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-  const update = (name: FieldName, value: string) => {
+  const update = (name: FieldName, rawValue: string) => {
+    const value =
+      name === "cardNumber"
+        ? formatCardNumberInput(rawValue)
+        : name === "expiry"
+          ? formatExpiryInput(rawValue, values.expiry)
+          : name === "cvv"
+            ? formatCvvInput(rawValue)
+            : rawValue;
     setValues((current) => ({ ...current, [name]: value }));
     if (errors[name]) {
       setErrors((current) => ({ ...current, [name]: undefined }));

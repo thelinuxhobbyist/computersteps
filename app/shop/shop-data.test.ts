@@ -7,6 +7,9 @@ import {
   calculateTotals,
   countBasketItems,
   filterProducts,
+  formatCardNumberInput,
+  formatCvvInput,
+  formatExpiryInput,
   formatPrice,
   validateCardDetails,
   validateDeliveryDetails,
@@ -103,6 +106,26 @@ test("rejects details that do not match the practice card", () => {
 
 test("explains badly formatted card numbers", () => {
   assert.match(validateCardDetails({ ...validCard, cardNumber: "4532 0123" }).cardNumber ?? "", /16 digits/);
+});
+
+test("groups the card number into blocks of 4 as it is typed", () => {
+  assert.equal(formatCardNumberInput("4532"), "4532");
+  assert.equal(formatCardNumberInput("45320"), "4532 0");
+  assert.equal(formatCardNumberInput("4532012345678901"), "4532 0123 4567 8901");
+  assert.equal(formatCardNumberInput("4532-0123 4567 89019999"), "4532 0123 4567 8901");
+});
+
+test("adds the expiry slash after the month, but lets Backspace remove it", () => {
+  assert.equal(formatExpiryInput("1", ""), "1");
+  assert.equal(formatExpiryInput("12", "1"), "12/");
+  assert.equal(formatExpiryInput("12/3", "12/"), "12/3");
+  assert.equal(formatExpiryInput("1235", ""), "12/35");
+  assert.equal(formatExpiryInput("12", "12/"), "12");
+  assert.equal(formatExpiryInput("12//35", ""), "12/35");
+});
+
+test("the security code only keeps 3 digits", () => {
+  assert.equal(formatCvvInput("3a21 9"), "321");
 });
 
 test("requires delivery fields except address line 2", () => {

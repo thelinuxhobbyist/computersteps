@@ -208,6 +208,23 @@ export function validateDeliveryDetails(details: DeliveryDetails): FieldErrors<D
 
 const digitsOnly = (value: string) => value.replace(/\s+/g, "");
 
+export function formatCardNumberInput(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 16);
+  return digits.replace(/(\d{4})(?=\d)/g, "$1 ");
+}
+
+// The slash is only added while typing forwards, so Backspace can still remove it.
+export function formatExpiryInput(value: string, previous = ""): string {
+  const digits = value.replace(/\D/g, "").slice(0, 4);
+  if (digits.length > 2) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  if (digits.length === 2 && value.length > previous.length) return `${digits}/`;
+  return digits;
+}
+
+export function formatCvvInput(value: string): string {
+  return value.replace(/\D/g, "").slice(0, 3);
+}
+
 export function validateCardDetails(details: CardDetails): FieldErrors<CardDetails> {
   const errors: FieldErrors<CardDetails> = {};
 
