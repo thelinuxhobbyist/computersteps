@@ -3,10 +3,10 @@ import type { Random } from "./bank";
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, X-Tutor-Key",
 };
 
-const MAX_BODY_BYTES = 2048;
+const MAX_BODY_BYTES = 4096;
 
 export function json(body: unknown, status = 200): Response {
   return Response.json(body, { status, headers: corsHeaders });

@@ -4,7 +4,11 @@ export const HISTORY_MONTHS = 6;
 
 export type Random = () => number;
 
-export type TransactionType = "Payment in" | "Direct Debit" | "Card payment" | "Cash withdrawal";
+export type TransactionType = "Payment in" | "Direct Debit" | "Card payment" | "Cash withdrawal" | "Bank transfer";
+
+/** Westford Energy is the household's energy supplier, so this monthly bill is broadband rather than energy. */
+export const BROADBAND_PAYEE = "Brightspark Broadband & TV";
+export const OLD_BROADBAND_PAYEE = "Brightspark Energy";
 
 export type NewTransaction = {
   postedAt: string;
@@ -161,7 +165,7 @@ function monthEvents(year: number, month: number, random: Random): NewTransactio
     { when: at(year, month, 1, 6), description: "Pension payment", type: "Payment in", category: "Money in", amountPence: 72000 },
     { when: at(year, month, 1, 7), description: "Oakfield Housing (rent)", type: "Direct Debit", category: "Bills", amountPence: -26000 },
     { when: at(year, month, 1, 8), description: "Townsville Council Tax", type: "Direct Debit", category: "Bills", amountPence: -9500 },
-    { when: at(year, month, 2, 8), description: "Brightspark Energy", type: "Direct Debit", category: "Bills", amountPence: -6500 },
+    { when: at(year, month, 2, 8), description: BROADBAND_PAYEE, type: "Direct Debit", category: "Bills", amountPence: -6500 },
     { when: at(year, month, 15, 8), description: "Clearwater Water", type: "Direct Debit", category: "Bills", amountPence: -3000 },
     { when: at(year, month, 20, 8), description: "Chatter Mobile", type: "Direct Debit", category: "Bills", amountPence: -1200 },
     { when: at(year, month, 8, 11), description: "Cash machine, High Street", type: "Cash withdrawal", category: "Cash", amountPence: -4000 },

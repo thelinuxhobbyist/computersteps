@@ -43,7 +43,7 @@ export const SCENARIOS: Scenario[] = [
       "Check your balance before and after shopping. How much money went out?",
       "How much money went out of your account last month?",
       "Look at the last 6 months of transactions. When did you last take money from a cash machine?",
-      "Find out how much your energy bill is each month.",
+      "Find out how much your broadband bill is each month.",
       "Download last month's statement, then find it in your Downloads folder.",
       "You have lost the paper with your card details. Find them again in Practice Bank.",
     ],
@@ -75,6 +75,38 @@ export const SCENARIOS: Scenario[] = [
       "Complete the online consultation form using one of the practice situations.",
       "You need to change an appointment. Find the surgery's email address, then use your own email account to send them a message.",
       "Find out what to do if you need medical help when the surgery is closed.",
+    ],
+  },
+  {
+    id: "westford-energy",
+    name: "Westford Energy",
+    icon: "⚡",
+    summary: "Read an electricity bill, pay it and find help",
+    description:
+      "The website of a pretend electricity supplier. It uses your Practice Bank username: read your bills, check your energy use, send a meter reading and pay with your Practice Bank account. Practice tasks appear on the screen and check your answers as you go.",
+    href: "/scenarios/energy/",
+    skills: ["Reading a bill", "Working with money and dates", "Paying a bill online", "Finding help and contact details", "Using two websites together"],
+    tutorTasks: [
+      "Log in with your Practice Bank username, then choose “Start a practice task”.",
+      "Find out how much your latest electricity bill is and when it must be paid by.",
+      "Pay your electricity bill online with your Practice Bank card, then check your bank balance.",
+      "Find out what help Westford Energy offers if you are struggling to pay.",
+    ],
+  },
+  {
+    id: "westford-council",
+    name: "Westford Council",
+    icon: "🏛️",
+    summary: "Check bills, collection dates and local services",
+    description:
+      "A pretend local council website where learners can view Council Tax, report a problem, check bin collection dates and send a service message using the same Computer Steps account they already use elsewhere.",
+    href: "/scenarios/council/",
+    skills: ["Finding council information", "Checking dates and due payments", "Completing forms", "Reporting local issues", "Tracking requests"],
+    tutorTasks: [
+      "Find your Council Tax bill and check the payment due date.",
+      "Look up the next bin collection and identify which bin to put out.",
+      "Send a message through the contact form and find the reference number in your account.",
+      "Report a problem and check the status in My Account.",
     ],
   },
 ];

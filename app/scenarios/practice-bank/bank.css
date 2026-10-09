@@ -358,6 +358,32 @@
   border-color: var(--pb-red);
 }
 
+.pb-error-summary {
+  background: var(--pb-red-tint);
+  border-left: 5px solid var(--pb-red);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.pb-error-summary h2 {
+  font-size: 1.1rem;
+  color: var(--pb-red);
+  margin-bottom: 6px;
+}
+
+.pb-error-summary ul {
+  margin: 0;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+.pb-error-summary a {
+  color: var(--pb-red);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .pb-checkbox {
   display: flex;
   align-items: flex-start;

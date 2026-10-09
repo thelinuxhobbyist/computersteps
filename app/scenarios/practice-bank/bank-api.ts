@@ -8,14 +8,24 @@ type CardFields = { nameOnCard: string; cardNumber: string; expiry: string; cvv:
 type DeliveryFields = { fullName: string; addressLine1: string; townOrCity: string; postcode: string };
 export type PaymentFields = CardFields & DeliveryFields;
 
-export async function request(path: string, init?: RequestInit): Promise<{ status: number; body: Record<string, unknown> } | null> {
+/** Fired after anything changes a learner's practice accounts, so practice tasks can check whether they are done. */
+export const DATA_CHANGED_EVENT = "computer-steps:data-changed";
+
+export async function request(
+  path: string,
+  init?: RequestInit & { headers?: Record<string, string>; quiet?: boolean },
+): Promise<{ status: number; body: Record<string, unknown> } | null> {
+  const { quiet, headers, ...rest } = init ?? {};
   try {
     const response = await fetch(`${BANK_API_URL}${path}`, {
-      ...init,
-      headers: init?.body ? { "Content-Type": "application/json" } : undefined,
+      ...rest,
+      headers: { ...(rest.body ? { "Content-Type": "application/json" } : {}), ...headers },
       cache: "no-store",
     });
     const body: unknown = await response.json().catch(() => ({}));
+    if (!quiet && rest.method === "POST" && response.ok && typeof window !== "undefined") {
+      window.dispatchEvent(new Event(DATA_CHANGED_EVENT));
+    }
     return { status: response.status, body: body && typeof body === "object" ? (body as Record<string, unknown>) : {} };
   } catch {
     return null;

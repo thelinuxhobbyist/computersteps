@@ -95,14 +95,22 @@ function HomeContent() {
 
           <section className="section wrap section--tight" id="scenarios" aria-labelledby="scenarios-heading">
             <div className="section-head">
-              <h2 id="scenarios-heading">Practise real tasks</h2>
-              <p>Realistic pretend websites where you can try everyday online tasks safely. Nothing you do is real.</p>
+              <h2 id="scenarios-heading">Practise using real-world websites</h2>
+              <p>
+                Knowing how to use a mouse and keyboard is just the beginning. Practise everyday online tasks using realistic websites, from shopping and banking to booking appointments and managing household services.
+              </p>
             </div>
 
             <div className="scenario-grid">
               {SCENARIOS.map((scenario) => (
                 <ScenarioCard key={scenario.id} scenario={scenario} />
               ))}
+            </div>
+
+            <div className="section-foot">
+              <Link href="/scenarios/" className="btn btn-outline">
+                See all scenarios <FontAwesomeIcon icon={faArrowRight} className="text-[0.85em]" />
+              </Link>
             </div>
           </section>
 

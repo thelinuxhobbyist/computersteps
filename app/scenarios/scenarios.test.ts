@@ -20,8 +20,10 @@ test("every scenario has tasks a tutor can set", () => {
   }
 });
 
-test("includes the Practice Shop, Practice Bank and GP Surgery", () => {
+test("includes the Practice Shop, Practice Bank, GP Surgery, Westford Energy and Westford Council", () => {
   assert.equal(getScenario("practice-shop")?.href, "/shop/");
   assert.equal(getScenario("practice-bank")?.href, "/scenarios/practice-bank/");
   assert.equal(getScenario("gp-surgery")?.href, "/scenarios/gp-surgery/");
+  assert.equal(getScenario("westford-energy")?.href, "/scenarios/energy/");
+  assert.equal(getScenario("westford-council")?.href, "/scenarios/council/");
 });

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
+import TaskPanel from "./components/TaskPanel";
 import "./fontawesome";
 import "./globals.css";
 
@@ -27,7 +28,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${roboto.variable} h-full antialiased`}
     >
-      <body className={`${roboto.className} min-h-full`}>{children}</body>
+      <body className={`${roboto.className} min-h-full`}>
+        {children}
+        <TaskPanel />
+      </body>
     </html>
   );
 }

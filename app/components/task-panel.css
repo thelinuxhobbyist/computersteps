@@ -1,0 +1,327 @@
+/* The practice task panel. It belongs to Computer Steps, not to the practice websites,
+   so it uses its own calm teal look on every website. */
+
+.tp-panel,
+.tp-pill {
+  --tp-teal: #0f5e63;
+  --tp-teal-dark: #0a4245;
+  --tp-teal-tint: #e6f3f3;
+  --tp-green: #1d7a46;
+  --tp-green-tint: #e8f5ee;
+  --tp-red: #a1260f;
+  --tp-red-tint: #fdeee9;
+  --tp-text: #1c2526;
+  --tp-soft: #4d5b5c;
+
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--tp-text);
+}
+
+.tp-panel {
+  width: min(380px, calc(100vw - 24px));
+  max-height: min(80vh, 640px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 2px solid var(--tp-teal);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.tp-panel :focus-visible,
+.tp-pill:focus-visible {
+  outline: 3px solid #f2c14e;
+  outline-offset: 2px;
+}
+
+.tp-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 8px 8px 16px;
+  background: var(--tp-teal);
+  color: #fff;
+}
+
+.tp-panel__head h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.tp-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.tp-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.tp-panel__body {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.tp-panel p {
+  margin: 0 0 10px;
+}
+
+.tp-label {
+  display: inline-block;
+  background: var(--tp-teal-tint);
+  color: var(--tp-teal-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.tp-instruction p {
+  font-size: 1.05rem;
+}
+
+.tp-instruction p:last-child {
+  font-weight: 700;
+}
+
+.tp-sites {
+  font-size: 0.95rem;
+  color: var(--tp-soft);
+}
+
+.tp-sites a {
+  color: var(--tp-teal-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tp-small {
+  font-size: 0.92rem;
+  color: var(--tp-soft);
+}
+
+.tp-answer {
+  margin: 12px 0;
+}
+
+.tp-question {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.tp-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.tp-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid #5f6b6c;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  background: #fff;
+  color: var(--tp-text);
+}
+
+.tp-input:focus {
+  border-color: var(--tp-teal);
+}
+
+.tp-options {
+  border: 0;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.tp-options legend {
+  font-weight: 700;
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.tp-option {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border: 1px solid #c9d4d4;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tp-option:hover {
+  background: var(--tp-teal-tint);
+}
+
+.tp-option input {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: var(--tp-teal);
+}
+
+.tp-yes-no {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.tp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 8px 20px;
+  border: 2px solid var(--tp-teal);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tp-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.tp-btn--primary {
+  background: var(--tp-teal);
+  color: #fff;
+}
+
+.tp-btn--primary:hover:not(:disabled) {
+  background: var(--tp-teal-dark);
+}
+
+.tp-btn--secondary {
+  background: #fff;
+  color: var(--tp-teal-dark);
+}
+
+.tp-btn--secondary:hover:not(:disabled) {
+  background: var(--tp-teal-tint);
+}
+
+.tp-feedback {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.tp-feedback.is-correct {
+  background: var(--tp-green-tint);
+  color: var(--tp-green);
+  font-size: 1.1rem;
+}
+
+.tp-feedback.is-wrong {
+  background: var(--tp-red-tint);
+  color: var(--tp-red);
+}
+
+.tp-help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #dde5e5;
+}
+
+.tp-help .tp-hint {
+  flex-basis: 100%;
+}
+
+.tp-hint {
+  background: #fff8e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.tp-hint svg {
+  color: #b7791f;
+}
+
+.tp-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  color: var(--tp-teal-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.tp-problem {
+  color: var(--tp-red);
+  font-weight: 700;
+  margin-top: 10px !important;
+}
+
+.tp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 10px 20px;
+  background: var(--tp-teal);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.tp-pill:hover {
+  background: var(--tp-teal-dark);
+}
+
+.tp-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .tp-panel {
+    right: 12px;
+    bottom: 12px;
+    max-height: 60vh;
+  }
+
+  .tp-pill {
+    right: 12px;
+    bottom: 12px;
+  }
+}

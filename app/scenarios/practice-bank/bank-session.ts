@@ -1,13 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { clearLearner, setLearner } from "../../lib/learner-session";
 import { createUsernameStore } from "../../lib/username-store";
 import { getAccount } from "./bank-api";
 import type { BankAccount } from "./bank-data";
 
 const store = createUsernameStore("computer-steps:practice-bank-username");
 
-export const { logIn, logOut } = store;
+export function logIn(username: string) {
+  store.logIn(username);
+  setLearner(username);
+}
+
+export function logOut() {
+  store.logOut();
+  clearLearner();
+}
+
 export const useBankUsername = store.useUsername;
 
 export type BankAccountState =

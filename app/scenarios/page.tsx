@@ -17,25 +17,23 @@ export default function ScenariosPage() {
 
       <main className="wrap">
         <section className="hero" aria-labelledby="scenarios-heading">
-          <h1 id="scenarios-heading">Scenarios</h1>
+          <h1 id="scenarios-heading">Practise everyday tasks online</h1>
           <p className="hero-lead">
-            Realistic pretend websites for practising everyday online tasks. Explore them, try things out and make mistakes —
-            nothing you do here is real.
+            Build your confidence using realistic websites in a safe practice environment. From shopping online and managing a bank account to booking appointments and dealing with household services, ComputerSteps lets you practise everyday tasks at your own pace.
           </p>
         </section>
 
         <div className="safety-banner safety-banner--simulation" role="note">
           <FontAwesomeIcon icon={faShieldHalved} aria-hidden="true" className="safety-banner__icon" />
           <p>
-            <strong>These are practice websites.</strong> Use the pretend details you are given. Never enter your real bank,
-            medical or personal information.
+            <strong>These are practice websites.</strong> Use the pretend details you are given. Nothing you do here is real, and no payment or service request is sent to a real organisation.
           </p>
         </div>
 
         <section className="section" aria-labelledby="choose-scenario-heading">
           <div className="section-head">
             <h2 id="choose-scenario-heading">Choose a scenario</h2>
-            <p>Each one works like a real website. Open &ldquo;Tasks to try&rdquo; for goals to work towards on your own.</p>
+            <p>Each one works like a realistic website. Follow the page, complete the task and build confidence step by step.</p>
           </div>
 
           <div className="scenario-grid">
@@ -43,6 +41,30 @@ export default function ScenariosPage() {
               <ScenarioCard key={scenario.id} scenario={scenario} showTutorTasks />
             ))}
           </div>
+        </section>
+
+        <section className="section section--tight" aria-labelledby="how-scenarios-work-heading">
+          <div className="section-head">
+            <h2 id="how-scenarios-work-heading">How scenarios work</h2>
+          </div>
+          <ol className="how-list">
+            <li>
+              <strong>Choose a fictional website</strong>
+              <span>Pick a scenario that matches the task you want to practise.</span>
+            </li>
+            <li>
+              <strong>Explore the pages</strong>
+              <span>Browse around, read the information and look for the right place to act.</span>
+            </li>
+            <li>
+              <strong>Complete a task</strong>
+              <span>Fill in forms, check dates, submit requests and review what happened.</span>
+            </li>
+            <li>
+              <strong>Get feedback</strong>
+              <span>Learn from what worked and what you need to look for next time.</span>
+            </li>
+          </ol>
         </section>
       </main>
 

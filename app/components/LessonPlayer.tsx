@@ -23,6 +23,7 @@ type LessonPlayerProps = {
 };
 
 export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesson }: LessonPlayerProps) {
+  void lessonIndex;
   const [stepIndex, setStepIndex] = useState(0);
   const [lessonComplete, setLessonComplete] = useState(false);
   const [stepComplete, setStepComplete] = useState(false);
