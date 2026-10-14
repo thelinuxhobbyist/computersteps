@@ -109,6 +109,59 @@ export const SCENARIOS: Scenario[] = [
       "Report a problem and check the status in My Account.",
     ],
   },
+  {
+    id: "westford-mobile",
+    name: "Westford Mobile",
+    icon: "📱",
+    summary: "Check data, read a bill and ask for help",
+    description:
+      "A pretend mobile phone provider. See your number, data allowance and bill, compare plans, pay with Practice Bank and save a support request.",
+    href: "/scenarios/mobile/",
+    skills: ["Reading an allowance", "Comparing plans", "Paying a bill", "Sending a support message"],
+    tutorTasks: [
+      "Find how much mobile data is left.",
+      "Find the date the current bill must be paid.",
+      "Pay the current bill with Practice Bank and note the reference.",
+      "Compare Everyday and Essential and say which has more data.",
+      "Report a mobile internet problem and find the reference number.",
+    ],
+  },
+  {
+    id: "westford-deliveries",
+    name: "Westford Deliveries",
+    icon: "📦",
+    summary: "Track a parcel and change a delivery",
+    description:
+      "A pretend courier website. Track a practice code such as WF48271936, read the status and save a delivery instruction.",
+    href: "/scenarios/deliveries/",
+    skills: ["Entering a tracking code", "Reading a delivery status", "Choosing a delivery option", "Finding a reference"],
+    tutorTasks: [
+      "Track WF48271936 and find the estimated delivery date.",
+      "Track WF55019283 and find out why the delivery was not completed.",
+      "Change a delivery date to one of the available days.",
+      "Choose a safe place and save the instruction.",
+      "Find the Westford Library Counter address and opening hours.",
+      "Open My deliveries and find the confirmation reference.",
+    ],
+  },
+  {
+    id: "westford-travel",
+    name: "Westford Travel",
+    icon: "✈️",
+    summary: "Compare flights and places to stay, then book",
+    description:
+      "A pretend travel website for flights, hotels and holiday rentals in the UK. Compare prices, review the total and pay with Practice Bank.",
+    href: "/scenarios/travel/",
+    skills: ["Searching", "Comparing prices and times", "Reading a booking total", "Paying and finding a reference"],
+    tutorTasks: [
+      "Find a return flight between two UK cities.",
+      "Compare two flights by price and departure time.",
+      "Find a hotel or rental for two nights.",
+      "Compare a hotel with a holiday rental.",
+      "Review a combined booking total before paying.",
+      "Pay with Practice Bank, then find the booking reference in My trips.",
+    ],
+  },
 ];
 
 export function getScenario(id: string): Scenario | undefined {

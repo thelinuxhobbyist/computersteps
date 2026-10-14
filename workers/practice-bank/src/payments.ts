@@ -110,3 +110,52 @@ export async function debitSharedBalance(db: D1Database, debit: SharedDebit): Pr
   await db.prepare("UPDATE accounts SET last_used_at = ? WHERE username_key = ?").bind(debit.postedAt, debit.usernameKey).run();
   return { ok: true, duplicate: false, reference: debit.reference, balancePence: await balanceOf(db, debit.usernameKey) };
 }
+
+/** Puts money back into Practice Bank. The same idempotency key cannot refund twice. */
+export async function creditSharedBalance(db: D1Database, credit: SharedDebit): Promise<DebitResult> {
+  if (credit.idempotencyKey) {
+    const existing = await findExisting(db, credit.idempotencyKey);
+    if (existing) {
+      if (existing.amount_pence !== credit.amountPence || existing.description !== credit.description) return { ok: false, error: "idempotency_conflict" };
+      return {
+        ok: true,
+        duplicate: true,
+        reference: existing.reference ?? credit.reference,
+        balancePence: await balanceOf(db, credit.usernameKey),
+      };
+    }
+  }
+
+  try {
+    const inserted = await db
+      .prepare(
+        `INSERT INTO transactions (username_key, posted_at, description, type, category, amount_pence, reference, idempotency_key)
+         SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8
+         WHERE ?8 IS NULL OR NOT EXISTS (SELECT 1 FROM transactions WHERE idempotency_key = ?8)`,
+      )
+      .bind(
+        credit.usernameKey,
+        credit.postedAt,
+        credit.description,
+        credit.type,
+        credit.category,
+        credit.amountPence,
+        credit.reference,
+        credit.idempotencyKey,
+      )
+      .run();
+    if (inserted.meta.changes === 0) {
+      const existing = credit.idempotencyKey ? await findExisting(db, credit.idempotencyKey) : null;
+      if (existing && existing.amount_pence === credit.amountPence && existing.description === credit.description) {
+        return { ok: true, duplicate: true, reference: existing.reference ?? credit.reference, balancePence: await balanceOf(db, credit.usernameKey) };
+      }
+      return { ok: false, error: "idempotency_conflict" };
+    }
+  } catch (error) {
+    if (!credit.idempotencyKey || !String(error).toLowerCase().includes("unique")) throw error;
+    return { ok: true, duplicate: true, reference: credit.reference, balancePence: await balanceOf(db, credit.usernameKey) };
+  }
+
+  await db.prepare("UPDATE accounts SET last_used_at = ? WHERE username_key = ?").bind(credit.postedAt, credit.usernameKey).run();
+  return { ok: true, duplicate: false, reference: credit.reference, balancePence: await balanceOf(db, credit.usernameKey) };
+}

@@ -8,10 +8,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CourseCard from "./components/CourseCard";
 import LessonPlayer from "./components/LessonPlayer";
 import SiteHeader from "./components/SiteHeader";
-import ScenarioCard from "./components/ScenarioCard";
 import { getFeaturedCourses, courseGroups, getCourseForLesson } from "./lessons/courses";
 import { lessons } from "./lessons/content";
-import { SCENARIOS } from "./scenarios/scenarios";
 
 function HomeContent() {
   const [activeLessonIndex, setActiveLessonIndex] = useState<number | null>(null);
@@ -97,19 +95,13 @@ function HomeContent() {
             <div className="section-head">
               <h2 id="scenarios-heading">Practise using real-world websites</h2>
               <p>
-                Knowing how to use a mouse and keyboard is just the beginning. Practise everyday online tasks using realistic websites, from shopping and banking to booking appointments and managing household services.
+                Courses teach skills such as using a mouse, typing and choosing items on a page. Scenarios are pretend websites where you practise a whole task, such as paying a bill, tracking a parcel or booking a trip. The websites and the money are not real.
               </p>
             </div>
 
-            <div className="scenario-grid">
-              {SCENARIOS.map((scenario) => (
-                <ScenarioCard key={scenario.id} scenario={scenario} />
-              ))}
-            </div>
-
             <div className="section-foot">
-              <Link href="/scenarios/" className="btn btn-outline">
-                See all scenarios <FontAwesomeIcon icon={faArrowRight} className="text-[0.85em]" />
+              <Link href="/scenarios/" className="btn btn-primary">
+                Browse scenarios <FontAwesomeIcon icon={faArrowRight} className="text-[0.85em]" />
               </Link>
             </div>
           </section>

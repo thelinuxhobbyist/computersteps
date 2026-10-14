@@ -37,6 +37,9 @@ import {
 } from "./exercises/store";
 import { corsHeaders, json, readJson, secureRandom } from "./http";
 import { getCouncil, payCouncilTax, sendCouncilRequest } from "./council-store";
+import { getDeliveries, saveDeliveryRequest } from "./delivery-store";
+import { changeMobilePlan, getMobile, payMobileBill, sendMobileMessage } from "./mobile-store";
+import { bookTrip, cancelTrip, getTravel } from "./travel-store";
 import { debitSharedBalance } from "./payments";
 import { createPatient, getPatient, orderPrescription } from "./patients";
 
@@ -168,6 +171,33 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
       const found = await loadAccount(env.BANK_DB, usernameKey(checked.username));
       return found ? json({ account: found }) : json({ error: "account_not_found" }, 404);
     }
+  }
+
+  const mobile = pathname.match(/^\/mobile\/([^/]+)(\/[a-z-]+)?$/);
+  if (mobile) {
+    const username = decodeURIComponent(mobile[1]);
+    const action = mobile[2] ?? "";
+    if (get && action === "") return getMobile(env, username);
+    if (post && action === "/payments") return payMobileBill(request, env, username);
+    if (post && action === "/plan") return changeMobilePlan(request, env, username);
+    if (post && action === "/messages") return sendMobileMessage(request, env, username);
+  }
+
+  const deliveries = pathname.match(/^\/deliveries\/([^/]+)(\/requests)?$/);
+  if (deliveries) {
+    const username = decodeURIComponent(deliveries[1]);
+    if (get && !deliveries[2]) return getDeliveries(env, username);
+    if (post && deliveries[2]) return saveDeliveryRequest(request, env, username);
+  }
+
+  const travel = pathname.match(/^\/travel\/([^/]+)(\/bookings(?:\/[^/]+\/cancel)?)?$/);
+  if (travel) {
+    const username = decodeURIComponent(travel[1]);
+    const action = travel[2] ?? "";
+    if (get && action === "") return getTravel(env, username);
+    if (post && action === "/bookings") return bookTrip(request, env, username);
+    const cancel = action.match(/^\/bookings\/([^/]+)\/cancel$/);
+    if (post && cancel) return cancelTrip(request, env, username, decodeURIComponent(cancel[1]));
   }
 
   const council = pathname.match(/^\/council\/([^/]+)(\/[a-z-]+)?$/);

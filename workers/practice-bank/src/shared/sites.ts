@@ -2,7 +2,7 @@
 // Exercises refer to page ids like "energy.bills.history", never to buttons or layouts,
 // so a page can be redesigned without touching the exercise library.
 
-export type SiteId = "bank" | "shop" | "gp" | "energy";
+export type SiteId = "bank" | "shop" | "gp" | "energy" | "council" | "mobile" | "deliveries" | "travel";
 
 export type Site = { id: SiteId; name: string; href: string; bases: string[] };
 
@@ -11,6 +11,10 @@ export const SITES: Site[] = [
   { id: "bank", name: "Practice Bank", href: "/scenarios/practice-bank/", bases: ["/scenarios/practice-bank"] },
   { id: "shop", name: "Practice Shop", href: "/shop/", bases: ["/shop", "/basket", "/checkout"] },
   { id: "gp", name: "Yama Clinic", href: "/scenarios/gp-surgery/", bases: ["/scenarios/gp-surgery"] },
+  { id: "council", name: "Westford Council", href: "/scenarios/council/", bases: ["/scenarios/council"] },
+  { id: "mobile", name: "Westford Mobile", href: "/scenarios/mobile/", bases: ["/scenarios/mobile"] },
+  { id: "deliveries", name: "Westford Deliveries", href: "/scenarios/deliveries/", bases: ["/scenarios/deliveries"] },
+  { id: "travel", name: "Westford Travel", href: "/scenarios/travel/", bases: ["/scenarios/travel"] },
 ];
 
 export function getSite(id: string): Site | undefined {
