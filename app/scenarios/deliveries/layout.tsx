@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { ScenarioGate } from "../../components/ScenarioSignIn";
 import "../practice-shell.css";
 import DeliveryNav from "./DeliveryNav";
 
@@ -21,7 +22,9 @@ export default function DeliveryLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
       <DeliveryNav />
-      <main className="ps-main">{children}</main>
+      <main className="ps-main">
+        <ScenarioGate>{children}</ScenarioGate>
+      </main>
       <footer className="ps-footer">
         <div className="ps-wrap">
           <p>Westford Deliveries is fictional. Saved delivery changes stay on your Computer Steps account for up to 12 months.</p>

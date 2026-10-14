@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
-import { setLearner, useLearner } from "../../lib/learner-session";
-import { getAccount } from "../practice-bank/bank-api";
-import { BANK_BASE } from "../practice-bank/bank-data";
+import { useEffect, useState, type ReactNode } from "react";
+import { ScenarioSignIn } from "../../components/ScenarioSignIn";
+import { useLearner } from "../../lib/learner-session";
 import { getMobile } from "./mobile-api";
 import type { MobileAccount } from "../../../workers/practice-bank/src/shared/mobile-types";
 
@@ -41,41 +39,7 @@ export function useMobileAccount() {
 }
 
 function SignIn() {
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!username.trim()) {
-      setError("Type your Computer Steps username.");
-      return;
-    }
-    setBusy(true);
-    const result = await getAccount(username.trim());
-    setBusy(false);
-    if (result.status === "ready") {
-      setLearner(result.account.username);
-      return;
-    }
-    setError(result.status === "not-found" ? "Open a Practice Bank account first, then come back." : "We couldn't reach the practice website. Try again.");
-  };
-  return (
-    <form className="ps-panel" onSubmit={submit} noValidate>
-      <h1>Sign in</h1>
-      <p>Use the same username as Practice Bank. Westford Mobile does not have a separate registration.</p>
-      {error ? <p className="ps-error">{error}</p> : null}
-      <div className="ps-field">
-        <label htmlFor="wm-user">Username</label>
-        <input id="wm-user" value={username} autoComplete="username" onChange={(event) => setUsername(event.target.value)} />
-      </div>
-      <button className="ps-btn" type="submit" disabled={busy}>
-        {busy ? "Checking…" : "Sign in"}
-      </button>
-      <p>
-        <Link href={`${BANK_BASE}/open-account/`}>Open a Practice Bank account</Link>
-      </p>
-    </form>
-  );
+  return <ScenarioSignIn />;
 }
 
 export function MobileGate({ children }: { children: (mobile: MobileAccount, replace: (mobile: MobileAccount) => void) => ReactNode }) {
@@ -85,10 +49,9 @@ export function MobileGate({ children }: { children: (mobile: MobileAccount, rep
   if (state.status === "missing") {
     return (
       <div className="ps-wrap ps-panel">
-        <h1>Open a Practice Bank account first</h1>
-        <p>
-          <Link href={`${BANK_BASE}/open-account/`}>Open an account</Link>
-        </p>
+        <h1>Open an account to continue</h1>
+        <p>Open an account here to access all scenario sites across Computer Steps.</p>
+        <ScenarioSignIn />
       </div>
     );
   }

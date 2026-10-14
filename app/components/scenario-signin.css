@@ -1,0 +1,80 @@
+.cs-account {
+  max-width: 28rem;
+  padding: 1.25rem;
+  border: 1px solid #c5d0dc;
+  border-radius: 12px;
+  background: #fff;
+  color: #1c2833;
+}
+
+.cs-account__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cs-account__tabs button {
+  min-height: 44px;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #1f4e79;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f4e79;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cs-account__tabs button[aria-selected="true"] {
+  background: #1f4e79;
+  color: #fff;
+}
+
+.cs-account h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.35rem;
+}
+
+.cs-account p {
+  margin: 0 0 0.8rem;
+}
+
+.cs-account__field {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.cs-account__field label {
+  font-weight: 700;
+}
+
+.cs-account input {
+  min-height: 44px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #5c6b7a;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.cs-account__field p {
+  color: #3d4c5c;
+  font-size: 0.95rem;
+}
+
+.cs-account__error {
+  color: #8a1c1c;
+  font-weight: 700;
+}
+
+.cs-account form > button {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #1f4e79;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}

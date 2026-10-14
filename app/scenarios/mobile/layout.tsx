@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { ScenarioGate } from "../../components/ScenarioSignIn";
 import "../practice-shell.css";
 import MobileNav from "./MobileNav";
 
@@ -22,7 +23,7 @@ export default function MobileLayout({ children }: { children: ReactNode }) {
       </div>
       <MobileNav />
       <main className="ps-main" id="mobile-main">
-        {children}
+        <ScenarioGate>{children}</ScenarioGate>
       </main>
       <footer className="ps-footer">
         <div className="ps-wrap">

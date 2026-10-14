@@ -21,7 +21,9 @@ export type ParcelRecord = {
   estimatedDelivery: string | null;
   note: string;
   history: { at: string; label: string }[];
-  dateOptions: string[];
+  /** Inclusive calendar range when the parcel can be rebooked. Empty when the date cannot change. */
+  dateFrom: string;
+  dateTo: string;
   actions: DeliveryAction[];
 };
 
@@ -42,7 +44,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: "2026-10-16",
     note: "The parcel is on its way to the local depot.",
     history: [HISTORY.created, HISTORY.received, HISTORY.transit],
-    dateOptions: ["2026-10-17", "2026-10-18", "2026-10-20"],
+    dateFrom: "2026-10-17",
+    dateTo: "2026-11-16",
     actions: ["change_date", "safe_place", "neighbour", "collection_point", "instructions", "correct_address"],
   },
   {
@@ -52,7 +55,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: "2026-10-14",
     note: "A driver has this parcel and expects to deliver it today.",
     history: [HISTORY.created, HISTORY.received, HISTORY.transit, HISTORY.out],
-    dateOptions: [],
+    dateFrom: "",
+    dateTo: "",
     actions: ["safe_place", "neighbour", "instructions"],
   },
   {
@@ -62,7 +66,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: "2026-10-15",
     note: "We tried to deliver this parcel on 13 October 2026. Nobody was in, and no safe place was nominated.",
     history: [HISTORY.created, HISTORY.received, HISTORY.transit, HISTORY.attempted],
-    dateOptions: ["2026-10-16", "2026-10-17", "2026-10-18"],
+    dateFrom: "2026-10-16",
+    dateTo: "2026-11-15",
     actions: ["change_date", "safe_place", "neighbour", "collection_point", "instructions"],
   },
   {
@@ -72,7 +77,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: null,
     note: "This parcel was delivered on 10 October 2026.",
     history: [HISTORY.created, HISTORY.delivered],
-    dateOptions: [],
+    dateFrom: "",
+    dateTo: "",
     actions: [],
   },
   {
@@ -82,7 +88,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: "2026-10-18",
     note: "The sender has created a label. We have not received the parcel yet.",
     history: [HISTORY.created],
-    dateOptions: ["2026-10-19", "2026-10-20", "2026-10-21"],
+    dateFrom: "2026-10-19",
+    dateTo: "2026-11-18",
     actions: ["change_date", "safe_place", "instructions", "correct_address"],
   },
   {
@@ -92,7 +99,8 @@ export const PARCELS: ParcelRecord[] = [
     estimatedDelivery: "2026-10-17",
     note: "The parcel is at the Westford depot and has not left for delivery yet.",
     history: [HISTORY.created, HISTORY.received],
-    dateOptions: ["2026-10-18", "2026-10-19", "2026-10-20"],
+    dateFrom: "2026-10-18",
+    dateTo: "2026-11-17",
     actions: ["change_date", "safe_place", "neighbour", "collection_point", "instructions", "correct_address"],
   },
 ];

@@ -3,132 +3,136 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, type FormEvent } from "react";
-import { setLearner, useLearner } from "../../lib/learner-session";
+import { useLearner } from "../../lib/learner-session";
 import { formatDay } from "../energy/energy-data";
 import { formatMoney } from "../practice-bank/bank-data";
-import { getAccount } from "../practice-bank/bank-api";
-import { BANK_BASE } from "../practice-bank/bank-data";
-import { DESTINATIONS, FLIGHTS, STAYS, quoteTrip } from "../../../workers/practice-bank/src/shared/travel";
+import { DESTINATIONS, FLIGHTS, STAYS, quoteTrip, type Flight, type Stay } from "../../../workers/practice-bank/src/shared/travel";
 import { bookTrip, cancelTrip, getTravel, type TravelBooking } from "./travel-api";
 
-function Picture({ label }: { label: string }) {
-  return (
-    <div aria-hidden="true" style={{ height: 88, borderRadius: 8, background: "linear-gradient(135deg,#0e4d5c,#c4492c)", color: "#fff", display: "grid", placeItems: "center", fontWeight: 700 }}>
-      {label}
-    </div>
-  );
+function query(params: Record<string, string>) {
+  return new URLSearchParams(params).toString();
 }
 
 export function TravelSearch() {
   return (
-    <div className="ps-wrap">
-      <h1>Search for a practice trip</h1>
-      <p>Choose flights, a hotel or a holiday rental. Prices are examples. Nothing is a real booking.</p>
-      <div className="ps-grid">
-        <FlightSearch />
-        <StaySearch kind="hotel" title="Hotels" />
-        <StaySearch kind="rental" title="Holiday rentals" />
+    <>
+      <section className="wt-hero">
+        <div className="ps-wrap">
+          <h1>Where do you want to go?</h1>
+          <p>Search flights, hotels or holiday rentals, compare the results, then open a trip before you pay.</p>
+          <SearchCard />
+        </div>
+      </section>
+      <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
+        <h2>Popular practice trips</h2>
+        <div className="wt-results">
+          <article className="wt-card">
+            <div className="wt-photo wt-photo--flight">Edinburgh</div>
+            <div>
+              <h2>London to Edinburgh</h2>
+              <p className="wt-meta">Direct flights from £38. Hotels by the harbour and the castle.</p>
+            </div>
+            <div className="wt-price">
+              <Link href={`/scenarios/travel/flights/?${query({ from: "London", to: "Edinburgh", depart: "2026-11-02", return: "2026-11-04", travellers: "1" })}`}>
+                Search this route
+              </Link>
+            </div>
+          </article>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
-function FlightSearch() {
+function SearchCard() {
   const router = useRouter();
+  const [tab, setTab] = useState<"flights" | "hotels" | "rentals">("flights");
   const [from, setFrom] = useState("London");
   const [to, setTo] = useState("Edinburgh");
   const [depart, setDepart] = useState("2026-11-02");
   const [ret, setRet] = useState("2026-11-04");
   const [travellers, setTravellers] = useState("1");
+  const [city, setCity] = useState("Edinburgh");
+  const [guests, setGuests] = useState("2");
   const [error, setError] = useState("");
+
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    if (from === to) {
-      setError("Choose two different cities.");
+    if (tab === "flights") {
+      if (from === to) {
+        setError("Choose two different cities.");
+        return;
+      }
+      if (ret <= depart) {
+        setError("The return date must be after the departure date.");
+        return;
+      }
+      router.push(`/scenarios/travel/flights/?${query({ from, to, depart, return: ret, travellers })}`);
       return;
     }
     if (ret <= depart) {
-      setError("The return date must be after the departure date.");
-      return;
-    }
-    const params = new URLSearchParams({ from, to, depart, return: ret, travellers });
-    router.push(`/scenarios/travel/flights/?${params.toString()}`);
-  };
-  return (
-    <form className="ps-panel" onSubmit={submit}>
-      <h2>Flights</h2>
-      {error ? <p className="ps-error">{error}</p> : null}
-      <CityField id="wt-from" label="From" value={from} onChange={setFrom} />
-      <CityField id="wt-to" label="To" value={to} onChange={setTo} />
-      <div className="ps-field">
-        <label htmlFor="wt-depart">Depart</label>
-        <input id="wt-depart" type="date" value={depart} onChange={(event) => setDepart(event.target.value)} />
-      </div>
-      <div className="ps-field">
-        <label htmlFor="wt-return">Return</label>
-        <input id="wt-return" type="date" value={ret} onChange={(event) => setRet(event.target.value)} />
-      </div>
-      <div className="ps-field">
-        <label htmlFor="wt-travellers">Travellers</label>
-        <input id="wt-travellers" inputMode="numeric" value={travellers} onChange={(event) => setTravellers(event.target.value)} />
-      </div>
-      <button className="ps-btn" type="submit">
-        Search flights
-      </button>
-    </form>
-  );
-}
-
-function StaySearch({ kind, title }: { kind: "hotel" | "rental"; title: string }) {
-  const router = useRouter();
-  const [city, setCity] = useState("Edinburgh");
-  const [checkIn, setCheckIn] = useState("2026-11-02");
-  const [checkOut, setCheckOut] = useState("2026-11-04");
-  const [guests, setGuests] = useState("2");
-  const [error, setError] = useState("");
-  const submit = (event: FormEvent) => {
-    event.preventDefault();
-    if (checkOut <= checkIn) {
       setError("Check-out must be after check-in.");
       return;
     }
-    const path = kind === "hotel" ? "hotels" : "rentals";
-    router.push(`/scenarios/travel/${path}/?${new URLSearchParams({ city, checkIn, checkOut, guests }).toString()}`);
+    const path = tab === "hotels" ? "hotels" : "rentals";
+    router.push(`/scenarios/travel/${path}/?${query({ city, checkIn: depart, checkOut: ret, guests })}`);
   };
+
   return (
-    <form className="ps-panel" onSubmit={submit}>
-      <h2>{title}</h2>
-      {error ? <p className="ps-error">{error}</p> : null}
-      <CityField id={`${kind}-city`} label="City" value={city} onChange={setCity} />
-      <div className="ps-field">
-        <label htmlFor={`${kind}-in`}>Check in</label>
-        <input id={`${kind}-in`} type="date" value={checkIn} onChange={(event) => setCheckIn(event.target.value)} />
+    <div className="wt-search">
+      <div className="wt-tabs" role="tablist" aria-label="What to search">
+        {(
+          [
+            ["flights", "Flights"],
+            ["hotels", "Hotels"],
+            ["rentals", "Holiday rentals"],
+          ] as const
+        ).map(([id, label]) => (
+          <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => { setTab(id); setError(""); }}>
+            {label}
+          </button>
+        ))}
       </div>
-      <div className="ps-field">
-        <label htmlFor={`${kind}-out`}>Check out</label>
-        <input id={`${kind}-out`} type="date" value={checkOut} onChange={(event) => setCheckOut(event.target.value)} />
-      </div>
-      <div className="ps-field">
-        <label htmlFor={`${kind}-guests`}>Guests</label>
-        <input id={`${kind}-guests`} inputMode="numeric" value={guests} onChange={(event) => setGuests(event.target.value)} />
-      </div>
-      <button className="ps-btn" type="submit">
-        Search
-      </button>
-    </form>
+      <form onSubmit={submit}>
+        {error ? <p className="wt-error">{error}</p> : null}
+        <div className="wt-search__row">
+          {tab === "flights" ? (
+            <>
+              <CityField id="wt-from" label="From" value={from} onChange={setFrom} />
+              <CityField id="wt-to" label="To" value={to} onChange={setTo} />
+            </>
+          ) : (
+            <CityField id="wt-city" label="City" value={city} onChange={setCity} />
+          )}
+          <label htmlFor="wt-depart">
+            {tab === "flights" ? "Depart" : "Check in"}
+            <input id="wt-depart" type="date" value={depart} onChange={(event) => setDepart(event.target.value)} />
+          </label>
+          <label htmlFor="wt-return">
+            {tab === "flights" ? "Return" : "Check out"}
+            <input id="wt-return" type="date" value={ret} onChange={(event) => setRet(event.target.value)} />
+          </label>
+          <label htmlFor="wt-people">
+            {tab === "flights" ? "Travellers" : "Guests"}
+            <input id="wt-people" inputMode="numeric" value={tab === "flights" ? travellers : guests} onChange={(event) => (tab === "flights" ? setTravellers(event.target.value) : setGuests(event.target.value))} />
+          </label>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+    </div>
   );
 }
 
 function CityField({ id, label, value, onChange }: { id: string; label: string; value: string; onChange: (value: string) => void }) {
   return (
-    <div className="ps-field">
-      <label htmlFor={id}>{label}</label>
+    <label htmlFor={id}>
+      {label}
       <select id={id} value={value} onChange={(event) => onChange(event.target.value)}>
         {DESTINATIONS.map((city) => (
           <option key={city}>{city}</option>
         ))}
       </select>
-    </div>
+    </label>
   );
 }
 
@@ -148,45 +152,42 @@ function FlightList() {
   const ret = params.get("return") ?? "2026-11-04";
   const travellers = params.get("travellers") ?? "1";
   const outbound = FLIGHTS.filter((flight) => flight.from === from && flight.to === to);
-  const inbound = FLIGHTS.filter((flight) => flight.from === to && flight.to === from);
   return (
-    <div className="ps-wrap">
+    <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
       <h1>
-        Flights from {from} to {to}
+        {from} to {to}
       </h1>
       <p>
-        Outbound {formatDay(depart)}. Return {formatDay(ret)}. {travellers} traveller{travellers === "1" ? "" : "s"}. Compare the price and the departure time.
+        {formatDay(depart)} to {formatDay(ret)}. {travellers} traveller{travellers === "1" ? "" : "s"}. Compare the time and the price, then open the flight that suits you.
       </p>
-      <h2>Outbound</h2>
-      <div className="ps-grid">
+      <div className="wt-results">
         {outbound.map((flight) => (
-          <article key={flight.id} className="ps-panel">
-            <h3>
-              {flight.depart}–{flight.arrive}
-            </h3>
-            <p>
-              {flight.duration} · {flight.stops === 0 ? "Direct" : `${flight.stops} stop`}
-            </p>
-            <p>{formatMoney(flight.pricePence)}</p>
-            <Link href={`/scenarios/travel/book/?flight=${flight.id}&guests=${travellers}`}>Choose this flight</Link>
-          </article>
+          <FlightCard key={flight.id} flight={flight} href={`/scenarios/travel/flight/?${query({ id: flight.id, depart, return: ret, travellers })}`} />
         ))}
       </div>
       {outbound.length === 0 ? <p>No flights match those cities. Try London to Edinburgh.</p> : null}
-      <h2>Return</h2>
-      <div className="ps-grid">
-        {inbound.map((flight) => (
-          <article key={flight.id} className="ps-panel">
-            <h3>
-              {flight.depart}–{flight.arrive}
-            </h3>
-            <p>{formatMoney(flight.pricePence)}</p>
-            <p>Add this on the booking page after you choose an outbound flight, or open a return on its own.</p>
-            <Link href={`/scenarios/travel/book/?flight=${flight.id}&guests=${travellers}`}>Choose</Link>
-          </article>
-        ))}
-      </div>
     </div>
+  );
+}
+
+function FlightCard({ flight, href }: { flight: Flight; href: string }) {
+  return (
+    <article className="wt-card">
+      <div className="wt-photo wt-photo--flight">Westford Air</div>
+      <div>
+        <h2>
+          {flight.depart} – {flight.arrive}
+        </h2>
+        <p className="wt-meta">
+          {flight.from} to {flight.to} · {flight.duration} · {flight.stops === 0 ? "Direct" : `${flight.stops} stop`}
+        </p>
+      </div>
+      <div className="wt-price">
+        <strong>{formatMoney(flight.pricePence)}</strong>
+        <span>practice fare</span>
+        <Link href={href}>View details</Link>
+      </div>
+    </article>
   );
 }
 
@@ -200,33 +201,30 @@ export function StayResults({ kind }: { kind: "hotel" | "rental" }) {
 
 function StayList({ kind }: { kind: "hotel" | "rental" }) {
   const params = useSearchParams();
-  const city = params.get("city") ?? "";
+  const city = params.get("city") ?? "Edinburgh";
   const checkIn = params.get("checkIn") ?? "2026-11-02";
   const checkOut = params.get("checkOut") ?? "2026-11-04";
   const guests = Number(params.get("guests") ?? "2");
-  const stays = STAYS.filter((stay) => stay.kind === kind && (!city || stay.city === city) && stay.guests >= guests);
+  const stays = STAYS.filter((stay) => stay.kind === kind && stay.city === city && stay.guests >= guests);
   return (
-    <div className="ps-wrap">
-      <h1>{kind === "hotel" ? "Hotels" : "Holiday rentals"}</h1>
+    <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
+      <h1>
+        {kind === "hotel" ? "Hotels" : "Holiday rentals"} in {city}
+      </h1>
       <p>
-        {checkIn && checkOut ? `${formatDay(checkIn)} to ${formatDay(checkOut)}. ` : ""}
-        {guests} guest{guests === 1 ? "" : "s"}.
+        {formatDay(checkIn)} to {formatDay(checkOut)}. {guests} guest{guests === 1 ? "" : "s"}.
       </p>
-      <div className="ps-grid">
+      <div className="wt-results">
         {stays.map((stay) => {
           const priced = quoteTrip({ stayId: stay.id, checkIn, checkOut, guests });
           const total = priced.ok ? priced.quote.totalPence : stay.nightlyPence;
           return (
-            <article key={stay.id} className="ps-panel">
-              <Picture label={stay.city} />
-              <h2>{stay.name}</h2>
-              <p>{stay.summary}</p>
-              <p>Sleeps {stay.guests}. {stay.facilities.join(", ")}.</p>
-              <p>
-                {formatMoney(stay.nightlyPence)} a night · {formatMoney(total)} for the stay
-              </p>
-              <Link href={`/scenarios/travel/book/?stay=${stay.id}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`}>Choose</Link>
-            </article>
+            <StayCard
+              key={stay.id}
+              stay={stay}
+              total={total}
+              href={`/scenarios/travel/stay/?${query({ id: stay.id, checkIn, checkOut, guests: String(guests) })}`}
+            />
           );
         })}
       </div>
@@ -235,9 +233,141 @@ function StayList({ kind }: { kind: "hotel" | "rental" }) {
   );
 }
 
+function StayCard({ stay, total, href }: { stay: Stay; total: number; href: string }) {
+  return (
+    <article className="wt-card">
+      <div className={`wt-photo ${stay.kind === "hotel" ? "wt-photo--hotel" : "wt-photo--rental"}`}>{stay.city}</div>
+      <div>
+        <h2>{stay.name}</h2>
+        <p className="wt-meta">{stay.summary}</p>
+        <p className="wt-meta">Sleeps {stay.guests}. {stay.facilities.join(", ")}.</p>
+      </div>
+      <div className="wt-price">
+        <strong>{formatMoney(total)}</strong>
+        <span>{formatMoney(stay.nightlyPence)} a night</span>
+        <Link href={href}>View details</Link>
+      </div>
+    </article>
+  );
+}
+
+export function FlightDetail() {
+  return (
+    <Suspense fallback={<p className="ps-wrap">Loading flight…</p>}>
+      <FlightDetailBody />
+    </Suspense>
+  );
+}
+
+function FlightDetailBody() {
+  const params = useSearchParams();
+  const id = params.get("id") ?? "";
+  const depart = params.get("depart") ?? "";
+  const ret = params.get("return") ?? "";
+  const travellers = params.get("travellers") ?? "1";
+  const [returnId, setReturnId] = useState("");
+  const flight = FLIGHTS.find((item) => item.id === id);
+  if (!flight) return <div className="ps-wrap"><p>That flight is not in this practice search.</p></div>;
+  const returns = FLIGHTS.filter((item) => item.from === flight.to && item.to === flight.from);
+  const priced = quoteTrip({ flightId: flight.id, returnFlightId: returnId || undefined, guests: Number(travellers) });
+  return (
+    <div className="ps-wrap wt-detail" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
+      <article className="wt-panel">
+        <div className="wt-photo wt-photo--flight">Westford Air</div>
+        <h1>
+          {flight.from} to {flight.to}
+        </h1>
+        <p>
+          Departs {flight.depart}, arrives {flight.arrive}. {flight.duration}. {flight.stops === 0 ? "Direct flight." : `This flight has ${flight.stops} stop.`}
+        </p>
+        <p>Travel date {depart ? formatDay(depart) : "not set"}. Return date {ret ? formatDay(ret) : "not set"}.</p>
+        {returns.length > 0 ? (
+          <div className="ps-field">
+            <label htmlFor="wt-return-choice">Return flight</label>
+            <select id="wt-return-choice" value={returnId} onChange={(event) => setReturnId(event.target.value)}>
+              <option value="">One way</option>
+              {returns.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.depart}–{item.arrive} · {formatMoney(item.pricePence)}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
+      </article>
+      <aside className="wt-panel">
+        <h2>Price</h2>
+        {priced.ok ? <p className="wt-checkout-total">{formatMoney(priced.quote.totalPence)}</p> : null}
+        <p>{travellers} traveller{travellers === "1" ? "" : "s"}.</p>
+        <p className="wt-actions">
+          <Link href={`/scenarios/travel/checkout/?${query({ flight: flight.id, returnFlight: returnId, guests: travellers })}`}>Continue to checkout</Link>
+        </p>
+      </aside>
+    </div>
+  );
+}
+
+export function StayDetail() {
+  return (
+    <Suspense fallback={<p className="ps-wrap">Loading place to stay…</p>}>
+      <StayDetailBody />
+    </Suspense>
+  );
+}
+
+function StayDetailBody() {
+  const params = useSearchParams();
+  const stay = STAYS.find((item) => item.id === (params.get("id") ?? ""));
+  const checkIn = params.get("checkIn") ?? "";
+  const checkOut = params.get("checkOut") ?? "";
+  const guests = params.get("guests") ?? "2";
+  if (!stay) return <div className="ps-wrap"><p>That place is not in this practice search.</p></div>;
+  const priced = quoteTrip({ stayId: stay.id, checkIn, checkOut, guests: Number(guests) });
+  return (
+    <div className="ps-wrap wt-detail" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
+      <article className="wt-panel">
+        <div className={`wt-photo ${stay.kind === "hotel" ? "wt-photo--hotel" : "wt-photo--rental"}`}>{stay.city}</div>
+        <h1>{stay.name}</h1>
+        <p>{stay.summary}</p>
+        <p>
+          {stay.city}. Sleeps {stay.guests}. {checkIn ? formatDay(checkIn) : ""} to {checkOut ? formatDay(checkOut) : ""}.
+        </p>
+        <h2>What is included</h2>
+        <ul>
+          {stay.facilities.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
+      <aside className="wt-panel">
+        <h2>Price for these dates</h2>
+        {priced.ok ? (
+          <>
+            <p className="wt-checkout-total">{formatMoney(priced.quote.totalPence)}</p>
+            <ul>
+              {priced.quote.lines.map((line) => (
+                <li key={line.label}>
+                  {line.label}: {formatMoney(line.amountPence)}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>{priced.error}</p>
+        )}
+        {priced.ok ? (
+          <p className="wt-actions">
+            <Link href={`/scenarios/travel/checkout/?${query({ stay: stay.id, checkIn, checkOut, guests })}`}>Continue to checkout</Link>
+          </p>
+        ) : null}
+      </aside>
+    </div>
+  );
+}
+
 export function BookingPage() {
   return (
-    <Suspense fallback={<p className="ps-wrap">Loading your booking…</p>}>
+    <Suspense fallback={<p className="ps-wrap">Loading checkout…</p>}>
       <BookingForm />
     </Suspense>
   );
@@ -247,9 +377,8 @@ function BookingForm() {
   const params = useSearchParams();
   const username = useLearner();
   const attempt = useRef<string | null>(null);
-  const [outbound, setOutbound] = useState(params.get("flight") ?? "");
-  const [inbound, setInbound] = useState(params.get("returnFlight") ?? "");
-  const [signIn, setSignIn] = useState("");
+  const outbound = params.get("flight") ?? "";
+  const inbound = params.get("returnFlight") ?? "";
   const [done, setDone] = useState<{ reference: string; balancePence: number | null } | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -265,63 +394,37 @@ function BookingForm() {
     checkOut: checkOut || undefined,
     guests,
   });
-  const returns = priced.ok && priced.quote.flight ? FLIGHTS.filter((flight) => flight.from === priced.quote.flight?.to && flight.to === priced.quote.flight?.from) : [];
 
   const pay = async () => {
     if (!username || !priced.ok || busy) return;
     if (!attempt.current) attempt.current = crypto.randomUUID();
     setBusy(true);
-    const result = await bookTrip(
-      username,
-      {
-        flightId: outbound,
-        returnFlightId: inbound,
-        stayId: stay,
-        checkIn,
-        checkOut,
-        guests,
-      },
-      attempt.current,
-    );
+    const result = await bookTrip(username, { flightId: outbound, returnFlightId: inbound, stayId: stay, checkIn, checkOut, guests }, attempt.current);
     setBusy(false);
     if (result.ok) {
       setDone({ reference: result.reference, balancePence: result.balancePence });
       setError("");
       return;
     }
-    setError(result.reason === "insufficient-funds" ? `Practice Bank does not have enough money. Balance: ${formatMoney(result.balancePence)}. The booking was not confirmed.` : result.message ?? "The booking was not confirmed.");
-  };
-
-  const sign = async (event: FormEvent) => {
-    event.preventDefault();
-    const result = await getAccount(signIn.trim());
-    if (result.status === "ready") setLearner(result.account.username);
-    else setError("We can't find that username.");
+    setError(
+      result.reason === "insufficient-funds"
+        ? `There is not enough pretend money. Balance: ${formatMoney(result.balancePence)}. The booking was not confirmed.`
+        : result.message ?? "The booking was not confirmed.",
+    );
   };
 
   return (
-    <div className="ps-wrap">
-      <h1>Review booking</h1>
-      {!priced.ok ? <p className="ps-error">{priced.error}</p> : null}
+    <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
+      <h1>Checkout</h1>
+      <p>Check the trip, then pay with the pretend money on your Computer Steps account. Nothing is booked with a real airline or hotel.</p>
+      {!priced.ok ? <p className="wt-error">{priced.error}</p> : null}
       {priced.ok ? (
-        <div className="ps-panel">
+        <div className="wt-panel">
           {priced.quote.flight ? (
             <p>
-              Flight {priced.quote.flight.from} to {priced.quote.flight.to}, departs {priced.quote.flight.depart}, {formatMoney(priced.quote.flight.pricePence)}
+              Flight {priced.quote.flight.from} to {priced.quote.flight.to}, departs {priced.quote.flight.depart}
+              {priced.quote.returnFlight ? `, return departs ${priced.quote.returnFlight.depart}` : ""}
             </p>
-          ) : null}
-          {returns.length > 0 ? (
-            <div className="ps-field">
-              <label htmlFor="wt-return-flight">Add a return flight</label>
-              <select id="wt-return-flight" value={inbound} onChange={(event) => setInbound(event.target.value)}>
-                <option value="">No return flight</option>
-                {returns.map((flight) => (
-                  <option key={flight.id} value={flight.id}>
-                    {flight.depart} · {formatMoney(flight.pricePence)}
-                  </option>
-                ))}
-              </select>
-            </div>
           ) : null}
           {priced.quote.stay ? (
             <p>
@@ -335,35 +438,19 @@ function BookingForm() {
               </li>
             ))}
           </ul>
-          <p>
-            <strong>Total {formatMoney(priced.quote.totalPence)}</strong> for {priced.quote.guests} guest{priced.quote.guests === 1 ? "" : "s"}
-          </p>
+          <p className="wt-checkout-total">Total {formatMoney(priced.quote.totalPence)}</p>
         </div>
       ) : null}
       {done ? (
-        <p className="ps-ok">
+        <p>
           Booking confirmed. Reference <strong>{done.reference}</strong>.
-          {done.balancePence !== null ? ` Practice Bank balance: ${formatMoney(done.balancePence)}.` : ""}{" "}
-          <Link href="/scenarios/travel/trips/">My trips</Link>
+          {done.balancePence !== null ? ` Balance left: ${formatMoney(done.balancePence)}.` : ""} <Link href="/scenarios/travel/trips/">My trips</Link>
         </p>
       ) : null}
-      {error ? <p className="ps-error">{error}</p> : null}
-      {!username ? (
-        <form onSubmit={sign}>
-          <div className="ps-field">
-            <label htmlFor="wt-user">Computer Steps username</label>
-            <input id="wt-user" value={signIn} onChange={(event) => setSignIn(event.target.value)} />
-          </div>
-          <button className="ps-btn" type="submit">
-            Sign in
-          </button>
-          <p>
-            <Link href={`${BANK_BASE}/open-account/`}>Open a Practice Bank account</Link>
-          </p>
-        </form>
-      ) : priced.ok && !done ? (
+      {error ? <p className="wt-error">{error}</p> : null}
+      {username && priced.ok && !done ? (
         <button type="button" className="ps-btn ps-btn--accent" onClick={pay} disabled={busy}>
-          {busy ? "Paying…" : `Pay ${formatMoney(priced.quote.totalPence)} with Practice Bank`}
+          {busy ? "Paying…" : `Pay ${formatMoney(priced.quote.totalPence)}`}
         </button>
       ) : null}
     </div>
@@ -373,7 +460,6 @@ function BookingForm() {
 export function MyTrips() {
   const username = useLearner();
   const [bookings, setBookings] = useState<TravelBooking[] | null>(null);
-  const [name, setName] = useState("");
   const [error, setError] = useState("");
   useEffect(() => {
     if (!username) return;
@@ -381,43 +467,20 @@ export function MyTrips() {
       if (result.status === "ready") setBookings(result.bookings);
     });
   }, [username]);
-  const sign = async (event: FormEvent) => {
-    event.preventDefault();
-    const result = await getAccount(name.trim());
-    if (result.status === "ready") setLearner(result.account.username);
-    else setError("We can't find that username.");
-  };
   const cancel = async (reference: string) => {
     if (!username) return;
     const result = await cancelTrip(username, reference);
     if (result.ok) setBookings(result.bookings);
     else setError("The booking was not cancelled.");
   };
-  if (!username) {
-    return (
-      <div className="ps-wrap">
-        <h1>My trips</h1>
-        <form className="ps-panel" onSubmit={sign}>
-          {error ? <p className="ps-error">{error}</p> : null}
-          <div className="ps-field">
-            <label htmlFor="wt-trips-user">Username</label>
-            <input id="wt-trips-user" value={name} onChange={(event) => setName(event.target.value)} />
-          </div>
-          <button className="ps-btn" type="submit">
-            Sign in
-          </button>
-        </form>
-      </div>
-    );
-  }
   return (
-    <div className="ps-wrap">
+    <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
       <h1>My trips</h1>
-      {error ? <p className="ps-error">{error}</p> : null}
+      {error ? <p className="wt-error">{error}</p> : null}
       {bookings === null ? <p>Loading your trips…</p> : bookings.length === 0 ? <p>You have no practice bookings yet.</p> : null}
-      <ul>
+      <div className="wt-results">
         {(bookings ?? []).map((booking) => (
-          <li key={booking.reference} className="ps-panel">
+          <article key={booking.reference} className="wt-panel">
             <h2>Reference {booking.reference}</h2>
             <p>Status: {booking.status === "confirmed" ? "Confirmed" : "Cancelled"}</p>
             <p>Total {formatMoney(booking.totalPence)}</p>
@@ -427,15 +490,14 @@ export function MyTrips() {
               </p>
             ) : null}
             {booking.quote?.stay ? <p>{booking.quote.stay.name}</p> : null}
-            {booking.paymentReference ? <p>Payment {booking.paymentReference}</p> : null}
             {booking.status === "confirmed" ? (
               <button type="button" className="ps-btn ps-btn--ghost" onClick={() => cancel(booking.reference)}>
                 Cancel and refund
               </button>
             ) : null}
-          </li>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

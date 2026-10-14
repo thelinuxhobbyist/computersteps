@@ -52,8 +52,8 @@ export async function saveDeliveryRequest(request: Request, env: Env, rawUsernam
     const parcel = findParcel(code);
     if (!parcel) return json({ error: "unknown_code" }, 404);
     if (!parcel.actions.includes(action)) return json({ error: "action_not_available" }, 400);
-    if (action === "change_date" && !parcel.dateOptions.includes(detail)) {
-      return json({ error: "invalid_request", errors: { detail: "Choose one of the available dates." } }, 400);
+    if (action === "change_date" && (!/^\d{4}-\d{2}-\d{2}$/.test(detail) || !parcel.dateFrom || detail < parcel.dateFrom || detail > parcel.dateTo)) {
+      return json({ error: "invalid_request", errors: { detail: "Choose a delivery date from the calendar." } }, 400);
     }
     if (action !== "change_date" && action !== "collection_point" && detail.length < 3) {
       return json({ error: "invalid_request", errors: { detail: "Add a short instruction." } }, 400);

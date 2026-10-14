@@ -176,6 +176,7 @@ function Panel({ username, pageId }: { username: string; pageId: string }) {
 
   if (task === undefined) return null;
   if (!task && !environment) return null;
+  if (task && task.environment !== pageId.split(".")[0]) return null;
 
   if (!open) {
     return (

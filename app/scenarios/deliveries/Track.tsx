@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState, type FormEvent } from "react";
-import { setLearner, useLearner } from "../../lib/learner-session";
+import { ScenarioSignIn } from "../../components/ScenarioSignIn";
+import { useLearner } from "../../lib/learner-session";
 import { formatDay } from "../energy/energy-data";
-import { getAccount } from "../practice-bank/bank-api";
-import { BANK_BASE } from "../practice-bank/bank-data";
 import { ACTION_LABELS, COLLECTION_POINT, findParcel, type DeliveryAction } from "../../../workers/practice-bank/src/shared/deliveries";
 import { getDeliveries, saveDelivery, type DeliveryIdentity, type DeliveryRequest } from "./delivery-api";
 
@@ -77,7 +76,6 @@ function ParcelResult({ code }: { code: string }) {
   const [reference, setReference] = useState("");
   const [problem, setProblem] = useState("");
   const [busy, setBusy] = useState(false);
-  const [signIn, setSignIn] = useState("");
 
   useEffect(() => {
     if (!username) return;
@@ -111,13 +109,6 @@ function ParcelResult({ code }: { code: string }) {
       return;
     }
     setProblem(result.message);
-  };
-
-  const sign = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = await getAccount(signIn.trim());
-    if (result.status === "ready") setLearner(result.account.username);
-    else setProblem("We can't find that username. Open a Practice Bank account if you don't have one.");
   };
 
   return (
@@ -156,18 +147,7 @@ function ParcelResult({ code }: { code: string }) {
       {reference ? <p className="ps-ok">Saved. Confirmation reference <strong>{reference}</strong>.</p> : null}
       {problem ? <p className="ps-error">{problem}</p> : null}
       {!username ? (
-        <form onSubmit={sign}>
-          <div className="ps-field">
-            <label htmlFor="wd-user">Computer Steps username</label>
-            <input id="wd-user" value={signIn} onChange={(event) => setSignIn(event.target.value)} />
-          </div>
-          <button className="ps-btn" type="submit">
-            Sign in to save a change
-          </button>
-          <p>
-            <Link href={`${BANK_BASE}/open-account/`}>Open a Practice Bank account</Link>
-          </p>
-        </form>
+        <ScenarioSignIn />
       ) : parcel.actions.length > 0 ? (
         <form onSubmit={save}>
           <div className="ps-field">
@@ -183,15 +163,9 @@ function ParcelResult({ code }: { code: string }) {
           </div>
           {action === "change_date" ? (
             <div className="ps-field">
-              <label htmlFor="wd-date">New date</label>
-              <select id="wd-date" value={detail} onChange={(event) => setDetail(event.target.value)}>
-                <option value="">Choose a date</option>
-                {parcel.dateOptions.map((day) => (
-                  <option key={day} value={day}>
-                    {formatDay(day)}
-                  </option>
-                ))}
-              </select>
+              <label htmlFor="wd-date">New delivery date</label>
+              <input id="wd-date" type="date" required min={parcel.dateFrom} max={parcel.dateTo} value={detail} onChange={(event) => setDetail(event.target.value)} />
+              <p>Open the calendar and choose any day from {formatDay(parcel.dateFrom)} to {formatDay(parcel.dateTo)}.</p>
             </div>
           ) : null}
           {action && action !== "change_date" && action !== "collection_point" ? (
@@ -224,34 +198,17 @@ function ParcelResult({ code }: { code: string }) {
 export function MyDeliveries() {
   const username = useLearner();
   const [requests, setRequests] = useState<DeliveryRequest[] | null>(null);
-  const [name, setName] = useState("");
-  const [error, setError] = useState("");
   useEffect(() => {
     if (!username) return;
     getDeliveries(username).then((result) => {
       if (result.status === "ready") setRequests(result.requests);
     });
   }, [username]);
-  const sign = async (event: FormEvent) => {
-    event.preventDefault();
-    const result = await getAccount(name.trim());
-    if (result.status === "ready") setLearner(result.account.username);
-    else setError("We can't find that username.");
-  };
   if (!username) {
     return (
       <div className="ps-wrap">
         <h1>My deliveries</h1>
-        <form className="ps-panel" onSubmit={sign}>
-          {error ? <p className="ps-error">{error}</p> : null}
-          <div className="ps-field">
-            <label htmlFor="wd-name">Username</label>
-            <input id="wd-name" value={name} onChange={(event) => setName(event.target.value)} />
-          </div>
-          <button className="ps-btn" type="submit">
-            Sign in
-          </button>
-        </form>
+        <ScenarioSignIn />
       </div>
     );
   }
