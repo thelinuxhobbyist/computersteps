@@ -30,12 +30,13 @@ export function useMobileAccount() {
     if (username) setLoaded({ username, mobile });
   };
 
-  if (username === undefined || (username && (!loaded || (loaded !== "missing" && loaded !== "error" && loaded.username !== username)))) {
+  if (username === undefined) return { status: "loading" as const };
+  if (!username) return { status: "signed-out" as const };
+  if (!loaded || loaded === "missing" || loaded === "error" || loaded.username !== username) {
+    if (loaded === "missing") return { status: "missing" as const };
+    if (loaded === "error") return { status: "error" as const, retry: () => setReloadCount((count) => count + 1) };
     return { status: "loading" as const };
   }
-  if (!username) return { status: "signed-out" as const };
-  if (loaded === "missing") return { status: "missing" as const };
-  if (loaded === "error") return { status: "error" as const, retry: () => setReloadCount((count) => count + 1) };
   return { status: "ready" as const, mobile: loaded.mobile, replace };
 }
 
