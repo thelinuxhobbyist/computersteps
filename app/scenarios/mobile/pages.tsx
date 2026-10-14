@@ -244,7 +244,11 @@ function Pay({ mobile, replace }: { mobile: MobileAccount; replace: (mobile: Mob
       setError("");
       return;
     }
-    setError(result.reason === "insufficient-funds" ? `Practice Bank declined this payment. The balance is ${formatMoney(result.balancePence)}.` : "The bill was not paid. Try again. You will not be charged twice for this attempt.");
+    if (result.reason === "insufficient-funds") {
+      setError(`Practice Bank declined this payment. The balance is ${formatMoney(result.balancePence ?? 0)}.`);
+      return;
+    }
+    setError("The bill was not paid. Try again. You will not be charged twice for this attempt.");
   };
   return (
     <div className="ps-wrap">

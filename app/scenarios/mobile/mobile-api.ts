@@ -10,7 +10,7 @@ export async function getMobile(username: string) {
 
 export async function payMobile(username: string, idempotencyKey: string) {
   const result = await request(`/mobile/${encodeURIComponent(username)}/payments`, { method: "POST", body: JSON.stringify({ idempotencyKey }) });
-  if (!result) return { ok: false as const, reason: "unavailable" };
+  if (!result) return { ok: false as const, reason: "unavailable" as const };
   if (result.status === 200) {
     return {
       ok: true as const,
