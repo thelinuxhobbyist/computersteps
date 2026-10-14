@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, type FormEvent } from "react";
 import { useLearner } from "../../lib/learner-session";
 import { formatDay } from "../energy/energy-data";
-import { formatMoney } from "../practice-bank/bank-data";
+import { BANK_BASE, formatMoney } from "../practice-bank/bank-data";
+import { formatCardNumberInput, formatCvvInput, formatExpiryInput } from "../../shop/shop-data";
 import { DESTINATIONS, FLIGHTS, STAYS, quoteTrip, type Flight, type Stay } from "../../../workers/practice-bank/src/shared/travel";
 import { bookTrip, cancelTrip, getTravel, type TravelBooking } from "./travel-api";
 
@@ -95,7 +96,7 @@ function SearchCard() {
       </div>
       <form onSubmit={submit}>
         {error ? <p className="wt-error">{error}</p> : null}
-        <div className="wt-search__row">
+        <div className={tab === "flights" ? "wt-search__row wt-search__row--flights" : "wt-search__row wt-search__row--stay"}>
           {tab === "flights" ? (
             <>
               <CityField id="wt-from" label="From" value={from} onChange={setFrom} />
@@ -373,12 +374,36 @@ export function BookingPage() {
   );
 }
 
+type CheckoutFields = {
+  fullName: string;
+  addressLine1: string;
+  townOrCity: string;
+  postcode: string;
+  nameOnCard: string;
+  cardNumber: string;
+  expiry: string;
+  cvv: string;
+};
+
+const EMPTY_CHECKOUT: CheckoutFields = {
+  fullName: "",
+  addressLine1: "",
+  townOrCity: "",
+  postcode: "",
+  nameOnCard: "",
+  cardNumber: "",
+  expiry: "",
+  cvv: "",
+};
+
 function BookingForm() {
   const params = useSearchParams();
   const username = useLearner();
   const attempt = useRef<string | null>(null);
   const outbound = params.get("flight") ?? "";
   const inbound = params.get("returnFlight") ?? "";
+  const [fields, setFields] = useState<CheckoutFields>(EMPTY_CHECKOUT);
+  const [fieldErrors, setFieldErrors] = useState<Partial<CheckoutFields>>({});
   const [done, setDone] = useState<{ reference: string; balancePence: number | null } | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -395,15 +420,47 @@ function BookingForm() {
     guests,
   });
 
-  const pay = async () => {
+  const setField = (name: keyof CheckoutFields, value: string) => {
+    const next =
+      name === "cardNumber" ? formatCardNumberInput(value) : name === "expiry" ? formatExpiryInput(value, fields.expiry) : name === "cvv" ? formatCvvInput(value) : value;
+    setFields((current) => ({ ...current, [name]: next }));
+    setFieldErrors((current) => ({ ...current, [name]: undefined }));
+  };
+
+  const pay = async (event: FormEvent) => {
+    event.preventDefault();
     if (!username || !priced.ok || busy) return;
+    const missing: Partial<CheckoutFields> = {};
+    if (!fields.fullName.trim()) missing.fullName = "Type the name on your Practice Bank account.";
+    if (!fields.addressLine1.trim()) missing.addressLine1 = "Type the first line of the address from Practice Bank.";
+    if (!fields.townOrCity.trim()) missing.townOrCity = "Type the town from Practice Bank.";
+    if (!fields.postcode.trim()) missing.postcode = "Type the postcode from Practice Bank.";
+    if (!fields.nameOnCard.trim()) missing.nameOnCard = "Type the name on your Practice Bank card.";
+    if (fields.cardNumber.replace(/\D/g, "").length !== 16) missing.cardNumber = "Type the 16-digit card number from Practice Bank.";
+    if (fields.expiry.replace(/\D/g, "").length !== 4) missing.expiry = "Type the expiry date from your card.";
+    if (fields.cvv.length !== 3) missing.cvv = "Type the 3-digit security code from your card.";
+    if (Object.keys(missing).length > 0) {
+      setFieldErrors(missing);
+      setError("Fill in the address and card before paying.");
+      return;
+    }
     if (!attempt.current) attempt.current = crypto.randomUUID();
     setBusy(true);
-    const result = await bookTrip(username, { flightId: outbound, returnFlightId: inbound, stayId: stay, checkIn, checkOut, guests }, attempt.current);
+    const result = await bookTrip(
+      username,
+      { flightId: outbound, returnFlightId: inbound, stayId: stay, checkIn, checkOut, guests, ...fields },
+      attempt.current,
+    );
     setBusy(false);
     if (result.ok) {
       setDone({ reference: result.reference, balancePence: result.balancePence });
       setError("");
+      setFieldErrors({});
+      return;
+    }
+    if (result.reason === "details") {
+      setFieldErrors(result.errors);
+      setError("Those details do not match the address and card Practice Bank gave you when you registered.");
       return;
     }
     setError(
@@ -416,43 +473,90 @@ function BookingForm() {
   return (
     <div className="ps-wrap" style={{ paddingTop: "1.5rem", paddingBottom: "2rem" }}>
       <h1>Checkout</h1>
-      <p>Check the trip, then pay with the pretend money on your Computer Steps account. Nothing is booked with a real airline or hotel.</p>
+      <p>
+        Enter the address and card from your Practice Bank account. Practice Bank gives you these details when you register.{" "}
+        <Link href={`${BANK_BASE}/card/`}>Look at your card</Link> if you need to check them. This does not charge a real card.
+      </p>
       {!priced.ok ? <p className="wt-error">{priced.error}</p> : null}
-      {priced.ok ? (
-        <div className="wt-panel">
-          {priced.quote.flight ? (
-            <p>
-              Flight {priced.quote.flight.from} to {priced.quote.flight.to}, departs {priced.quote.flight.depart}
-              {priced.quote.returnFlight ? `, return departs ${priced.quote.returnFlight.depart}` : ""}
-            </p>
-          ) : null}
-          {priced.quote.stay ? (
-            <p>
-              {priced.quote.stay.name}, {formatDay(priced.quote.stay.checkIn)} to {formatDay(priced.quote.stay.checkOut)} ({priced.quote.stay.nights} nights)
-            </p>
-          ) : null}
-          <ul>
-            {priced.quote.lines.map((line) => (
-              <li key={line.label}>
-                {line.label}: {formatMoney(line.amountPence)}
-              </li>
-            ))}
-          </ul>
-          <p className="wt-checkout-total">Total {formatMoney(priced.quote.totalPence)}</p>
-        </div>
-      ) : null}
       {done ? (
-        <p>
+        <p className="ps-ok">
           Booking confirmed. Reference <strong>{done.reference}</strong>.
           {done.balancePence !== null ? ` Balance left: ${formatMoney(done.balancePence)}.` : ""} <Link href="/scenarios/travel/trips/">My trips</Link>
         </p>
       ) : null}
-      {error ? <p className="wt-error">{error}</p> : null}
-      {username && priced.ok && !done ? (
-        <button type="button" className="ps-btn ps-btn--accent" onClick={pay} disabled={busy}>
-          {busy ? "Paying…" : `Pay ${formatMoney(priced.quote.totalPence)}`}
-        </button>
+      {priced.ok && !done ? (
+        <form className="wt-checkout" onSubmit={pay} noValidate>
+          <div className="wt-panel">
+            <h2>Billing address</h2>
+            <CheckoutField id="wt-name" label="Full name" value={fields.fullName} error={fieldErrors.fullName} onChange={(value) => setField("fullName", value)} />
+            <CheckoutField id="wt-address" label="Address" hint="House number and street" value={fields.addressLine1} error={fieldErrors.addressLine1} onChange={(value) => setField("addressLine1", value)} />
+            <CheckoutField id="wt-town" label="Town or city" value={fields.townOrCity} error={fieldErrors.townOrCity} onChange={(value) => setField("townOrCity", value)} />
+            <CheckoutField id="wt-postcode" label="Postcode" value={fields.postcode} error={fieldErrors.postcode} onChange={(value) => setField("postcode", value)} />
+            <h2>Card details</h2>
+            <CheckoutField id="wt-card-name" label="Name on card" value={fields.nameOnCard} error={fieldErrors.nameOnCard} onChange={(value) => setField("nameOnCard", value)} />
+            <CheckoutField id="wt-card-number" label="Card number" hint="16 digits. Spaces are added as you type." value={fields.cardNumber} error={fieldErrors.cardNumber} onChange={(value) => setField("cardNumber", value)} inputMode="numeric" />
+            <div className="wt-payrow">
+              <CheckoutField id="wt-expiry" label="Expiry date" hint="MM/YY" value={fields.expiry} error={fieldErrors.expiry} onChange={(value) => setField("expiry", value)} inputMode="numeric" />
+              <CheckoutField id="wt-cvv" label="Security code" hint="3 digits on the back" value={fields.cvv} error={fieldErrors.cvv} onChange={(value) => setField("cvv", value)} inputMode="numeric" />
+            </div>
+            {error ? <p className="wt-error">{error}</p> : null}
+            <button type="submit" className="ps-btn ps-btn--accent" disabled={busy || !username}>
+              {busy ? "Paying…" : `Pay ${formatMoney(priced.quote.totalPence)}`}
+            </button>
+          </div>
+          <aside className="wt-panel">
+            <h2>Your trip</h2>
+            {priced.quote.flight ? (
+              <p>
+                {priced.quote.flight.from} to {priced.quote.flight.to}, departs {priced.quote.flight.depart}
+                {priced.quote.returnFlight ? `. Return departs ${priced.quote.returnFlight.depart}` : ""}
+              </p>
+            ) : null}
+            {priced.quote.stay ? (
+              <p>
+                {priced.quote.stay.name}, {formatDay(priced.quote.stay.checkIn)} to {formatDay(priced.quote.stay.checkOut)}
+              </p>
+            ) : null}
+            {priced.quote.lines.map((line) => (
+              <p key={line.label} className="wt-amount">
+                <span>{line.label}</span>
+                <span>{formatMoney(line.amountPence)}</span>
+              </p>
+            ))}
+            <p className="wt-amount wt-amount--due">
+              <span>Amount to pay</span>
+              <span>{formatMoney(priced.quote.totalPence)}</span>
+            </p>
+          </aside>
+        </form>
       ) : null}
+    </div>
+  );
+}
+
+function CheckoutField({
+  id,
+  label,
+  hint,
+  value,
+  error,
+  onChange,
+  inputMode,
+}: {
+  id: string;
+  label: string;
+  hint?: string;
+  value: string;
+  error?: string;
+  onChange: (value: string) => void;
+  inputMode?: "numeric" | "text";
+}) {
+  return (
+    <div className="ps-field">
+      <label htmlFor={id}>{label}</label>
+      {hint ? <p className="wt-meta">{hint}</p> : null}
+      <input id={id} value={value} inputMode={inputMode} aria-invalid={error ? true : undefined} onChange={(event) => onChange(event.target.value)} />
+      {error ? <p className="wt-error">{error}</p> : null}
     </div>
   );
 }

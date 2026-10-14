@@ -9,8 +9,8 @@
 
 .wt-hero h1 {
   margin: 0 0 0.4rem;
-  font-size: clamp(2rem, 4vw, 3rem);
-  max-width: 16ch;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.15;
 }
 
 .wt-hero > .ps-wrap > p {
@@ -52,14 +52,29 @@
 }
 
 .wt-search__row {
-  display: grid;
-  gap: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 0.8rem;
 }
 
-@media (min-width: 800px) {
-  .wt-search__row {
-    grid-template-columns: repeat(4, 1fr) auto;
-    align-items: end;
+.wt-search__row > label {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.wt-search__row--flights > label {
+  flex-basis: 8.5rem;
+}
+
+.wt-search__row > button[type="submit"] {
+  flex: 1 1 8rem;
+  align-self: flex-end;
+}
+
+@media (min-width: 900px) {
+  .wt-search__row > button[type="submit"] {
+    flex: 0 0 auto;
   }
 }
 
@@ -72,6 +87,8 @@
 
 .wt-search input,
 .wt-search select {
+  width: 100%;
+  min-width: 0;
   min-height: 44px;
   padding: 0.4rem 0.6rem;
   border: 1px solid #5c6b7a;
@@ -147,25 +164,47 @@
 }
 
 .wt-price {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.15rem;
+  min-width: 9.5rem;
 }
 
 .wt-price strong {
-  display: block;
   font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.wt-price span {
+  color: #3d4c5c;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 720px) {
+  .wt-price {
+    align-items: flex-end;
+    text-align: right;
+  }
 }
 
 .wt-price a,
-.wt-actions a {
-  display: inline-block;
-  margin-top: 0.4rem;
+.wt-actions a,
+.wt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.45rem;
   min-height: 44px;
   padding: 0.55rem 0.9rem;
   border-radius: 8px;
   background: #0b3a5b;
   color: #fff;
   font-weight: 700;
+  line-height: 1.2;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .wt-detail {
@@ -189,9 +228,61 @@
 }
 
 .wt-panel ul {
+  margin: 0.4rem 0 0;
   padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.wt-main {
+  flex: 1 0 auto;
 }
 
 .wt-checkout-total {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  margin: 0.4rem 0;
+}
+
+.wt-checkout {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .wt-checkout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.8fr);
+  }
+}
+
+.wt-checkout h2 {
+  margin-top: 0.2rem;
+}
+
+.wt-checkout .ps-field input {
+  width: 100%;
+}
+
+.wt-payrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.wt-payrow .ps-field {
+  flex: 1 1 8rem;
+}
+
+.wt-amount {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.35rem 0;
+}
+
+.wt-amount--due {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 2px solid #d5dee6;
+  font-size: 1.25rem;
+  font-weight: 800;
 }

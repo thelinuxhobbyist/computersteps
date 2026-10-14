@@ -1,4 +1,4 @@
-import { usernameKey, validateUsername } from "./bank";
+import { checkCardDetails, checkDeliveryDetails, normaliseCardNumber, readCardDetails, readDeliveryDetails, usernameKey, validateUsername } from "./bank";
 import { findAccountRow, identityOf, loadAccount } from "./accounts";
 import { json, readJson, secureRandom } from "./http";
 import { makeEnquiryReference } from "./messaging";
@@ -72,6 +72,17 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
     guests: Number(body.guests),
   });
   if (!priced.ok) return json({ error: "invalid_booking", message: priced.error }, 400);
+
+  const card = readCardDetails(body);
+  const address = readDeliveryDetails(body);
+  const errors: Record<string, string> = {
+    ...checkDeliveryDetails(identityOf(account), address),
+    ...checkCardDetails({ nameOnCard: account.name_on_card, cardNumber: account.card_number, expiry: account.expiry, cvv: account.cvv }, card),
+  };
+  if (normaliseCardNumber(card.cardNumber) !== account.card_number) {
+    errors.cardNumber = "We don't recognise this card number. Use the card Practice Bank gave you when you registered.";
+  }
+  if (Object.keys(errors).length > 0) return json({ error: "card_details_wrong", errors }, 400);
 
   const now = new Date();
   const paymentReference = `WT${Math.floor(secureRandom() * 10_000_000).toString().padStart(7, "0")}`;

@@ -31,6 +31,9 @@ export async function bookTrip(username: string, body: Record<string, string | n
     };
   }
   if (result.status === 402) return { ok: false as const, reason: "insufficient-funds" as const, balancePence: Number(result.body.balancePence) };
+  if (result.status === 400 && result.body.error === "card_details_wrong" && result.body.errors && typeof result.body.errors === "object") {
+    return { ok: false as const, reason: "details" as const, errors: result.body.errors as Record<string, string> };
+  }
   return { ok: false as const, reason: "invalid" as const, message: String(result.body.message ?? "Check the booking and try again.") };
 }
 
