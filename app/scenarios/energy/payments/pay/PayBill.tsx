@@ -38,6 +38,7 @@ function PayForm({ energy, update }: { energy: EnergyAccount; update: (energy: E
   const [paying, setPaying] = useState(false);
   const [done, setDone] = useState<Done | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const attempt = useRef<{ amountPence: number; key: string } | null>(null);
 
   const change = (name: keyof Fields, raw: string) => {
     const value =
@@ -68,8 +69,11 @@ function PayForm({ energy, update }: { energy: EnergyAccount; update: (energy: E
       return;
     }
 
+    if (!attempt.current || attempt.current.amountPence !== amountPence) {
+      attempt.current = { amountPence, key: crypto.randomUUID() };
+    }
     setPaying(true);
-    const result = await payByCard(energy.username, values, amountPence);
+    const result = await payByCard(energy.username, values, amountPence, attempt.current.key);
     setPaying(false);
 
     if (result.ok) {

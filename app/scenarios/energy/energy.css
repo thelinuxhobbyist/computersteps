@@ -17,6 +17,7 @@
   --we-text-soft: #4f4759;
 
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background: var(--we-grey);
@@ -243,7 +244,7 @@
 /* Layout */
 
 .we-main {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 .we-content {
@@ -1036,6 +1037,11 @@
   font-size: 1.05rem;
 }
 
+.we-input::placeholder {
+  color: #4f4759;
+  opacity: 1;
+}
+
 .we-input:focus {
   border-color: var(--we-plum);
 }
@@ -1249,8 +1255,9 @@
 
 .we-footer {
   background: var(--we-plum-dark);
-  color: #e9dff3;
+  color: #f4eef8;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .we-footer__grid {

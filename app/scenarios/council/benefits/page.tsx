@@ -2,37 +2,34 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { COUNCIL_BASE, makeCouncilReference } from "../council-data";
-import { CouncilGate, useCouncilRequests } from "../council-session";
+import { sendCouncilRequest } from "../council-api";
+import { COUNCIL_BASE } from "../council-data";
+import { CouncilGate } from "../council-session";
+import type { CouncilAccount } from "../../../../workers/practice-bank/src/shared/council-types";
 
 export default function CouncilBenefitsPage() {
-  return (
-    <CouncilGate>
-      {(username) => <BenefitsContent username={username} />}
-    </CouncilGate>
-  );
+  return <CouncilGate>{(account, replace) => <BenefitsContent account={account} replace={replace} />}</CouncilGate>;
 }
 
-function BenefitsContent({ username }: { username: string }) {
-  const { addRequest } = useCouncilRequests(username);
-  const [submitted, setSubmitted] = useState(false);
+function BenefitsContent({ account, replace }: { account: CouncilAccount; replace: (account: CouncilAccount) => void }) {
+  const [message, setMessage] = useState("I would like to find out whether I can get help with my household costs.");
   const [reference, setReference] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const ref = makeCouncilReference();
-    addRequest({
-      id: `${Date.now()}`,
-      kind: "benefits",
-      topic: "Benefits & Support",
-      subject: "Support service enquiry",
-      body: "The resident needs information about support services and how to apply for help with living costs.",
-      reference: ref,
-      status: "submitted",
-      submittedAt: new Date().toISOString(),
-    });
-    setReference(ref);
-    setSubmitted(true);
+    if (sending) return;
+    setSending(true);
+    const result = await sendCouncilRequest(account.username, { kind: "benefits", topic: "Benefits and support", message });
+    setSending(false);
+    if (result.ok) {
+      replace(result.council);
+      setReference(result.reference);
+      setError("");
+      return;
+    }
+    setError("errors" in result ? result.errors.message || "Write a short message, then try again." : "We couldn't save that enquiry. Try again.");
   };
 
   return (
@@ -49,28 +46,36 @@ function BenefitsContent({ username }: { username: string }) {
         </div>
         <div className="council-panel">
           <h2>How to apply</h2>
-          <p>Use the phone number below or send a message through the contact form. This is a practice form only.</p>
+          <p>Send a message here. It stays on {account.fullName}&apos;s practice account. No real benefits claim is made.</p>
         </div>
       </div>
-
-      {submitted && reference ? (
-        <div className="council-success" style={{ marginTop: "24px" }}>
-          Support enquiry submitted. Reference <strong>{reference}</strong>. We will contact you when the request is reviewed.
+      {reference ? (
+        <div className="council-success" style={{ marginTop: "24px" }} role="status">
+          Support enquiry saved. Reference <strong>{reference}</strong>.
         </div>
       ) : null}
-
       <section className="council-section">
-        <form className="council-form" onSubmit={handleSubmit}>
+        <form className="council-form" onSubmit={handleSubmit} noValidate>
+          {error ? (
+            <p className="council-error" role="alert">
+              {error}
+            </p>
+          ) : null}
           <div className="council-field">
-            <label htmlFor="benefits-message" className="council-label">What support do you need?</label>
-            <textarea id="benefits-message" className="council-textarea" defaultValue="I would like to find out whether I can get help with my household costs." />
+            <label htmlFor="benefits-message" className="council-label">
+              What support do you need?
+            </label>
+            <textarea id="benefits-message" className="council-textarea" value={message} onChange={(event) => setMessage(event.target.value)} />
           </div>
-          <button type="submit" className="council-button council-button--primary">Send enquiry</button>
+          <button type="submit" className="council-button council-button--primary" disabled={sending}>
+            {sending ? "Sending…" : "Send enquiry"}
+          </button>
         </form>
       </section>
-
       <div className="council-actions" style={{ marginTop: "24px" }}>
-        <Link href={`${COUNCIL_BASE}/account/`} className="council-btn council-btn--primary">Back to account</Link>
+        <Link href={`${COUNCIL_BASE}/account/`} className="council-btn council-btn--primary">
+          Back to account
+        </Link>
       </div>
     </div>
   );

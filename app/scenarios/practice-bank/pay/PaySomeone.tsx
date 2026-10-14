@@ -40,6 +40,7 @@ function PayForm({ account, refresh }: { account: BankAccount; refresh: () => vo
   const [sending, setSending] = useState(false);
   const [paid, setPaid] = useState<{ amountPence: number; payeeName: string; balancePence: number | null } | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const attempt = useRef<{ amountPence: number; key: string } | null>(null);
 
   const change = (name: keyof Fields, value: string) => {
     setValues((current) => ({ ...current, [name]: value }));
@@ -73,11 +74,14 @@ function PayForm({ account, refresh }: { account: BankAccount; refresh: () => vo
 
   const send = async () => {
     const amountPence = readPounds(values.amount);
-    if (amountPence === null) return;
+    if (amountPence === null || sending) return;
+    if (!attempt.current || attempt.current.amountPence !== amountPence) {
+      attempt.current = { amountPence, key: crypto.randomUUID() };
+    }
     setSending(true);
     const result = await request(`/accounts/${encodeURIComponent(account.username)}/transfers`, {
       method: "POST",
-      body: JSON.stringify({ ...values, amountPence }),
+      body: JSON.stringify({ ...values, amountPence, idempotencyKey: attempt.current.key }),
     });
     setSending(false);
 

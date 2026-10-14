@@ -2,37 +2,38 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { COUNCIL_BASE, RESIDENT, makeCouncilReference } from "../council-data";
-import { CouncilGate, useCouncilRequests } from "../council-session";
+import { sendCouncilRequest } from "../council-api";
+import { COUNCIL_BASE } from "../council-data";
+import { CouncilGate } from "../council-session";
+import type { CouncilAccount } from "../../../../workers/practice-bank/src/shared/council-types";
 
 export default function HousingPage() {
-  return (
-    <CouncilGate>
-      {(username) => <HousingContent username={username} />}
-    </CouncilGate>
-  );
+  return <CouncilGate>{(account, replace) => <HousingContent account={account} replace={replace} />}</CouncilGate>;
 }
 
-function HousingContent({ username }: { username: string }) {
-  const { addRequest } = useCouncilRequests(username);
-  const [requested, setRequested] = useState(false);
+function HousingContent({ account, replace }: { account: CouncilAccount; replace: (account: CouncilAccount) => void }) {
+  const [topic, setTopic] = useState("Housing application");
   const [reference, setReference] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const ref = makeCouncilReference();
-    addRequest({
-      id: `${Date.now()}`,
+    if (sending) return;
+    setSending(true);
+    const result = await sendCouncilRequest(account.username, {
       kind: "housing",
-      topic: "Housing enquiry",
-      subject: "Housing application form",
-      body: `${RESIDENT.fullName} is asking for information about housing applications and repairs.`,
-      reference: ref,
-      status: "submitted",
-      submittedAt: new Date().toISOString(),
+      topic,
+      message: `${account.fullName} is asking for information about ${topic.toLowerCase()}.`,
     });
-    setReference(ref);
-    setRequested(true);
+    setSending(false);
+    if (result.ok) {
+      replace(result.council);
+      setReference(result.reference);
+      setError("");
+      return;
+    }
+    setError("We couldn't save that enquiry. Try again.");
   };
 
   return (
@@ -42,36 +43,46 @@ function HousingContent({ username }: { username: string }) {
         <div className="council-panel">
           <h2>Housing information</h2>
           <p>We can help with repairs, housing applications, tenant support and changes to your details.</p>
-          <p><strong>Current status:</strong> Application enquiry in progress.</p>
+          <p>
+            This request is saved for <strong>{account.fullName}</strong>.
+          </p>
         </div>
         <div className="council-panel">
           <h2>Practice enquiry</h2>
-          <p>For this exercise, the council is storing a fictional housing request as part of your resident account.</p>
+          <p>The council stores a fictional housing request on your resident account. No real housing application is sent.</p>
         </div>
       </div>
-
-      {requested && reference ? (
-        <div className="council-success" style={{ marginTop: "24px" }}>
-          Housing enquiry submitted. Reference <strong>{reference}</strong>.
+      {reference ? (
+        <div className="council-success" style={{ marginTop: "24px" }} role="status">
+          Housing enquiry saved. Reference <strong>{reference}</strong>.
         </div>
       ) : null}
-
       <section className="council-section">
-        <form className="council-form" onSubmit={handleSubmit}>
+        <form className="council-form" onSubmit={handleSubmit} noValidate>
+          {error ? (
+            <p className="council-error" role="alert">
+              {error}
+            </p>
+          ) : null}
           <div className="council-field">
-            <label htmlFor="housing-type" className="council-label">What do you need help with?</label>
-            <select id="housing-type" className="council-select" defaultValue="Housing application">
+            <label htmlFor="housing-type" className="council-label">
+              What do you need help with?
+            </label>
+            <select id="housing-type" className="council-select" value={topic} onChange={(event) => setTopic(event.target.value)}>
               <option value="Housing application">Housing application</option>
               <option value="Repairs">Repairs</option>
-              <option value="Move or change of address">Change of address</option>
+              <option value="Change of address">Change of address</option>
             </select>
           </div>
-          <button type="submit" className="council-button council-button--primary">Submit enquiry</button>
+          <button type="submit" className="council-button council-button--primary" disabled={sending}>
+            {sending ? "Sending…" : "Submit enquiry"}
+          </button>
         </form>
       </section>
-
       <div className="council-actions" style={{ marginTop: "24px" }}>
-        <Link href={`${COUNCIL_BASE}/account/`} className="council-btn council-btn--primary">Back to account</Link>
+        <Link href={`${COUNCIL_BASE}/account/`} className="council-btn council-btn--primary">
+          Back to account
+        </Link>
       </div>
     </div>
   );

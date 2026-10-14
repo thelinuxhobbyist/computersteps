@@ -40,8 +40,8 @@ export type CardPaymentResult =
   | { ok: false; reason: "card-details"; errors: FieldErrors }
   | { ok: false; reason: "insufficient-funds"; balancePence: number };
 
-export async function payByCard(username: string, card: CardFields, amountPence: number): Promise<CardPaymentResult> {
-  const result = await request(`${base(username)}/payments`, { method: "POST", body: JSON.stringify({ ...card, amountPence }) });
+export async function payByCard(username: string, card: CardFields, amountPence: number, idempotencyKey: string): Promise<CardPaymentResult> {
+  const result = await request(`${base(username)}/payments`, { method: "POST", body: JSON.stringify({ ...card, amountPence, idempotencyKey }) });
   if (!result) return { ok: false, reason: "unavailable" };
   const { status, body } = result;
   if (status === 200) {

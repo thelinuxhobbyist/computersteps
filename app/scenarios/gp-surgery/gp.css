@@ -16,6 +16,7 @@
   --gp-text-soft: #4b5968;
 
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -525,7 +526,7 @@
 /* Inner pages */
 
 .gp-main {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 .gp-page-head {
@@ -1436,6 +1437,8 @@ select.gp-input {
 /* Footer */
 
 .gp-footer {
+  margin-top: auto;
+  flex-shrink: 0;
   background: var(--gp-blue-dark);
   color: #fff;
   font-size: 0.98rem;

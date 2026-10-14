@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { clearLearner, setLearner } from "../../lib/learner-session";
+import { clearLearner, setLearner, useLinkedUsername } from "../../lib/learner-session";
 import { createUsernameStore } from "../../lib/username-store";
 import { getEnergy, type GetEnergyResult } from "./energy-api";
 import type { EnergyAccount } from "./energy-data";
@@ -9,16 +9,16 @@ import type { EnergyAccount } from "./energy-data";
 const store = createUsernameStore("computer-steps:westford-energy-username");
 
 export function logIn(username: string) {
-  store.logIn(username);
   setLearner(username);
 }
 
 export function logOut() {
-  store.logOut();
   clearLearner();
 }
 
-export const useEnergyUsername = store.useUsername;
+export function useEnergyUsername() {
+  return useLinkedUsername(store.useUsername());
+}
 
 export type EnergyAccountState =
   | { status: "loading" }

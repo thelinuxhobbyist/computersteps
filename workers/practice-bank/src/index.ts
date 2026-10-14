@@ -12,7 +12,7 @@ import {
   usernameKey,
   validateUsername,
 } from "./bank";
-import { BALANCE_SQL, ensureIdentity, identityOf, insertTransactions, loadAccount, type AccountRow } from "./accounts";
+import { ensureIdentity, identityOf, insertTransactions, loadAccount, type AccountRow } from "./accounts";
 import {
   cancelDirectDebit,
   getEnergy,
@@ -36,6 +36,8 @@ import {
   tutorStop,
 } from "./exercises/store";
 import { corsHeaders, json, readJson, secureRandom } from "./http";
+import { getCouncil, payCouncilTax, sendCouncilRequest } from "./council-store";
+import { debitSharedBalance } from "./payments";
 import { createPatient, getPatient, orderPrescription } from "./patients";
 
 const INACTIVE_DAYS = 365;
@@ -119,21 +121,25 @@ async function takePayment(request: Request, env: Env): Promise<Response> {
 
   const key = account.username_key;
   const now = new Date().toISOString();
+  const reference = cleanReference(body.reference);
 
-  // A single conditional insert, so two payments at once cannot overspend the account.
-  const [inserted] = await env.BANK_DB.batch([
-    env.BANK_DB.prepare(
-      `INSERT INTO transactions (username_key, posted_at, description, type, category, amount_pence, reference)
-       SELECT ?1, ?2, 'Practice Shop', 'Card payment', 'Shopping', ?3, ?4
-       WHERE ${BALANCE_SQL} >= ?5`,
-    ).bind(key, now, -amountPence, cleanReference(body.reference), amountPence),
-    env.BANK_DB.prepare("UPDATE accounts SET last_used_at = ?2 WHERE username_key = ?1").bind(key, now),
-  ]);
+  // The shop order number is the idempotency key, so a repeated checkout cannot charge twice.
+  const debit = await debitSharedBalance(env.BANK_DB, {
+    usernameKey: key,
+    amountPence,
+    postedAt: now,
+    description: "Practice Shop",
+    type: "Card payment",
+    category: "Shopping",
+    reference: reference ?? `PS${now.slice(0, 10)}`,
+    idempotencyKey: reference ? `shop-${reference}` : null,
+  });
 
-  const balance = await env.BANK_DB.prepare(`SELECT ${BALANCE_SQL} AS balance`).bind(key).first<number>("balance");
-  if (inserted.meta.changes === 0) return json({ error: "insufficient_funds", balancePence: balance }, 402);
-
-  return json({ ok: true, username: account.username, balancePence: balance });
+  if (!debit.ok) {
+    if (debit.error === "insufficient_funds") return json({ error: "insufficient_funds", balancePence: debit.balancePence }, 402);
+    return json({ error: debit.error }, 409);
+  }
+  return json({ ok: true, duplicate: debit.duplicate, username: account.username, balancePence: debit.balancePence });
 }
 
 async function route(request: Request, env: Env, pathname: string): Promise<Response> {
@@ -162,6 +168,15 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
       const found = await loadAccount(env.BANK_DB, usernameKey(checked.username));
       return found ? json({ account: found }) : json({ error: "account_not_found" }, 404);
     }
+  }
+
+  const council = pathname.match(/^\/council\/([^/]+)(\/[a-z-]+)?$/);
+  if (council) {
+    const username = decodeURIComponent(council[1]);
+    const action = council[2] ?? "";
+    if (get && action === "") return getCouncil(env, username);
+    if (post && action === "/payments") return payCouncilTax(request, env, username);
+    if (post && action === "/requests") return sendCouncilRequest(request, env, username);
   }
 
   const energy = pathname.match(/^\/energy\/([^/]+)(\/[a-z-/]+)?$/);
@@ -220,7 +235,7 @@ const practiceBankWorker = {
     }
   },
 
-  // Energy accounts, energy history and exercise progress are removed with the bank account they belong to.
+  // Bank, energy, council and exercise rows share the account. Closing an inactive account removes them together.
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
     const cutoff = new Date(Date.now() - INACTIVE_DAYS * 24 * 60 * 60 * 1000).toISOString();
     const [accounts, patients] = await env.BANK_DB.batch([

@@ -14,6 +14,7 @@
   --pb-text-soft: #4a5568;
 
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background: var(--pb-grey);
@@ -188,7 +189,7 @@
 /* Layout */
 
 .pb-main {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 .pb-content {
@@ -1091,8 +1092,10 @@
 /* Footer */
 
 .pb-footer {
+  margin-top: auto;
+  flex-shrink: 0;
   background: var(--pb-navy-dark);
-  color: #dfe6f3;
+  color: #f3f6fb;
   font-size: 0.92rem;
 }
 

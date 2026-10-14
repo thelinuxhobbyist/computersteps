@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { sendMessage, type FieldErrors } from "../energy-api";
-import { CONTACT_TOPICS, ENERGY_BASE, contactTopicLabel, type EnergyAccount } from "../energy-data";
+import { CONTACT_TOPICS, ENERGY_BASE, type EnergyAccount } from "../energy-data";
 import { useEnergyAccount } from "../energy-session";
 
 export default function ContactForm() {
@@ -31,7 +31,7 @@ function MessageForm({ energy, update }: { energy: EnergyAccount; update: (energ
   const [errors, setErrors] = useState<FieldErrors>({});
   const [problem, setProblem] = useState("");
   const [sending, setSending] = useState(false);
-  const [sentTopic, setSentTopic] = useState<string | null>(null);
+  const [sentReference, setSentReference] = useState<string | null>(null);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +40,7 @@ function MessageForm({ energy, update }: { energy: EnergyAccount; update: (energ
     setSending(false);
     if (result.ok) {
       update(result.energy);
-      setSentTopic(topic);
+      setSentReference(result.energy.messages[0]?.reference ?? "");
       setTopic("");
       setMessage("");
       setErrors({});
@@ -53,16 +53,19 @@ function MessageForm({ energy, update }: { energy: EnergyAccount; update: (energ
     }
   };
 
-  if (sentTopic) {
+  if (sentReference !== null) {
     return (
       <div className="we-panel">
         <div className="we-confirmation" role="status">
           <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" className="we-confirmation__icon" />
-          <p>
-            Thank you, {energy.fullName}. We have your message about &ldquo;{contactTopicLabel(sentTopic)}&rdquo; and will reply within 2 working days.
-          </p>
+          <div>
+            <p>Thank you, {energy.fullName}. Your message is saved on this account. No email has been sent.</p>
+            <p>
+              Reference <strong>{sentReference}</strong>
+            </p>
+          </div>
         </div>
-        <button type="button" className="we-btn we-btn--secondary" onClick={() => setSentTopic(null)}>
+        <button type="button" className="we-btn we-btn--secondary" onClick={() => setSentReference(null)}>
           Send another message
         </button>
       </div>

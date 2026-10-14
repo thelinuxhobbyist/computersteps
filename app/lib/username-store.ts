@@ -2,6 +2,9 @@
 
 import { useSyncExternalStore } from "react";
 
+/** Fired after the shared ComputerSteps identity is saved or cleared, including in this tab. */
+export const IDENTITY_EVENT = "computer-steps:identity";
+
 /** Remembers which practice username is logged in on this device. */
 export function createUsernameStore(storageKey: string) {
   const listeners = new Set<() => void>();
@@ -32,10 +35,13 @@ export function createUsernameStore(storageKey: string) {
     const onStorage = (event: StorageEvent) => {
       if (event.key === storageKey) listener();
     };
+    const onIdentity = () => listener();
     window.addEventListener("storage", onStorage);
+    window.addEventListener(IDENTITY_EVENT, onIdentity);
     return () => {
       listeners.delete(listener);
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener(IDENTITY_EVENT, onIdentity);
     };
   };
 

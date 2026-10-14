@@ -36,12 +36,16 @@ function Overview({ energy }: { energy: EnergyAccount }) {
           <FontAwesomeIcon icon={faTriangleExclamation} aria-hidden="true" />
           <div>
             <p>
-              <strong>URGENT: Your latest bill requires attention</strong>
+              <strong>URGENT: Your latest electricity bill requires attention. Please contact our customer support team to discuss your account.</strong>
             </p>
             <p>
-              Your account needs action. Please contact our customer support team as soon as possible about the outstanding bill.
+              Read the latest bill, then send a message from Contact Us. The confirmation reference is saved on this account. No real email is sent.
             </p>
             <p>
+              <Link href={`${ENERGY_BASE}/bills/`} className="we-link">
+                View the latest bill
+              </Link>
+              {" · "}
               <Link href={`${ENERGY_BASE}/contact/`} className="we-link">
                 Contact us
               </Link>
@@ -140,7 +144,9 @@ function Overview({ energy }: { energy: EnergyAccount }) {
             {energy.messages.slice(0, 5).map((message) => (
               <li key={message.id} className="we-panel we-message">
                 <strong>{contactTopicLabel(message.topic)}</strong>
-                <span className="we-small">Sent {formatDay(dayOf(message.sentAt))}. We will reply within 2 working days.</span>
+                <span className="we-small">
+                  Reference {message.reference}. Sent {formatDay(dayOf(message.sentAt))}. Status: {message.status === "replied" ? "reply saved" : "received"}.
+                </span>
                 <p>{message.message}</p>
               </li>
             ))}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { COUNCIL_BASE, COUNCIL_NAV, RESIDENT } from "./council-data";
+import { COUNCIL_BASE, COUNCIL_NAV } from "./council-data";
+import ResidentSummary from "./ResidentSummary";
 
 export const metadata: Metadata = {
   title: "Westford Council",
@@ -69,15 +70,7 @@ export default function CouncilHomePage() {
         <section className="council-section" aria-labelledby="resident-heading">
           <h2 id="resident-heading">Resident account</h2>
           <div className="council-split">
-            <div className="council-panel">
-              <h3>Resident details</h3>
-              <p>
-                <strong>{RESIDENT.fullName}</strong>
-              </p>
-              <p>{RESIDENT.addressLine1}</p>
-              <p>{RESIDENT.townOrCity}</p>
-              <p>{RESIDENT.postcode}</p>
-            </div>
+            <ResidentSummary />
             <div className="council-panel">
               <h3>Useful to know</h3>
               <p>Most council services are available without visiting the town hall. You can log in with your existing Computer Steps account.</p>

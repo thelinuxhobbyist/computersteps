@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import CouncilUserBar from "./CouncilUserBar";
 import "./council.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ function CouncilHeader() {
           <span>Westford Council</span>
         </Link>
 
+        <CouncilUserBar />
         <nav className="council-nav" aria-label="Westford Council navigation">
           <Link href="/scenarios/council/">Home</Link>
           <Link href="/scenarios/council/account/">My Account</Link>

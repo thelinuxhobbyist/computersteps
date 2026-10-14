@@ -1,13 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { clearLearner, setLearner, useLinkedUsername } from "../../lib/learner-session";
 import { createUsernameStore } from "../../lib/username-store";
 import { getPatient } from "./gp-api";
 import type { Patient } from "./prescription-order";
 
 const store = createUsernameStore("computer-steps:gp-username");
 
-export const { logIn: logInPatient, logOut: logOutPatient } = store;
+export function logInPatient(username: string) {
+  setLearner(username);
+}
+
+export function logOutPatient() {
+  clearLearner();
+}
 
 export type PatientState =
   | { status: "loading" }
@@ -19,7 +26,7 @@ export type PatientState =
 type Loaded = { username: string; result: Awaited<ReturnType<typeof getPatient>> };
 
 export function usePatient(): PatientState {
-  const username = store.useUsername();
+  const username = useLinkedUsername(store.useUsername());
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [reloadCount, setReloadCount] = useState(0);
 

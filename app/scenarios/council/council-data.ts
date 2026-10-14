@@ -50,6 +50,7 @@ export function makeCouncilReference(): string {
 
 export function councilRequestStatus(status: string): string {
   if (status === "complete") return "Completed";
+  if (status === "replied") return "Reply saved";
   if (status === "in-progress") return "In progress";
   if (status === "submitted") return "Submitted";
   return "Received";

@@ -1,5 +1,5 @@
 import { BROADBAND_PAYEE, OLD_BROADBAND_PAYEE, checkCardDetails, normaliseCardNumber, readCardDetails, usernameKey, validateUsername } from "./bank";
-import { BALANCE_SQL, findAccountRow, identityOf, insertTransactions, loadAccount, type AccountRow } from "./accounts";
+import { findAccountRow, identityOf, insertTransactions, loadAccount, type AccountRow } from "./accounts";
 import {
   bankTransactionFor,
   billStatuses,
@@ -13,6 +13,7 @@ import {
   ukToday,
 } from "./energy";
 import { json, readJson, secureRandom } from "./http";
+import { debitSharedBalance, readIdempotencyKey } from "./payments";
 import { makeEnquiryReference, simulatedReply } from "./messaging";
 import type { EnergyAccount, EnergyBill, EnergyMessage, EnergyPayment, EnergyReading } from "./shared/energy-types";
 import type { MessageStatus } from "./shared/messaging-types";
@@ -254,38 +255,58 @@ export async function payEnergyByCard(request: Request, env: Env, rawUsername: s
   const errors = checkCardDetails({ nameOnCard: card.name_on_card, cardNumber: card.card_number, expiry: card.expiry, cvv: card.cvv }, details);
   if (Object.keys(errors).length > 0) return json({ error: "card_details_wrong", errors }, 400);
 
-  return takeEnergyPayment(env.BANK_DB, key, amountPence, "card_online");
+  const idempotencyKey = readIdempotencyKey(body.idempotencyKey);
+  if (idempotencyKey === "invalid") return json({ error: "bad_idempotency_key" }, 400);
+
+  return takeEnergyPayment(env.BANK_DB, key, amountPence, "card_online", idempotencyKey);
 }
 
 /** Money leaves Practice Bank only if there is enough, and Westford Energy records it only if it left. */
-async function takeEnergyPayment(db: D1Database, key: string, amountPence: number, method: EnergyPaymentMethod): Promise<Response> {
+async function takeEnergyPayment(
+  db: D1Database,
+  key: string,
+  amountPence: number,
+  method: EnergyPaymentMethod,
+  idempotencyKey: string | null,
+): Promise<Response> {
   const now = new Date().toISOString();
   const reference = makePaymentReference(secureRandom);
   const transaction = bankTransactionFor({ paidAt: now, amountPence, method, reference });
+  const debit = await debitSharedBalance(db, {
+    usernameKey: key,
+    amountPence,
+    postedAt: now,
+    description: transaction.description,
+    type: transaction.type,
+    category: transaction.category,
+    reference,
+    idempotencyKey,
+  });
 
-  const [inserted] = await db.batch([
-    db
-      .prepare(
-        `INSERT INTO transactions (username_key, posted_at, description, type, category, amount_pence, reference)
-         SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7 WHERE ${BALANCE_SQL} >= ?8`,
-      )
-      .bind(key, now, transaction.description, transaction.type, transaction.category, transaction.amountPence, reference, amountPence),
-    db
-      .prepare(
-        `INSERT INTO energy_payments (username_key, paid_at, amount_pence, method, reference)
-         SELECT ?1, ?2, ?3, ?4, ?5 WHERE EXISTS (SELECT 1 FROM transactions WHERE username_key = ?1 AND reference = ?5)`,
-      )
-      .bind(key, now, amountPence, method, reference),
-    db.prepare("UPDATE accounts SET last_used_at = ?2 WHERE username_key = ?1").bind(key, now),
-  ]);
-
-  if (inserted.meta.changes === 0) {
-    const balance = await db.prepare(`SELECT ${BALANCE_SQL} AS balance`).bind(key).first<number>("balance");
-    return json({ error: "insufficient_funds", balancePence: balance }, 402);
+  if (!debit.ok) {
+    if (debit.error === "insufficient_funds") return json({ error: "insufficient_funds", balancePence: debit.balancePence }, 402);
+    return json({ error: debit.error }, 409);
   }
 
+  await db
+    .prepare(
+      `INSERT INTO energy_payments (username_key, paid_at, amount_pence, method, reference)
+       SELECT ?1, ?2, ?3, ?4, ?5
+       WHERE EXISTS (SELECT 1 FROM transactions WHERE username_key = ?1 AND reference = ?5)
+         AND NOT EXISTS (SELECT 1 FROM energy_payments WHERE username_key = ?1 AND reference = ?5)`,
+    )
+    .bind(key, now, amountPence, method, debit.reference)
+    .run();
+
   const [bank, energy] = await Promise.all([loadAccount(db, key), loadEnergy(db, key)]);
-  return json({ ok: true, reference, amountPence, balancePence: bank?.balancePence ?? null, energy });
+  return json({
+    ok: true,
+    duplicate: debit.duplicate,
+    reference: debit.reference,
+    amountPence,
+    balancePence: bank?.balancePence ?? null,
+    energy,
+  });
 }
 
 /** "Pay a bill" in Practice Bank. */
@@ -302,7 +323,10 @@ export async function payByBankTransfer(request: Request, env: Env, rawUsername:
   const checked = checkTransfer(body, energy?.account_number ?? null);
   if ("errors" in checked) return json({ error: "invalid_transfer", errors: checked.errors }, 400);
 
-  return takeEnergyPayment(env.BANK_DB, key, checked.request.amountPence, "bank_transfer");
+  const idempotencyKey = readIdempotencyKey(body.idempotencyKey);
+  if (idempotencyKey === "invalid") return json({ error: "bad_idempotency_key" }, 400);
+
+  return takeEnergyPayment(env.BANK_DB, key, checked.request.amountPence, "bank_transfer", idempotencyKey);
 }
 
 export async function setUpDirectDebit(request: Request, env: Env, rawUsername: string): Promise<Response> {
