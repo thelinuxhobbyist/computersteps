@@ -95,7 +95,7 @@ function HomeContent() {
             <div className="section-head">
               <h2 id="scenarios-heading">Practise using real-world websites</h2>
               <p>
-                Courses teach skills such as using a mouse, typing and choosing items on a page. Scenarios are pretend websites where you practise a whole task, such as paying a bill, tracking a parcel or booking a trip. The websites and the money are not real.
+                Courses teach skills such as using a mouse, typing and choosing items on a page. Scenarios are pretend websites where you practise a whole task, such as paying a bill, tracking a parcel, booking a trip or searching for a job. The websites and the money are not real.
               </p>
             </div>
 

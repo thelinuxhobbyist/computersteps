@@ -19,7 +19,7 @@ export default function ScenariosPage() {
         <section className="hero" aria-labelledby="scenarios-heading">
           <h1 id="scenarios-heading">Practise everyday tasks online</h1>
           <p className="hero-lead">
-            Courses teach one computer skill at a time, such as clicking, typing or choosing an item. Scenarios are longer pretend websites. You sign in once, then practise tasks such as paying a bill, tracking a parcel or booking a trip. Nothing here is a real company, and no real payment is taken.
+            Courses teach one computer skill at a time, such as clicking, typing or choosing an item. Scenarios are longer pretend websites. You sign in once, then practise tasks such as paying a bill, tracking a parcel, booking a trip or searching for a job. Nothing here is a real company, and no real payment is taken.
           </p>
         </section>
 

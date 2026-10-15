@@ -29,4 +29,6 @@ test("includes the practice websites", () => {
   assert.equal(getScenario("westford-mobile")?.href, "/scenarios/mobile/");
   assert.equal(getScenario("westford-deliveries")?.href, "/scenarios/deliveries/");
   assert.equal(getScenario("westford-travel")?.href, "/scenarios/travel/");
+  assert.equal(getScenario("westford-jobs")?.href, "/scenarios/jobs/");
+  assert.match(getScenario("westford-jobs")?.description ?? "", /searching for jobs/i);
 });

@@ -16,6 +16,7 @@ export default function ScenarioCard({ scenario, showTutorTasks = false }: Scena
           {scenario.icon}
         </span>
         <h3 className="scenario-card__title">{scenario.name}</h3>
+        {scenario.badge ? <span className="scenario-card__badge">{scenario.badge}</span> : null}
       </div>
 
       <p className="scenario-card__description">{scenario.description}</p>

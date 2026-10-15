@@ -18,12 +18,12 @@ export const secureRandom: Random = () => {
   return buffer[0] / 2 ** 32;
 };
 
-export async function readJson(request: Request): Promise<Record<string, unknown> | null> {
+export async function readJson(request: Request, maxBytes = MAX_BODY_BYTES): Promise<Record<string, unknown> | null> {
   const length = Number(request.headers.get("Content-Length") ?? "0");
-  if (length > MAX_BODY_BYTES) return null;
+  if (length > maxBytes) return null;
   try {
     const text = await request.text();
-    if (text.length > MAX_BODY_BYTES) return null;
+    if (text.length > maxBytes) return null;
     const body: unknown = JSON.parse(text);
     return body && typeof body === "object" && !Array.isArray(body) ? (body as Record<string, unknown>) : null;
   } catch {

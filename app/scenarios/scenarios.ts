@@ -9,6 +9,8 @@ export type Scenario = {
   skills: string[];
   /** Goal-based tasks a tutor can set. They describe what to achieve, not which buttons to press. */
   tutorTasks: string[];
+  /** Short label such as New, shown on the scenario card. */
+  badge?: string;
 };
 
 export const SCENARIOS: Scenario[] = [
@@ -160,6 +162,33 @@ export const SCENARIOS: Scenario[] = [
       "Compare a hotel with a holiday rental.",
       "Review a combined booking total before paying.",
       "Pay with Practice Bank, then find the booking reference in My trips.",
+    ],
+  },
+  {
+    id: "westford-jobs",
+    name: "Westford Jobs",
+    icon: "💼",
+    summary: "Search for jobs and practise an application",
+    description:
+      "Practise searching for jobs, comparing vacancies and completing application forms on a simulated UK recruitment website.",
+    href: "/scenarios/jobs/",
+    badge: "New",
+    skills: [
+      "Searching and filtering",
+      "Reading a job advert",
+      "Comparing vacancies",
+      "Saving a job",
+      "Completing an application",
+      "Spotting suspicious adverts",
+    ],
+    tutorTasks: [
+      "Search for a warehouse operative vacancy and open the advert.",
+      "Find a part-time retail job in Leeds.",
+      "Compare two vacancies by pay, hours and requirements.",
+      "Save a job, then find it again in Saved jobs.",
+      "Complete a practice application and find the reference in My applications.",
+      "Read a practice interview invitation and note the time and place.",
+      "Find the warning signs in a suspicious fictional advert.",
     ],
   },
 ];

@@ -39,6 +39,7 @@ import { corsHeaders, json, readJson, secureRandom } from "./http";
 import { getCouncil, payCouncilTax, sendCouncilRequest } from "./council-store";
 import { getDeliveries, saveDeliveryRequest } from "./delivery-store";
 import { changeMobilePlan, getMobile, payMobileBill, sendMobileMessage } from "./mobile-store";
+import { checkJobsExercise, getJobs, saveJob, submitJobApplication } from "./jobs-store";
 import { bookTrip, cancelTrip, getTravel } from "./travel-store";
 import { debitSharedBalance } from "./payments";
 import { createPatient, getPatient, orderPrescription } from "./patients";
@@ -190,6 +191,17 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
     if (post && deliveries[2]) return saveDeliveryRequest(request, env, username);
   }
 
+  if (post && pathname === "/jobs/exercises/check") return checkJobsExercise(request, env);
+  const jobs = pathname.match(/^\/jobs\/([^/]+)(?:\/(saved|applications)(?:\/(remove))?)?$/);
+  if (jobs) {
+    const username = decodeURIComponent(jobs[1]);
+    const action = jobs[2] ?? "";
+    const remove = jobs[3] === "remove";
+    if (get && !action) return getJobs(env, username);
+    if (post && action === "saved") return saveJob(request, env, username, remove);
+    if (post && action === "applications" && !remove) return submitJobApplication(request, env, username);
+  }
+
   const travel = pathname.match(/^\/travel\/([^/]+)(\/bookings(?:\/[^/]+\/cancel)?)?$/);
   if (travel) {
     const username = decodeURIComponent(travel[1]);
@@ -265,7 +277,9 @@ const practiceBankWorker = {
     }
   },
 
-  // Bank, energy, council and exercise rows share the account. Closing an inactive account removes them together.
+  // Bank, energy, council, jobs and exercise rows share the account.
+  // Closing an inactive account removes them together. The Westford Jobs vacancy
+  // catalogue is source data, so this cleanup does not delete fictional vacancies.
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
     const cutoff = new Date(Date.now() - INACTIVE_DAYS * 24 * 60 * 60 * 1000).toISOString();
     const [accounts, patients] = await env.BANK_DB.batch([
