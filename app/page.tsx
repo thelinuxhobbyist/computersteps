@@ -144,7 +144,7 @@ function HomeContent() {
       {visibleLessonIndex === null || visibleLessonIndex < 0 ? (
         <footer>
           <div className="wrap footer-inner">
-            <span suppressHydrationWarning>© {new Date().getFullYear()} Computer Steps</span>
+            <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
           </div>
         </footer>
       ) : null}

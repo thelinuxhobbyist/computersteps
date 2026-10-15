@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { clearLearner, useLearner } from "../../lib/learner-session";
+import { WestfordMark } from "./TravelArt";
 
 const LINKS = [
   ["Search", "/scenarios/travel/"],
@@ -20,7 +21,8 @@ export default function TravelNav() {
   return (
     <header className="ps-header">
       <div className="ps-wrap ps-header__row">
-        <Link href="/scenarios/travel/" className="ps-logo">
+        <Link href="/scenarios/travel/" className="wt-brand">
+          <WestfordMark />
           Westford Travel
         </Link>
         {username ? (

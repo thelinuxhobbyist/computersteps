@@ -63,6 +63,7 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
   const account = await findAccountRow(env.BANK_DB, key);
   if (!account) return json({ error: "account_not_found" }, 404);
 
+  const identity = identityOf(account);
   const priced = quoteTrip({
     flightId: typeof body.flightId === "string" ? body.flightId : undefined,
     returnFlightId: typeof body.returnFlightId === "string" ? body.returnFlightId : undefined,
@@ -70,13 +71,15 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
     checkIn: typeof body.checkIn === "string" ? body.checkIn : undefined,
     checkOut: typeof body.checkOut === "string" ? body.checkOut : undefined,
     guests: Number(body.guests),
+    departDate: typeof body.departDate === "string" ? body.departDate : undefined,
+    returnDate: typeof body.returnDate === "string" ? body.returnDate : undefined,
   });
   if (!priced.ok) return json({ error: "invalid_booking", message: priced.error }, 400);
 
   const card = readCardDetails(body);
   const address = readDeliveryDetails(body);
   const errors: Record<string, string> = {
-    ...checkDeliveryDetails(identityOf(account), address),
+    ...checkDeliveryDetails(identity, address),
     ...checkCardDetails({ nameOnCard: account.name_on_card, cardNumber: account.card_number, expiry: account.expiry, cvv: account.cvv }, card),
   };
   if (normaliseCardNumber(card.cardNumber) !== account.card_number) {
@@ -84,6 +87,7 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
   }
   if (Object.keys(errors).length > 0) return json({ error: "card_details_wrong", errors }, 400);
 
+  const quote = { ...priced.quote, passengerName: identity.fullName };
   const now = new Date();
   const paymentReference = `WT${Math.floor(secureRandom() * 10_000_000).toString().padStart(7, "0")}`;
   const debit = await debitSharedBalance(env.BANK_DB, {
@@ -110,7 +114,7 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
         await env.BANK_DB.prepare(
           "INSERT INTO travel_bookings (username_key, reference, summary_json, total_pence, status, payment_reference, created_at) VALUES (?, ?, ?, ?, 'confirmed', ?, ?)",
         )
-          .bind(key, reference, JSON.stringify(priced.quote), priced.quote.totalPence, debit.reference, now.toISOString())
+          .bind(key, reference, JSON.stringify(quote), quote.totalPence, debit.reference, now.toISOString())
           .run();
         break;
       } catch (error) {

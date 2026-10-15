@@ -2733,9 +2733,11 @@ footer {
 }
 
 .footer-inner {
-  padding: 18px 0;
-  font-size: 0.85rem;
+  padding: 20px 0 24px;
+  font-size: 0.9rem;
+  line-height: 1.5;
   text-align: center;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 900px) {

@@ -83,7 +83,7 @@ export default function OrderConfirmation() {
 
       <footer>
         <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} Computer Steps</span>
+          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
         </div>
       </footer>
     </div>

@@ -81,7 +81,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
 
       <footer>
         <div className="wrap footer-inner">
-          <span>© {new Date().getFullYear()} Computer Steps</span>
+          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
         </div>
       </footer>
     </div>
