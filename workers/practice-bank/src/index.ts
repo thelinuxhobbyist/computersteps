@@ -40,6 +40,7 @@ import { getCouncil, payCouncilTax, sendCouncilRequest } from "./council-store";
 import { getDeliveries, saveDeliveryRequest } from "./delivery-store";
 import { changeMobilePlan, getMobile, payMobileBill, sendMobileMessage } from "./mobile-store";
 import { checkJobsExercise, getJobs, saveJob, submitJobApplication } from "./jobs-store";
+import { searchAddresses } from "./place-search";
 import { bookTrip, cancelTrip, getTravel } from "./travel-store";
 import { debitSharedBalance } from "./payments";
 import { createPatient, getPatient, orderPrescription } from "./patients";
@@ -191,6 +192,7 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
     if (post && deliveries[2]) return saveDeliveryRequest(request, env, username);
   }
 
+  if (get && pathname === "/places/search") return searchAddresses(new URL(request.url));
   if (post && pathname === "/jobs/exercises/check") return checkJobsExercise(request, env);
   const jobs = pathname.match(/^\/jobs\/([^/]+)(?:\/(saved|applications)(?:\/(remove))?)?$/);
   if (jobs) {

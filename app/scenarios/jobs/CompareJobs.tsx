@@ -22,7 +22,7 @@ export function CompareJobs() {
   return (
     <div className="ps-wrap">
       <h1>Compare jobs</h1>
-      <p className="wj-lead">Put two fictional vacancies side by side. Look at the pay, the hours and the essential requirements before you decide.</p>
+      <p className="wj-lead">Compare two vacancies side by side. Look at the pay, the hours and the essential requirements before you decide.</p>
       {jobs.length < 2 ? (
         <div className="wj-note" role="status">
           <p>Choose two jobs. On a search result or a job advert, select Add to compare, then open Compare jobs.</p>

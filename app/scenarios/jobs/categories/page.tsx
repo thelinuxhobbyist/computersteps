@@ -9,7 +9,7 @@ export default function CategoriesPage() {
   return (
     <div className="ps-wrap">
       <h1>Job categories</h1>
-      <p className="wj-lead">Choose a type of work to see the fictional vacancies in that category. You can add more filters on the results page.</p>
+      <p className="wj-lead">Choose a type of work. You can narrow the list by hours, pay and location on the results page.</p>
       <div className="wj-cats">
         {JOB_CATEGORIES.map((category) => {
           const count = VACANCIES.filter((job) => job.category === category.id).length;

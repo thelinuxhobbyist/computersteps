@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ExerciseTask } from "../../ExerciseViews";
 
-export const metadata: Metadata = { title: "Practice task" };
+export const metadata: Metadata = { title: "Job search guide" };
 
 export default function ExerciseTaskPage() {
   return (

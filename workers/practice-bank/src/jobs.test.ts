@@ -42,6 +42,8 @@ test("search ignores case and extra spaces and combines filters", () => {
   assert.equal(retail.results[0].id, "wfj-1011");
   const postcode = searchJobs(VACANCIES, { ...emptyJobQuery(), where: "w52np" });
   assert.ok(postcode.results.some((job) => job.id === "wfj-1001"));
+  const address = searchJobs(VACANCIES, { ...emptyJobQuery(), where: "1 The Mall, Ealing, W5 2NP" });
+  assert.ok(address.results.some((job) => job.id === "wfj-1001"));
 });
 
 test("salary, contract and sort options change the list", () => {

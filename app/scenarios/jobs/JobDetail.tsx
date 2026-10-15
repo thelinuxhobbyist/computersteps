@@ -42,7 +42,7 @@ export function JobDetail() {
     return (
       <div className="ps-wrap">
         <h1>Job not found</h1>
-        <p>That practice vacancy is not in the list. Go back to the search and choose a job title.</p>
+        <p>That job is no longer listed. Go back to search and choose another vacancy.</p>
         <Link className="wj-btn" href="/scenarios/jobs/search/">
           Back to search results
         </Link>
@@ -108,9 +108,9 @@ export function JobDetail() {
           </ul>
           <h2>How to apply</h2>
           <p>
-            Select Apply for this job and complete the practice form. Use fictional details. The application is saved on your Computer Steps account and is not sent to {job.employer}.
+            Select Apply for this job and complete the application. You can review your answers before you submit.
           </p>
-          {closed ? <p>The closing date has passed. You can still send a practice application.</p> : null}
+          {closed ? <p>The closing date has passed.</p> : null}
         </article>
         <aside className="wj-aside">
           <h2>Job facts</h2>

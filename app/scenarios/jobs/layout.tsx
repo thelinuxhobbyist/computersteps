@@ -7,7 +7,7 @@ import JobsNav, { CompareBar, TaskBanner } from "./JobsNav";
 
 export const metadata: Metadata = {
   title: { default: "Westford Jobs", template: "%s | Westford Jobs" },
-  description: "A pretend UK recruitment website for practising job search, comparing vacancies and completing application forms.",
+  description: "Search UK jobs by title and location, compare vacancies and apply online with Westford Jobs.",
 };
 
 export default function JobsLayout({ children }: { children: ReactNode }) {
@@ -16,31 +16,28 @@ export default function JobsLayout({ children }: { children: ReactNode }) {
       <a className="wj-skip" href="#wj-content">
         Skip to content
       </a>
-      <div className="ps-note" role="note">
-        <div className="ps-wrap">
-          <p>
-            <strong>Practice website.</strong> Westford Jobs lists fictional vacancies. Applications are not sent to employers.
-          </p>
-          <Link href="/scenarios/">← Back to Computer Steps</Link>
-        </div>
-      </div>
       <JobsNav />
       <TaskBanner />
       <CompareBar />
       <main id="wj-content" className="wj-main">
         {children}
       </main>
-      <footer className="ps-footer">
+      <footer className="wj-footer">
         <div className="ps-wrap">
+          <p className="wj-footer__brand">Westford Jobs</p>
+          <p>Search vacancies, save jobs and apply online.</p>
           <p>
-            Westford Jobs is fictional. Practice applications, saved jobs and task progress are stored on your Computer Steps account and removed if the account is unused for a year. No employer is contacted.
-          </p>
-          <p>
-            <Link href="/scenarios/jobs/exercises/">Guided exercises</Link>
+            <Link href="/scenarios/jobs/find/">Find jobs</Link>
             {" · "}
-            <Link href="/scenarios/jobs/safety/">Spot a suspicious advert</Link>
+            <Link href="/scenarios/jobs/categories/">Categories</Link>
             {" · "}
-            <Link href="/scenarios/jobs/">About this practice</Link>
+            <Link href="/scenarios/jobs/saved/">Saved jobs</Link>
+            {" · "}
+            <Link href="/scenarios/jobs/applications/">Applications</Link>
+            {" · "}
+            <Link href="/scenarios/jobs/exercises/">Job search guides</Link>
+            {" · "}
+            <Link href="/scenarios/jobs/safety/">Avoid job scams</Link>
           </p>
         </div>
       </footer>

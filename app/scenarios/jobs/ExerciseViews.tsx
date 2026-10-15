@@ -19,9 +19,9 @@ export function ExerciseList() {
 
   return (
     <div className="ps-wrap">
-      <h1>Guided exercises</h1>
+      <h1>Job search guides</h1>
       <p className="wj-lead">
-        Each task uses the Westford Jobs website. Read the situation, do the steps, then check your answer. A hint tells you where to look without giving the answer away.
+        Work through a search, an application or a suspicious advert, then check what you found. A hint points you to the right page.
       </p>
       {!username ? <p>Sign in if you want completed tasks to be saved on your account. You can still try the questions first.</p> : null}
       {EXERCISE_LEVELS.map((level) => (

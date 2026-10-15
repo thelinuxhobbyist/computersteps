@@ -262,7 +262,11 @@ function locationMatches(job: Vacancy, where: string): boolean {
   if (hay.includes(query)) return true;
   const flat = squash(where);
   const postcode = squash(job.postcode);
-  return flat.length >= 2 && postcode.startsWith(flat);
+  if (postcode && flat.length >= 2 && postcode.startsWith(flat)) return true;
+  const places = [job.area, job.town, job.city].map((part) => normText(part ?? "")).filter((part) => part.length >= 4);
+  if (places.some((part) => query.includes(part))) return true;
+  const found = where.toUpperCase().match(/\b([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})\b/);
+  return Boolean(found && postcode.startsWith(squash(found[1])));
 }
 
 function scoreJob(job: Vacancy, tokens: string[], phrase: string): number {

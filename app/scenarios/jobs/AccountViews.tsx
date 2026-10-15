@@ -54,7 +54,7 @@ export function AccountHome() {
     return (
       <div className="ps-wrap">
         <h1>My account</h1>
-        <p>Sign in with the same Computer Steps username you use on the other practice websites. Saving a job or sending an application needs an account.</p>
+        <p>Sign in to save jobs and manage your applications.</p>
         <ScenarioSignIn />
       </div>
     );
@@ -79,7 +79,7 @@ export function AccountHome() {
       </ul>
       <div className="wj-note" role="note">
         <p>
-          Saved jobs, practice applications and exercise progress are kept for one year after you last use your Computer Steps account. They are then deleted. The fictional job list is not deleted. Nothing is sent to an employer.
+          Saved jobs and applications stay on your account. Sign in with the same details when you come back.
         </p>
       </div>
       <button
@@ -106,7 +106,7 @@ export function SavedJobs() {
     return (
       <div className="ps-wrap">
         <h1>Saved jobs</h1>
-        <p>Sign in to see the vacancies you have saved. They are kept on your Computer Steps account, not on this device alone.</p>
+        <p>Sign in to see the jobs you have saved.</p>
         <ScenarioSignIn />
       </div>
     );
@@ -173,7 +173,7 @@ export function Applications() {
     return (
       <div className="ps-wrap">
         <h1>My applications</h1>
-        <p>Sign in to see the practice applications on your account.</p>
+        <p>Sign in to see the jobs you have applied for.</p>
         <ScenarioSignIn />
       </div>
     );
@@ -190,12 +190,9 @@ export function Applications() {
   return (
     <div className="ps-wrap">
       <h1>My applications</h1>
-      <div className="wj-note" role="note">
-        <p>These statuses are fictional. They show how a recruitment process can move on. No employer has replied.</p>
-      </div>
       {account.applications.length === 0 ? (
         <div className="wj-note" role="status">
-          <p>You have not submitted a practice application yet.</p>
+          <p>You have not applied for a job yet.</p>
           <Link className="wj-btn" href="/scenarios/jobs/find/">
             Find a job to apply for
           </Link>
@@ -210,7 +207,7 @@ export function Applications() {
             <p>Applied {formatUkDate(application.submittedAt.slice(0, 10))}</p>
             <p>Reference {application.reference}</p>
             <p>
-              Practice status: <strong>{statusLabel(application.status)}</strong>
+              Status: <strong>{statusLabel(application.status)}</strong>
             </p>
           </article>
         ))
@@ -267,10 +264,10 @@ export function ApplyDone() {
 
   return (
     <div className="ps-wrap">
-      <h1>Practice application recorded</h1>
+      <h1>Application submitted</h1>
       <div className="wj-ok" role="status">
         <p>
-          <strong>Saved on your account.</strong> This application has not been sent to an employer or a recruitment service.
+          <strong>Thank you.</strong> Your application has been received. Keep the reference for your records.
         </p>
       </div>
       {application ? (
@@ -284,10 +281,9 @@ export function ApplyDone() {
             <dd>{application.employer}</dd>
             <dt>Submitted</dt>
             <dd>{formatUkDate(application.submittedAt.slice(0, 10))}</dd>
-            <dt>Practice status</dt>
+            <dt>Status</dt>
             <dd>{statusLabel(application.status)}</dd>
           </dl>
-          <p>The status is fictional. It does not mean a real employer has responded.</p>
         </>
       ) : (
         <p>Reference {reference || "not available"}. Open My applications if you need to see the record.</p>
@@ -316,15 +312,12 @@ function ApplicationBody({ application }: { application: PracticeApplication }) 
         <dd>{application.reference}</dd>
         <dt>Submitted</dt>
         <dd>{formatUkDate(application.submittedAt.slice(0, 10))}</dd>
-        <dt>Practice status</dt>
+        <dt>Status</dt>
         <dd>{statusLabel(application.status)}</dd>
       </dl>
-      <div className="wj-note" role="note">
-        <p>Practice status only. No employer has been contacted, and this is not a reply from {application.employer}.</p>
-      </div>
       {application.interview ? (
         <section className="wj-panel" style={{ padding: 16 }}>
-          <h2>Practice interview invitation</h2>
+          <h2>Interview invitation</h2>
           <dl className="wj-facts">
             <dt>Date</dt>
             <dd>{formatUkDate(application.interview.date)}</dd>
@@ -348,8 +341,8 @@ function ApplicationBody({ application }: { application: PracticeApplication }) 
             <dd>{form.email}</dd>
             <dt>Telephone</dt>
             <dd>{form.telephone}</dd>
-            <dt>Town</dt>
-            <dd>{form.town}</dd>
+            <dt>Address</dt>
+            <dd>{[form.addressLine, form.town, form.postcode].filter(Boolean).join(", ")}</dd>
             <dt>Employment</dt>
             <dd>{form.noExperience ? "No previous paid employment" : `${form.jobTitle} at ${form.employerName}, ${form.dateFrom} to ${form.dateTo}. ${form.duties}`}</dd>
             <dt>Skills</dt>

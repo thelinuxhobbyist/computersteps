@@ -9,6 +9,7 @@ import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catal
 import { formatLocation } from "../../../workers/practice-bank/src/shared/jobs";
 import { submitPracticeApplication } from "./jobs-api";
 import { clearDraft, safeJobsPath, useJobDraft } from "./jobs-client";
+import { PlaceLookup } from "./PlaceLookup";
 
 const STEPS = [
   { id: "personal", label: "Personal details" },
@@ -84,7 +85,7 @@ export function ApplyForm() {
       return;
     }
     if (!username) {
-      setErrors({ form: "Sign in to save this practice application. Your answers stay in this form." });
+      setErrors({ form: "Sign in to submit this application. Your answers stay in this form." });
       return;
     }
     setBusy(true);
@@ -101,7 +102,7 @@ export function ApplyForm() {
       setStep(STEP_FOR_FIELD[first] ?? "review");
       return;
     }
-    setErrors({ form: "The practice application could not be saved. Check your connection and try again." });
+    setErrors({ form: "The application could not be submitted. Check your connection and try again." });
   };
 
   return (
@@ -111,17 +112,17 @@ export function ApplyForm() {
       </p>
       <h1>Apply for this job</h1>
       <p className="wj-lead">
-        {job.title} at {job.employer}, {formatLocation(job)}. This is a practice form. It is not sent to an employer.
+        {job.title} at {job.employer}, {formatLocation(job)}.
       </p>
       <div className="wj-note" role="note">
         <p>
-          Use fictional practice details. Do not enter a National Insurance number, bank details, a password or copies of identity documents. A practice email such as sam.learner@example.com is enough.
+          We do not ask for a National Insurance number, bank details, a password or copies of identity documents.
         </p>
       </div>
       {job.suspicious ? (
         <div className="wj-warn" role="note">
           <p>
-            This advert asks for something the practice form will not collect. You can still complete the application. Do not type bank details, passwords or copies of identity documents.
+            This advert asks for something this application will not collect. You can still apply. Do not type bank details, passwords or copies of identity documents.
           </p>
         </div>
       ) : null}
@@ -167,7 +168,7 @@ export function ApplyForm() {
           </button>
         ) : (
           <button type="button" className="wj-btn wj-btn--accent" disabled={busy} onClick={() => void submit()}>
-            {busy ? "Saving practice application…" : "Submit practice application"}
+            {busy ? "Submitting application…" : "Submit application"}
           </button>
         )}
       </div>
@@ -226,15 +227,24 @@ function PersonalStep({
       <Field id="surname" label="Surname" error={errors.surname}>
         <input id="surname" autoComplete="family-name" value={draft.surname} aria-invalid={Boolean(errors.surname)} onChange={(event) => update({ surname: event.target.value })} />
       </Field>
-      <Field id="email" label="Email address" hint="Use a practice address, such as sam.learner@example.com." error={errors.email}>
-        <input id="email" autoComplete="email" inputMode="email" value={draft.email} aria-invalid={Boolean(errors.email)} aria-describedby="email-hint" onChange={(event) => update({ email: event.target.value })} />
+      <Field id="email" label="Email address" error={errors.email}>
+        <input id="email" autoComplete="email" inputMode="email" value={draft.email} aria-invalid={Boolean(errors.email)} onChange={(event) => update({ email: event.target.value })} />
       </Field>
-      <Field id="telephone" label="Telephone number" hint="A practice number such as 07700 900184 is fine." error={errors.telephone}>
-        <input id="telephone" autoComplete="tel" inputMode="tel" value={draft.telephone} aria-invalid={Boolean(errors.telephone)} aria-describedby="telephone-hint" onChange={(event) => update({ telephone: event.target.value })} />
+      <Field id="telephone" label="Telephone number" error={errors.telephone}>
+        <input id="telephone" autoComplete="tel" inputMode="tel" value={draft.telephone} aria-invalid={Boolean(errors.telephone)} onChange={(event) => update({ telephone: event.target.value })} />
       </Field>
-      <Field id="town" label="Town or postcode" error={errors.town}>
-        <input id="town" value={draft.town} aria-invalid={Boolean(errors.town)} onChange={(event) => update({ town: event.target.value })} />
-      </Field>
+      <PlaceLookup
+        id="address"
+        label="Address or postcode"
+        value={[draft.addressLine, draft.town, draft.postcode].filter(Boolean).join(", ")}
+        onChange={(text) => update({ addressLine: "", town: text, postcode: "" })}
+        onPlace={(place) => update({ addressLine: place.addressLine, town: place.town, postcode: place.postcode })}
+      />
+      {errors.town ? (
+        <p className="wj-error" role="alert">
+          {errors.town}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -260,14 +270,14 @@ function EmploymentStep({
         <span>I have no previous paid employment</span>
       </label>
       {draft.noExperience ? (
-        <p>That is fine for this practice. You can continue to skills and experience.</p>
+        <p>You can continue to skills and experience.</p>
       ) : (
         <>
           <Field id="jobTitle" label="Previous job title" error={errors.jobTitle}>
             <input id="jobTitle" value={draft.jobTitle} aria-invalid={Boolean(errors.jobTitle)} onChange={(event) => update({ jobTitle: event.target.value })} />
           </Field>
-          <Field id="employerName" label="Employer name" hint="A practice name is fine." error={errors.employerName}>
-            <input id="employerName" value={draft.employerName} aria-invalid={Boolean(errors.employerName)} aria-describedby="employerName-hint" onChange={(event) => update({ employerName: event.target.value })} />
+          <Field id="employerName" label="Employer name" error={errors.employerName}>
+            <input id="employerName" value={draft.employerName} aria-invalid={Boolean(errors.employerName)} onChange={(event) => update({ employerName: event.target.value })} />
           </Field>
           <Field id="dateFrom" label="Start date" hint="For example, March 2024." error={errors.dateFrom}>
             <input id="dateFrom" value={draft.dateFrom} aria-invalid={Boolean(errors.dateFrom)} aria-describedby="dateFrom-hint" onChange={(event) => update({ dateFrom: event.target.value })} />
@@ -318,7 +328,7 @@ function ReviewStep({ draft, onEdit }: { draft: ApplicationDraft; onEdit: (step:
       <h2>Review your application</h2>
       <p>Read every answer. If something is wrong, go back and correct it before you submit.</p>
       <div className="wj-note" role="note">
-        <p>Submitting saves this practice application on your account. It is not sent to an employer.</p>
+        <p>Check the details below. You can go back and change an answer before you submit.</p>
       </div>
       <h3>Personal details</h3>
       <dl className="wj-facts">
@@ -330,8 +340,8 @@ function ReviewStep({ draft, onEdit }: { draft: ApplicationDraft; onEdit: (step:
         <dd>{draft.email}</dd>
         <dt>Telephone</dt>
         <dd>{draft.telephone}</dd>
-        <dt>Town or postcode</dt>
-        <dd>{draft.town}</dd>
+        <dt>Address</dt>
+        <dd>{[draft.addressLine, draft.town, draft.postcode].filter(Boolean).join(", ")}</dd>
       </dl>
       <button type="button" className="wj-btn wj-btn--ghost" onClick={() => onEdit("personal")}>
         Change personal details

@@ -3,7 +3,9 @@ export type ApplicationDraft = {
   surname: string;
   email: string;
   telephone: string;
+  addressLine: string;
   town: string;
+  postcode: string;
   noExperience: boolean;
   jobTitle: string;
   employerName: string;
@@ -23,7 +25,9 @@ export const EMPTY_DRAFT: ApplicationDraft = {
   surname: "",
   email: "",
   telephone: "",
+  addressLine: "",
   town: "",
+  postcode: "",
   noExperience: false,
   jobTitle: "",
   employerName: "",
@@ -41,7 +45,9 @@ const LIMITS = {
   surname: 40,
   email: 80,
   telephone: 20,
+  addressLine: 80,
   town: 40,
+  postcode: 10,
   jobTitle: 80,
   employerName: 80,
   dateFrom: 40,
@@ -65,6 +71,7 @@ export const APPLICATION_STATUS_LABELS: Record<ApplicationStatus, string> = {
 const NAME = /^[A-Za-z][A-Za-z' -]{0,39}$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PLACE = /^[A-Za-z][A-Za-z' -]{1,39}$/;
+const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
 
 function clip(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -76,7 +83,9 @@ export function readDraft(body: Record<string, unknown>): ApplicationDraft {
     surname: clip(body.surname, LIMITS.surname),
     email: clip(body.email, LIMITS.email),
     telephone: clip(body.telephone, LIMITS.telephone),
+    addressLine: clip(body.addressLine, LIMITS.addressLine),
     town: clip(body.town, LIMITS.town),
+    postcode: clip(body.postcode, LIMITS.postcode).toUpperCase(),
     noExperience: body.noExperience === true || body.noExperience === "true",
     jobTitle: clip(body.jobTitle, LIMITS.jobTitle),
     employerName: clip(body.employerName, LIMITS.employerName),
@@ -101,8 +110,11 @@ export function validateDraft(draft: ApplicationDraft, step: ApplicationStep): R
     if (!NAME.test(draft.surname)) errors.surname = "Enter a surname using letters, such as Patel.";
     if (!EMAIL.test(draft.email)) errors.email = "Enter an email address such as sam.learner@example.com.";
     const digits = draft.telephone.replace(/\D/g, "");
-    if (digits.length < 10 || digits.length > 15) errors.telephone = "Enter a telephone number with at least 10 digits. A practice number such as 07700 900184 is fine.";
-    if (!PLACE.test(draft.town)) errors.town = "Enter a town, city or postcode area, such as Westford.";
+    if (digits.length < 10 || digits.length > 15) errors.telephone = "Enter a telephone number with at least 10 digits.";
+    if (!PLACE.test(draft.town) && !UK_POSTCODE.test(draft.postcode || draft.town)) {
+      errors.town = "Search for your address or postcode and choose it from the list, or type a town such as Leeds.";
+    }
+    if (draft.postcode && !UK_POSTCODE.test(draft.postcode)) errors.postcode = "Choose a UK postcode from the address list.";
   }
 
   if (employment && !draft.noExperience) {

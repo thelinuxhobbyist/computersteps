@@ -169,7 +169,7 @@ export async function submitJobApplication(request: Request, env: Env, rawUserna
           time: "10:30",
           location: `${job.employer}, ${formatLocation(job)}${job.postcode ? `, ${job.postcode}` : ""}`,
           instructions:
-            "This invitation is fictional. Nobody is expecting you to attend. Read the date, time and place, then come back to the practice task. Do not take identity documents or any payment.",
+            "Please arrive 10 minutes early and ask for reception. Bring this application reference. The interview lasts about 30 minutes. Do not bring payment or copies of identity documents.",
         }
       : null;
 

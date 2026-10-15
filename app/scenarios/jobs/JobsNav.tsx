@@ -21,7 +21,8 @@ function sectionFor(path: string): string {
   if (path.includes("/saved")) return "saved";
   if (path.includes("/applications")) return "applications";
   if (path.includes("/account")) return "account";
-  if (path.endsWith("/scenarios/jobs/") || path.includes("/exercises") || path.includes("/safety")) return "";
+  if (path.includes("/exercises") || path.includes("/safety")) return "";
+  if (path.endsWith("/scenarios/jobs/") || path.includes("/find") || path.includes("/search") || path.includes("/job")) return "find";
   return "find";
 }
 
@@ -39,17 +40,33 @@ export default function JobsNav() {
   }
 
   return (
-    <header className="ps-header">
-      <div className="ps-wrap ps-header__row">
+    <header className="ps-header wj-header">
+      <div className="ps-wrap wj-header__row">
         <Link href="/scenarios/jobs/find/" className="wj-logo">
-          Westford <span>Jobs</span>
+          westford<span>jobs</span>
         </Link>
+        <button
+          type="button"
+          className="wj-nav__toggle"
+          aria-expanded={open}
+          aria-controls="wj-menu"
+          onClick={() => setOpen((value) => !value)}
+        >
+          {open ? "Close menu" : "Menu"}
+        </button>
+        <nav id="wj-menu" className={`wj-nav__links${open ? " is-open" : ""}`} aria-label="Westford Jobs">
+          {LINKS.map(([label, href, id]) => (
+            <Link key={href} href={href} aria-current={section === id ? "page" : undefined}>
+              {label}
+            </Link>
+          ))}
+        </nav>
         {username ? (
           <button
             type="button"
-            className="ps-btn ps-btn--ghost"
+            className="wj-btn wj-btn--ghost wj-signin"
             onClick={() => {
-              if (!window.confirm("Sign out of Computer Steps on this device?")) return;
+              if (!window.confirm("Sign out on this device?")) return;
               clearLearner();
               router.push("/scenarios/jobs/find/");
             }}
@@ -57,31 +74,11 @@ export default function JobsNav() {
             Sign out
           </button>
         ) : (
-          <Link href="/scenarios/jobs/account/" className="ps-btn ps-btn--ghost">
+          <Link href="/scenarios/jobs/account/" className="wj-btn wj-btn--ghost wj-signin">
             Sign in
           </Link>
         )}
       </div>
-      <nav className="wj-nav" aria-label="Westford Jobs">
-        <div className="ps-wrap wj-nav__bar">
-          <button
-            type="button"
-            className="wj-nav__toggle"
-            aria-expanded={open}
-            aria-controls="wj-menu"
-            onClick={() => setOpen((value) => !value)}
-          >
-            {open ? "Close menu" : "Menu"}
-          </button>
-          <div id="wj-menu" className={`wj-nav__links${open ? " is-open" : ""}`}>
-            {LINKS.map(([label, href, id]) => (
-              <Link key={href} href={href} aria-current={section === id ? "page" : undefined}>
-                {label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </nav>
     </header>
   );
 }
@@ -94,7 +91,7 @@ export function TaskBanner() {
     <div className="wj-banner">
       <div className="ps-wrap">
         <p>
-          <strong>Practice task {task.number}.</strong> {task.task}
+          <strong>Task {task.number}.</strong> {task.task}
         </p>
         <Link href={`/scenarios/jobs/exercises/task/?id=${task.id}`}>Back to the task</Link>
         <button

@@ -21,6 +21,7 @@ import {
 } from "../../../workers/practice-bank/src/shared/jobs";
 import { JobCard } from "./JobCard";
 import { readCompare, useCompareIds, writeCompare } from "./jobs-client";
+import { PlaceLookup } from "./PlaceLookup";
 
 function BoundDraft({
   query,
@@ -107,14 +108,13 @@ export function SearchResults() {
             onChange={(event) => setDraft({ ...draft, q: event.target.value })}
           />
         </div>
-        <div className="wj-field">
-          <label htmlFor="results-where">Town, city or postcode</label>
-          <input
-            id="results-where"
-            value={draft.where}
-            onChange={(event) => setDraft({ ...draft, where: event.target.value })}
-          />
-        </div>
+        <PlaceLookup
+          id="results-where"
+          label="Town, city or postcode"
+          value={draft.where}
+          onChange={(where) => setDraft({ ...draft, where })}
+          onPlace={(place) => setDraft({ ...draft, where: place.search })}
+        />
         <button className="wj-btn wj-btn--accent" type="submit">
           Search jobs
         </button>

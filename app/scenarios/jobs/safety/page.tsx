@@ -8,7 +8,7 @@ export default function SafetyPage() {
     <div className="ps-wrap wj-prose">
       <h1>Spot a suspicious advert</h1>
       <p className="wj-lead">
-        Most job adverts are ordinary. A few are dishonest. This page explains warning signs you can look for. The examples on Westford Jobs are fictional, and this page does not link to any other website.
+        Most job adverts are ordinary. A few are dishonest. These are the warning signs worth checking before you apply.
       </p>
       <h2>Reasons to pause</h2>
       <ul>
@@ -23,12 +23,12 @@ export default function SafetyPage() {
         One warning sign is a reason to stop and check. It does not prove that every short advert, or every job that mentions training, is fraudulent. A genuine employer can offer training without charging you to start. A genuine advert can also be brief. Look at the whole advert, and compare it with a more ordinary one.
       </p>
       <p>
-        Westford Jobs will not ask you to pay a fee or to send bank details or identity documents in the practice application form. If an advert asks for those things, you do not need to provide them to finish a practice task.
+        Westford Jobs will not ask you to pay a fee, or to send bank details or copies of identity documents, in order to apply. If an advert asks for those things, treat it as a warning sign.
       </p>
       <p>
-        <Link href="/scenarios/jobs/exercises/task/?id=spot-warning-signs">Practise finding warning signs</Link>
+        <Link href="/scenarios/jobs/exercises/task/?id=spot-warning-signs">Warning signs in an advert</Link>
         {" · "}
-        <Link href="/scenarios/jobs/exercises/task/?id=upfront-fee">Practise explaining an upfront fee</Link>
+        <Link href="/scenarios/jobs/exercises/task/?id=upfront-fee">Upfront fees</Link>
       </p>
     </div>
   );
