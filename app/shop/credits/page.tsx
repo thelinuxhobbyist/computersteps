@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import { PHOTO_CREDITS, getProduct } from "../shop-data";
 
@@ -52,11 +53,7 @@ export default function PhotoCreditsPage() {
         </Link>
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

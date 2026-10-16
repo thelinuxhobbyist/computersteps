@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import FreeDeliveryBar from "../components/shop/FreeDeliveryBar";
@@ -102,11 +103,7 @@ export default function BasketReview() {
         )}
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

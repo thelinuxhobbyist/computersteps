@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import OrderSummary from "../components/shop/OrderSummary";
@@ -332,11 +333,7 @@ export default function CheckoutForm() {
         )}
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

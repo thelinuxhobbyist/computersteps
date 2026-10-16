@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CourseCard from "../components/CourseCard";
+import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ScenariosFeature from "../components/ScenariosFeature";
 import { courseGroups } from "../lessons/courses";
@@ -48,11 +49,7 @@ export default function CoursesPage() {
         </section>
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

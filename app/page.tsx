@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CourseCard from "./components/CourseCard";
 import LessonPlayer from "./components/LessonPlayer";
+import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import { getFeaturedCourses, courseGroups, getCourseForLesson } from "./lessons/courses";
 import { lessons } from "./lessons/content";
@@ -142,11 +143,7 @@ function HomeContent() {
       )}
 
       {visibleLessonIndex === null || visibleLessonIndex < 0 ? (
-        <footer>
-          <div className="wrap footer-inner">
-            <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-          </div>
-        </footer>
+        <SiteFooter />
       ) : null}
     </div>
   );

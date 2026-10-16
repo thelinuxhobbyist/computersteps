@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import { courseGroups, getCourse, getCourseLessons } from "../../lessons/courses";
 
@@ -79,11 +80,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
         </div>
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useId, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
 import FreeDeliveryBar from "../components/shop/FreeDeliveryBar";
@@ -181,11 +182,7 @@ export default function ShopCatalog() {
         </p>
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useId, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faCheck, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import ShopBar from "../../components/shop/ShopBar";
 import StarRating from "../../components/shop/StarRating";
@@ -256,11 +257,7 @@ export default function ProductDetail({ productId }: { productId: string }) {
         </Link>
       </main>
 
-      <footer>
-        <div className="wrap footer-inner">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps. All rights reserved.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
