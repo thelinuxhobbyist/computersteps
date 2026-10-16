@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function SiteFooter() {
+export default function SiteFooter({ hideDeveloperLink = false }: { hideDeveloperLink?: boolean }) {
   return (
     <footer className="cs-footer">
       <div className="cs-footer__inner">
@@ -28,8 +28,12 @@ export default function SiteFooter() {
           <span>Made with patience, for learners everywhere.</span>
           <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps</span>
           <span className="cs-footer__dev">
-            Are you a developer? <Link href="/behind-the-scenes/">Behind the Scenes</Link>
-            {" · "}
+            {hideDeveloperLink ? null : (
+              <>
+                <Link href="/behind-the-scenes/">Are you a developer?</Link>
+                {" · "}
+              </>
+            )}
             <Link href="/for-libraries/">For Libraries & Tutors</Link>
           </span>
         </div>

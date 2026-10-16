@@ -52,7 +52,7 @@ export default function BehindTheScenesPage() {
         </p>
       </main>
 
-      <SiteFooter />
+      <SiteFooter hideDeveloperLink />
     </div>
   );
 }
