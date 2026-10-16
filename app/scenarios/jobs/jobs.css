@@ -336,7 +336,7 @@
 
 .wj-split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr) 320px;
   gap: 18px;
   align-items: start;
 }
@@ -370,6 +370,29 @@
 
 .wj-facts dd {
   margin: 0;
+  min-width: 0;
+}
+
+.wj-aside .wj-facts {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.wj-aside .wj-facts dt {
+  margin: 14px 0 0;
+  color: var(--ps-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.wj-aside .wj-facts dt:first-child {
+  margin-top: 0;
+}
+
+.wj-aside .wj-facts dd {
+  font-size: 1.05rem;
+  line-height: 1.4;
 }
 
 .wj-prose h2 {
