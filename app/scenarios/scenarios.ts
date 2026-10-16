@@ -1,7 +1,20 @@
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import {
+  faBolt,
+  faBox,
+  faBriefcase,
+  faBuildingColumns,
+  faCartShopping,
+  faLandmark,
+  faMobileScreen,
+  faPlane,
+  faStethoscope,
+} from "@fortawesome/free-solid-svg-icons";
+
 export type Scenario = {
   id: string;
   name: string;
-  icon: string;
+  icon: IconDefinition;
   /** One line, shown in the navigation menu. */
   summary: string;
   description: string;
@@ -17,7 +30,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "practice-shop",
     name: "Practice Shop",
-    icon: "🛒",
+    icon: faCartShopping,
     summary: "Buy groceries online with a pretend bank card",
     description:
       "An online supermarket where nothing costs real money. Search for items, fill a basket, reach free delivery and check out with a pretend bank card.",
@@ -33,7 +46,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "practice-bank",
     name: "Practice Bank",
-    icon: "🏦",
+    icon: faBuildingColumns,
     summary: "Your own pretend bank account and card",
     description:
       "Open a pretend bank account with £5,000 and a bank card. Pay with the card in the Practice Shop, send a bank transfer, then check your balance, find the payment and download a statement. Come back any time with your username.",
@@ -53,7 +66,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "gp-surgery",
     name: "GP Surgery",
-    icon: "🩺",
+    icon: faStethoscope,
     summary: "Find surgery information and contact the practice online",
     description:
       "The website of Yama Clinic, a pretend GP surgery. Find opening hours and contact details, read about appointments, order a prescription and fill in an online consultation form.",
@@ -82,7 +95,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-energy",
     name: "Westford Energy",
-    icon: "⚡",
+    icon: faBolt,
     summary: "Read an electricity bill, pay it and find help",
     description:
       "The website of a pretend electricity supplier. It uses your Practice Bank username: read your bills, check your energy use, send a meter reading and pay with your Practice Bank account. Practice tasks appear on the screen and check your answers as you go.",
@@ -98,7 +111,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-council",
     name: "Westford Council",
-    icon: "🏛️",
+    icon: faLandmark,
     summary: "Check bills, collection dates and local services",
     description:
       "A pretend local council website where learners can view Council Tax, report a problem, check bin collection dates and send a service message using the same Computer Steps account they already use elsewhere.",
@@ -114,7 +127,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-mobile",
     name: "Westford Mobile",
-    icon: "📱",
+    icon: faMobileScreen,
     summary: "Check data, read a bill and ask for help",
     description:
       "A pretend mobile phone provider. See your number, data allowance and bill, compare plans, pay with Practice Bank and save a support request.",
@@ -131,7 +144,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-deliveries",
     name: "Westford Deliveries",
-    icon: "📦",
+    icon: faBox,
     summary: "Track a parcel and change a delivery",
     description:
       "A pretend courier website. Track a practice code such as WF48271936, read the status and save a delivery instruction.",
@@ -149,7 +162,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-travel",
     name: "Westford Travel",
-    icon: "✈️",
+    icon: faPlane,
     summary: "Compare flights and places to stay, then book",
     description:
       "A pretend travel website for flights, hotels and holiday rentals in the UK. Compare prices, review the total and pay with Practice Bank.",
@@ -167,7 +180,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "westford-jobs",
     name: "Westford Jobs",
-    icon: "💼",
+    icon: faBriefcase,
     summary: "Search for jobs and practise an application",
     description:
       "Practise searching for jobs, comparing vacancies and completing application forms on a simulated UK recruitment website.",

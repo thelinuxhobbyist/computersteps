@@ -2,7 +2,7 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faFileArrowUp, faStar } from "@fortawesome/free-solid-svg-icons";
 import EmailClient from "./EmailClient";
 import { uploadFileToWorker } from "../lib/upload";
 import { isAnswerCorrect, isFileSafeForUpload } from "../lesson-utils";
@@ -294,7 +294,9 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
               className={`play-star ${stepComplete ? "is-success" : ""}`}
               aria-label={step.buttonLabel ?? "Star"}
             >
-              <span className="play-star__icon" aria-hidden="true">⭐</span>
+              <span className="play-star__icon" aria-hidden="true">
+                <FontAwesomeIcon icon={faStar} />
+              </span>
             </button>
           </div>
         );
@@ -506,7 +508,9 @@ export default function ExercisePanel({ step, stepComplete, onSuccess, onError }
                 className={`play-star play-star--scroll mt-4 ${stepComplete ? "is-success" : ""}`}
                 aria-label={step.scrollTarget ?? "Gold star"}
               >
-                <span className="play-star__icon" aria-hidden="true">⭐</span>
+                <span className="play-star__icon" aria-hidden="true">
+                  <FontAwesomeIcon icon={faStar} />
+                </span>
               </button>
             ) : (
               <button

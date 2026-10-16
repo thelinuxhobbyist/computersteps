@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faHandsClapping } from "@fortawesome/free-solid-svg-icons";
 import CourseCard from "../components/CourseCard";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
@@ -20,14 +22,14 @@ export default function CoursesPage() {
 
         <div className="course-banner" role="note">
           <div className="course-banner__icon" aria-hidden="true">
-            👋
+            <FontAwesomeIcon icon={faHandsClapping} />
           </div>
           <div className="course-banner__text">
             <h2>New to computers?</h2>
             <p>Start with Computer basics. It teaches clicking and using the mouse.</p>
           </div>
           <Link href="/courses/computer-basics/" className="btn btn-primary">
-            Start here →
+            Start here <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
           </Link>
         </div>
 

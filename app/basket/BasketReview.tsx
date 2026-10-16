@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight, faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faBasketShopping, faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
@@ -34,7 +34,9 @@ export default function BasketReview() {
           <p className="shop-loading">Loading your basket…</p>
         ) : items.length === 0 ? (
           <div className="shop-empty">
-            <p className="shop-empty__icon" aria-hidden="true">🧺</p>
+            <p className="shop-empty__icon" aria-hidden="true">
+              <FontAwesomeIcon icon={faBasketShopping} />
+            </p>
             <h2>Your basket is empty</h2>
             <p>Go back to the shop and press &ldquo;Add to Basket&rdquo; on something you would like.</p>
             <Link href="/shop/" className="btn btn-primary">

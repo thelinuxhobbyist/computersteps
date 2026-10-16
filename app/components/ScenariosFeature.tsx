@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCompass } from "@fortawesome/free-solid-svg-icons";
 import { SCENARIOS } from "../scenarios/scenarios";
 
 export default function ScenariosFeature() {
   return (
     <div className="shop-feature">
       <div className="shop-feature__icon" aria-hidden="true">
-        🧭
+        <FontAwesomeIcon icon={faCompass} />
       </div>
       <div className="shop-feature__text">
         <p className="eyebrow">Practise real tasks</p>

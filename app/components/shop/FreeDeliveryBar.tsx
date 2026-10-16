@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTruck } from "@fortawesome/free-solid-svg-icons";
 import type { OrderTotals } from "../../shop/shop-data";
 import { formatPrice } from "../../shop/shop-data";
 
@@ -16,7 +18,9 @@ export default function FreeDeliveryBar({ totals, compact = false }: FreeDeliver
     >
       <p className="delivery-bar__message" aria-live="polite">
         {totals.qualifiesForFreeDelivery ? (
-          <>🎉 You have qualified for FREE Delivery!</>
+          <>
+            <FontAwesomeIcon icon={faTruck} aria-hidden="true" /> You have qualified for FREE Delivery!
+          </>
         ) : (
           <>
             Add <strong>{formatPrice(totals.remainingForFreeDeliveryPence)}</strong> more to your basket to qualify for FREE

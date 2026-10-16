@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import ExercisePanel from "./ExercisePanel";
 import {
   getCourseForLesson,
@@ -102,7 +102,9 @@ export default function LessonPlayer({ lesson, lessonIndex, onBack, onStartLesso
     return (
       <div className="lesson-main wrap">
         <div className="step-card lesson-complete-card">
-          <div className="icon" aria-hidden="true">🎉</div>
+          <div className="icon" aria-hidden="true">
+            <FontAwesomeIcon icon={faCircleCheck} />
+          </div>
           <h2>Lesson complete!</h2>
           <p>
             Well done. You completed this lesson.

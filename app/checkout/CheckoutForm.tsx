@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBasketShopping, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import ShopBar from "../components/shop/ShopBar";
@@ -257,7 +257,9 @@ export default function CheckoutForm() {
           <p className="shop-loading">{submitting ? "Placing your practice order…" : "Loading checkout…"}</p>
         ) : itemCount === 0 ? (
           <div className="shop-empty">
-            <p className="shop-empty__icon" aria-hidden="true">🧺</p>
+            <p className="shop-empty__icon" aria-hidden="true">
+              <FontAwesomeIcon icon={faBasketShopping} />
+            </p>
             <h2>Your basket is empty</h2>
             <p>You need something in your basket before you can check out.</p>
             <Link href="/shop/" className="btn btn-primary">

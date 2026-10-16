@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuildingColumns, faLock, faRotateLeft, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { faBuildingColumns, faCircleCheck, faLock, faRotateLeft, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 import ShopBar from "../../components/shop/ShopBar";
@@ -40,7 +40,9 @@ export default function OrderConfirmation() {
           <p className="shop-loading">Loading…</p>
         ) : order ? (
           <section className="success-hero" aria-labelledby="success-heading">
-            <h1 id="success-heading">🎉 Order Complete! Your practice order is on its way.</h1>
+            <h1 id="success-heading">
+              <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" /> Order Complete! Your practice order is on its way.
+            </h1>
             <p>
               Thank you for your order. Your order number is <strong>{order.orderNumber}</strong>. We&rsquo;ll email you when
               it has been dispatched.

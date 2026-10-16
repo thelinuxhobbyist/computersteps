@@ -13,7 +13,7 @@ export default function ScenarioCard({ scenario, showTutorTasks = false }: Scena
     <article className="scenario-card">
       <div className="scenario-card__head">
         <span className="scenario-card__icon" aria-hidden="true">
-          {scenario.icon}
+          <FontAwesomeIcon icon={scenario.icon} />
         </span>
         <h3 className="scenario-card__title">{scenario.name}</h3>
         {scenario.badge ? <span className="scenario-card__badge">{scenario.badge}</span> : null}
