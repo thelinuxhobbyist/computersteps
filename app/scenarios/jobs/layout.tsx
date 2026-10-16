@@ -26,19 +26,14 @@ export default function JobsLayout({ children }: { children: ReactNode }) {
         <div className="ps-wrap">
           <p className="wj-footer__brand">Westford Jobs</p>
           <p>Search vacancies, save jobs and apply online.</p>
-          <p>
+          <nav className="wj-footer__links" aria-label="Westford Jobs footer">
             <Link href="/scenarios/jobs/find/">Find jobs</Link>
-            {" · "}
             <Link href="/scenarios/jobs/categories/">Categories</Link>
-            {" · "}
             <Link href="/scenarios/jobs/saved/">Saved jobs</Link>
-            {" · "}
             <Link href="/scenarios/jobs/applications/">Applications</Link>
-            {" · "}
             <Link href="/scenarios/jobs/exercises/">Job search guides</Link>
-            {" · "}
             <Link href="/scenarios/jobs/safety/">Avoid job scams</Link>
-          </p>
+          </nav>
         </div>
       </footer>
     </div>

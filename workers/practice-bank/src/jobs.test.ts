@@ -7,6 +7,7 @@ import {
   EXAMPLE_SEARCHES,
   PAGE_SIZE,
   emptyJobQuery,
+  explainEmptySearch,
   formatLocation,
   parseJobQuery,
   searchJobs,
@@ -47,6 +48,11 @@ test("search ignores case and extra spaces and combines filters", () => {
   const editing = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "editing", where: "London" });
   assert.ok(editing.total >= 2);
   assert.ok(editing.results.every((job) => job.city === "London"));
+  const editor = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "editor", where: "London" });
+  assert.ok(editor.results.some((job) => job.id === "wfj-1133"));
+  assert.ok(editor.results.some((job) => job.id === "wfj-1134"));
+  const proofreader = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "proofreader", where: "London" });
+  assert.ok(proofreader.results.some((job) => job.id === "wfj-1133"));
 });
 
 test("salary, contract and sort options change the list", () => {
@@ -70,6 +76,16 @@ test("an empty search explains itself by returning the whole catalogue in pages"
   const none = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "underwater welder" });
   assert.equal(none.total, 0);
   assert.deepEqual(none.results, []);
+});
+
+test("an editing search in Ealing stays empty until the place or category is widened", () => {
+  const query = { ...emptyJobQuery(), q: "editing", where: "Ealing", category: "education" };
+  assert.equal(searchJobs(VACANCIES, query).total, 0);
+  assert.equal(parseJobQuery(new URLSearchParams("q=editing&where=Ealing")).category, "");
+  const explained = explainEmptySearch(VACANCIES, query);
+  assert.match(explained.detail, /Education is only applied/);
+  assert.ok(explained.alternatives.some((item) => item.query.where === "London" && item.query.category === "education"));
+  assert.ok(explained.related?.jobs.some((job) => job.id === "wfj-1134"));
 });
 
 test("query strings keep only the filters a learner set", () => {

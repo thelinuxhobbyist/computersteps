@@ -15,6 +15,7 @@ import {
   WORKPLACE_LABELS,
   activeFilters,
   emptyJobQuery,
+  explainEmptySearch,
   jobQueryString,
   parseJobQuery,
   searchJobs,
@@ -87,6 +88,8 @@ export function SearchResults() {
   const resultsHref = `/scenarios/jobs/search/${jobQueryString(query)}`;
   const courses = coursesForJobs(results);
   const chosenFilters = filters.filter((filter) => filter.key !== "q" && filter.key !== "where");
+  const searching = Boolean(query.q || query.where || chosenFilters.length);
+  const empty = total === 0 ? explainEmptySearch(VACANCIES, query) : null;
 
   const go = (next: JobQuery) => {
     router.push(`/scenarios/jobs/search/${jobQueryString(next)}`);
@@ -195,6 +198,8 @@ export function SearchResults() {
             <p role="status">
               <strong>{total === 1 ? "1 job" : `${total} jobs`}</strong>
             </p>
+            <div className="wj-results-tools">
+              {searching ? <Link href="/scenarios/jobs/search/">Clear search and filters</Link> : null}
             <div className="wj-field">
               <label htmlFor="sort">Sort by</label>
               <select
@@ -208,6 +213,7 @@ export function SearchResults() {
                   </option>
                 ))}
               </select>
+            </div>
             </div>
           </div>
 
@@ -233,24 +239,46 @@ export function SearchResults() {
             </ul>
           ) : null}
 
-          {total === 0 ? (
-            <div className="wj-note" role="status">
-              <h2>No jobs match this search</h2>
-              <p>
-                {query.q && query.where
-                  ? `There are no vacancies for “${query.q}” in ${query.where}. Try a broader job title, or look at every job in that place.`
-                  : "Try a different job title, a shorter place name, or clear the filters."}
-              </p>
-              <div className="wj-job__actions">
-                {query.q && query.where ? (
-                  <Link className="wj-btn" href={`/scenarios/jobs/search/${jobQueryString({ ...emptyJobQuery(), where: query.where })}`}>
-                    Jobs in {query.where}
+          {empty ? (
+            <div role="status">
+              <div className="wj-note">
+                <h2>No jobs match this search</h2>
+                <p>{empty.detail}</p>
+                <div className="wj-job__actions">
+                  {empty.alternatives[0] ? (
+                    <Link className="wj-btn" href={`/scenarios/jobs/search/${jobQueryString(empty.alternatives[0].query)}`}>
+                      {empty.alternatives[0].label}
+                    </Link>
+                  ) : null}
+                  <Link className="wj-btn wj-btn--ghost" href="/scenarios/jobs/search/">
+                    Clear search and filters
                   </Link>
-                ) : null}
-                <Link className="wj-btn wj-btn--ghost" href="/scenarios/jobs/search/">
-                  Clear search and filters
-                </Link>
+                  {empty.alternatives.slice(1).map((alternative) => (
+                    <Link key={alternative.label} className="wj-btn wj-btn--ghost" href={`/scenarios/jobs/search/${jobQueryString(alternative.query)}`}>
+                      {alternative.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
+              {empty.related ? (
+                <section className="wj-related" aria-label="Related vacancies">
+                  <h2>Related vacancies</h2>
+                  <p>{empty.related.reason}</p>
+                  {empty.related.jobs.map((job) => (
+                    <JobCard
+                      key={job.id}
+                      job={job}
+                      from={resultsHref}
+                      actions={
+                        <>
+                          <SaveJobButton jobId={job.id} saved={saved} returnTo={resultsHref} />
+                          <CompareButton jobId={job.id} />
+                        </>
+                      }
+                    />
+                  ))}
+                </section>
+              ) : null}
             </div>
           ) : results.length === 0 ? (
             <div className="wj-note" role="status">

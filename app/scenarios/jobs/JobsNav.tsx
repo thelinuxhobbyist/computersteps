@@ -8,12 +8,14 @@ import { getPublicExercise } from "../../../workers/practice-bank/src/shared/job
 import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import { clearTask, useCompareIds, useRememberedTask, writeCompare } from "./jobs-client";
 
-const LINKS = [
+const BROWSE = [
   ["Find jobs", "/scenarios/jobs/find/", "find"],
-  ["Job categories", "/scenarios/jobs/categories/", "categories"],
+  ["Categories", "/scenarios/jobs/categories/", "categories"],
+] as const;
+
+const ACCOUNT = [
   ["Saved jobs", "/scenarios/jobs/saved/", "saved"],
-  ["My applications", "/scenarios/jobs/applications/", "applications"],
-  ["My account", "/scenarios/jobs/account/", "account"],
+  ["Applications", "/scenarios/jobs/applications/", "applications"],
 ] as const;
 
 function sectionFor(path: string): string {
@@ -45,39 +47,55 @@ export default function JobsNav() {
         <Link href="/scenarios/jobs/find/" className="wj-logo">
           westford<span>jobs</span>
         </Link>
-        <button
-          type="button"
-          className="wj-nav__toggle"
-          aria-expanded={open}
-          aria-controls="wj-menu"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "Close menu" : "Menu"}
-        </button>
-        <nav id="wj-menu" className={`wj-nav__links${open ? " is-open" : ""}`} aria-label="Westford Jobs">
-          {LINKS.map(([label, href, id]) => (
-            <Link key={href} href={href} aria-current={section === id ? "page" : undefined}>
-              {label}
-            </Link>
-          ))}
+        <nav id="wj-menu" className={`wj-nav${open ? " is-open" : ""}`} aria-label="Westford Jobs">
+          <div className="wj-nav__browse">
+            {BROWSE.map(([label, href, id]) => (
+              <Link key={href} href={href} aria-current={section === id ? "page" : undefined}>
+                {label}
+              </Link>
+            ))}
+          </div>
+          <div className="wj-nav__account">
+            {ACCOUNT.map(([label, href, id]) => (
+              <Link key={href} href={href} aria-current={section === id ? "page" : undefined}>
+                {label}
+              </Link>
+            ))}
+            {username ? (
+              <Link href="/scenarios/jobs/account/" aria-current={section === "account" ? "page" : undefined}>
+                {username}
+              </Link>
+            ) : null}
+          </div>
         </nav>
-        {username ? (
+        <div className="wj-header__actions">
+          {username ? (
+            <button
+              type="button"
+              className="wj-nav__signout"
+              onClick={() => {
+                if (!window.confirm("Sign out on this device?")) return;
+                clearLearner();
+                router.push("/scenarios/jobs/find/");
+              }}
+            >
+              Sign out
+            </button>
+          ) : (
+            <Link href="/scenarios/jobs/account/" className="wj-btn wj-signin">
+              Sign in
+            </Link>
+          )}
           <button
             type="button"
-            className="wj-btn wj-btn--ghost wj-signin"
-            onClick={() => {
-              if (!window.confirm("Sign out on this device?")) return;
-              clearLearner();
-              router.push("/scenarios/jobs/find/");
-            }}
+            className="wj-nav__toggle"
+            aria-expanded={open}
+            aria-controls="wj-menu"
+            onClick={() => setOpen((value) => !value)}
           >
-            Sign out
+            {open ? "Close" : "Menu"}
           </button>
-        ) : (
-          <Link href="/scenarios/jobs/account/" className="wj-btn wj-btn--ghost wj-signin">
-            Sign in
-          </Link>
-        )}
+        </div>
       </div>
     </header>
   );

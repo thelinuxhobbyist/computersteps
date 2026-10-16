@@ -255,6 +255,19 @@ function tokensOf(query: string): string[] {
     .filter((token) => token.length >= 2);
 }
 
+const WORD_FAMILIES: readonly (readonly string[])[] = [
+  ["editing", "editor", "editors", "proofreader", "proofreaders", "proofreading", "copywriter", "copywriters", "copywriting"],
+];
+
+function equivalents(token: string): string[] {
+  const family = WORD_FAMILIES.find((words) => words.includes(token));
+  return family ? [...family] : [token];
+}
+
+function blobHas(blob: string, token: string): boolean {
+  return equivalents(token).some((word) => blob.includes(word));
+}
+
 function locationMatches(job: Vacancy, where: string): boolean {
   const query = normText(where);
   if (query.length < 2) return true;
@@ -278,9 +291,10 @@ function scoreJob(job: Vacancy, tokens: string[], phrase: string): number {
   if (phrase && title.includes(phrase)) score += 30;
   if (phrase && employer.includes(phrase)) score += 24;
   for (const token of tokens) {
-    if (title.includes(token)) score += 8;
-    if (employer.includes(token)) score += 5;
-    if (normText(categoryLabel(job.category)).includes(token)) score += 2;
+    const words = equivalents(token);
+    if (words.some((word) => title.includes(word))) score += 8;
+    if (words.some((word) => employer.includes(word))) score += 5;
+    if (words.some((word) => normText(categoryLabel(job.category)).includes(word))) score += 2;
   }
   return score;
 }
@@ -295,9 +309,9 @@ export function searchJobs(jobs: readonly Vacancy[], query: JobQuery): { total: 
   const tokens = tokensOf(query.q);
   const phrase = tokens.join(" ");
   const matched = jobs
-    .map((job) => ({ job, score: scoreJob(job, tokens, phrase) }))
-    .filter(({ job }) => {
-      if (tokens.length && !tokens.every((token) => searchBlob(job).includes(token))) return false;
+    .map((job) => ({ job, blob: searchBlob(job), score: scoreJob(job, tokens, phrase) }))
+    .filter(({ job, blob }) => {
+      if (tokens.length && !tokens.every((token) => blobHas(blob, token))) return false;
       if (!locationMatches(job, query.where)) return false;
       if (query.category && job.category !== query.category) return false;
       if (query.hours && job.hours !== query.hours) return false;
@@ -374,11 +388,113 @@ export function activeFilters(query: JobQuery): ActiveFilter[] {
   const filters: ActiveFilter[] = [];
   if (query.q) filters.push({ key: "q", label: `Keyword: ${query.q}` });
   if (query.where) filters.push({ key: "where", label: `Location: ${query.where}` });
-  if (query.category) filters.push({ key: "category", label: categoryLabel(query.category) });
-  if (query.hours) filters.push({ key: "hours", label: HOURS_LABELS[query.hours as JobHours] });
-  if (query.contract) filters.push({ key: "contract", label: CONTRACT_LABELS[query.contract as JobContract] });
-  if (query.salary) filters.push({ key: "salary", label: SALARY_BANDS.find((band) => band.id === query.salary)?.label ?? query.salary });
-  if (query.experience) filters.push({ key: "experience", label: EXPERIENCE_LABELS[query.experience as JobExperience] });
-  if (query.workplace) filters.push({ key: "workplace", label: WORKPLACE_LABELS[query.workplace as JobWorkplace] });
+  if (query.category) filters.push({ key: "category", label: `Category: ${categoryLabel(query.category)}` });
+  if (query.hours) filters.push({ key: "hours", label: `Hours: ${HOURS_LABELS[query.hours as JobHours]}` });
+  if (query.contract) filters.push({ key: "contract", label: `Type: ${CONTRACT_LABELS[query.contract as JobContract]}` });
+  if (query.salary) filters.push({ key: "salary", label: `Salary: ${SALARY_BANDS.find((band) => band.id === query.salary)?.label ?? query.salary}` });
+  if (query.experience) filters.push({ key: "experience", label: `Experience: ${EXPERIENCE_LABELS[query.experience as JobExperience]}` });
+  if (query.workplace) filters.push({ key: "workplace", label: `Workplace: ${WORKPLACE_LABELS[query.workplace as JobWorkplace]}` });
   return filters;
+}
+
+export type SearchAlternative = {
+  label: string;
+  reason: string;
+  query: JobQuery;
+};
+
+function broaderPlaces(jobs: readonly Vacancy[], where: string): string[] {
+  const query = normText(where);
+  const cities = new Set<string>();
+  for (const job of jobs) {
+    const town = normText(job.town);
+    const area = normText(job.area ?? "");
+    const city = job.city.trim();
+    if (!city || normText(city) === query) continue;
+    if (town === query || area === query) cities.add(city);
+  }
+  return [...cities];
+}
+
+export function explainEmptySearch(
+  jobs: readonly Vacancy[],
+  query: JobQuery,
+): { detail: string; alternatives: SearchAlternative[]; related: { reason: string; jobs: Vacancy[] } | null } {
+  const alternatives: (SearchAlternative & { total: number })[] = [];
+  const seen = new Set<string>();
+  const currentKey = jobQueryString({ ...query, sort: "relevant", page: 1 });
+
+  const offer = (label: string, reason: string, next: JobQuery) => {
+    const normalised = { ...next, sort: query.sort, page: 1 };
+    const key = jobQueryString(normalised);
+    if (!key || key === currentKey || seen.has(key)) return;
+    const found = searchJobs(jobs, normalised);
+    if (!found.total) return;
+    seen.add(key);
+    const count = found.total === 1 ? "1 job" : `${found.total} jobs`;
+    alternatives.push({ label: `${label} (${count})`, reason, query: normalised, total: found.total });
+  };
+
+  if (query.category) {
+    offer(`Remove ${categoryLabel(query.category)}`, `${categoryLabel(query.category)} is only applied because that filter is selected.`, {
+      ...query,
+      category: "",
+    });
+  }
+  if (query.hours) offer("Any working hours", "Working hours are limiting this search.", { ...query, hours: "" });
+  if (query.contract) offer("Any employment type", "Employment type is limiting this search.", { ...query, contract: "" });
+  if (query.salary) offer("Any salary", "The salary band is limiting this search.", { ...query, salary: "" });
+  if (query.experience) offer("Any experience level", "Experience level is limiting this search.", { ...query, experience: "" });
+  if (query.workplace) offer("Any workplace", "Workplace is limiting this search.", { ...query, workplace: "" });
+  if (query.q) {
+    const place = query.where ? ` in ${query.where}` : "";
+    const kind = query.category ? `${categoryLabel(query.category)} jobs` : "Jobs";
+    offer(`${kind}${place} without “${query.q}”`, `These vacancies are in the same search, without the word “${query.q}”.`, { ...query, q: "" });
+  }
+  if (query.where) {
+    const kept = query.category ? `, ${categoryLabel(query.category)}` : "";
+    offer(query.q ? `“${query.q}” anywhere${kept}` : "Jobs anywhere", "These vacancies are outside that place.", { ...query, where: "" });
+    for (const city of broaderPlaces(jobs, query.where)) {
+      offer(
+        query.q ? `“${query.q}” in ${city}${kept}` : `Jobs in ${city}`,
+        `${query.where} is in ${city}. These vacancies are in ${city}, not only in ${query.where}.`,
+        { ...query, where: city },
+      );
+      if (query.category && query.q) {
+        offer(`All “${query.q}” jobs in ${city}`, `These “${query.q}” vacancies are in ${city}, in any category.`, {
+          ...query,
+          where: city,
+          category: "",
+        });
+      }
+    }
+  }
+
+  alternatives.sort((a, b) => rankAlternative(b, query) - rankAlternative(a, query));
+  const best = alternatives[0];
+  const relatedJobs = best ? searchJobs(jobs, best.query).results.slice(0, 3) : [];
+  const parts = [emptyDetail(query)];
+  if (query.category) parts.push(`${categoryLabel(query.category)} is only applied because that filter is selected.`);
+  if (best && !parts.includes(best.reason)) parts.push(best.reason);
+
+  return {
+    detail: parts.join(" "),
+    alternatives: alternatives.slice(0, 4).map(({ label, reason, query: next }) => ({ label, reason, query: next })),
+    related: best && relatedJobs.length ? { reason: best.reason, jobs: relatedJobs } : null,
+  };
+}
+
+function emptyDetail(query: JobQuery): string {
+  if (query.q && query.where) return `There are no vacancies for “${query.q}” in ${query.where}.`;
+  if (query.q) return `There are no vacancies for “${query.q}”.`;
+  if (query.where) return `There are no vacancies in ${query.where}.`;
+  return "No vacancies match these filters.";
+}
+
+function rankAlternative(item: SearchAlternative & { total: number }, query: JobQuery): number {
+  let score = Math.min(item.total, 20);
+  if (query.q && item.query.q) score += 100;
+  if (query.where && item.query.where) score += 40;
+  if (query.category && item.query.category) score += 30;
+  return score;
 }
