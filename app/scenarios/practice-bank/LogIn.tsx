@@ -106,7 +106,7 @@ export default function LogIn() {
             <p>Open an account in one step. You only need to choose a username.</p>
             <ul className="pb-ticks">
               <li>
-                <FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> Get a pretend bank card with £500 to spend
+                <FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> Get a pretend bank card with £5,000 to spend
               </li>
               <li>
                 <FontAwesomeIcon icon={faReceipt} aria-hidden="true" /> See your payments and statements

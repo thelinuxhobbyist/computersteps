@@ -36,7 +36,7 @@ export const SCENARIOS: Scenario[] = [
     icon: "🏦",
     summary: "Your own pretend bank account and card",
     description:
-      "Open a pretend bank account with £500 and a bank card. Pay with the card in the Practice Shop, then check your balance, find the payment and download a statement. Come back any time with your username.",
+      "Open a pretend bank account with £5,000 and a bank card. Pay with the card in the Practice Shop, send a bank transfer, then check your balance, find the payment and download a statement. Come back any time with your username.",
     href: "/scenarios/practice-bank/",
     skills: ["Opening an account", "Keeping card details safe", "Checking a balance", "Finding transactions", "Downloading a statement"],
     tutorTasks: [

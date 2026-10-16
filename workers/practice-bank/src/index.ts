@@ -8,6 +8,7 @@ import {
   normaliseCardNumber,
   readAmount,
   readCardDetails,
+  TOP_UP_PENCE,
   readDeliveryDetails,
   usernameKey,
   validateUsername,
@@ -42,7 +43,7 @@ import { changeMobilePlan, getMobile, payMobileBill, sendMobileMessage } from ".
 import { checkJobsExercise, getJobs, saveJob, submitJobApplication } from "./jobs-store";
 import { searchAddresses } from "./place-search";
 import { bookTrip, cancelTrip, getTravel } from "./travel-store";
-import { debitSharedBalance } from "./payments";
+import { creditSharedBalance, debitSharedBalance, readIdempotencyKey } from "./payments";
 import { createPatient, getPatient, orderPrescription } from "./patients";
 
 const INACTIVE_DAYS = 365;
@@ -147,6 +148,34 @@ async function takePayment(request: Request, env: Env): Promise<Response> {
   return json({ ok: true, duplicate: debit.duplicate, username: account.username, balancePence: debit.balancePence });
 }
 
+/** Adds another £500 of pretend money. Each new idempotency key is a separate top-up. */
+async function addPracticeMoney(request: Request, env: Env, rawUsername: string): Promise<Response> {
+  const checked = validateUsername(rawUsername);
+  if ("error" in checked) return json({ error: "account_not_found" }, 404);
+  const key = usernameKey(checked.username);
+  const found = await env.BANK_DB.prepare("SELECT 1 FROM accounts WHERE username_key = ?").bind(key).first();
+  if (!found) return json({ error: "account_not_found" }, 404);
+
+  const body = await readJson(request);
+  if (!body) return json({ error: "bad_request" }, 400);
+  const idempotencyKey = readIdempotencyKey(body.idempotencyKey);
+  if (idempotencyKey === "invalid") return json({ error: "bad_idempotency_key" }, 400);
+
+  const now = new Date().toISOString();
+  const credit = await creditSharedBalance(env.BANK_DB, {
+    usernameKey: key,
+    amountPence: TOP_UP_PENCE,
+    postedAt: now,
+    description: "Extra practice money",
+    type: "Payment in",
+    category: "Money in",
+    reference: "TOPUP",
+    idempotencyKey,
+  });
+  if (!credit.ok) return json({ error: credit.error }, 409);
+  return json({ ok: true, duplicate: credit.duplicate, amountPence: TOP_UP_PENCE, balancePence: credit.balancePence });
+}
+
 async function route(request: Request, env: Env, pathname: string): Promise<Response> {
   const { method } = request;
   const get = method === "GET";
@@ -163,10 +192,11 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
     if (post && patient[2]) return orderPrescription(request, env, username);
   }
 
-  const account = pathname.match(/^\/accounts\/([^/]+)(\/transfers)?$/);
+  const account = pathname.match(/^\/accounts\/([^/]+)(\/(transfers|top-up))?$/);
   if (account) {
     const username = decodeURIComponent(account[1]);
-    if (post && account[2]) return payByBankTransfer(request, env, username);
+    if (post && account[3] === "transfers") return payByBankTransfer(request, env, username);
+    if (post && account[3] === "top-up") return addPracticeMoney(request, env, username);
     if (get && !account[2]) {
       const checked = validateUsername(username);
       if ("error" in checked) return json({ error: "account_not_found" }, 404);

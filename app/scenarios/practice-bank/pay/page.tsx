@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PaySomeone from "./PaySomeone";
 
 export const metadata: Metadata = {
-  title: "Pay a bill",
+  title: "Transfer money",
 };
 
 export default function PayPage() {

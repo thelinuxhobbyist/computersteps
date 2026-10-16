@@ -5,6 +5,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import AccountGate from "../components/AccountGate";
+import AddMoney from "../components/AddMoney";
 import { request } from "../bank-api";
 import { BANK_BASE, formatMoney, type BankAccount } from "../bank-data";
 
@@ -210,10 +211,34 @@ function PayForm({ account, refresh }: { account: BankAccount; refresh: () => vo
 
   return (
     <div className="pb-wrap pb-content pb-narrow">
-      <h1>Pay a bill</h1>
+      <h1>Transfer money</h1>
       <p className="pb-lead">
-        Send money from your account by bank transfer. You have <strong>{formatMoney(account.balancePence)}</strong> available.
+        You have <strong>{formatMoney(account.balancePence)}</strong> available. Money you send leaves your account straight away.
       </p>
+
+      <section className="pb-panel" aria-labelledby="pb-receive-heading">
+        <h2 id="pb-receive-heading">Receiving money</h2>
+        <p>Give these details to anyone who needs to pay you by bank transfer.</p>
+        <dl className="pb-details">
+          <div>
+            <dt>Account name</dt>
+            <dd>{account.fullName}</dd>
+          </div>
+          <div>
+            <dt>Sort code</dt>
+            <dd>{account.sortCode}</dd>
+          </div>
+          <div>
+            <dt>Account number</dt>
+            <dd>{account.accountNumber}</dd>
+          </div>
+        </dl>
+        <p>Need more pretend money for a bill? You can add £500 whenever you like.</p>
+        <AddMoney username={account.username} onDone={refresh} />
+      </section>
+
+      <h2>Send money</h2>
+      <p>Copy the name, sort code, account number and reference from the company you are paying. Westford Energy shows these on its website and on your bill.</p>
 
       <form className="pb-panel" onSubmit={review} noValidate>
         {problem || errorNames.length > 0 ? (

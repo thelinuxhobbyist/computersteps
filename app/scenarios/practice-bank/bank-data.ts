@@ -4,7 +4,7 @@ export const BANK_NAME = "Practice Bank";
 export const BANK_NAV = [
   { label: "My account", href: `${BANK_BASE}/account/` },
   { label: "Transactions", href: `${BANK_BASE}/transactions/` },
-  { label: "Pay a bill", href: `${BANK_BASE}/pay/` },
+  { label: "Transfer money", href: `${BANK_BASE}/pay/` },
   { label: "My card", href: `${BANK_BASE}/card/` },
   { label: "Statements", href: `${BANK_BASE}/statements/` },
 ];

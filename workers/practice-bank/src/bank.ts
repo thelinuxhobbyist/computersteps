@@ -1,5 +1,6 @@
-export const STARTING_BALANCE_PENCE = 50000;
-export const MAX_PAYMENT_PENCE = 100000;
+export const STARTING_BALANCE_PENCE = 500000;
+export const TOP_UP_PENCE = 50000;
+export const MAX_PAYMENT_PENCE = 2000000;
 export const HISTORY_MONTHS = 6;
 
 export type Random = () => number;

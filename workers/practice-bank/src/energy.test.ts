@@ -128,13 +128,25 @@ test("bank transfers to Westford Energy need its details and the energy account 
     reference: "we 1234 5678",
     amountPence: 8450,
   };
-  assert.deepEqual(checkTransfer(transfer, "WE12345678"), { request: { amountPence: 8450, reference: "WE12345678" } });
+  assert.deepEqual(checkTransfer(transfer, "WE12345678"), {
+    request: { payee: "westford", amountPence: 8450, reference: "WE12345678" },
+  });
 
   const wrongReference = checkTransfer({ ...transfer, reference: "WB123456" }, "WE12345678");
   assert.ok("errors" in wrongReference && wrongReference.errors.reference);
 
-  const unknownAccount = checkTransfer({ ...transfer, accountNumber: "11112222" }, "WE12345678");
-  assert.ok("errors" in unknownAccount && unknownAccount.errors.accountNumber);
+  const otherCompany = checkTransfer(
+    { payeeName: "Westford Mobile", sortCode: "00-11-22", accountNumber: "12345678", reference: "WM 99", amountPence: 1500 },
+    "WE12345678",
+  );
+  assert.deepEqual(otherCompany, { request: { payee: "other", payeeName: "Westford Mobile", amountPence: 1500, reference: "WM99" } });
+
+  const ownAccount = checkTransfer(
+    { payeeName: "Alex Morgan", sortCode: "00-12-34", accountNumber: "12345678", reference: "ME", amountPence: 500 },
+    "WE12345678",
+    { sortCode: "00-12-34", accountNumber: "12345678" },
+  );
+  assert.ok("errors" in ownAccount && ownAccount.errors.accountNumber);
 
   const wrongName = checkTransfer({ ...transfer, payeeName: "Brightspark" }, "WE12345678");
   assert.ok("errors" in wrongName && wrongName.errors.payeeName);

@@ -271,13 +271,20 @@ export function checkMessage(body: Record<string, unknown>): { topic: ContactTop
   return { topic: checked.topic as ContactTopic, message: checked.message };
 }
 
-export type TransferRequest = { amountPence: number; reference: string };
+export type TransferRequest =
+  | { payee: "westford"; amountPence: number; reference: string }
+  | { payee: "other"; amountPence: number; reference: string; payeeName: string };
 
 /**
- * A bank transfer from Practice Bank. Westford Energy is the only organisation that can be paid this way,
- * and it needs the energy account number as the reference so it knows whose bill to pay.
+ * A bank transfer from Practice Bank.
+ * Westford Energy is recognised so the payment can be applied to the energy bill.
+ * It needs the energy account number as the reference. Any other sort code and account number is paid as a normal transfer.
  */
-export function checkTransfer(body: Record<string, unknown>, energyAccountNumber: string | null): { request: TransferRequest } | { errors: FormErrors } {
+export function checkTransfer(
+  body: Record<string, unknown>,
+  energyAccountNumber: string | null,
+  ownBank?: { sortCode: string; accountNumber: string },
+): { request: TransferRequest } | { errors: FormErrors } {
   const payeeName = text(body.payeeName, 60);
   const sortCode = onlyDigits(body.sortCode);
   const accountNumber = onlyDigits(body.accountNumber);
@@ -289,10 +296,12 @@ export function checkTransfer(body: Record<string, unknown>, energyAccountNumber
   if (sortCode.length !== 6) errors.sortCode = "A sort code has 6 numbers, like 00-12-34.";
   if (accountNumber.length !== 8) errors.accountNumber = "An account number has 8 numbers.";
 
-  const isWestford = sortCode === onlyDigits(WESTFORD.bankDetails.sortCode) && accountNumber === WESTFORD.bankDetails.accountNumber;
-  if (!errors.sortCode && !errors.accountNumber && !isWestford) {
-    errors.accountNumber = "We could not find an account with this sort code and account number. Check the details you were given.";
+  const isOwn = ownBank != null && sortCode === onlyDigits(ownBank.sortCode) && accountNumber === ownBank.accountNumber;
+  if (!errors.sortCode && !errors.accountNumber && isOwn) {
+    errors.accountNumber = "This is your own account. Give these details to someone who is paying you.";
   }
+
+  const isWestford = sortCode === onlyDigits(WESTFORD.bankDetails.sortCode) && accountNumber === WESTFORD.bankDetails.accountNumber;
   if (isWestford && payeeName && !squash(payeeName).includes("westford")) {
     errors.payeeName = "The name does not match this account. Check the name of the company you are paying.";
   }
@@ -307,5 +316,6 @@ export function checkTransfer(body: Record<string, unknown>, energyAccountNumber
   if (amountPence === null) errors.amountPence = "Type how much to pay, like 25.00.";
 
   if (Object.keys(errors).length > 0 || amountPence === null) return { errors };
-  return { request: { amountPence, reference } };
+  if (isWestford) return { request: { payee: "westford", amountPence, reference } };
+  return { request: { payee: "other", amountPence, reference, payeeName } };
 }

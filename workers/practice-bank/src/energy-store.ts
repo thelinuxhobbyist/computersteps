@@ -320,13 +320,43 @@ export async function payByBankTransfer(request: Request, env: Env, rawUsername:
   if (!account) return json({ error: "account_not_found" }, 404);
   const energy = await env.BANK_DB.prepare("SELECT account_number FROM energy_accounts WHERE username_key = ?").bind(key).first<{ account_number: string }>();
 
-  const checked = checkTransfer(body, energy?.account_number ?? null);
+  const checked = checkTransfer(body, energy?.account_number ?? null, {
+    sortCode: account.sort_code,
+    accountNumber: account.account_number,
+  });
   if ("errors" in checked) return json({ error: "invalid_transfer", errors: checked.errors }, 400);
 
   const idempotencyKey = readIdempotencyKey(body.idempotencyKey);
   if (idempotencyKey === "invalid") return json({ error: "bad_idempotency_key" }, 400);
 
-  return takeEnergyPayment(env.BANK_DB, key, checked.request.amountPence, "bank_transfer", idempotencyKey);
+  if (checked.request.payee === "westford") {
+    return takeEnergyPayment(env.BANK_DB, key, checked.request.amountPence, "bank_transfer", idempotencyKey);
+  }
+
+  const now = new Date().toISOString();
+  const debit = await debitSharedBalance(env.BANK_DB, {
+    usernameKey: key,
+    amountPence: checked.request.amountPence,
+    postedAt: now,
+    description: checked.request.payeeName,
+    type: "Bank transfer",
+    category: "Transfers",
+    reference: checked.request.reference,
+    idempotencyKey,
+  });
+
+  if (!debit.ok) {
+    if (debit.error === "insufficient_funds") return json({ error: "insufficient_funds", balancePence: debit.balancePence }, 402);
+    return json({ error: debit.error }, 409);
+  }
+
+  return json({
+    ok: true,
+    duplicate: debit.duplicate,
+    reference: debit.reference,
+    amountPence: checked.request.amountPence,
+    balancePence: debit.balancePence,
+  });
 }
 
 export async function setUpDirectDebit(request: Request, env: Env, rawUsername: string): Promise<Response> {

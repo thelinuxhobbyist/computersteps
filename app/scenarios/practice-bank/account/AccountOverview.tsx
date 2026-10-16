@@ -2,22 +2,24 @@
 
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faBasketShopping, faCreditCard, faFileLines, faListUl } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faBasketShopping, faCreditCard, faFileLines, faListUl, faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import AccountGate from "../components/AccountGate";
+import AddMoney from "../components/AddMoney";
 import TransactionList from "../components/TransactionList";
 import { BANK_BASE, filterTransactions, formatMoney, totals, withRunningBalance, type BankAccount } from "../bank-data";
 
 const LINKS = [
+  { href: `${BANK_BASE}/pay/`, icon: faRightLeft, title: "Transfer money", text: "Send a bank transfer, or see the details for people paying you" },
   { href: `${BANK_BASE}/transactions/`, icon: faListUl, title: "Transactions", text: "Find a payment and see what you have spent" },
   { href: `${BANK_BASE}/card/`, icon: faCreditCard, title: "My card", text: "See your card number, expiry date and security code" },
   { href: `${BANK_BASE}/statements/`, icon: faFileLines, title: "Statements", text: "View or download a statement for each month" },
 ];
 
 export default function AccountOverview() {
-  return <AccountGate>{(account) => <Overview account={account} />}</AccountGate>;
+  return <AccountGate>{(account, refresh) => <Overview account={account} refresh={refresh} />}</AccountGate>;
 }
 
-function Overview({ account }: { account: BankAccount }) {
+function Overview({ account, refresh }: { account: BankAccount; refresh: () => void }) {
   const transactions = withRunningBalance(account);
   const thisMonth = filterTransactions(transactions, { period: "this-month", now: new Date() });
   const { outPence } = totals(thisMonth);
@@ -41,6 +43,29 @@ function Overview({ account }: { account: BankAccount }) {
         <p className="pb-balance__spent">
           Money out this month: <strong>{formatMoney(outPence)}</strong>
         </p>
+        <AddMoney username={account.username} onDone={refresh} />
+      </section>
+
+      <section className="pb-panel" aria-labelledby="pb-receive-heading">
+        <h2 id="pb-receive-heading">Details for receiving money</h2>
+        <p>Give these details to anyone who needs to pay you by bank transfer.</p>
+        <dl className="pb-details pb-details--large">
+          <div>
+            <dt>Account name</dt>
+            <dd>{account.fullName}</dd>
+          </div>
+          <div>
+            <dt>Sort code</dt>
+            <dd>{account.sortCode}</dd>
+          </div>
+          <div>
+            <dt>Account number</dt>
+            <dd>{account.accountNumber}</dd>
+          </div>
+        </dl>
+        <Link href={`${BANK_BASE}/pay/`} className="pb-btn pb-btn--primary">
+          Send a bank transfer
+        </Link>
       </section>
 
       <ul className="pb-tiles">
