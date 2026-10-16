@@ -2,7 +2,6 @@ import Link from "next/link";
 import { VACANCIES } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import { EXAMPLE_SEARCHES, JOB_CATEGORIES } from "../../../workers/practice-bank/src/shared/jobs";
 import { JobCard } from "./JobCard";
-import { PlaceLookup } from "./PlaceLookup";
 
 export function JobsHome() {
   const featured = VACANCIES.filter((job) => job.featured).slice(0, 6);
@@ -12,16 +11,6 @@ export function JobsHome() {
         <div className="ps-wrap">
           <h1>Find your next job</h1>
           <p className="wj-lead">Search jobs by title and location. Save the ones you want and apply online.</p>
-          <form className="wj-search" action="/scenarios/jobs/search/" method="get">
-            <div className="wj-field">
-              <label htmlFor="q">Job title, employer or keyword</label>
-              <input id="q" name="q" placeholder="Job title, skill or company" />
-            </div>
-            <PlaceLookup id="where" name="where" label="Town, city or postcode" />
-            <button className="wj-btn wj-btn--accent" type="submit">
-              Search jobs
-            </button>
-          </form>
         </div>
       </section>
       <div className="ps-wrap">

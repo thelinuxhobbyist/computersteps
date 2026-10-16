@@ -25,7 +25,6 @@ import { JobCard } from "./JobCard";
 import { coursesForJobs } from "./job-skills";
 import { getJobsAccount, saveVacancy, unsaveVacancy } from "./jobs-api";
 import { readCompare, useCompareIds, writeCompare } from "./jobs-client";
-import { PlaceLookup } from "./PlaceLookup";
 
 function BoundDraft({
   query,
@@ -101,35 +100,8 @@ export function SearchResults() {
     <div className="ps-wrap">
       <h1>Search results</h1>
       <BoundDraft key={params.toString()} query={query}>
-        {(draft, setDraft) => (
+        {(draft) => (
           <>
-      <form
-        className="wj-search"
-        onSubmit={(event) => {
-          event.preventDefault();
-          go({ ...draft, page: 1 });
-        }}
-      >
-        <div className="wj-field">
-          <label htmlFor="results-q">Job title, employer or keyword</label>
-          <input
-            id="results-q"
-            value={draft.q}
-            onChange={(event) => setDraft({ ...draft, q: event.target.value })}
-          />
-        </div>
-        <PlaceLookup
-          id="results-where"
-          label="Town, city or postcode"
-          value={draft.where}
-          onChange={(where) => setDraft({ ...draft, where })}
-          onPlace={(place) => setDraft({ ...draft, where: place.search })}
-        />
-        <button className="wj-btn wj-btn--accent" type="submit">
-          Search jobs
-        </button>
-      </form>
-
       <div className="wj-board">
         <div>
           <button

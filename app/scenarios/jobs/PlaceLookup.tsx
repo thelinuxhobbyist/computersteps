@@ -7,6 +7,7 @@ export function PlaceLookup({
   id,
   name,
   label,
+  hideLabel = false,
   value,
   onChange,
   onPlace,
@@ -14,6 +15,7 @@ export function PlaceLookup({
   id: string;
   name?: string;
   label: string;
+  hideLabel?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   onPlace?: (place: PlaceResult) => void;
@@ -58,7 +60,9 @@ export function PlaceLookup({
 
   return (
     <div className="wj-field wj-lookup">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className={hideLabel ? "wj-visually-hidden" : undefined}>
+        {label}
+      </label>
       <input
         id={id}
         name={name}

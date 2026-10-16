@@ -51,7 +51,7 @@ export function ApplyForm() {
     return (
       <div className="ps-wrap">
         <h1>Choose a job first</h1>
-        <p>Open a vacancy, then select Apply for this job.</p>
+        <p>Open a vacancy, then select Apply now.</p>
         <Link className="wj-btn" href="/scenarios/jobs/search/">
           Find jobs
         </Link>

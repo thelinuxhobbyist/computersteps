@@ -8,6 +8,9 @@ export function JobCard({ job, actions, from }: { job: Vacancy; actions?: ReactN
   return (
     <article className="wj-job">
       <div className="wj-job__top">
+        <div className="wj-badge" aria-hidden="true">
+          {job.employer.trim().charAt(0).toUpperCase()}
+        </div>
         <div>
           <h3>
             <Link className="wj-job__title" href={href}>
@@ -27,7 +30,9 @@ export function JobCard({ job, actions, from }: { job: Vacancy; actions?: ReactN
       </ul>
       <p className="wj-job__summary">{job.summary}</p>
       <div className="wj-job__foot">
-        <p>Posted {formatUkDate(job.postedOn)}</p>
+        <p>
+          Posted {formatUkDate(job.postedOn)} · Ref: {job.reference}
+        </p>
         <div className="wj-job__actions">
           <Link className="wj-btn" href={href}>
             View vacancy
