@@ -29,6 +29,8 @@ export default function SiteFooter() {
           <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps</span>
           <span className="cs-footer__dev">
             Are you a developer? <Link href="/behind-the-scenes/">Behind the Scenes</Link>
+            {" · "}
+            <Link href="/for-libraries/">For Libraries & Tutors</Link>
           </span>
         </div>
       </div>
