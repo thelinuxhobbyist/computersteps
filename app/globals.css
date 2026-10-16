@@ -2838,6 +2838,13 @@ body.nav-open {
   margin: 36px 0 12px;
 }
 
+.behind h3 {
+  font-size: 1.15rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin: 28px 0 12px;
+}
+
 .behind p {
   margin: 0 0 16px;
   max-width: 62ch;
