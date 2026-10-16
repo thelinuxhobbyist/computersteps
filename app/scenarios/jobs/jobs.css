@@ -1072,6 +1072,16 @@
   align-items: start;
 }
 
+.wj-layout > * {
+  min-width: 0;
+}
+
+@media (max-width: 800px) {
+  .wj-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .wj-card {
   padding: 24px;
   margin-bottom: 16px;
