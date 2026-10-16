@@ -14,6 +14,7 @@ import {
   formatLocation,
   formatUkDate,
 } from "../../../workers/practice-bank/src/shared/jobs";
+import { coursesForJob } from "./job-skills";
 import { CompareButton } from "./SearchResults";
 import { getJobsAccount, saveVacancy, unsaveVacancy } from "./jobs-api";
 import { safeJobsPath } from "./jobs-client";
@@ -76,6 +77,18 @@ export function JobDetail() {
             <li>{categoryLabel(job.category)}</li>
           </ul>
           <p>{job.summary}</p>
+          {coursesForJob(job).length ? (
+            <aside className="wj-skills">
+              <p>Practise the computer skills for this job</p>
+              <ul>
+                {coursesForJob(job).map((course) => (
+                  <li key={course.id}>
+                    <Link href={course.href}>{course.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          ) : null}
           {job.entryLevel ? <p>This role is suitable for entry-level applicants.</p> : null}
           <div className="wj-note" role="note">
             <p>

@@ -7,25 +7,34 @@ export function JobCard({ job, actions, from }: { job: Vacancy; actions?: ReactN
   const href = from ? `/scenarios/jobs/job/?id=${job.id}&from=${encodeURIComponent(from)}` : `/scenarios/jobs/job/?id=${job.id}`;
   return (
     <article className="wj-job">
-      <h3>
-        <Link className="wj-job__title" href={href}>
-          {job.title}
-        </Link>
-      </h3>
-      <p className="wj-job__employer">{job.employer}</p>
-      <p>{formatLocation(job)}</p>
-      <p className="wj-pay">{job.payLabel}</p>
+      <div className="wj-job__top">
+        <div>
+          <h3>
+            <Link className="wj-job__title" href={href}>
+              {job.title}
+            </Link>
+          </h3>
+          <p className="wj-job__employer">{job.employer}</p>
+          <p className="wj-job__where">{formatLocation(job)}</p>
+        </div>
+        <p className="wj-pay">{job.payLabel}</p>
+      </div>
       <ul className="wj-meta">
         <li>{HOURS_LABELS[job.hours]}</li>
         <li>{CONTRACT_LABELS[job.contract]}</li>
         <li>{WORKPLACE_LABELS[job.workplace]}</li>
         {job.entryLevel ? <li>Entry level</li> : null}
       </ul>
-      <p>{job.summary}</p>
-      <p>
-        Posted {formatUkDate(job.postedOn)} · Apply by {formatUkDate(job.closesOn)} · Reference {job.reference}
-      </p>
-      {actions}
+      <p className="wj-job__summary">{job.summary}</p>
+      <div className="wj-job__foot">
+        <p>Posted {formatUkDate(job.postedOn)}</p>
+        <div className="wj-job__actions">
+          <Link className="wj-btn" href={href}>
+            View vacancy
+          </Link>
+          {actions}
+        </div>
+      </div>
     </article>
   );
 }

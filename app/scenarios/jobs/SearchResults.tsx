@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useLearner } from "../../lib/learner-session";
 import { VACANCIES } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import {
   CONTRACT_LABELS,
@@ -20,6 +21,8 @@ import {
   type JobQuery,
 } from "../../../workers/practice-bank/src/shared/jobs";
 import { JobCard } from "./JobCard";
+import { coursesForJobs } from "./job-skills";
+import { getJobsAccount, saveVacancy, unsaveVacancy } from "./jobs-api";
 import { readCompare, useCompareIds, writeCompare } from "./jobs-client";
 import { PlaceLookup } from "./PlaceLookup";
 
@@ -75,11 +78,15 @@ export function CompareButton({ jobId }: { jobId: string }) {
 export function SearchResults() {
   const params = useSearchParams();
   const router = useRouter();
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const saved = useSavedSet();
   const query = parseJobQuery(new URLSearchParams(params.toString()));
   const { total, results } = searchJobs(VACANCIES, query);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const filters = activeFilters(query);
   const resultsHref = `/scenarios/jobs/search/${jobQueryString(query)}`;
+  const courses = coursesForJobs(results);
+  const chosenFilters = filters.filter((filter) => filter.key !== "q" && filter.key !== "where");
 
   const go = (next: JobQuery) => {
     router.push(`/scenarios/jobs/search/${jobQueryString(next)}`);
@@ -120,104 +127,73 @@ export function SearchResults() {
         </button>
       </form>
 
-      <div className="wj-split">
-        <form
-          className="wj-filters"
-          onSubmit={(event) => {
-            event.preventDefault();
-            go({ ...draft, page: 1 });
-          }}
-        >
-          <h2>Filters</h2>
-          <div className="wj-field">
-            <label htmlFor="filter-category">Job category</label>
-            <select
-              id="filter-category"
-              value={draft.category}
-              onChange={(event) => setDraft({ ...draft, category: event.target.value })}
-            >
-              <option value="">Any category</option>
-              {JOB_CATEGORIES.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="wj-field">
-            <label htmlFor="filter-hours">Hours</label>
-            <select id="filter-hours" value={draft.hours} onChange={(event) => setDraft({ ...draft, hours: event.target.value })}>
-              <option value="">Full-time or part-time</option>
-              <option value="full-time">Full-time</option>
-              <option value="part-time">Part-time</option>
-            </select>
-          </div>
-          <div className="wj-field">
-            <label htmlFor="filter-contract">Employment type</label>
-            <select
-              id="filter-contract"
-              value={draft.contract}
-              onChange={(event) => setDraft({ ...draft, contract: event.target.value })}
-            >
-              <option value="">Any employment type</option>
-              {Object.entries(CONTRACT_LABELS).map(([id, label]) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="wj-field">
-            <label htmlFor="filter-salary">Salary</label>
-            <select id="filter-salary" value={draft.salary} onChange={(event) => setDraft({ ...draft, salary: event.target.value })}>
-              <option value="">Any salary</option>
-              {SALARY_BANDS.map((band) => (
-                <option key={band.id} value={band.id}>
-                  {band.label}
-                </option>
-              ))}
-            </select>
-            <p className="wj-help">Hourly jobs are matched by their yearly pay.</p>
-          </div>
-          <div className="wj-field">
-            <label htmlFor="filter-experience">Experience level</label>
-            <select
-              id="filter-experience"
-              value={draft.experience}
-              onChange={(event) => setDraft({ ...draft, experience: event.target.value })}
-            >
-              <option value="">Any experience</option>
-              {Object.entries(EXPERIENCE_LABELS).map(([id, label]) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="wj-field">
-            <label htmlFor="filter-workplace">Workplace</label>
-            <select
-              id="filter-workplace"
-              value={draft.workplace}
-              onChange={(event) => setDraft({ ...draft, workplace: event.target.value })}
-            >
-              <option value="">On-site, hybrid or remote</option>
-              {Object.entries(WORKPLACE_LABELS).map(([id, label]) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button className="wj-btn" type="submit">
-            Apply filters
+      <div className="wj-board">
+        <div>
+          <button
+            className="wj-btn wj-filter-toggle"
+            type="button"
+            aria-expanded={filtersOpen}
+            aria-controls="job-filters"
+            onClick={() => setFiltersOpen((open) => !open)}
+          >
+            {filtersOpen ? "Hide filters" : "Filters"}
+            {chosenFilters.length ? ` (${chosenFilters.length})` : ""}
           </button>
-        </form>
+          <form id="job-filters" className={filtersOpen ? "wj-filters is-open" : "wj-filters"}>
+            <h2>Filters</h2>
+            <Checks
+              legend="Job category"
+              name="category"
+              value={query.category}
+              options={JOB_CATEGORIES.map((category) => ({ id: category.id, label: category.label }))}
+              onChange={(category) => go({ ...draft, category, page: 1 })}
+            />
+            <Checks
+              legend="Salary"
+              name="salary"
+              value={query.salary}
+              options={SALARY_BANDS.map((band) => ({ id: band.id, label: band.label }))}
+              onChange={(salary) => go({ ...draft, salary, page: 1 })}
+            />
+            <p className="wj-help">Hourly jobs are matched by their yearly pay.</p>
+            <Checks
+              legend="Employment type"
+              name="contract"
+              value={query.contract}
+              options={Object.entries(CONTRACT_LABELS).map(([id, label]) => ({ id, label }))}
+              onChange={(contract) => go({ ...draft, contract, page: 1 })}
+            />
+            <Checks
+              legend="Working hours"
+              name="hours"
+              value={query.hours}
+              options={[
+                { id: "full-time", label: "Full-time" },
+                { id: "part-time", label: "Part-time" },
+              ]}
+              onChange={(hours) => go({ ...draft, hours, page: 1 })}
+            />
+            <Checks
+              legend="Experience level"
+              name="experience"
+              value={query.experience}
+              options={Object.entries(EXPERIENCE_LABELS).map(([id, label]) => ({ id, label }))}
+              onChange={(experience) => go({ ...draft, experience, page: 1 })}
+            />
+            <Checks
+              legend="Workplace"
+              name="workplace"
+              value={query.workplace}
+              options={Object.entries(WORKPLACE_LABELS).map(([id, label]) => ({ id, label }))}
+              onChange={(workplace) => go({ ...draft, workplace, page: 1 })}
+            />
+          </form>
+        </div>
 
         <div>
           <div className="wj-results-head">
             <p role="status">
-              <strong>{total === 1 ? "1 job found" : `${total} jobs found`}</strong>
+              <strong>{total === 1 ? "1 job" : `${total} jobs`}</strong>
             </p>
             <div className="wj-field">
               <label htmlFor="sort">Sort by</label>
@@ -239,24 +215,42 @@ export function SearchResults() {
             <ul className="wj-chips">
               {filters.map((filter) => (
                 <li key={filter.key}>
-                  <Link href={`/scenarios/jobs/search/${jobQueryString({ ...query, [filter.key]: "", page: 1 })}`}>
-                    Remove {filter.label}
+                  <Link
+                    aria-label={`Remove ${filter.label}`}
+                    href={`/scenarios/jobs/search/${jobQueryString({ ...query, [filter.key]: "", page: 1 })}`}
+                  >
+                    {filter.label} <span aria-hidden="true">×</span>
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href={`/scenarios/jobs/search/${jobQueryString(emptyJobQuery())}`}>Clear all</Link>
-              </li>
+              {chosenFilters.length ? (
+                <li>
+                  <Link href={`/scenarios/jobs/search/${jobQueryString({ ...emptyJobQuery(), q: query.q, where: query.where })}`}>
+                    Clear filters
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           ) : null}
 
           {total === 0 ? (
             <div className="wj-note" role="status">
               <h2>No jobs match this search</h2>
-              <p>Try a different job title, a shorter place name, or clear the filters.</p>
-              <Link className="wj-btn" href="/scenarios/jobs/search/">
-                Clear search and filters
-              </Link>
+              <p>
+                {query.q && query.where
+                  ? `There are no vacancies for “${query.q}” in ${query.where}. Try a broader job title, or look at every job in that place.`
+                  : "Try a different job title, a shorter place name, or clear the filters."}
+              </p>
+              <div className="wj-job__actions">
+                {query.q && query.where ? (
+                  <Link className="wj-btn" href={`/scenarios/jobs/search/${jobQueryString({ ...emptyJobQuery(), where: query.where })}`}>
+                    Jobs in {query.where}
+                  </Link>
+                ) : null}
+                <Link className="wj-btn wj-btn--ghost" href="/scenarios/jobs/search/">
+                  Clear search and filters
+                </Link>
+              </div>
             </div>
           ) : results.length === 0 ? (
             <div className="wj-note" role="status">
@@ -267,9 +261,33 @@ export function SearchResults() {
               </Link>
             </div>
           ) : (
-            results.map((job) => (
-              <JobCard key={job.id} job={job} from={resultsHref} actions={<CompareButton jobId={job.id} />} />
-            ))
+            <>
+              {courses.length ? (
+                <aside className="wj-skills">
+                  <p>Practise the computer skills these jobs use</p>
+                  <ul>
+                    {courses.map((course) => (
+                      <li key={course.id}>
+                        <Link href={course.href}>{course.title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
+              ) : null}
+              {results.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  from={resultsHref}
+                  actions={
+                    <>
+                      <SaveJobButton jobId={job.id} saved={saved} returnTo={resultsHref} />
+                      <CompareButton jobId={job.id} />
+                    </>
+                  }
+                />
+              ))}
+            </>
           )}
 
           {total > PAGE_SIZE ? (
@@ -287,5 +305,92 @@ export function SearchResults() {
         )}
       </BoundDraft>
     </div>
+  );
+}
+
+function Checks({
+  legend,
+  name,
+  value,
+  options,
+  onChange,
+}: {
+  legend: string;
+  name: string;
+  value: string;
+  options: { id: string; label: string }[];
+  onChange: (id: string) => void;
+}) {
+  return (
+    <fieldset className="wj-checks">
+      <legend>{legend}</legend>
+      {options.map((option) => (
+        <label key={option.id}>
+          <input
+            type="checkbox"
+            name={name}
+            checked={value === option.id}
+            onChange={() => onChange(value === option.id ? "" : option.id)}
+          />
+          <span>{option.label}</span>
+        </label>
+      ))}
+    </fieldset>
+  );
+}
+
+function useSavedSet() {
+  const username = useLearner();
+  const [ids, setIds] = useState<string[]>([]);
+  useEffect(() => {
+    if (!username) return;
+    let cancel = false;
+    getJobsAccount(username).then((account) => {
+      if (!cancel) setIds(account?.saved.map((item) => item.jobId) ?? []);
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [username]);
+  return { username, ids, setIds };
+}
+
+function SaveJobButton({
+  jobId,
+  saved,
+  returnTo,
+}: {
+  jobId: string;
+  saved: ReturnType<typeof useSavedSet>;
+  returnTo: string;
+}) {
+  const [busy, setBusy] = useState(false);
+  const selected = saved.ids.includes(jobId);
+  if (!saved.username) {
+    return (
+      <Link className="wj-btn wj-btn--ghost" href={`/scenarios/jobs/account/?next=${encodeURIComponent(returnTo)}`}>
+        Save job
+      </Link>
+    );
+  }
+  return (
+    <button
+      type="button"
+      className="wj-btn wj-btn--ghost"
+      aria-pressed={selected}
+      disabled={busy}
+      onClick={() => {
+        const username = saved.username;
+        if (!username) return;
+        setBusy(true);
+        const request = selected ? unsaveVacancy(username, jobId) : saveVacancy(username, jobId);
+        request.then((next) => {
+          setBusy(false);
+          if (next) saved.setIds(next.map((item) => item.jobId));
+        });
+      }}
+    >
+      {selected ? "Saved" : "Save job"}
+    </button>
   );
 }
