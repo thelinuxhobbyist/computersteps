@@ -8,6 +8,7 @@ export function PlaceLookup({
   name,
   label,
   hideLabel = false,
+  placeholder = "Start typing an address or postcode",
   value,
   onChange,
   onPlace,
@@ -16,6 +17,7 @@ export function PlaceLookup({
   name?: string;
   label: string;
   hideLabel?: boolean;
+  placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   onPlace?: (place: PlaceResult) => void;
@@ -72,7 +74,7 @@ export function PlaceLookup({
         aria-controls={listId}
         autoComplete="off"
         value={text}
-        placeholder="Start typing an address or postcode"
+        placeholder={placeholder}
         onChange={(event) => {
           setText(event.target.value);
           setOpen(true);

@@ -11,7 +11,7 @@ export function JobCard({ job, actions, from }: { job: Vacancy; actions?: ReactN
         <div className="wj-badge" aria-hidden="true">
           {job.employer.trim().charAt(0).toUpperCase()}
         </div>
-        <div>
+        <div className="wj-job__identity">
           <h3>
             <Link className="wj-job__title" href={href}>
               {job.title}

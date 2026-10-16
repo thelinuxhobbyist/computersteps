@@ -334,9 +334,19 @@
 
 .wj-job__top {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 16px;
   align-items: flex-start;
+}
+
+.wj-job__identity {
+  flex: 1;
+  min-width: 0;
+}
+
+.wj-job h3 {
+  margin: 0;
 }
 
 .wj-job__where,
@@ -794,8 +804,8 @@
     margin-bottom: 16px;
   }
 
-  .wj-job__top {
-    flex-direction: column;
+  .wj-job .wj-pay {
+    flex-basis: 100%;
   }
 
   .wj-nav__toggle {
@@ -1013,6 +1023,11 @@
   border-radius: 6px;
   font: inherit;
   font-size: 15px;
+}
+
+.wj-searchbar input::placeholder {
+  color: #6b7280;
+  opacity: 1;
 }
 
 .wj-searchbar > form > input,

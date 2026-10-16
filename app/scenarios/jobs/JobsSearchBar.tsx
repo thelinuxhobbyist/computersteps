@@ -32,8 +32,8 @@ function SearchForm({ title, place }: { title: string; place: string }) {
           router.push(query ? `/scenarios/jobs/search/?${query}` : "/scenarios/jobs/search/");
         }}
       >
-        <input aria-label="Job title or keyword" value={q} onChange={(event) => setQ(event.target.value)} />
-        <PlaceLookup id="wj-search-where" label="Location" hideLabel value={where} onChange={setWhere} />
+        <input aria-label="Job title or keyword" placeholder="Job title or keyword" value={q} onChange={(event) => setQ(event.target.value)} />
+        <PlaceLookup id="wj-search-where" label="Location" hideLabel placeholder="Town or postcode" value={where} onChange={setWhere} />
         <button type="submit">Search jobs</button>
       </form>
     </div>
