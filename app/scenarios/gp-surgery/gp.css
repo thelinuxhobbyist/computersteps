@@ -1511,10 +1511,6 @@ select.gp-input {
 }
 
 @media (max-width: 760px) {
-  .gp-wrap {
-    padding: 0 16px;
-  }
-
   .gp-header__phone {
     display: none;
   }

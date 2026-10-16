@@ -39,7 +39,7 @@
 }
 
 .ps-wrap {
-  width: min(1080px, calc(100% - 32px));
+  width: min(1080px, calc(100% - 48px));
   margin: 0 auto;
 }
 

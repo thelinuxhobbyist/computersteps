@@ -444,7 +444,8 @@ body.nav-open {
 }
 
 .hero {
-  padding: 56px 0 48px;
+  padding-top: 56px;
+  padding-bottom: 48px;
 }
 
 .eyebrow {
@@ -474,7 +475,8 @@ body.nav-open {
 }
 
 .section {
-  padding: 48px 0;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 .section-muted {
@@ -902,7 +904,8 @@ body.nav-open {
 }
 
 .lesson-main {
-  padding: 32px 0 64px;
+  padding-top: 32px;
+  padding-bottom: 64px;
   flex: 1;
 }
 
@@ -911,7 +914,8 @@ body.nav-open {
   flex-direction: column;
   flex: 1;
   width: 100%;
-  padding: 28px 0 20px;
+  padding-top: 28px;
+  padding-bottom: 20px;
 }
 
 .lesson-player__header {
@@ -2883,10 +2887,6 @@ body.nav-open {
 }
 
 @media (max-width: 760px) {
-  .wrap {
-    padding: 0 16px;
-  }
-
   .mobile-nav {
     display: block;
   }
@@ -2904,11 +2904,13 @@ body.nav-open {
   }
 
   .hero {
-    padding: 36px 0 32px;
+    padding-top: 36px;
+    padding-bottom: 32px;
   }
 
   .section {
-    padding: 36px 0;
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
 
   .step-card {
@@ -2921,7 +2923,8 @@ body.nav-open {
 
   .lesson-player {
     flex: none;
-    padding: 16px 0 24px;
+    padding-top: 16px;
+    padding-bottom: 24px;
   }
 
   .lesson-player__practice {
