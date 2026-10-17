@@ -8,6 +8,7 @@ import { VACANCIES } from "../../../workers/practice-bank/src/shared/job-catalog
 import {
   CONTRACT_LABELS,
   EXPERIENCE_LABELS,
+  SPONSORSHIP_LABELS,
   JOB_CATEGORIES,
   PAGE_SIZE,
   SALARY_BANDS,
@@ -18,6 +19,7 @@ import {
   explainEmptySearch,
   jobQueryString,
   parseJobQuery,
+  refineJobQuery,
   searchJobs,
   type JobQuery,
 } from "../../../workers/practice-bank/src/shared/jobs";
@@ -80,7 +82,13 @@ export function SearchResults() {
   const router = useRouter();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const saved = useSavedSet();
-  const query = parseJobQuery(new URLSearchParams(params.toString()));
+  const rawQuery = parseJobQuery(new URLSearchParams(params.toString()));
+  const query = refineJobQuery(VACANCIES, rawQuery);
+  useEffect(() => {
+    const current = jobQueryString(rawQuery);
+    const next = jobQueryString(query);
+    if (current !== next) router.replace(`/scenarios/jobs/search/${next}`);
+  }, [params, query, rawQuery, router]);
   const { total, results } = searchJobs(VACANCIES, query);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const filters = activeFilters(query);
@@ -162,6 +170,14 @@ export function SearchResults() {
               options={Object.entries(WORKPLACE_LABELS).map(([id, label]) => ({ id, label }))}
               onChange={(workplace) => go({ ...draft, workplace, page: 1 })}
             />
+            <Checks
+              legend="Visa sponsorship"
+              name="sponsorship"
+              value={query.sponsorship}
+              options={Object.entries(SPONSORSHIP_LABELS).map(([id, label]) => ({ id, label }))}
+              onChange={(sponsorship) => go({ ...draft, sponsorship, page: 1 })}
+            />
+            <p className="wj-help">Sponsorship details are part of these fictional adverts. They are not immigration advice.</p>
           </form>
         </div>
 

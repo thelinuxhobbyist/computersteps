@@ -9,7 +9,7 @@ import { JobsSearchBar } from "./JobsSearchBar";
 
 export const metadata: Metadata = {
   title: { default: "Westford Jobs", template: "%s | Westford Jobs" },
-  description: "Search UK jobs by title and location, compare vacancies and apply online with Westford Jobs.",
+  description: "Practice searching fictional UK jobs by title and location, comparing vacancies and applying online with Westford Jobs.",
 };
 
 export default function JobsLayout({ children }: { children: ReactNode }) {

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import {
   CONTRACT_LABELS,
+  EXPERIENCE_LABELS,
   HOURS_LABELS,
   WORKPLACE_LABELS,
   formatLocation,
@@ -51,10 +52,20 @@ export function CompareJobs() {
                 <dd>
                   {CONTRACT_LABELS[job.contract]} · {WORKPLACE_LABELS[job.workplace]}
                 </dd>
+                <dt>Experience</dt>
+                <dd>{EXPERIENCE_LABELS[job.experience]}</dd>
+                <dt>Right to work</dt>
+                <dd>{job.rightToWork}</dd>
               </dl>
               <h3>Essential requirements</h3>
               <ul>
                 {job.essential.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <h3>Qualifications</h3>
+              <ul>
+                {job.qualifications.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

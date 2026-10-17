@@ -23,6 +23,10 @@ export const JOB_CATEGORIES = [
   { id: "education", label: "Education" },
   { id: "security", label: "Security" },
   { id: "maintenance", label: "Maintenance" },
+  { id: "hr", label: "Human resources" },
+  { id: "marketing", label: "Marketing and communications" },
+  { id: "construction", label: "Construction" },
+  { id: "manufacturing", label: "Manufacturing" },
 ] as const;
 
 export type JobCategory = (typeof JOB_CATEGORIES)[number]["id"];
@@ -31,6 +35,7 @@ export type JobContract = "permanent" | "temporary" | "fixed-term" | "contract";
 export type JobWorkplace = "on-site" | "hybrid" | "remote";
 export type JobExperience = "entry" | "some" | "experienced";
 export type PayPeriod = "year" | "hour" | "day" | "week" | "task";
+export type JobSponsorship = "not-offered" | "available";
 
 export const HOURS_LABELS: Record<JobHours, string> = {
   "full-time": "Full-time",
@@ -55,6 +60,19 @@ export const EXPERIENCE_LABELS: Record<JobExperience, string> = {
   some: "Some experience",
   experienced: "Experienced",
 };
+
+export const SPONSORSHIP_LABELS: Record<JobSponsorship, string> = {
+  "not-offered": "No visa sponsorship",
+  available: "Sponsorship may be available",
+};
+
+/** Places a learner can type as one area. Town names stay on each vacancy. */
+export const LOCATION_GROUPS: { label: string; places: string[] }[] = [
+  {
+    label: "West London",
+    places: ["Ealing", "West Ealing", "Acton", "Southall", "Hanwell", "Greenford", "Hounslow", "Brentford", "Hammersmith", "Wembley"],
+  },
+];
 
 export const SALARY_BANDS = [
   { id: "under-24000", label: "Under £24,000 a year", min: 0, max: 23999 },
@@ -88,6 +106,11 @@ export const EXAMPLE_SEARCHES = [
   "Teaching assistant",
   "Security officer",
   "Maintenance operative",
+  "Office administrator",
+  "Human resources administrator",
+  "Marketing assistant",
+  "Production operative",
+  "Apprentice",
 ] as const;
 
 export const PAGE_SIZE = 8;
@@ -121,6 +144,15 @@ export type VacancyInput = {
   /** The advert itself contains the warning. The listing is not stamped as a scam. */
   suspicious?: boolean;
   keywords?: string[];
+  /** Omitted vacancies require existing right to work and do not offer sponsorship. */
+  sponsorship?: JobSponsorship;
+  /** Shown when sponsorship may be available. Must also appear in the requirements. */
+  sponsorshipCondition?: string;
+  /** Replaces the standard right-to-work wording when an advert needs a different sentence. */
+  rightToWork?: string;
+  benefits?: string[];
+  howToApply?: string;
+  apprenticeship?: boolean;
 };
 
 export type Vacancy = VacancyInput & {
@@ -129,6 +161,11 @@ export type Vacancy = VacancyInput & {
   payAnnualMin: number;
   payAnnualMax: number;
   entryLevel: boolean;
+  sponsorship: JobSponsorship;
+  rightToWork: string;
+  benefits: string[];
+  howToApply: string;
+  apprenticeship: boolean;
 };
 
 export type JobQuery = {
@@ -140,6 +177,7 @@ export type JobQuery = {
   salary: string;
   experience: string;
   workplace: string;
+  sponsorship: string;
   sort: JobSort;
   page: number;
 };
@@ -212,14 +250,32 @@ function buildPayLabel(input: VacancyInput): string {
   return input.payMin === input.payMax ? `${min} ${suffix}` : `${min} to ${max} ${suffix}`;
 }
 
+export const PRACTICE_APPLY =
+  "Select Apply now on this practice page. The form stays on your Computer Steps account. It is not sent to a real employer, and you should use fictional details.";
+
+export function rightToWorkText(input: Pick<VacancyInput, "sponsorship" | "sponsorshipCondition" | "rightToWork">): string {
+  if (input.rightToWork) return input.rightToWork;
+  if (input.sponsorship === "available") {
+    const condition = input.sponsorshipCondition?.trim() || "the essential requirements in this advert";
+    return `Sponsorship may be available for eligible applicants who already meet this condition: ${condition}. This is a fictional practice vacancy and is not immigration advice.`;
+  }
+  return "You must already have the right to work in the UK. This employer does not offer visa sponsorship. This is a fictional practice vacancy and is not immigration advice.";
+}
+
 export function toVacancy(input: VacancyInput): Vacancy {
+  const sponsorship = input.sponsorship ?? "not-offered";
   return {
     ...input,
+    sponsorship,
     reference: input.id.replace(/^wfj-/i, "WFJ-").toUpperCase(),
     payLabel: buildPayLabel(input),
     payAnnualMin: annualise(input.payPeriod, input.payMin, input.hoursPerWeek),
     payAnnualMax: annualise(input.payPeriod, input.payMax, input.hoursPerWeek),
     entryLevel: input.experience === "entry",
+    rightToWork: rightToWorkText({ ...input, sponsorship }),
+    benefits: input.benefits ?? [],
+    howToApply: input.howToApply ?? PRACTICE_APPLY,
+    apprenticeship: input.apprenticeship ?? false,
   };
 }
 
@@ -227,6 +283,26 @@ export function getJob(jobs: readonly Vacancy[], id: string): Vacancy | undefine
   const key = id.trim().toLowerCase();
   return jobs.find((job) => job.id === key || job.reference.toLowerCase() === key);
 }
+
+const CATEGORY_SEARCH_WORDS: Partial<Record<JobCategory, string>> = {
+  administration: "office administrator admin clerical",
+  "customer-service": "customer service call centre call center",
+  warehouse: "warehouse logistics",
+  retail: "retail sales shop",
+  cleaning: "cleaning facilities",
+  driving: "driving delivery transport courier",
+  hospitality: "hospitality catering kitchen hotel",
+  care: "care support",
+  it: "it support technology digital",
+  finance: "accounting finance accounts",
+  education: "teaching education school",
+  security: "security",
+  maintenance: "maintenance facilities repairs",
+  hr: "human resources hr recruitment",
+  marketing: "marketing communications",
+  construction: "construction building maintenance",
+  manufacturing: "manufacturing production factory",
+};
 
 function searchBlob(job: Vacancy): string {
   return normText(
@@ -236,15 +312,23 @@ function searchBlob(job: Vacancy): string {
       job.summary,
       job.reference,
       categoryLabel(job.category),
+      CATEGORY_SEARCH_WORDS[job.category] ?? "",
       formatLocation(job),
       job.town,
       job.city,
       job.area ?? "",
       job.postcode,
+      job.rightToWork,
+      job.howToApply,
+      job.apprenticeship ? "apprentice apprenticeship" : "",
+      job.experience === "entry" ? "entry level" : "",
+      job.sponsorship === "available" ? "visa sponsorship" : "",
       ...(job.keywords ?? []),
       ...job.responsibilities,
       ...job.essential,
+      ...job.desirable,
       ...job.qualifications,
+      ...job.benefits,
     ].join(" "),
   );
 }
@@ -252,12 +336,46 @@ function searchBlob(job: Vacancy): string {
 function tokensOf(query: string): string[] {
   return normText(query)
     .split(" ")
-    .filter((token) => token.length >= 2);
+    .filter((token) => token.length >= 2 && !STOP_WORDS.has(token));
 }
 
 const WORD_FAMILIES: readonly (readonly string[])[] = [
   ["editing", "editor", "editors", "proofreader", "proofreaders", "proofreading", "copywriter", "copywriters", "copywriting"],
+  ["administrator", "administrators", "admin", "administration"],
+  ["receptionist", "receptionists", "reception"],
+  ["cleaner", "cleaners", "cleaning"],
+  ["driver", "drivers", "driving", "delivery", "courier", "couriers"],
+  ["apprentice", "apprentices", "apprenticeship", "apprenticeships"],
+  ["customer", "customers"],
+  ["centre", "center"],
 ];
+
+const STOP_WORDS = new Set([
+  "job",
+  "jobs",
+  "work",
+  "the",
+  "and",
+  "for",
+  "with",
+  "role",
+  "roles",
+  "vacancy",
+  "vacancies",
+  "position",
+  "positions",
+  "of",
+  "to",
+  "in",
+  "on",
+  "at",
+  "or",
+  "a",
+  "an",
+  "from",
+  "required",
+  "requirement",
+]);
 
 function equivalents(token: string): string[] {
   const family = WORD_FAMILIES.find((words) => words.includes(token));
@@ -268,18 +386,32 @@ function blobHas(blob: string, token: string): boolean {
   return equivalents(token).some((word) => blob.includes(word));
 }
 
+function locationGroup(where: string) {
+  const query = normText(where);
+  return LOCATION_GROUPS.find((group) => normText(group.label) === query);
+}
+
 function locationMatches(job: Vacancy, where: string): boolean {
   const query = normText(where);
   if (query.length < 2) return true;
+  const group = locationGroup(where);
+  if (group) {
+    const town = normText(job.town);
+    const area = normText(job.area ?? "");
+    return group.places.some((place) => {
+      const name = normText(place);
+      return town === name || area === name;
+    });
+  }
+  const postcode = squash(job.postcode);
+  const written = where.toUpperCase().match(/\b([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})\b/);
+  if (written) return postcode === squash(`${written[1]}${written[2]}`);
   const hay = normText([job.area, job.town, job.city, job.postcode, formatLocation(job)].filter(Boolean).join(" "));
   if (hay.includes(query)) return true;
   const flat = squash(where);
-  const postcode = squash(job.postcode);
   if (postcode && flat.length >= 2 && postcode.startsWith(flat)) return true;
   const places = [job.area, job.town, job.city].map((part) => normText(part ?? "")).filter((part) => part.length >= 4);
-  if (places.some((part) => query.includes(part))) return true;
-  const found = where.toUpperCase().match(/\b([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})\b/);
-  return Boolean(found && postcode.startsWith(squash(found[1])));
+  return places.some((part) => query.includes(part));
 }
 
 function scoreJob(job: Vacancy, tokens: string[], phrase: string): number {
@@ -305,7 +437,93 @@ function salaryOverlaps(job: Vacancy, bandId: string): boolean {
   return job.payAnnualMin <= band.max && job.payAnnualMax >= band.min;
 }
 
+function knownPlaces(jobs: readonly Vacancy[]): { norm: string; label: string }[] {
+  const found = new Map<string, string>();
+  for (const group of LOCATION_GROUPS) found.set(normText(group.label), group.label);
+  for (const job of jobs) {
+    for (const part of [job.area, job.town, job.city]) {
+      const label = part?.trim();
+      if (!label) continue;
+      const norm = normText(label);
+      if (norm.length >= 3 && !found.has(norm)) found.set(norm, label);
+    }
+  }
+  return [...found.entries()]
+    .map(([norm, label]) => ({ norm, label }))
+    .sort((a, b) => b.norm.length - a.norm.length);
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function stripPhrase(value: string, phrase: string): string {
+  const pattern = phrase
+    .trim()
+    .split(/\s+/)
+    .map(escapeRegExp)
+    .join("[\\s-]+");
+  return value.replace(new RegExp(`\\b${pattern}\\b`, "i"), " ").replace(/\s+/g, " ").trim();
+}
+
+const FILLER_WORDS = new Set(["a", "an", "and", "for", "job", "jobs", "required", "the", "with", "work"]);
+
+function dropFiller(value: string): string {
+  const words = value.split(" ").filter(Boolean);
+  return words.every((word) => FILLER_WORDS.has(normText(word))) ? "" : value;
+}
+
+/** Pulls place, hours, experience and sponsorship out of a single search sentence. */
+export function refineJobQuery(jobs: readonly Vacancy[], query: JobQuery): JobQuery {
+  let q = query.q.replace(/\s+/g, " ").trim();
+  let where = query.where;
+  let hours = query.hours;
+  let experience = query.experience;
+  let sponsorship = query.sponsorship;
+  const readable = normText(q);
+
+  if (!where) {
+    const place = knownPlaces(jobs).find((item) => readable.endsWith(` in ${item.norm}`));
+    if (place) {
+      const ending = q.match(new RegExp(`\\s+in\\s+${escapeRegExp(place.label)}\\s*$`, "i"));
+      if (ending?.index != null) {
+        where = place.label;
+        q = q.slice(0, ending.index).trim();
+      }
+    }
+  }
+
+  const experiencePhrases = ["no previous experience", "no experience required", "no experience", "entry level"];
+  if (!experience) {
+    const phrase = experiencePhrases.find((item) => normText(q).includes(item));
+    if (phrase) {
+      experience = "entry";
+      q = stripPhrase(q, phrase);
+    }
+  }
+
+  const asksForSponsorship = normText(q).includes("sponsorship") && !/\b(no|not|without)\b/.test(normText(q));
+  if (!sponsorship && asksForSponsorship) {
+    sponsorship = "available";
+    for (const phrase of ["visa sponsorship", "sponsorship available", "with sponsorship", "sponsorship"]) {
+      q = stripPhrase(q, phrase);
+    }
+  }
+
+  const flat = normText(q).replace(/ /g, "");
+  if (!hours && (normText(q).includes("part time") || flat.includes("parttime"))) {
+    hours = "part-time";
+    q = stripPhrase(stripPhrase(q, "part time"), "parttime");
+  } else if (!hours && (normText(q).includes("full time") || flat.includes("fulltime"))) {
+    hours = "full-time";
+    q = stripPhrase(stripPhrase(q, "full time"), "fulltime");
+  }
+
+  return { ...query, q: dropFiller(q), where, hours, experience, sponsorship };
+}
+
 export function searchJobs(jobs: readonly Vacancy[], query: JobQuery): { total: number; results: Vacancy[] } {
+  query = refineJobQuery(jobs, query);
   const tokens = tokensOf(query.q);
   const phrase = tokens.join(" ");
   const matched = jobs
@@ -318,6 +536,7 @@ export function searchJobs(jobs: readonly Vacancy[], query: JobQuery): { total: 
       if (query.contract && job.contract !== query.contract) return false;
       if (query.experience && job.experience !== query.experience) return false;
       if (query.workplace && job.workplace !== query.workplace) return false;
+      if (query.sponsorship && job.sponsorship !== query.sponsorship) return false;
       if (query.salary && !salaryOverlaps(job, query.salary)) return false;
       return true;
     });
@@ -344,6 +563,7 @@ export function emptyJobQuery(): JobQuery {
     salary: "",
     experience: "",
     workplace: "",
+    sponsorship: "",
     sort: "relevant",
     page: 1,
   };
@@ -361,6 +581,7 @@ export function parseJobQuery(params: URLSearchParams): JobQuery {
     salary: SALARY_BANDS.some((item) => item.id === params.get("salary")) ? (params.get("salary") ?? "") : "",
     experience: params.get("experience") && params.get("experience")! in EXPERIENCE_LABELS ? params.get("experience")! : "",
     workplace: params.get("workplace") && params.get("workplace")! in WORKPLACE_LABELS ? params.get("workplace")! : "",
+    sponsorship: params.get("sponsorship") === "available" || params.get("sponsorship") === "not-offered" ? params.get("sponsorship")! : "",
     sort: sort === "newest" || sort === "salary" || sort === "relevant" ? sort : "relevant",
     page: Number.isInteger(page) && page > 0 ? page : 1,
   };
@@ -376,6 +597,7 @@ export function jobQueryString(query: JobQuery): string {
   if (query.salary) params.set("salary", query.salary);
   if (query.experience) params.set("experience", query.experience);
   if (query.workplace) params.set("workplace", query.workplace);
+  if (query.sponsorship) params.set("sponsorship", query.sponsorship);
   if (query.sort !== "relevant") params.set("sort", query.sort);
   if (query.page > 1) params.set("page", String(query.page));
   const text = params.toString();
@@ -394,6 +616,9 @@ export function activeFilters(query: JobQuery): ActiveFilter[] {
   if (query.salary) filters.push({ key: "salary", label: `Salary: ${SALARY_BANDS.find((band) => band.id === query.salary)?.label ?? query.salary}` });
   if (query.experience) filters.push({ key: "experience", label: `Experience: ${EXPERIENCE_LABELS[query.experience as JobExperience]}` });
   if (query.workplace) filters.push({ key: "workplace", label: `Workplace: ${WORKPLACE_LABELS[query.workplace as JobWorkplace]}` });
+  if (query.sponsorship) {
+    filters.push({ key: "sponsorship", label: `Sponsorship: ${SPONSORSHIP_LABELS[query.sponsorship as JobSponsorship]}` });
+  }
   return filters;
 }
 
@@ -420,6 +645,7 @@ export function explainEmptySearch(
   jobs: readonly Vacancy[],
   query: JobQuery,
 ): { detail: string; alternatives: SearchAlternative[]; related: { reason: string; jobs: Vacancy[] } | null } {
+  query = refineJobQuery(jobs, query);
   const alternatives: (SearchAlternative & { total: number })[] = [];
   const seen = new Set<string>();
   const currentKey = jobQueryString({ ...query, sort: "relevant", page: 1 });
@@ -446,6 +672,7 @@ export function explainEmptySearch(
   if (query.salary) offer("Any salary", "The salary band is limiting this search.", { ...query, salary: "" });
   if (query.experience) offer("Any experience level", "Experience level is limiting this search.", { ...query, experience: "" });
   if (query.workplace) offer("Any workplace", "Workplace is limiting this search.", { ...query, workplace: "" });
+  if (query.sponsorship) offer("Any sponsorship option", "The sponsorship filter is limiting this search.", { ...query, sponsorship: "" });
   if (query.q) {
     const place = query.where ? ` in ${query.where}` : "";
     const kind = query.category ? `${categoryLabel(query.category)} jobs` : "Jobs";

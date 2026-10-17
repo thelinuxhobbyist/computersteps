@@ -10,7 +10,7 @@ export function JobsHome() {
       <section className="wj-hero">
         <div className="ps-wrap">
           <h1>Find your next job</h1>
-          <p className="wj-lead">Search jobs by title and location. Save the ones you want and apply online.</p>
+          <p className="wj-lead">Search fictional practice jobs by title and location. Save the ones you want and complete a practice application. Nothing is sent to a real employer.</p>
         </div>
       </section>
       <div className="ps-wrap">

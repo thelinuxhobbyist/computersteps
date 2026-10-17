@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState } from "react";
-import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
+import { VACANCIES, findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
+import { emptyJobQuery, jobQueryString, refineJobQuery } from "../../../workers/practice-bank/src/shared/jobs";
 import { PlaceLookup } from "./PlaceLookup";
 
 export function JobsSearchBar() {
@@ -25,11 +26,8 @@ function SearchForm({ title, place }: { title: string; place: string }) {
         className="ps-wrap"
         onSubmit={(event) => {
           event.preventDefault();
-          const next = new URLSearchParams();
-          if (q.trim()) next.set("q", q.trim());
-          if (where.trim()) next.set("where", where.trim());
-          const query = next.toString();
-          router.push(query ? `/scenarios/jobs/search/?${query}` : "/scenarios/jobs/search/");
+          const refined = refineJobQuery(VACANCIES, { ...emptyJobQuery(), q: q.trim(), where: where.trim() });
+          router.push(`/scenarios/jobs/search/${jobQueryString(refined)}`);
         }}
       >
         <input aria-label="Job title or keyword" placeholder="Job title or keyword" value={q} onChange={(event) => setQ(event.target.value)} />

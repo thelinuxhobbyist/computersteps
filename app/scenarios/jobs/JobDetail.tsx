@@ -7,6 +7,7 @@ import { useLearner } from "../../lib/learner-session";
 import { VACANCIES, findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import {
   CONTRACT_LABELS,
+  EXPERIENCE_LABELS,
   HOURS_LABELS,
   WORKPLACE_LABELS,
   categoryLabel,
@@ -121,6 +122,7 @@ export function JobDetail() {
               </div>
             </div>
             <p className="wj-summary__pay">{job.payLabel}</p>
+            <p className="wj-practice-flag">Practice vacancy. This employer and this job are fictional.</p>
             <ul className="wj-tags">
               <li>{HOURS_LABELS[job.hours]}</li>
               <li>{CONTRACT_LABELS[job.contract]}</li>
@@ -195,7 +197,21 @@ export function JobDetail() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <p>Hours: {job.hoursDetail.replace(/\.+$/, "")}.</p>
+            {job.benefits.length ? (
+              <>
+                <h3>Benefits</h3>
+                <ul>
+                  {job.benefits.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+            <h3>Right to work</h3>
+            <p>{job.rightToWork}</p>
+            <h3>How to apply</h3>
+            <p>{job.howToApply}</p>
+            <p>Hours: {job.hoursDetail.replace(/\.+$/, "").trim()}.</p>
             {closed ? null : (
               <div className="wj-actions">
                 <Link className="wj-btn" href={applyHref}>
@@ -222,6 +238,12 @@ export function JobDetail() {
               </dd>
               <dt>Salary</dt>
               <dd>{job.payLabel}</dd>
+              <dt>Sponsorship</dt>
+              <dd>{job.sponsorship === "available" ? "May be available. Read the conditions." : "Not offered"}</dd>
+              <dt>Experience</dt>
+              <dd>{EXPERIENCE_LABELS[job.experience]}</dd>
+              <dt>Right to work</dt>
+              <dd>{job.rightToWork}</dd>
               <dt>Category</dt>
               <dd>{categoryLabel(job.category)}</dd>
               <dt>Posted</dt>

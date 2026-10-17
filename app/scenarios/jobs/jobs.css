@@ -1212,6 +1212,12 @@
   margin: 0;
 }
 
+.wj-practice-flag {
+  margin: 0 0 4px;
+  color: var(--ps-brand);
+  font-weight: 700;
+}
+
 .wj-scam {
   font-size: 14px;
   color: var(--ps-muted);

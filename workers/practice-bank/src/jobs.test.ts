@@ -3,13 +3,17 @@ import assert from "node:assert/strict";
 
 import { validateDraft, practiceStatus, interviewDate, type ApplicationDraft, EMPTY_DRAFT } from "./shared/job-application";
 import { VACANCIES } from "./shared/job-catalogue";
+import { VACANCY_EXPANSION } from "./shared/vacancy-expansion";
+import { validateVacancyList } from "./shared/validate-vacancies";
 import {
   EXAMPLE_SEARCHES,
+  LOCATION_GROUPS,
   PAGE_SIZE,
   emptyJobQuery,
   explainEmptySearch,
   formatLocation,
   parseJobQuery,
+  refineJobQuery,
   searchJobs,
 } from "./shared/jobs";
 import { JOB_EXERCISES } from "./shared/job-exercises";
@@ -17,9 +21,19 @@ import { checkJobExercise, type ExerciseSnapshot } from "./job-exercise-checks";
 
 const blank = (): ApplicationDraft => ({ ...EMPTY_DRAFT });
 
+function allMatches(query: ReturnType<typeof emptyJobQuery>) {
+  const first = searchJobs(VACANCIES, { ...query, page: 1 });
+  const pages = Math.max(1, Math.ceil(first.total / PAGE_SIZE));
+  const jobs = [];
+  for (let page = 1; page <= pages; page += 1) {
+    jobs.push(...searchJobs(VACANCIES, { ...query, page }).results);
+  }
+  return jobs;
+}
+
 test("the catalogue has a varied set of fictional vacancies", () => {
-  assert.ok(VACANCIES.length >= 60);
-  assert.ok(VACANCIES.length <= 100);
+  assert.ok(VACANCIES.length >= 200);
+  assert.ok(VACANCIES.length <= 400);
   assert.equal(new Set(VACANCIES.map((job) => job.id)).size, VACANCIES.length);
   assert.equal(new Set(VACANCIES.map((job) => job.reference)).size, VACANCIES.length);
   assert.ok(VACANCIES.some((job) => job.suspicious));
@@ -56,9 +70,9 @@ test("search ignores case and extra spaces and combines filters", () => {
 });
 
 test("salary, contract and sort options change the list", () => {
-  const high = searchJobs(VACANCIES, { ...emptyJobQuery(), salary: "32000-plus" });
-  assert.ok(high.results.some((job) => job.id === "wfj-1081"));
-  assert.ok(high.results.every((job) => job.payAnnualMax >= 32000));
+  const high = allMatches({ ...emptyJobQuery(), salary: "32000-plus" });
+  assert.ok(high.some((job) => job.id === "wfj-1081"));
+  assert.ok(high.every((job) => job.payAnnualMax >= 32000));
   const temporary = searchJobs(VACANCIES, { ...emptyJobQuery(), contract: "temporary" });
   assert.ok(temporary.results.every((job) => job.contract === "temporary"));
   assert.ok(temporary.total > PAGE_SIZE || temporary.results.some((job) => job.id === "wfj-1024"));
@@ -86,6 +100,45 @@ test("an editing search in Ealing stays empty until the place or category is wid
   assert.match(explained.detail, /Education is only applied/);
   assert.ok(explained.alternatives.some((item) => item.query.where === "London" && item.query.category === "education"));
   assert.ok(explained.related?.jobs.some((job) => job.id === "wfj-1134"));
+});
+
+test("a typed sentence can set the place, the hours and the experience", () => {
+  const officeQuery = refineJobQuery(VACANCIES, { ...emptyJobQuery(), q: "Office administrator in Ealing" });
+  assert.equal(officeQuery.q, "Office administrator");
+  assert.equal(officeQuery.where, "Ealing");
+  const receptionQuery = refineJobQuery(VACANCIES, { ...emptyJobQuery(), q: "Part-time reception work in Acton" });
+  assert.equal(receptionQuery.q, "reception work");
+  assert.equal(receptionQuery.where, "Acton");
+  assert.equal(receptionQuery.hours, "part-time");
+  const beginnersQuery = refineJobQuery(VACANCIES, { ...emptyJobQuery(), q: "Jobs with no previous experience" });
+  assert.equal(beginnersQuery.q, "");
+  assert.equal(beginnersQuery.experience, "entry");
+  const office = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Office administrator in Ealing" });
+  assert.ok(office.results.some((job) => job.id === "wfj-2001"));
+  const reception = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Part-time reception work in Acton" });
+  assert.ok(reception.results.some((job) => job.id === "wfj-2004"));
+  assert.ok(reception.results.every((job) => job.hours === "part-time"));
+  const warehouse = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Warehouse operative in Greenford" });
+  assert.ok(warehouse.results.some((job) => job.id === "wfj-2005"));
+  const service = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Customer service jobs in Southall" });
+  assert.ok(service.results.some((job) => job.id === "wfj-2006"));
+  const beginners = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Jobs with no previous experience" });
+  assert.ok(beginners.total > 0);
+  assert.ok(beginners.results.every((job) => job.experience === "entry"));
+  const west = searchJobs(VACANCIES, { ...emptyJobQuery(), q: "Entry-level jobs in West London" });
+  assert.ok(west.total >= 8);
+  assert.ok(west.results.every((job) => job.experience === "entry"));
+  const sponsored = allMatches({ ...emptyJobQuery(), sponsorship: "available" });
+  assert.ok(sponsored.some((job) => job.id === "wfj-2008"));
+  assert.ok(sponsored.every((job) => job.sponsorship === "available"));
+  for (const place of LOCATION_GROUPS[0].places) {
+    assert.ok(searchJobs(VACANCIES, { ...emptyJobQuery(), where: place }).total > 0, place);
+  }
+});
+
+test("the expansion seed has distinct, consistent vacancies", () => {
+  assert.equal(validateVacancyList(VACANCY_EXPANSION).join("\n"), "");
+  assert.ok(VACANCY_EXPANSION.length >= 150);
 });
 
 test("query strings keep only the filters a learner set", () => {
@@ -133,6 +186,11 @@ test("every guided task can be checked, and a wrong answer explains where to loo
   assert.equal(salary.correct, true);
   const date = checkJobExercise("closing-date", "06/11/2026", [], null);
   assert.equal(date.correct, true);
+  assert.equal(checkJobExercise("office-ealing", "Larch Ledger", [], null).correct, true);
+  assert.equal(checkJobExercise("read-sponsorship", "", ["deskworks"], null).correct, true);
+  assert.equal(checkJobExercise("suitability-priya", "", ["larch"], null).correct, true);
+  assert.equal(checkJobExercise("sponsorship-amira", "", ["both"], null).correct, false);
+  assert.equal(checkJobExercise("acton-closing", "18/11/2026", [], null).correct, true);
   const signs = checkJobExercise("spot-warning-signs", "", ["fee", "pay", "pressure"], null);
   assert.equal(signs.correct, true);
   const tooBroad = checkJobExercise("spot-warning-signs", "", ["fee", "pay", "pressure", "address"], null);

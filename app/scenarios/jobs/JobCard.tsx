@@ -26,7 +26,10 @@ export function JobCard({ job, actions, from }: { job: Vacancy; actions?: ReactN
         <li>{HOURS_LABELS[job.hours]}</li>
         <li>{CONTRACT_LABELS[job.contract]}</li>
         <li>{WORKPLACE_LABELS[job.workplace]}</li>
+        <li>Practice vacancy</li>
         {job.entryLevel ? <li>Entry level</li> : null}
+        {job.sponsorship === "available" ? <li>Sponsorship may be available</li> : null}
+        {job.sponsorship === "available" ? <li>Sponsorship may be available</li> : null}
       </ul>
       <p className="wj-job__summary">{job.summary}</p>
       <div className="wj-job__foot">

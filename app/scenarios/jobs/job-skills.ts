@@ -1,8 +1,8 @@
 import type { Vacancy } from "../../../workers/practice-bank/src/shared/jobs";
 
 const SKILL_COURSES = [
-  { id: "keyboard-skills", title: "Keyboard skills", categories: ["administration", "it", "finance", "customer-service", "education"] },
-  { id: "email-messages", title: "Email & messages", categories: ["administration", "customer-service", "it"] },
+  { id: "keyboard-skills", title: "Keyboard skills", categories: ["administration", "it", "finance", "customer-service", "education", "hr", "marketing"] },
+  { id: "email-messages", title: "Email & messages", categories: ["administration", "customer-service", "it", "hr", "marketing"] },
   { id: "files-photos", title: "Files & photos", categories: ["it", "administration", "education"] },
   { id: "going-online", title: "Going online", categories: ["it", "customer-service", "retail"] },
   { id: "forms-shopping", title: "Forms & shopping", categories: ["retail", "finance", "administration"] },

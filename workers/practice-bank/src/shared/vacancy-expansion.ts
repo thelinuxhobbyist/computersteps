@@ -1,0 +1,7921 @@
+import type { VacancyInput } from "./jobs";
+
+// Generated from the JSON seed. Edit the seed, then run scripts/import-vacancies.ts.
+export const VACANCY_EXPANSION: VacancyInput[] = [
+  {
+    "id": "wfj-2001",
+    "title": "Office administrator",
+    "employer": "Larch Ledger",
+    "category": "administration",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 24200,
+    "payMax": 24200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm, with 30 minutes unpaid for lunch",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Keep the purchase invoices, the visitor book and the shared inbox for a small timber merchant in Ealing. Training is given on the spreadsheet they already use.",
+    "responsibilities": [
+      "File supplier invoices and match them to delivery notes",
+      "Reply to straightforward email enquiries and pass the rest to the manager",
+      "Book meeting rooms and order stationery when the cupboard runs low"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Able to use email and a word processor",
+      "Careful enough to check names and amounts before you save them"
+    ],
+    "desirable": [
+      "Experience of answering a shop or office phone",
+      "A GCSE or equivalent in English or maths"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "28 days of holiday including bank holidays",
+      "A staff discount in the timber yard"
+    ],
+    "howToApply": "Select Apply now and complete the practice form. Larch Ledger does not want a paper CV for this practice advert.",
+    "keywords": [
+      "no previous experience",
+      "office"
+    ]
+  },
+  {
+    "id": "wfj-2002",
+    "title": "Office administrator",
+    "employer": "Holt and Penny",
+    "category": "administration",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 27400,
+    "payMax": 27400,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 8:45am to 5:15pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Run the office diary and the client billing spreadsheet for a two-partner surveyors' practice. This is a busier desk than a first office job.",
+    "responsibilities": [
+      "Prepare draft invoices from the surveyors' timesheets",
+      "Arrange access visits and confirm them in writing",
+      "Keep the filing room in order for audits"
+    ],
+    "essential": [
+      "At least two years of paid office experience",
+      "Confident with email, spreadsheets and a shared calendar",
+      "Able to work without a script when a client is waiting"
+    ],
+    "desirable": [
+      "Experience in property, construction or professional services",
+      "A Level 2 business administration certificate"
+    ],
+    "qualifications": [
+      "A formal qualification is not required if you have the two years of office experience."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "25 days of holiday plus bank holidays",
+      "Season-ticket loan after six months"
+    ],
+    "howToApply": "Select Apply now. Use practice details only. The form is not emailed to Holt and Penny.",
+    "keywords": [
+      "two years"
+    ]
+  },
+  {
+    "id": "wfj-2003",
+    "title": "Accounts assistant",
+    "employer": "Marlow Figures",
+    "category": "finance",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 26800,
+    "payMax": 28600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Thursday in the Hammersmith office, Friday from home",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Post purchase invoices and reconcile the supplier accounts for a fictional bookkeeping practice. You will not give clients tax advice.",
+    "responsibilities": [
+      "Enter invoices and match them to payments",
+      "Prepare a weekly list of overdue supplier bills",
+      "Answer email questions from the two senior bookkeepers"
+    ],
+    "essential": [
+      "AAT Level 2, or one year of paid accounts work",
+      "Accurate numeric work",
+      "Able to explain a figure in plain English"
+    ],
+    "desirable": [
+      "Experience of a named accounts package",
+      "AAT Level 3 study in progress"
+    ],
+    "qualifications": [
+      "AAT Level 2, or one year of paid accounts work."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "available",
+    "benefits": [
+      "Study support towards the next AAT level",
+      "Hybrid working on Fridays"
+    ],
+    "howToApply": "Select Apply now and describe the qualification or the year of accounts work in the practice form.",
+    "keywords": [
+      "bookkeeping"
+    ],
+    "sponsorshipCondition": "AAT Level 2, or one year of paid accounts work"
+  },
+  {
+    "id": "wfj-2004",
+    "title": "Receptionist",
+    "employer": "Acton Gate Rooms",
+    "category": "administration",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 12.5,
+    "payMax": 12.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Friday, 9:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Meet visitors at a small serviced-office building and keep the meeting-room screen working. The building manager handles contracts.",
+    "responsibilities": [
+      "Sign visitors in and offer them a seat",
+      "Answer the front-desk phone and take a clear message",
+      "Tell the building manager if a room has been left in a mess"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "A welcoming manner and clear spoken English",
+      "Happy to stay at a desk for most of the shift"
+    ],
+    "desirable": [
+      "Any reception, shop or volunteer front-desk experience",
+      "Basic computer use"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-18",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Uniform is provided",
+      "Free tea and coffee"
+    ],
+    "howToApply": "Select Apply now. There is no separate email address for this practice vacancy.",
+    "keywords": [
+      "front desk",
+      "reception"
+    ]
+  },
+  {
+    "id": "wfj-2005",
+    "title": "Warehouse operative",
+    "employer": "Greenford Bond Stores",
+    "category": "warehouse",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 13.05,
+    "payMax": 13.05,
+    "hoursPerWeek": 40,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:30pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Pick household goods in a dry warehouse beside the A40. You will be shown how to use the scanner on your first two shifts.",
+    "responsibilities": [
+      "Pick orders with a handheld scanner",
+      "Wrap parcels and place them on the correct cage",
+      "Report damaged stock before it is loaded"
+    ],
+    "essential": [
+      "No previous warehouse job is required",
+      "Able to stand and walk for most of a shift",
+      "Able to lift 12kg with the trolley provided"
+    ],
+    "desirable": [
+      "A forklift licence",
+      "Any shop or stockroom experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Safety boots are provided",
+      "Overtime is offered before Christmas and is optional"
+    ],
+    "howToApply": "Select Apply now. Do not send identity documents with the practice application.",
+    "keywords": [
+      "picker",
+      "packer"
+    ]
+  },
+  {
+    "id": "wfj-2006",
+    "title": "Customer service adviser",
+    "employer": "Southall Connect",
+    "category": "customer-service",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 24500,
+    "payMax": 24500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Tuesday to Saturday, 10:00am to 6:00pm. A rota is published two weeks ahead.",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Answer phone and web-chat questions about a fictional broadband service. You work from a script at first, then handle simple changes yourself.",
+    "responsibilities": [
+      "Answer calls and chat messages about bills and appointments",
+      "Record what the customer agreed",
+      "Pass technical faults to the network team"
+    ],
+    "essential": [
+      "No previous call-centre job is required",
+      "Clear spoken English",
+      "Patient when someone is worried or cross"
+    ],
+    "desirable": [
+      "Another language used in Southall",
+      "Experience of shop or reception work"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Call handling is taught in the first fortnight."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "24 days of holiday",
+      "Headset and locker provided"
+    ],
+    "howToApply": "Select Apply now and complete every step of the practice form, including the review page.",
+    "keywords": [
+      "call centre",
+      "broadband"
+    ]
+  },
+  {
+    "id": "wfj-2007",
+    "title": "Care support worker",
+    "employer": "Hanwell Orchard Home",
+    "category": "care",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 14.2,
+    "payMax": 14.2,
+    "hoursPerWeek": 36,
+    "hours": "full-time",
+    "hoursDetail": "Three days on and two days off, including some weekends. Shifts are 7:00am to 7:30pm.",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Support older residents with meals, company and personal care in a fictional care home. A senior carer is on every shift.",
+    "responsibilities": [
+      "Help residents wash, dress and eat",
+      "Write short notes in the care record after each visit",
+      "Notice changes and tell the nurse in charge"
+    ],
+    "essential": [
+      "At least six months of paid care work, or a completed Care Certificate",
+      "Respectful and discreet",
+      "Able to follow a care plan"
+    ],
+    "desirable": [
+      "A driving licence is not needed. The home is on a bus route.",
+      "Experience with people living with dementia"
+    ],
+    "qualifications": [
+      "A Care Certificate is required. If yours is still in progress, say so. A nursing qualification is not required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Pension",
+      "Paid breaks on the long shift"
+    ],
+    "howToApply": "Select Apply now. This practice form does not ask for a DBS certificate number. Read the advert before you decide.",
+    "keywords": [
+      "personal care"
+    ]
+  },
+  {
+    "id": "wfj-2008",
+    "title": "IT support technician",
+    "employer": "Wembley Deskworks",
+    "category": "it",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 34000,
+    "payMax": 36000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 5:00pm, plus a Saturday rota once a month",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Second-line support for laptops, printers and the ticket queue in a fictional managed-service company. You visit client offices in Wembley and Harrow.",
+    "responsibilities": [
+      "Work through the ticket queue and record what you changed",
+      "Set up laptops and show staff how to sign in",
+      "Escalate faults you cannot close the same day"
+    ],
+    "essential": [
+      "CompTIA A+, or two years of paid IT support work",
+      "Able to explain a fix without jargon",
+      "Happy to travel between two sites on the bus or by bike"
+    ],
+    "desirable": [
+      "Experience of Microsoft 365",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "CompTIA A+, or two years of paid IT support work."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "available",
+    "benefits": [
+      "Certification renewal is paid after a year",
+      "A laptop is provided"
+    ],
+    "howToApply": "Select Apply now and name the qualification or the two years of support work in the practice form.",
+    "keywords": [
+      "helpdesk"
+    ],
+    "sponsorshipCondition": "CompTIA A+, or two years of paid IT support work"
+  },
+  {
+    "id": "wfj-2009",
+    "title": "Marketing assistant",
+    "employer": "Ealing Poster Press",
+    "category": "marketing",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 25000,
+    "payMax": 25000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:30am to 5:30pm, for a 12-month contract. One day a week from home after the first month.",
+    "contract": "fixed-term",
+    "workplace": "hybrid",
+    "experience": "entry",
+    "summary": "Draft social-media posts and simple event listings for a fictional community publisher. A senior editor checks everything before it is published.",
+    "responsibilities": [
+      "Write short posts from notes the editor provides",
+      "Update event dates on the website",
+      "Keep a list of which posts were published each week"
+    ],
+    "essential": [
+      "No previous marketing job is required",
+      "Careful spelling",
+      "Comfortable using email and a web browser"
+    ],
+    "desirable": [
+      "A personal blog, college newsletter or volunteer social-media account",
+      "A marketing course, even if unfinished"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "The 12-month contract may be extended, but that is not promised",
+      "A press pass is not part of this role"
+    ],
+    "howToApply": "Select Apply now. Paste a short practice example of your writing into the application. Do not send files to an outside address.",
+    "keywords": [
+      "social media"
+    ]
+  },
+  {
+    "id": "wfj-2010",
+    "title": "Administration apprentice",
+    "employer": "West Ealing Parish Office",
+    "category": "administration",
+    "town": "West Ealing",
+    "city": "London",
+    "postcode": "W13 9AB",
+    "payPeriod": "year",
+    "payMin": 16000,
+    "payMax": 16000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm, for an 18-month apprenticeship",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "An apprenticeship in business administration at a fictional parish office. One day a week is spent with the training provider. You are employed, not a volunteer.",
+    "responsibilities": [
+      "Greet visitors and keep the room diary",
+      "File minutes and type short letters from notes",
+      "Attend the off-the-job training day"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Willing to study as part of the job",
+      "Able to travel to the training centre in Ealing"
+    ],
+    "desirable": [
+      "Any school or college office experience",
+      "An interest in community work"
+    ],
+    "qualifications": [
+      "English and maths at a level that lets you start the apprenticeship. Support is available if you need to keep studying them."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Apprentice wage, rising after the first year",
+      "The training course is paid by the employer in this practice advert"
+    ],
+    "howToApply": "Select Apply now. Say that you are applying for the apprenticeship, not a qualified administrator post.",
+    "keywords": [
+      "apprenticeship",
+      "training"
+    ],
+    "apprenticeship": true
+  },
+  {
+    "id": "wfj-2011",
+    "title": "Cleaner",
+    "employer": "Brentford Key Rooms",
+    "category": "cleaning",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.21,
+    "payMax": 12.21,
+    "hoursPerWeek": 16,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 6:00am to 9:15am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Clean kitchens and meeting rooms in a small office block before the tenants arrive. Products and a trolley are provided.",
+    "responsibilities": [
+      "Empty bins and wipe desks and kitchen surfaces",
+      "Vacuum the corridors and mop the kitchen floor",
+      "Lock the cupboard and sign the cleaning sheet"
+    ],
+    "essential": [
+      "No previous cleaning job is required",
+      "Able to start at 6:00am",
+      "Careful with keys"
+    ],
+    "desirable": [
+      "Experience of cleaning offices, hotels or schools",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "No formal qualification is required. COSHH training is given on the first day."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Uniform provided",
+      "Extra hours are sometimes available and are optional"
+    ],
+    "howToApply": "Select Apply now. The practice form is the whole application.",
+    "keywords": [
+      "early morning",
+      "facilities"
+    ]
+  },
+  {
+    "id": "wfj-2012",
+    "title": "Security officer",
+    "employer": "Hounslow Gate Watch",
+    "category": "security",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 14.8,
+    "payMax": 14.8,
+    "hoursPerWeek": 42,
+    "hours": "full-time",
+    "hoursDetail": "12-hour shifts on a four-on, four-off pattern, including nights",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Staff the gate of a fictional storage park. You check passes, walk the fence and write a shift log. You do not chase people.",
+    "responsibilities": [
+      "Check passes and record vehicle numbers",
+      "Walk the site and report anything unusual",
+      "Hand over clearly to the next officer"
+    ],
+    "essential": [
+      "A current SIA door supervisor or security guard licence",
+      "Able to work nights and weekends on the rota",
+      "Calm when a driver is in a hurry"
+    ],
+    "desirable": [
+      "Experience of a gatehouse or retail security",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "A current SIA licence is required before you start. This employer does not pay for the first licence."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Boots and a radio are provided",
+      "Night premium is included in the hourly rate"
+    ],
+    "howToApply": "Select Apply now and state that the SIA licence is part of the practice scenario. Do not type a real licence number.",
+    "keywords": [
+      "SIA",
+      "gatehouse"
+    ]
+  },
+  {
+    "id": "wfj-2013",
+    "title": "Production operative",
+    "employer": "Canal Side Packing",
+    "category": "manufacturing",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 13.15,
+    "payMax": 13.15,
+    "hoursPerWeek": 40,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Thursday, 6:00am to 4:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Pack bottled sauces on a short production line. The line supervisor shows you the checks. The work is repetitive and on your feet.",
+    "responsibilities": [
+      "Place bottles in cases and seal the cases",
+      "Watch for leaking caps and stop the line if you see one",
+      "Keep your bench clear at the end of the shift"
+    ],
+    "essential": [
+      "No previous factory job is required",
+      "Comfortable with repetitive work",
+      "Able to follow a hygiene rule about hair, jewellery and hand washing"
+    ],
+    "desirable": [
+      "Any food-production experience",
+      "A forklift licence"
+    ],
+    "qualifications": [
+      "No formal qualification is required. A food-hygiene briefing is given before you touch the product."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Protective clothing is provided and must stay on site",
+      "Free breakfast at the first break"
+    ],
+    "howToApply": "Select Apply now. Read the early start time before you submit the practice form.",
+    "keywords": [
+      "factory",
+      "packing"
+    ]
+  },
+  {
+    "id": "wfj-2014",
+    "title": "Construction labourer",
+    "employer": "Southall Siteworks",
+    "category": "construction",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 14.5,
+    "payMax": 14.5,
+    "hoursPerWeek": 40,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:30am to 4:00pm, for a 16-week site",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Help tradespeople on a fictional school-extension site: moving materials, keeping walkways clear and mixing as directed. You will not work alone at height.",
+    "responsibilities": [
+      "Move materials with a trolley or with a colleague",
+      "Keep pathways clear of offcuts",
+      "Follow the site supervisor's instructions"
+    ],
+    "essential": [
+      "No previous site experience is required",
+      "Willing to work outdoors in poor weather",
+      "Able to take a site induction seriously"
+    ],
+    "desirable": [
+      "A CSCS card",
+      "Any labouring or warehouse experience"
+    ],
+    "qualifications": [
+      "A CSCS card is not required on day one. The practice employer says it will book the test during the first fortnight if you do not have one."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Helmet, boots and a vest are provided",
+      "The job ends when this site ends"
+    ],
+    "howToApply": "Select Apply now. The closing date is on the advert. This temporary role does not become permanent automatically.",
+    "keywords": [
+      "CSCS",
+      "site"
+    ]
+  },
+  {
+    "id": "wfj-2015",
+    "title": "HR administrator",
+    "employer": "Hammersmith People File",
+    "category": "hr",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 28000,
+    "payMax": 28000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm. Two days a week in the office.",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Look after starter paperwork and the holiday spreadsheet for a fictional charity with 40 staff. You do not give employment-law advice.",
+    "responsibilities": [
+      "Prepare starter packs and check they have been returned",
+      "Record holidays and sick leave on the spreadsheet",
+      "Book rooms for interviews and greet candidates"
+    ],
+    "essential": [
+      "At least one year in an office, HR or reception role",
+      "Discreet with personal information",
+      "Confident with email and spreadsheets"
+    ],
+    "desirable": [
+      "Experience of an HR system",
+      "A CIPD qualification, which is not required"
+    ],
+    "qualifications": [
+      "No CIPD qualification is required for this administrator post."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "27 days of holiday",
+      "A pension contribution is described in the staff handbook, which you can read after a practice offer"
+    ],
+    "howToApply": "Select Apply now. Do not attach real staff records or identity documents.",
+    "keywords": [
+      "human resources",
+      "starters"
+    ]
+  },
+  {
+    "id": "wfj-2016",
+    "title": "Delivery driver",
+    "employer": "Hounslow Parcel Loop",
+    "category": "driving",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 14.25,
+    "payMax": 14.25,
+    "hoursPerWeek": 40,
+    "hours": "full-time",
+    "hoursDetail": "Tuesday to Saturday, 8:00am to 4:30pm. Routes finish at the Hounslow depot.",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Deliver parcels on a planned round in a small van. The van is supplied. You need a full driving licence before you apply.",
+    "responsibilities": [
+      "Load the van in route order",
+      "Deliver parcels and record them on the handheld",
+      "Report failed deliveries the same day"
+    ],
+    "essential": [
+      "A full UK car driving licence held for at least one year",
+      "No more than six penalty points",
+      "Able to lift parcels up to 15kg"
+    ],
+    "desirable": [
+      "Van driving experience",
+      "Knowledge of Hounslow and Feltham"
+    ],
+    "qualifications": [
+      "A driving licence is essential. A CPC or HGV licence is not required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "The van, fuel and insurance are provided",
+      "A phone for the route app is provided"
+    ],
+    "howToApply": "Select Apply now. Type a practice licence sentence such as 'full licence'. Do not enter a real driving-licence number.",
+    "keywords": [
+      "van",
+      "parcels"
+    ]
+  },
+  {
+    "id": "wfj-2017",
+    "title": "Receptionist",
+    "employer": "Wembley Hall Clinic",
+    "category": "administration",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 25500,
+    "payMax": 25500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Run the front desk of a fictional private clinic: appointments, payments and a calm waiting room. Clinical questions go to the nurse.",
+    "responsibilities": [
+      "Book and change appointments on the clinic system",
+      "Take card payments for consultations",
+      "Keep the waiting room tidy and tell a nurse if someone seems unwell"
+    ],
+    "essential": [
+      "At least two years of reception experience",
+      "Confident taking payments and giving change or a receipt",
+      "Discreet about patients"
+    ],
+    "desirable": [
+      "Experience in a clinic, dental practice or optician",
+      "Another language"
+    ],
+    "qualifications": [
+      "No clinical qualification is required. You will not give medical advice."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Uniform provided",
+      "Staff eye-test discount at the sister practice, which is also fictional"
+    ],
+    "howToApply": "Select Apply now and use fictional patient examples if you describe your experience.",
+    "keywords": [
+      "clinic",
+      "appointments"
+    ]
+  },
+  {
+    "id": "wfj-2018",
+    "title": "Chef de partie",
+    "employer": "Brentford Lock Kitchen",
+    "category": "hospitality",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 32000,
+    "payMax": 34000,
+    "hoursPerWeek": 45,
+    "hours": "full-time",
+    "hoursDetail": "Tuesday to Saturday, split shifts on Friday and Saturday. The kitchen closes at 10:00pm.",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Run the sauce section in a fictional restaurant kitchen during service. This is not a training post.",
+    "responsibilities": [
+      "Prepare your section before service",
+      "Cook the dishes on your section to the menu spec",
+      "Clean down and note what the next shift must order"
+    ],
+    "essential": [
+      "At least three years in a busy kitchen, including time as a chef de partie or equivalent",
+      "A Level 2 food hygiene certificate",
+      "Able to work split shifts and weekends"
+    ],
+    "desirable": [
+      "Experience of a similar British or European menu",
+      "A Level 3 food hygiene certificate"
+    ],
+    "qualifications": [
+      "A Level 2 food hygiene certificate is required. A culinary degree is not."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "Staff meal on shift",
+      "Knife kit is your own"
+    ],
+    "howToApply": "Select Apply now. Read the weekend split shifts before you decide the job is suitable.",
+    "keywords": [
+      "chef",
+      "kitchen"
+    ]
+  },
+  {
+    "id": "wfj-2019",
+    "title": "Kitchen assistant",
+    "employer": "Hanwell Supper Club",
+    "category": "hospitality",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 12.21,
+    "payMax": 12.21,
+    "hoursPerWeek": 16,
+    "hours": "part-time",
+    "hoursDetail": "Thursday to Saturday, 5:00pm to 10:30pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Wash up, prep vegetables and plate desserts in a small fictional dining room. The chef cooks. You do not run a section.",
+    "responsibilities": [
+      "Wash pots and keep the pass clear",
+      "Prepare vegetables from a written list",
+      "Help plate cold desserts during service"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Able to work the three evening shifts",
+      "Comfortable in a hot kitchen"
+    ],
+    "desirable": [
+      "Any cafe or school-kitchen experience",
+      "A food hygiene certificate"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Food hygiene training is given before the first service."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "A staff meal each shift",
+      "Tips are shared and are not guaranteed"
+    ],
+    "howToApply": "Select Apply now. The practice application is not sent to the kitchen.",
+    "keywords": [
+      "no previous experience",
+      "evenings"
+    ]
+  },
+  {
+    "id": "wfj-2020",
+    "title": "Office support assistant",
+    "employer": "Southall Filing Room",
+    "category": "administration",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 12.4,
+    "payMax": 12.4,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm, for 10 weeks",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Sort paper files for a fictional solicitor while they move rooms. The work is mostly on paper. You will not be asked to give legal advice or to use a casework system.",
+    "responsibilities": [
+      "Sort files into the order on the list",
+      "Label boxes and stack them on a trolley",
+      "Ask the office manager when a file does not match the list"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "No computer skills are required for this temporary task",
+      "Able to lift a file box with a colleague"
+    ],
+    "desirable": [
+      "Any experience of sorting post or stock",
+      "A driving licence is not needed"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "postedOn": "2026-10-06",
+    "closesOn": "2026-11-20",
+    "sponsorship": "not-offered",
+    "benefits": [
+      "This temporary job ends after 10 weeks",
+      "Tea and a locker are provided"
+    ],
+    "howToApply": "Select Apply now. Read the line that says computer skills are not required, and compare it with other office jobs.",
+    "keywords": [
+      "filing",
+      "no computer"
+    ]
+  },
+  {
+    "title": "Office coordinator",
+    "employer": "Maple Row Offices",
+    "category": "administration",
+    "town": "West Ealing",
+    "city": "London",
+    "postcode": "W13 9AB",
+    "payPeriod": "year",
+    "payMin": 26100,
+    "payMax": 26100,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "You coordinate room bookings and supplier visits for a fictional managed-office floor in West Ealing.",
+    "responsibilities": [
+      "Confirm each booking and meet the visitor at the lift",
+      "Chase late supplier invoices once a week",
+      "Update the fire-list when a tenant moves desk"
+    ],
+    "essential": [
+      "At least one year of office or reception work",
+      "Confident with a shared calendar",
+      "Able to interrupt politely when a room overruns"
+    ],
+    "desirable": [
+      "Experience of a serviced office",
+      "A business administration certificate"
+    ],
+    "qualifications": [
+      "No formal qualification is required if you have the year of office work."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2021",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Clerical assistant",
+    "employer": "Hanwell Deed Desk",
+    "category": "administration",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 12.6,
+    "payMax": 12.6,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Copy plans and prepare envelopes for a fictional architectural practice that still keeps a paper set.",
+    "responsibilities": [
+      "Scan signed drawings into the named folder",
+      "Address envelopes from a checked list",
+      "Tell the office manager when the scanner jams"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Able to follow a filing list",
+      "Comfortable standing at a scanner"
+    ],
+    "desirable": [
+      "Any library or shop experience",
+      "GCSE English"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2022",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "School office assistant",
+    "employer": "Greenford Meadow School",
+    "category": "administration",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 13.1,
+    "payMax": 13.1,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Answer the late book and the visitor screen at a fictional primary school during term time.",
+    "responsibilities": [
+      "Record pupils who arrive after the bell",
+      "Give visitors a badge and call the right teacher",
+      "Sort the afternoon post into class trays"
+    ],
+    "essential": [
+      "No previous school-office job is required",
+      "Patient with parents who are in a hurry",
+      "Discreet about pupils"
+    ],
+    "desirable": [
+      "Any work with children or families",
+      "A school-office qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Term-time hours mean you are not paid for school holidays."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2023",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Lettings administrator",
+    "employer": "Brentford Key Lets",
+    "category": "administration",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 27500,
+    "payMax": 27500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Prepare tenancy packs and book viewings for a fictional local lettings desk. You do not give legal advice.",
+    "responsibilities": [
+      "Arrange viewings and send the confirmation text",
+      "Check application forms are complete before a manager reads them",
+      "Order inventories from the clerk the practice uses"
+    ],
+    "essential": [
+      "At least one year in an office, shop or agency",
+      "Careful with names, dates and deposits",
+      "Able to explain a viewing time clearly"
+    ],
+    "desirable": [
+      "Experience of property work",
+      "A qualification in housing"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2024",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Data entry clerk",
+    "employer": "Wembley List House",
+    "category": "administration",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 12.8,
+    "payMax": 12.8,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Type survey answers into a spreadsheet for a fictional research office. The project lasts fourteen weeks.",
+    "responsibilities": [
+      "Enter answers exactly as they are written",
+      "Flag forms that are incomplete",
+      "Keep a count of what you have finished each day"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Accurate typing",
+      "Able to sit at a screen for most of the day"
+    ],
+    "desirable": [
+      "A typing certificate",
+      "Experience of a spreadsheet"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The fourteen-week end date is fixed."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2025",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Senior administrator",
+    "employer": "Hounslow Civic Rooms",
+    "category": "administration",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 32100,
+    "payMax": 32100,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Lead the admin team of four for a fictional community trust, covering diaries, budgets and cover when someone is off.",
+    "responsibilities": [
+      "Allocate the day's work and check it is finished",
+      "Prepare the monthly spend sheet for the director",
+      "Recruit a temp when a colleague is off for more than a week"
+    ],
+    "essential": [
+      "At least three years of office experience, including supervising someone",
+      "Confident with spreadsheets and a shared inbox",
+      "Able to give a clear handover"
+    ],
+    "desirable": [
+      "A management qualification",
+      "Experience of charity or council administration"
+    ],
+    "qualifications": [
+      "A qualification is welcome. The three years of experience, including supervision, matter more."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2026",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Workshop administrator",
+    "employer": "Acton Bench Co",
+    "category": "administration",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 24600,
+    "payMax": 24600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Raise job cards and order fixings for a fictional joinery workshop. You work beside the shop floor, not in a quiet corporate office.",
+    "responsibilities": [
+      "Write job cards from the supervisor's list",
+      "Book couriers for finished pieces",
+      "Keep the dust out of the paperwork"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Comfortable in a noisy workshop",
+      "Able to use email"
+    ],
+    "desirable": [
+      "Any practical or shop experience",
+      "A joinery qualification, which is not required"
+    ],
+    "qualifications": [
+      "No formal qualification is required. You will not be asked to use the machines."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2027",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Library administrator",
+    "employer": "Ealing Shelf Trust",
+    "category": "administration",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "hour",
+    "payMin": 13.4,
+    "payMax": 13.4,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Process membership forms and reservation emails for a fictional community library.",
+    "responsibilities": [
+      "Add new members to the register",
+      "Send reservation emails when a book comes back",
+      "Count the cash drawer with a colleague"
+    ],
+    "essential": [
+      "Six months of office, shop or library experience",
+      "Confident with email",
+      "Happy to explain a simple rule kindly"
+    ],
+    "desirable": [
+      "A library qualification",
+      "Another language"
+    ],
+    "qualifications": [
+      "No library qualification is required for this administrator post."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2028",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Medical secretary",
+    "employer": "Hammersmith Letter Clinic",
+    "category": "administration",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 29200,
+    "payMax": 29200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Type clinic letters from dictated notes for a fictional private practice. A doctor signs every letter before it is sent.",
+    "responsibilities": [
+      "Type letters and return them for signature the same day",
+      "Book follow-up appointments the letter asks for",
+      "Keep the dictation queue in date order"
+    ],
+    "essential": [
+      "At least one year of audio typing or medical administration",
+      "A high standard of spelling",
+      "Discreet with health information"
+    ],
+    "desirable": [
+      "A medical terminology course",
+      "Audio typing at 60 words a minute"
+    ],
+    "qualifications": [
+      "An AMSPAR or equivalent certificate is desirable, not essential, if the year of audio typing is in place."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2029",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Contracts assistant",
+    "employer": "Southall Paper Bond",
+    "category": "administration",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 30500,
+    "payMax": 30500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Check supplier contracts for missing dates and insurance dates for a fictional facilities firm. You do not negotiate the commercial terms.",
+    "responsibilities": [
+      "Log each contract and its end date",
+      "Chase missing insurance certificates",
+      "Tell the contracts manager two months before a renewal"
+    ],
+    "essential": [
+      "At least two years in administration, procurement or finance support",
+      "Able to read a date and a notice period carefully",
+      "Happy to ask when a clause is unclear"
+    ],
+    "desirable": [
+      "A CIPS qualification",
+      "Experience of a contract register"
+    ],
+    "qualifications": [
+      "No CIPS qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2030",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Parish administrator",
+    "employer": "Greenford St Helen Office",
+    "category": "administration",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 12.9,
+    "payMax": 12.9,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Keep the service register and the hall diary for a fictional parish office on a one-year contract.",
+    "responsibilities": [
+      "Enter baptisms and weddings in the register as the vicar instructs",
+      "Take hall bookings and send a receipt",
+      "Order candles and paper when stocks are low"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Respectful in a place of worship",
+      "Able to write a clear phone message"
+    ],
+    "desirable": [
+      "Any volunteering in a community building",
+      "A theology qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2031",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Team administrator",
+    "employer": "Hayes Roster Hub",
+    "category": "administration",
+    "town": "Hayes",
+    "city": "London",
+    "postcode": "UB3 4AJ",
+    "payPeriod": "year",
+    "payMin": 26800,
+    "payMax": 26800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Build the weekly rota and the meeting pack for a fictional logistics office in Hayes.",
+    "responsibilities": [
+      "Collect leave requests and draft the rota",
+      "Print the Monday meeting pack",
+      "Book the pool car and record the mileage"
+    ],
+    "essential": [
+      "At least one year in an office",
+      "Careful with dates and names",
+      "Able to say no to a request that breaks the rota rules"
+    ],
+    "desirable": [
+      "Experience of a warehouse office",
+      "A transport qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "administration"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2032",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Customer service adviser",
+    "employer": "West Ealing Helpline",
+    "category": "customer-service",
+    "town": "West Ealing",
+    "city": "London",
+    "postcode": "W13 9AB",
+    "payPeriod": "year",
+    "payMin": 23900,
+    "payMax": 23900,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 12:00pm to 8:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Answer evening calls about missed deliveries for a fictional parcel company. The depot itself is a different job.",
+    "responsibilities": [
+      "Follow the call script and offer the next delivery day",
+      "Record the door number the customer gives you",
+      "Pass damaged-parcel claims to the claims desk"
+    ],
+    "essential": [
+      "No previous call-centre job is required",
+      "Clear spoken English",
+      "Able to work until 8:00pm"
+    ],
+    "desirable": [
+      "Shop or reception experience",
+      "Another language"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2033",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Complaints officer",
+    "employer": "Acton Call Ledger",
+    "category": "customer-service",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 33400,
+    "payMax": 33400,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Investigate written complaints for a fictional utility broker and write the reply a manager must approve.",
+    "responsibilities": [
+      "Read the account history before you reply",
+      "Draft a reply that states what will happen next",
+      "Call the customer when the letter would be too slow"
+    ],
+    "essential": [
+      "At least two years in customer service, including complaint handling",
+      "Able to stay calm in writing",
+      "Confident deciding when to refund within a set limit"
+    ],
+    "desirable": [
+      "A professional complaint-handling certificate",
+      "Experience of an energy or water account"
+    ],
+    "qualifications": [
+      "No formal qualification is required if the two years include complaints."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2034",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Call centre agent",
+    "employer": "Hounslow Night Desk",
+    "category": "customer-service",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 13.6,
+    "payMax": 13.6,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Night calls for a fictional roadside-assistance brand. You log the breakdown and pass the location to a patrol controller.",
+    "responsibilities": [
+      "Take the registration, the location and a phone number",
+      "Stay on the line until the controller accepts the job",
+      "Flag any caller who sounds unsafe"
+    ],
+    "essential": [
+      "No previous night-work job is required",
+      "Comfortable staying awake on nights",
+      "Clear spoken English"
+    ],
+    "desirable": [
+      "A driving licence, which is not needed because you do not drive",
+      "First aid"
+    ],
+    "qualifications": [
+      "No formal qualification is required. A driving licence is not required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2035",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Customer support assistant",
+    "employer": "Wembley Ticket Window",
+    "category": "customer-service",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 12.7,
+    "payMax": 12.7,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Answer questions about a fictional weekend market: where to queue, what time it closes, and lost property. The role ends after the winter season.",
+    "responsibilities": [
+      "Reply to email and the market's web form",
+      "Log lost property and who collected it",
+      "Tell a supervisor about a safety worry"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Friendly and clear",
+      "Able to work Saturdays and Sundays through the winter"
+    ],
+    "desirable": [
+      "Shop experience",
+      "Another language"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2036",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Service adviser",
+    "employer": "Hammersmith Bike Counter",
+    "category": "customer-service",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 25200,
+    "payMax": 25200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Book repairs and explain waiting times at a fictional cycle workshop. The mechanics do the repairs.",
+    "responsibilities": [
+      "Book jobs into the workshop diary",
+      "Call customers when a bike is ready",
+      "Take payment for the work the mechanic has listed"
+    ],
+    "essential": [
+      "At least six months with customers, in a shop or on a phone",
+      "Able to explain a delay without blaming a colleague",
+      "Basic computer use"
+    ],
+    "desirable": [
+      "A cycle mechanic qualification, which is not required",
+      "Knowledge of local cycle routes"
+    ],
+    "qualifications": [
+      "No mechanic qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2037",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Contact centre coach",
+    "employer": "Southall Voice Floor",
+    "category": "customer-service",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 31800,
+    "payMax": 31800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Listen to calls and coach a team of eight advisers for a fictional insurance claims line. You still take calls when the queue is long.",
+    "responsibilities": [
+      "Review three calls a week with each adviser",
+      "Update the call guide when a rule changes",
+      "Take overflow calls after 4:00pm"
+    ],
+    "essential": [
+      "At least two years on the phones and some experience of helping new starters",
+      "Able to give feedback that is specific",
+      "Patient when someone is learning"
+    ],
+    "desirable": [
+      "A training qualification",
+      "Experience of insurance claims"
+    ],
+    "qualifications": [
+      "No training qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2038",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Customer service apprentice",
+    "employer": "Greenford Help Apprentices",
+    "category": "customer-service",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 15500,
+    "payMax": 15500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A customer-service apprenticeship on a fictional helpline. You answer simple calls and spend one day a week in training.",
+    "responsibilities": [
+      "Answer calls that are on the new-starter script",
+      "Log the result in the practice system",
+      "Attend the training day and complete the set work"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Willing to study during the apprenticeship",
+      "Clear spoken English"
+    ],
+    "desirable": [
+      "Shop or volunteer experience with the public",
+      "A customer-service certificate already held"
+    ],
+    "qualifications": [
+      "English and maths are studied as part of the apprenticeship if you do not already have them."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2039",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Returns adviser",
+    "employer": "Feltham Parcel Desk",
+    "category": "customer-service",
+    "town": "Feltham",
+    "city": "London",
+    "postcode": "TW13 4EX",
+    "payPeriod": "hour",
+    "payMin": 12.55,
+    "payMax": 12.55,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Process returns at a fictional parcel shop counter. You scan the label and print the receipt. You do not decide refunds over twenty pounds.",
+    "responsibilities": [
+      "Scan returned parcels and give the receipt",
+      "Explain the next step from the card on the counter",
+      "Call a supervisor for a refund above the limit"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Comfortable handling parcels up to 10kg",
+      "Polite when someone is disappointed"
+    ],
+    "desirable": [
+      "Shop experience",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2040",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Live chat adviser",
+    "employer": "Richmond Screen Support",
+    "category": "customer-service",
+    "town": "Richmond",
+    "city": "London",
+    "postcode": "TW9 1AE",
+    "payPeriod": "year",
+    "payMin": 26000,
+    "payMax": 26000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "remote",
+    "experience": "some",
+    "summary": "Reply to live chat about a fictional furniture retailer's orders. You work from home after two weeks in Richmond. The employer provides the laptop.",
+    "responsibilities": [
+      "Answer chats within the set time",
+      "Track an order and give the date on the screen",
+      "Send the chat to a specialist when the item is damaged"
+    ],
+    "essential": [
+      "At least one year of customer service by phone, email or chat",
+      "Fast, clear written English",
+      "A quiet place to work and a reliable internet connection"
+    ],
+    "desirable": [
+      "Experience of a retail system",
+      "A furniture qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Home working starts only after the Richmond training weeks."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2041",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Complaints administrator",
+    "employer": "Slough Case Tray",
+    "category": "customer-service",
+    "town": "Slough",
+    "city": "Slough",
+    "postcode": "SL1 1EL",
+    "payPeriod": "year",
+    "payMin": 27100,
+    "payMax": 27100,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Log complaints and chase the team that owes a reply for a fictional housing association. You do not decide the outcome.",
+    "responsibilities": [
+      "Register each complaint the day it arrives",
+      "Send reminders when a reply is late",
+      "Prepare a weekly count for the manager"
+    ],
+    "essential": [
+      "At least one year of admin or customer service",
+      "Organised and discreet",
+      "Able to write a neutral summary"
+    ],
+    "desirable": [
+      "Housing experience",
+      "A housing qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2042",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Member support adviser",
+    "employer": "Brighton Pier Club",
+    "category": "customer-service",
+    "town": "Brighton",
+    "city": "Brighton",
+    "postcode": "BN1 1GE",
+    "payPeriod": "hour",
+    "payMin": 12.45,
+    "payMax": 12.45,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Help new members of a fictional leisure club fill in the joining form and explain the timetable.",
+    "responsibilities": [
+      "Check the form is complete",
+      "Show someone how to book a class on the screen",
+      "Take lost-card reports"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Friendly",
+      "Basic computer use"
+    ],
+    "desirable": [
+      "Leisure or gym experience",
+      "A fitness qualification, which belongs to the instructor job"
+    ],
+    "qualifications": [
+      "No fitness qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "customer-service"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2043",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Retail assistant",
+    "employer": "Ealing Market Baskets",
+    "category": "retail",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "hour",
+    "payMin": 12.4,
+    "payMax": 12.4,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Serve on the till and refill the bakery table in a fictional indoor market. Saturday is essential.",
+    "responsibilities": [
+      "Serve customers and give the right change",
+      "Refill bread and note what sold out",
+      "Sweep your section at the end of the shift"
+    ],
+    "essential": [
+      "No previous shop job is required",
+      "Honest with money",
+      "Able to stand for a four-hour shift"
+    ],
+    "desirable": [
+      "Any customer experience",
+      "A food hygiene certificate"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Saturday working is essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2044",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Sales adviser",
+    "employer": "West Ealing Phone Hut",
+    "category": "retail",
+    "town": "West Ealing",
+    "city": "London",
+    "postcode": "W13 9AB",
+    "payPeriod": "year",
+    "payMin": 24000,
+    "payMax": 24000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Explain handsets and tariffs in a fictional phone shop. You must not invent a discount that is not on the list.",
+    "responsibilities": [
+      "Greet people and find out what they need the phone to do",
+      "Complete the sale on the till using only approved tariffs",
+      "Keep the display charged and labelled"
+    ],
+    "essential": [
+      "At least six months in any shop",
+      "Comfortable with a till",
+      "Honest about what a tariff includes"
+    ],
+    "desirable": [
+      "Experience of phone sales",
+      "A sales qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2045",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Stock assistant",
+    "employer": "Acton Cloth Room",
+    "category": "retail",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 12.3,
+    "payMax": 12.3,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Unpack clothing deliveries before the fictional shop opens, for the six weeks before Christmas.",
+    "responsibilities": [
+      "Unpack cartons and hang garments in size order",
+      "Attach security tags",
+      "Tell a supervisor about damaged items"
+    ],
+    "essential": [
+      "No previous shop job is required",
+      "Able to start at 7:00am",
+      "Careful with small tags"
+    ],
+    "desirable": [
+      "Any warehouse or shop experience",
+      "A fashion qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The job ends on 24 December."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2046",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Retail supervisor",
+    "employer": "Hanwell Corner Store",
+    "category": "retail",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "year",
+    "payMin": 28600,
+    "payMax": 28600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Supervise four retail assistants in a fictional convenience store, including the key and the cash office.",
+    "responsibilities": [
+      "Open or close the shop on your rota days",
+      "Check deliveries against the invoice",
+      "Coach new till staff"
+    ],
+    "essential": [
+      "At least two years in retail, including time holding keys",
+      "Able to complete a cash declaration",
+      "Fair when you correct a colleague"
+    ],
+    "desirable": [
+      "A personal licence for alcohol",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "A personal licence is desirable because the store sells alcohol, and the employer will discuss training if you do not have one yet."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2047",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Visual merchandiser",
+    "employer": "Wembley Display Loft",
+    "category": "retail",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 27000,
+    "payMax": 27000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Plan window displays for a fictional homeware shop from the photos the head office sends. You also serve when the shop is busy.",
+    "responsibilities": [
+      "Build displays from the plan and the stock you actually have",
+      "Print price tickets and check they match the till",
+      "Help on the till at weekends"
+    ],
+    "essential": [
+      "At least one year in a shop",
+      "An eye for a tidy display",
+      "Able to use a ladder safely for low windows"
+    ],
+    "desirable": [
+      "A visual merchandising course",
+      "Experience of a large chain"
+    ],
+    "qualifications": [
+      "No formal qualification is required. You will be shown how to use the ladder."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2048",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Garden centre assistant",
+    "employer": "Hounslow Pot Rows",
+    "category": "retail",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 12.25,
+    "payMax": 12.25,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Water plants, load trolleys and serve at an outdoor till in a fictional garden centre.",
+    "responsibilities": [
+      "Water the beds on the list",
+      "Help customers lift compost into cars",
+      "Cover the outdoor till"
+    ],
+    "essential": [
+      "No previous garden-centre job is required",
+      "Happy to work outside",
+      "Able to lift 15kg with a trolley"
+    ],
+    "desirable": [
+      "Plant knowledge",
+      "A horticulture qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2049",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Butcher's assistant",
+    "employer": "Southall Counter Meats",
+    "category": "retail",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 12.9,
+    "payMax": 12.9,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Serve at the counter, clean down and learn basic prep in a fictional butcher's shop. A trained butcher does the skilled cutting.",
+    "responsibilities": [
+      "Serve customers and wrap orders",
+      "Clean the counter to the hygiene sheet",
+      "Label prices the butcher has set"
+    ],
+    "essential": [
+      "No previous butchery job is required",
+      "Comfortable handling raw meat",
+      "Able to follow a hygiene rule"
+    ],
+    "desirable": [
+      "Any food-counter experience",
+      "A butchery apprenticeship already completed"
+    ],
+    "qualifications": [
+      "No butchery qualification is required to start. Hygiene training is given before you serve."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2050",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Pharmacy counter assistant",
+    "employer": "Hammersmith Dose Counter",
+    "category": "retail",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "hour",
+    "payMin": 13.2,
+    "payMax": 13.2,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Serve the retail side of a fictional pharmacy: cough medicines, appointments for the pharmacist, and prescriptions ready for collection. You do not give clinical advice.",
+    "responsibilities": [
+      "Hand out completed prescriptions after the pharmacist has checked the name",
+      "Refer health questions to the pharmacist",
+      "Keep the retail shelves tidy"
+    ],
+    "essential": [
+      "At least six months of shop experience",
+      "Discreet",
+      "Able to ask for a name and address clearly"
+    ],
+    "desirable": [
+      "A GPhC pharmacy technician qualification",
+      "Experience in a pharmacy"
+    ],
+    "qualifications": [
+      "A technician qualification is not required. You must not advise on medicines."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2051",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Department supervisor",
+    "employer": "Brentford Home Floor",
+    "category": "retail",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 30000,
+    "payMax": 30000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Run the homeware floor of a fictional department store on the days you are on duty, including staff breaks and refunds up to a set limit.",
+    "responsibilities": [
+      "Brief the team at the start of the day",
+      "Approve refunds within the limit on the card",
+      "Walk the floor and fix missing prices"
+    ],
+    "essential": [
+      "At least three years in retail, with at least one year as a supervisor",
+      "Confident with a refund process",
+      "Able to work Saturdays"
+    ],
+    "desirable": [
+      "A management NVQ",
+      "Experience of furniture sales"
+    ],
+    "qualifications": [
+      "No management NVQ is required if you have supervised a shop floor for a year."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2052",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Market trader assistant",
+    "employer": "Leeds Kirkgate Stall",
+    "category": "retail",
+    "town": "Leeds",
+    "city": "Leeds",
+    "postcode": "LS1 4DY",
+    "payPeriod": "hour",
+    "payMin": 12.35,
+    "payMax": 12.35,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Help on a fictional fruit stall in Leeds for the summer. This is full-time early work, not the part-time retail assistant role at the market hall.",
+    "responsibilities": [
+      "Set out fruit before the market opens",
+      "Serve and weigh goods",
+      "Pack down and count the float"
+    ],
+    "essential": [
+      "No previous market job is required",
+      "Honest with cash",
+      "Able to start at 6:30am"
+    ],
+    "desirable": [
+      "Any shop experience",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2053",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Sales assistant",
+    "employer": "Manchester Thread Counter",
+    "category": "retail",
+    "town": "Manchester",
+    "city": "Manchester",
+    "postcode": "M1 2WD",
+    "payPeriod": "hour",
+    "payMin": 12.21,
+    "payMax": 12.21,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 12:00pm to 8:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Evening cover in a fictional fabric shop. You cut cloth to the length on the ticket and take payment.",
+    "responsibilities": [
+      "Measure and cut fabric",
+      "Serve the till",
+      "Re-roll cloth that has been left out"
+    ],
+    "essential": [
+      "No previous shop job is required",
+      "Careful measuring",
+      "Able to work two evenings and Saturday"
+    ],
+    "desirable": [
+      "Sewing skills",
+      "A textiles qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2054",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Online order picker",
+    "employer": "Birmingham Store Back",
+    "category": "retail",
+    "town": "Birmingham",
+    "city": "Birmingham",
+    "postcode": "B1 1AA",
+    "payPeriod": "hour",
+    "payMin": 12.7,
+    "payMax": 12.7,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Pick online grocery orders inside a fictional supermarket. You do not drive the delivery van.",
+    "responsibilities": [
+      "Pick from the list on the handset",
+      "Substitute only the items the list allows",
+      "Keep chilled food cold"
+    ],
+    "essential": [
+      "No previous picking job is required",
+      "Able to push a heavy trolley",
+      "Accurate"
+    ],
+    "desirable": [
+      "A driving licence, which is a different vacancy",
+      "First aid"
+    ],
+    "qualifications": [
+      "No formal qualification is required. A driving licence is not needed."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "retail"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2055",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Warehouse team member",
+    "employer": "Acton Cage Store",
+    "category": "warehouse",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 13.25,
+    "payMax": 13.25,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Load outbound cages for a fictional high-street retailer. Training on the pallet truck takes place in week one.",
+    "responsibilities": [
+      "Build cages so they are stable",
+      "Scan each carton as it goes on",
+      "Clear cardboard for the baler"
+    ],
+    "essential": [
+      "No previous warehouse job is required",
+      "Able to work in a cold loading bay",
+      "Reliable timekeeping"
+    ],
+    "desirable": [
+      "A forklift licence",
+      "Any shop stockroom experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2056",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Reach-truck operator",
+    "employer": "Greenford Rack Hall",
+    "category": "warehouse",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 15.4,
+    "payMax": 15.4,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Put pallets away in narrow aisle racking on nights. A current reach-truck certificate is essential.",
+    "responsibilities": [
+      "Complete the truck check before the first lift",
+      "Put stock in the location on the screen",
+      "Report damaged racking and do not use it"
+    ],
+    "essential": [
+      "A current reach-truck certificate",
+      "Comfortable working nights",
+      "Able to read a location code"
+    ],
+    "desirable": [
+      "A counterbalance licence as well",
+      "Warehouse supervision"
+    ],
+    "qualifications": [
+      "The reach-truck certificate is required. Night working is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2057",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Goods-in clerk",
+    "employer": "Wembley Inbound Desk",
+    "category": "warehouse",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 26400,
+    "payMax": 26400,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Check deliveries against purchase orders in a fictional warehouse office that opens onto the yard.",
+    "responsibilities": [
+      "Book in deliveries on the system",
+      "Quarantine items that do not match the order",
+      "File delivery notes for the month"
+    ],
+    "essential": [
+      "At least one year in a warehouse or a stock office",
+      "Careful with quantities",
+      "Able to query a driver politely"
+    ],
+    "desirable": [
+      "A forklift licence",
+      "An inventory qualification"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2058",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Inventory assistant",
+    "employer": "Southall Count Team",
+    "category": "warehouse",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 13,
+    "payMax": 13,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A four-week stock count in a fictional cash-and-carry. You count each bay and write the quantity on the sheet.",
+    "responsibilities": [
+      "Count bays in pairs",
+      "Write the quantity on the sheet",
+      "Recount when the two counts disagree"
+    ],
+    "essential": [
+      "No previous stock-count job is required",
+      "Honest and careful with numbers",
+      "Able to use a ladder for low shelves with a colleague footing it"
+    ],
+    "desirable": [
+      "A forklift licence",
+      "Retail experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2059",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Despatch supervisor",
+    "employer": "Hounslow Lane Office",
+    "category": "warehouse",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 31200,
+    "payMax": 31200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Run the morning despatch lane and the six people on it. You still step in to clear a blocked dock.",
+    "responsibilities": [
+      "Allocate the lane at the start of the shift",
+      "Check the last trailer leaves on time",
+      "Record accidents and near misses"
+    ],
+    "essential": [
+      "At least two years leading a warehouse team",
+      "Confident with a warehouse system",
+      "Calm when a trailer is late"
+    ],
+    "desirable": [
+      "An IOSH or equivalent safety certificate",
+      "A forklift licence"
+    ],
+    "qualifications": [
+      "A safety certificate is desirable. The two years of team leading are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2060",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Returns processor",
+    "employer": "Brentford Open Box",
+    "category": "warehouse",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.8,
+    "payMax": 12.8,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Inspect returned homeware and decide, from a chart, whether it can be resold.",
+    "responsibilities": [
+      "Open returns and check them against the chart",
+      "Put resale stock back into a cage",
+      "Quarantine anything electrical that looks damaged"
+    ],
+    "essential": [
+      "No previous returns job is required",
+      "Able to follow a written chart",
+      "Careful with broken items"
+    ],
+    "desirable": [
+      "Any warehouse experience",
+      "An electrical qualification"
+    ],
+    "qualifications": [
+      "No electrical qualification is required. Damaged electrical items are quarantined, not repaired."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2061",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Yard marshal",
+    "employer": "Feltham Trailer Gate",
+    "category": "warehouse",
+    "town": "Feltham",
+    "city": "London",
+    "postcode": "TW13 4EX",
+    "payPeriod": "hour",
+    "payMin": 14.1,
+    "payMax": 14.1,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Direct trailers in a fictional yard and check trailer numbers against the book. You do not drive the artics.",
+    "responsibilities": [
+      "Meet the driver and record the trailer number",
+      "Keep pedestrians out of the reversing area",
+      "Radio the warehouse when a bay is free"
+    ],
+    "essential": [
+      "At least one year in a yard, warehouse or security gate",
+      "Confident using a radio",
+      "Willing to work in bad weather"
+    ],
+    "desirable": [
+      "An HGV licence",
+      "A banksman certificate"
+    ],
+    "qualifications": [
+      "An HGV licence is not required. A banksman course is provided in the first month if you do not have one."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2062",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Cold-store operative",
+    "employer": "Hayes Chill Rooms",
+    "category": "warehouse",
+    "town": "Hayes",
+    "city": "London",
+    "postcode": "UB3 4AJ",
+    "payPeriod": "hour",
+    "payMin": 13.8,
+    "payMax": 13.8,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Pick chilled food in a cold chamber. The employer provides the jacket. Breaks are taken in a warm room.",
+    "responsibilities": [
+      "Pick to the chilled list",
+      "Keep the chamber door closed",
+      "Tell a supervisor if a temperature alarm sounds"
+    ],
+    "essential": [
+      "No previous cold-store job is required",
+      "Comfortable working in the cold for most of the shift",
+      "Able to follow a hygiene rule"
+    ],
+    "desirable": [
+      "A forklift licence",
+      "Food production experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2063",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Warehouse apprentice",
+    "employer": "Slough Store Apprentices",
+    "category": "warehouse",
+    "town": "Slough",
+    "city": "Slough",
+    "postcode": "SL1 1EL",
+    "payPeriod": "year",
+    "payMin": 16200,
+    "payMax": 16200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A warehouse-operative apprenticeship. You learn scanning, wrapping and the safety rules, with a college day each week.",
+    "responsibilities": [
+      "Pick training orders with your coach",
+      "Complete the college work",
+      "Report hazards on the sheet"
+    ],
+    "essential": [
+      "No previous paid employment is needed",
+      "Willing to study as part of the job",
+      "Able to stand for a shift"
+    ],
+    "desirable": [
+      "Any Saturday job",
+      "A forklift licence already held"
+    ],
+    "qualifications": [
+      "English and maths support is included if you need it. A forklift licence is not required to start."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "warehouse"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2064",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Van driver",
+    "employer": "Ealing Round B",
+    "category": "driving",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "hour",
+    "payMin": 14,
+    "payMax": 14,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Deliver bakery orders to fictional cafes in Ealing and Hanwell in a refrigerated van the employer owns.",
+    "responsibilities": [
+      "Load trays in drop order",
+      "Take a signature or a photo as the device asks",
+      "Report a missed cafe before you leave the area"
+    ],
+    "essential": [
+      "A full UK car driving licence",
+      "Able to start at 5:30am",
+      "Careful with food still in date"
+    ],
+    "desirable": [
+      "Knowledge of Ealing back streets",
+      "A food hygiene certificate"
+    ],
+    "qualifications": [
+      "A driving licence is essential. The 5:30am start is essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2065",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Courier",
+    "employer": "Acton Cycle Drops",
+    "category": "driving",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 13,
+    "payMax": 13,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 12:00pm to 8:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Deliver documents by bicycle around Acton and Ealing. A bike is available if you do not own one. This is not a car job.",
+    "responsibilities": [
+      "Collect the afternoon run from the office",
+      "Deliver by 6:00pm and get a signature",
+      "Text the coordinator if you cannot find the door"
+    ],
+    "essential": [
+      "No previous courier job is required",
+      "Confident cycling in traffic",
+      "A bike is useful but one can be provided"
+    ],
+    "desirable": [
+      "A driving licence, which is not used",
+      "Knowledge of local cycle routes"
+    ],
+    "qualifications": [
+      "No driving licence is required. You do need to be safe on a bike in traffic."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2066",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Passenger assistant",
+    "employer": "Hounslow School Run",
+    "category": "driving",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 12.7,
+    "payMax": 12.7,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Ride on a fictional school minibus, help pupils with seatbelts and sit with them. You do not drive.",
+    "responsibilities": [
+      "Check seatbelts before the bus moves",
+      "Help pupils on and off at the right stop",
+      "Tell the driver if a pupil is missing"
+    ],
+    "essential": [
+      "No previous passenger-assistant job is required",
+      "Patient with children",
+      "Able to work term-time mornings and afternoons, with a gap in the middle"
+    ],
+    "desirable": [
+      "A driving licence",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "No driving licence is required. A DBS check would be started only after a real employer offered a job. This practice form does not ask you to upload one."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2067",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "HGV class 2 driver",
+    "employer": "Greenford Trunk Gate",
+    "category": "driving",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 36000,
+    "payMax": 36000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Drive a rigid lorry between the Greenford warehouse and two fictional stores. Nights are rare and are paid when they happen.",
+    "responsibilities": [
+      "Complete the daily vehicle check",
+      "Deliver to the time window",
+      "Record defects and do not move an unsafe vehicle"
+    ],
+    "essential": [
+      "A current C licence and Driver CPC",
+      "At least one year driving a rigid lorry",
+      "Willing to share a cab on the days a mate is assigned"
+    ],
+    "desirable": [
+      "An articulated licence",
+      "ADR"
+    ],
+    "qualifications": [
+      "A C licence and Driver CPC are required. An articulated licence is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2068",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Minibus driver",
+    "employer": "Wembley Club Route",
+    "category": "driving",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 13.5,
+    "payMax": 13.5,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Drive a fictional community minibus on a set route to a day centre. The route does not change without notice.",
+    "responsibilities": [
+      "Complete the walkaround check",
+      "Keep to the published stops",
+      "Record mileage and any incident"
+    ],
+    "essential": [
+      "A full car licence held for two years and a D1 entitlement",
+      "Happy to help passengers with a light bag",
+      "Patient in traffic"
+    ],
+    "desirable": [
+      "A MiDAS certificate",
+      "Experience of community transport"
+    ],
+    "qualifications": [
+      "D1 entitlement is essential. The employer will pay for MiDAS if you do not have it."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2069",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Driver's mate",
+    "employer": "Southall Furniture Ride",
+    "category": "driving",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 12.9,
+    "payMax": 12.9,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Help a driver deliver sofas. You do not need a driving licence. You do need to lift with a colleague and use the stair straps.",
+    "responsibilities": [
+      "Load the van in drop order",
+      "Carry items using the straps and a second person",
+      "Take the customer's name on the device"
+    ],
+    "essential": [
+      "No driving licence is required",
+      "Able to lift and carry with a colleague",
+      "Polite inside someone's home"
+    ],
+    "desirable": [
+      "A driving licence for later progression",
+      "Furniture experience"
+    ],
+    "qualifications": [
+      "No driving licence is required for the mate role."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2070",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Taxi office controller",
+    "employer": "Hammersmith Cab Desk",
+    "category": "driving",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 26600,
+    "payMax": 26600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Dispatch fictional local cabs from a night desk. You do not drive. You must stay calm when a driver refuses a job.",
+    "responsibilities": [
+      "Assign the nearest car",
+      "Log lost property",
+      "Tell the manager about a safety concern immediately"
+    ],
+    "essential": [
+      "At least one year in a call centre, dispatch office or similar",
+      "Clear radio manner",
+      "Able to work nights"
+    ],
+    "desirable": [
+      "A taxi licence, which is for drivers",
+      "Knowledge of west London"
+    ],
+    "qualifications": [
+      "A taxi driver's licence is not required for the controller job."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2071",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Transport administrator",
+    "employer": "Brentford Planner Desk",
+    "category": "driving",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 27800,
+    "payMax": 27800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Plan the next day's van routes for a fictional florist. You rarely travel. Friday is a home day.",
+    "responsibilities": [
+      "Build routes that finish before the shop closes",
+      "Book an extra van when the board is full",
+      "Record mileage against each round"
+    ],
+    "essential": [
+      "At least one year in transport or office planning",
+      "Confident with a spreadsheet",
+      "Able to change a route when a van breaks down"
+    ],
+    "desirable": [
+      "A transport manager CPC",
+      "Driving experience"
+    ],
+    "qualifications": [
+      "A transport manager CPC is not required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2072",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Motorcycle courier",
+    "employer": "Reading Fast Notes",
+    "category": "driving",
+    "town": "Reading",
+    "city": "Reading",
+    "postcode": "RG1 1JX",
+    "payPeriod": "hour",
+    "payMin": 15,
+    "payMax": 15,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "contract",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Same-day documents for a fictional legal cluster. You use your own bike and they pay a mileage rate on top of the hourly pay. Read that before you apply.",
+    "responsibilities": [
+      "Collect within the time window",
+      "Get a signature",
+      "Keep the paperwork dry"
+    ],
+    "essential": [
+      "Your own motorcycle, a full licence and business insurance",
+      "Knowledge of Reading",
+      "Able to work to a clock"
+    ],
+    "desirable": [
+      "A car licence as well",
+      "Knowledge of London, which is a different round"
+    ],
+    "qualifications": [
+      "A motorcycle licence, your own bike and insurance are essential. The hourly rate does not include the bike."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2073",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Workshop porter",
+    "employer": "Bristol Coach Yard",
+    "category": "driving",
+    "town": "Bristol",
+    "city": "Bristol",
+    "postcode": "BS1 4ST",
+    "payPeriod": "hour",
+    "payMin": 12.6,
+    "payMax": 12.6,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Move coaches inside a fictional yard for cleaning and fuel. A shunter licence is trained. You do not take coaches on the road.",
+    "responsibilities": [
+      "Fuel coaches and record the litres",
+      "Drive them inside the yard after training",
+      "Report defects on the sheet"
+    ],
+    "essential": [
+      "No previous coach job is required",
+      "Willing to train for a yard shunter permit",
+      "Careful around moving vehicles"
+    ],
+    "desirable": [
+      "A PCV licence",
+      "A driving licence already held"
+    ],
+    "qualifications": [
+      "No PCV licence is required. Road driving is not part of the job."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "driving"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2074",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Hotel receptionist",
+    "employer": "Ealing Station Hotel",
+    "category": "hospitality",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 25200,
+    "payMax": 25200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Check guests in and out at a fictional 40-room hotel. The four-on, four-off pattern includes nights.",
+    "responsibilities": [
+      "Check guests in and explain breakfast",
+      "Take card payments",
+      "Hand the night list to the duty manager"
+    ],
+    "essential": [
+      "At least one year on a reception or front desk",
+      "Confident with a booking system after training",
+      "Calm when a room is not ready"
+    ],
+    "desirable": [
+      "A hospitality qualification",
+      "Another language"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Night shifts are part of the rota."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2075",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Breakfast assistant",
+    "employer": "West Ealing Morning Table",
+    "category": "hospitality",
+    "town": "West Ealing",
+    "city": "London",
+    "postcode": "W13 9AB",
+    "payPeriod": "hour",
+    "payMin": 12.21,
+    "payMax": 12.21,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Lay and clear a fictional hotel breakfast. You start at 6:30am and finish before lunch.",
+    "responsibilities": [
+      "Lay tables from the photo card",
+      "Serve tea and clear plates",
+      "Tell the chef when a tray is empty"
+    ],
+    "essential": [
+      "No previous hotel job is required",
+      "Able to start at 6:30am",
+      "Friendly"
+    ],
+    "desirable": [
+      "A food hygiene certificate",
+      "Silver-service experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The 6:30am start is essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2076",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Barista",
+    "employer": "Acton Platform Coffee",
+    "category": "hospitality",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 12.5,
+    "payMax": 12.5,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Make coffee and serve pastries in a fictional station kiosk. The menu is short and you will be trained on the machine.",
+    "responsibilities": [
+      "Make the drinks on the menu",
+      "Keep the counter clean during the rush",
+      "Count the till with a supervisor"
+    ],
+    "essential": [
+      "No previous barista job is required",
+      "Able to stand in a small kiosk",
+      "Friendly"
+    ],
+    "desirable": [
+      "A coffee qualification",
+      "Food hygiene level 2 already held"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2077",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Waiting staff",
+    "employer": "Hanwell Sunday Room",
+    "category": "hospitality",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 12.21,
+    "payMax": 12.21,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Serve Sunday lunch in a fictional pub dining room. You carry plates and take payment at the table on a handheld.",
+    "responsibilities": [
+      "Take food and drink orders",
+      "Serve plates and clear them",
+      "Report allergens to the chef using the card, and do not guess"
+    ],
+    "essential": [
+      "No previous waiting job is required",
+      "Able to carry three plates with training",
+      "Happy to work Sundays"
+    ],
+    "desirable": [
+      "A personal licence",
+      "Fine-dining experience"
+    ],
+    "qualifications": [
+      "No personal licence is required for this floor role."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2078",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Pub supervisor",
+    "employer": "Greenford Tap Room",
+    "category": "hospitality",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 29500,
+    "payMax": 29500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 12:00pm to 8:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Supervise evening service in a fictional pub, including the cellar check and the team of four.",
+    "responsibilities": [
+      "Brief the team and allocate sections",
+      "Authorise voids on the till",
+      "Lock up on the nights you are the duty manager"
+    ],
+    "essential": [
+      "At least two years in a pub, including time as a supervisor",
+      "A personal licence",
+      "Able to close the building safely"
+    ],
+    "desirable": [
+      "A cellar qualification",
+      "Experience of a kitchen as well as a bar"
+    ],
+    "qualifications": [
+      "A personal licence is essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2079",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Catering assistant",
+    "employer": "Wembley Event Pantry",
+    "category": "hospitality",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 12.6,
+    "payMax": 12.6,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Wash up and restock a fictional conference centre during a ten-week exhibition season.",
+    "responsibilities": [
+      "Run the dishwasher",
+      "Refill water stations",
+      "Keep the still room stocked"
+    ],
+    "essential": [
+      "No previous catering job is required",
+      "Able to work the ten-week season, including some Sundays",
+      "Comfortable on your feet"
+    ],
+    "desirable": [
+      "A food hygiene certificate",
+      "Event experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The job ends when the season ends."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2080",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Housekeeping assistant",
+    "employer": "Hounslow Stay House",
+    "category": "hospitality",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 12.35,
+    "payMax": 12.35,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Clean guest rooms in a fictional guesthouse. You work from a checklist and a supervisor checks two rooms a day.",
+    "responsibilities": [
+      "Strip and remake beds",
+      "Clean bathrooms to the card",
+      "Report damage and lost property"
+    ],
+    "essential": [
+      "No previous housekeeping job is required",
+      "Thorough",
+      "Able to push a trolley"
+    ],
+    "desirable": [
+      "A cleaning qualification",
+      "Hotel experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2081",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Commis chef",
+    "employer": "Southall Spice Pass",
+    "category": "hospitality",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 25000,
+    "payMax": 25000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 12:00pm to 8:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Prep and support the chef in a fictional restaurant. You are not running a section yet. Evenings and Sundays are required.",
+    "responsibilities": [
+      "Prep vegetables and sauces for the evening list",
+      "Keep your bench to the hygiene standard",
+      "Help plate during service"
+    ],
+    "essential": [
+      "At least one year in a kitchen",
+      "A Level 2 food hygiene certificate",
+      "Able to work evenings"
+    ],
+    "desirable": [
+      "A culinary diploma",
+      "Tandoor experience"
+    ],
+    "qualifications": [
+      "A Level 2 food hygiene certificate is required. A diploma is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2082",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Hotel night porter",
+    "employer": "Hammersmith Quiet Keys",
+    "category": "hospitality",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 24800,
+    "payMax": 24800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Cover the fictional hotel reception overnight, set breakfast tables and respond to guest calls. A manager sleeps on site.",
+    "responsibilities": [
+      "Check in late arrivals",
+      "Set the breakfast room",
+      "Call the manager for anything you are not trained to handle"
+    ],
+    "essential": [
+      "At least six months in a hotel or security reception",
+      "Comfortable working nights alone at the desk",
+      "Honest with keys"
+    ],
+    "desirable": [
+      "A first-aid certificate",
+      "A personal licence"
+    ],
+    "qualifications": [
+      "No personal licence is required. The night manager is on site but asleep unless you call."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2083",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Cafe assistant",
+    "employer": "Brentford Lock Window",
+    "category": "hospitality",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.3,
+    "payMax": 12.3,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Serve at a fictional canal-side cafe on Fridays and weekends. The cook is in the kitchen.",
+    "responsibilities": [
+      "Take orders and serve them",
+      "Make simple hot drinks",
+      "Clean tables quickly when the cafe is full"
+    ],
+    "essential": [
+      "No previous cafe job is required",
+      "Friendly",
+      "Able to work Friday, Saturday and Sunday"
+    ],
+    "desirable": [
+      "A food hygiene certificate",
+      "Till experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required. All three weekend days are required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hospitality"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2084",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Domestic assistant",
+    "employer": "Ealing Ward Broom",
+    "category": "cleaning",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "hour",
+    "payMin": 12.7,
+    "payMax": 12.7,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Clean a fictional community clinic before the doors open. Infection-control steps are on the card and you will be shown them.",
+    "responsibilities": [
+      "Damp-dust clinical rooms in the order on the card",
+      "Empty clinical waste into the right bin",
+      "Sign the cleaning record"
+    ],
+    "essential": [
+      "No previous clinic cleaning is required",
+      "Able to follow an infection-control card",
+      "Discreet"
+    ],
+    "desirable": [
+      "A healthcare cleaning certificate",
+      "Early-morning experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2085",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Facilities operative",
+    "employer": "Acton Block Services",
+    "category": "cleaning",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 25500,
+    "payMax": 25500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Cover cleaning, light porterage and meeting-room set-up in a fictional office. It is broader than a single cleaning round.",
+    "responsibilities": [
+      "Clean the floors on the rota",
+      "Set rooms for the bookings diary",
+      "Move post and water bottles"
+    ],
+    "essential": [
+      "At least one year in cleaning, porterage or facilities",
+      "Able to read a room diary",
+      "Physically able to move chairs with a colleague"
+    ],
+    "desirable": [
+      "A cleaning NVQ",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No NVQ is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2086",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "School cleaner",
+    "employer": "Hanwell Classrooms",
+    "category": "cleaning",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 12.5,
+    "payMax": 12.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Thursday to Sunday, 5:00pm to 10:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Clean classrooms after the children have left. Term time only, 3:30pm to 6:30pm.",
+    "responsibilities": [
+      "Vacuum and mop the rooms on your round",
+      "Lock windows",
+      "Report graffiti or damage"
+    ],
+    "essential": [
+      "No previous cleaning job is required",
+      "Able to work after school in term time",
+      "Trustworthy with keys"
+    ],
+    "desirable": [
+      "A caretaker qualification",
+      "Experience of schools"
+    ],
+    "qualifications": [
+      "No formal qualification is required. You are not paid for school holidays."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2087",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Window cleaner",
+    "employer": "Greenford Glass Round",
+    "category": "cleaning",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 14,
+    "payMax": 14,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Clean shopfronts at ground level on a fictional round. Ladders over two steps are not part of this job.",
+    "responsibilities": [
+      "Follow the round sheet",
+      "Use the pure-water pole for higher ground-floor glass",
+      "Take payment on the card reader"
+    ],
+    "essential": [
+      "At least one year of cleaning work",
+      "A full driving licence",
+      "Careful with painted frames"
+    ],
+    "desirable": [
+      "An IPAF licence",
+      "Experience of commercial windows"
+    ],
+    "qualifications": [
+      "A driving licence is essential. Work above ground-floor pole reach is not part of this role."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2088",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Housekeeper",
+    "employer": "Wembley Let Flats",
+    "category": "cleaning",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 27000,
+    "payMax": 27000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Inspect and rota the cleans for a fictional set of 30 short-stay flats. You still clean when a colleague is off.",
+    "responsibilities": [
+      "Check two flats a day against the photo standard",
+      "Adjust the rota when a guest leaves early",
+      "Order linen"
+    ],
+    "essential": [
+      "At least two years in housekeeping, including supervising cleans",
+      "Able to give clear feedback",
+      "A driving licence so you can move between flats"
+    ],
+    "desirable": [
+      "A hospitality degree",
+      "Experience of a hotel and of short-stay flats"
+    ],
+    "qualifications": [
+      "A driving licence is essential. A degree is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2089",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Carpet technician",
+    "employer": "Hounslow Fibre Care",
+    "category": "cleaning",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 26200,
+    "payMax": 26200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Clean office carpets with a machine you will be trained to use. The van is provided.",
+    "responsibilities": [
+      "Drive the van to the site on the list",
+      "Clean the areas on the job sheet",
+      "Tell the client what still looks stained and why"
+    ],
+    "essential": [
+      "A full driving licence",
+      "Happy to train on the machine",
+      "Polite in an office that is still working"
+    ],
+    "desirable": [
+      "A cleaning qualification",
+      "Experience of a similar machine"
+    ],
+    "qualifications": [
+      "A driving licence is essential. The machine training is provided."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2090",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Relief cleaner",
+    "employer": "Southall Key Cover",
+    "category": "cleaning",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 12.8,
+    "payMax": 12.8,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Cover cleaners who are off sick across three fictional office sites in Southall. The hours can change with a day's notice.",
+    "responsibilities": [
+      "Read the cover sheet the night before",
+      "Clean to that site's card",
+      "Phone the coordinator if you will be late"
+    ],
+    "essential": [
+      "No previous cleaning job is required",
+      "Able to accept hours that change",
+      "Reliable travel between the three sites"
+    ],
+    "desirable": [
+      "A driving licence",
+      "A regular round already held"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The changing hours are part of the job. Read them before you apply."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "cleaning"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2091",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Support worker",
+    "employer": "Acton Bridge House",
+    "category": "care",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 13.4,
+    "payMax": 13.4,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Support three adults with learning disabilities in a fictional shared house. You help with meals, activities and personal care as the plan describes.",
+    "responsibilities": [
+      "Follow each person's plan",
+      "Write what happened on the shift",
+      "Support a community activity such as shopping"
+    ],
+    "essential": [
+      "No previous care job is required",
+      "Respectful and reliable",
+      "Able to work the four-on, four-off rota"
+    ],
+    "desirable": [
+      "A Care Certificate already completed",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No Care Certificate is required on day one. The practice employer says it will put you through it. A driving licence is not required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2092",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Senior care assistant",
+    "employer": "Ealing Night Lantern",
+    "category": "care",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "hour",
+    "payMin": 15.1,
+    "payMax": 15.1,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Lead the night team of three in a fictional care home. You give medication that the night policy allows a senior to give.",
+    "responsibilities": [
+      "Hand over to the day nurse",
+      "Give the medication on the night list after competency sign-off",
+      "Respond to call bells and emergencies using the policy"
+    ],
+    "essential": [
+      "At least two years as a care assistant, with medication competency or a willingness to complete it in the first month",
+      "Calm at night",
+      "Able to write a clear incident note"
+    ],
+    "desirable": [
+      "A nursing qualification",
+      "Experience of dementia care"
+    ],
+    "qualifications": [
+      "A nursing pin is not required. Two years of care work are required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2093",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Home care worker",
+    "employer": "Hanwell Visit Rounds",
+    "category": "care",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 13.8,
+    "payMax": 13.8,
+    "hoursPerWeek": 20,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:00am to 12:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Visit people at home in Hanwell for washes, breakfast and medication prompts. Travel time between visits is paid in this advert. Read that line.",
+    "responsibilities": [
+      "Provide personal care as the plan states",
+      "Prompt medication and record it",
+      "Travel on foot or by bus between visits"
+    ],
+    "essential": [
+      "At least six months of care work",
+      "Able to work morning visits including weekends",
+      "Discreet in someone's home"
+    ],
+    "desirable": [
+      "A driving licence",
+      "A Care Certificate"
+    ],
+    "qualifications": [
+      "A driving licence is not required because the round is local. Travel time between visits is paid."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2094",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Activities coordinator",
+    "employer": "Greenford Day Room",
+    "category": "care",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 13.5,
+    "payMax": 13.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Plan and run daytime activities in a fictional care home. You do not provide personal care.",
+    "responsibilities": [
+      "Plan a weekly activity that matches what residents ask for",
+      "Run the session and note who joined",
+      "Shop for materials within the small budget"
+    ],
+    "essential": [
+      "At least one year of work with older people, in care, volunteering that was supervised, or a similar setting",
+      "Creative and organised",
+      "Able to change a plan if someone is tired"
+    ],
+    "desirable": [
+      "A degree in occupational therapy",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "An occupational therapy degree is not required. Personal care is not part of this job."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2095",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Reablement assistant",
+    "employer": "Wembley Home First",
+    "category": "care",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 25600,
+    "payMax": 25600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Support people for a few weeks after a hospital stay so they can manage at home. You follow a therapist's plan.",
+    "responsibilities": [
+      "Help with the tasks on the plan and encourage the person to do what they can",
+      "Record progress each visit",
+      "Report a deterioration the same day"
+    ],
+    "essential": [
+      "At least one year of care or therapy-support work",
+      "Able to follow a written plan",
+      "Car driver with a licence, because the visits are spread out"
+    ],
+    "desirable": [
+      "A physiotherapy qualification",
+      "Experience of hospital discharge"
+    ],
+    "qualifications": [
+      "A driving licence is essential. A physiotherapy qualification is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2096",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Nursing associate",
+    "employer": "Hounslow Ward Practice",
+    "category": "care",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 32000,
+    "payMax": 32000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "A fictional community hospital ward is recruiting a nursing associate. You work under a registered nurse.",
+    "responsibilities": [
+      "Deliver the care the nurse assigns",
+      "Record observations",
+      "Escalate the results that the policy lists"
+    ],
+    "essential": [
+      "A registered nursing associate qualification with the NMC",
+      "Able to work the ward rota",
+      "Clear record keeping"
+    ],
+    "desirable": [
+      "A registered nurse pin",
+      "Experience of community hospitals"
+    ],
+    "qualifications": [
+      "Registration as a nursing associate is essential. A registered nurse pin is a different job."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "available",
+    "sponsorshipCondition": "A registered nursing associate qualification with the NMC",
+    "id": "wfj-2097",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Care coordinator",
+    "employer": "Hammersmith Visit Board",
+    "category": "care",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 30500,
+    "payMax": 30500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Rota home-care visits and cover sickness for a fictional agency. You are office-based and do not deliver care yourself.",
+    "responsibilities": [
+      "Build a rota that covers the commissioned visits",
+      "Phone clients when a worker is late",
+      "Keep the electronic roster up to date"
+    ],
+    "essential": [
+      "At least two years in care, including some office or senior time",
+      "Confident on the phone",
+      "Organised under pressure"
+    ],
+    "desirable": [
+      "A registered manager award",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A registered manager award is not required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2098",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Support worker days",
+    "employer": "Southall Community Flat",
+    "category": "care",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 13.2,
+    "payMax": 13.2,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Daytime support in a fictional flat for two people. The sleep-in is a different vacancy and is not included.",
+    "responsibilities": [
+      "Help with lunch and housework skills",
+      "Support an appointment by bus",
+      "Write the day notes"
+    ],
+    "essential": [
+      "No previous care job is required",
+      "Patient",
+      "Able to work weekdays, not nights"
+    ],
+    "desirable": [
+      "A driving licence",
+      "A care NVQ"
+    ],
+    "qualifications": [
+      "No formal qualification is required. This advert does not include night or sleep-in work."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2099",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Mental health support worker",
+    "employer": "Brentford Quiet Hour",
+    "category": "care",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 27200,
+    "payMax": 27200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Support adults in a fictional recovery house with routines, groups and tenancy skills. Personal care is not the main task.",
+    "responsibilities": [
+      "Run a morning planning group",
+      "Support people to cook a meal",
+      "Record risk concerns using the house policy"
+    ],
+    "essential": [
+      "At least one year in mental health, homelessness or a related support setting",
+      "Calm and boundaried",
+      "Able to follow a risk policy"
+    ],
+    "desirable": [
+      "A nursing or social-work qualification",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A professional clinical qualification is not required. The year of relevant support work is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "care"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2100",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "IT support apprentice",
+    "employer": "Ealing First Desk",
+    "category": "it",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 15800,
+    "payMax": 15800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "An IT support apprenticeship. You reset passwords, set up printers and attend college one day a week.",
+    "responsibilities": [
+      "Reset passwords using the checklist",
+      "Set up a printer with your coach",
+      "Log every job"
+    ],
+    "essential": [
+      "No previous paid IT job is required",
+      "Comfortable using a computer for a full day",
+      "Willing to study"
+    ],
+    "desirable": [
+      "A Level 2 IT qualification already held",
+      "A home PC you have built"
+    ],
+    "qualifications": [
+      "No IT qualification is required to start the apprenticeship."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2101",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Junior IT technician",
+    "employer": "Acton School Screens",
+    "category": "it",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 27500,
+    "payMax": 27500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Support the laptops and classroom screens in a fictional secondary school. Term time plus ten inset or holiday days.",
+    "responsibilities": [
+      "Close tickets from staff",
+      "Set up a classroom before an exam",
+      "Keep a small stock of loan laptops"
+    ],
+    "essential": [
+      "A Level 2 IT qualification, or one year of paid IT support",
+      "Able to explain a fix to a teacher who is in a hurry",
+      "Happy to walk the school site"
+    ],
+    "desirable": [
+      "A degree",
+      "Experience of a school network"
+    ],
+    "qualifications": [
+      "A Level 2 IT qualification or one year of paid support is essential. A degree is not. The holiday working is limited to ten days."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2102",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Service desk analyst",
+    "employer": "Wembley Queue One",
+    "category": "it",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 29000,
+    "payMax": 29000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "First-line queue for a fictional law firm. You start at 7:30am so the desks work before the solicitors arrive.",
+    "responsibilities": [
+      "Answer the early queue",
+      "Set up new starters from a checklist",
+      "Escalate anything that needs an administrator password you do not hold"
+    ],
+    "essential": [
+      "At least one year on a service desk",
+      "Punctual for a 7:30am start",
+      "Clear written tickets"
+    ],
+    "desirable": [
+      "An ITIL qualification",
+      "Experience of a legal firm"
+    ],
+    "qualifications": [
+      "No ITIL qualification is required. The 7:30am start is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2103",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Cyber awareness trainer",
+    "employer": "Hammersmith Phish Drill",
+    "category": "it",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 38000,
+    "payMax": 38000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Run short staff sessions on passwords and suspicious email for a fictional retailer. You also report the numbers. This is training, not a hacking role.",
+    "responsibilities": [
+      "Deliver the 30-minute session",
+      "Update the slide deck when a policy changes",
+      "Report who has completed it"
+    ],
+    "essential": [
+      "At least two years in IT support or training",
+      "Comfortable speaking to a room of twenty",
+      "Able to explain without jargon"
+    ],
+    "desirable": [
+      "A security certification such as Security+",
+      "A teaching qualification"
+    ],
+    "qualifications": [
+      "A security certification is desirable. Two years of IT support or training are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2104",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Desktop publisher",
+    "employer": "Southall Layout Bench",
+    "category": "it",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 16,
+    "payMax": 16,
+    "hoursPerWeek": 22,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Lay out a fictional community newsletter from the editor's copy. You do not write the articles. Three days a week.",
+    "responsibilities": [
+      "Place the text and pictures in the template",
+      "Export a PDF for the printer",
+      "Correct layout errors the editor marks"
+    ],
+    "essential": [
+      "At least one year of layout work, paid or a substantial voluntary publication",
+      "Careful with names",
+      "Able to meet a Thursday deadline"
+    ],
+    "desirable": [
+      "A journalism qualification",
+      "Experience of InDesign or similar"
+    ],
+    "qualifications": [
+      "No journalism qualification is required. Layout experience is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2105",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Data analyst",
+    "employer": "Hounslow Sheet Room",
+    "category": "it",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 36000,
+    "payMax": 36000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Build weekly operations reports for a fictional logistics firm from spreadsheets and a simple dashboard.",
+    "responsibilities": [
+      "Refresh the weekly report",
+      "Explain a spike in plain English",
+      "Check the figures before they go to managers"
+    ],
+    "essential": [
+      "At least two years of work that included regular reporting in spreadsheets or a dashboard",
+      "Careful with numbers",
+      "Able to say when the data is not good enough"
+    ],
+    "desirable": [
+      "A degree in data science",
+      "SQL"
+    ],
+    "qualifications": [
+      "A degree is not required. SQL is desirable. Two years of real reporting are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2106",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Web content assistant",
+    "employer": "Brentford Page Desk",
+    "category": "it",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 24800,
+    "payMax": 24800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Update opening times and staff names on a fictional charity website. A developer handles anything the editor cannot click.",
+    "responsibilities": [
+      "Change text in the website editor",
+      "Check links still work",
+      "Ask the developer when a page needs a new feature"
+    ],
+    "essential": [
+      "No previous web job is required",
+      "Careful proofreading",
+      "Happy to learn the editor"
+    ],
+    "desirable": [
+      "HTML",
+      "A writing sample from college or volunteering"
+    ],
+    "qualifications": [
+      "No HTML is required. Training is given on the editor."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2107",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Field technician",
+    "employer": "Hayes Router Visits",
+    "category": "it",
+    "town": "Hayes",
+    "city": "London",
+    "postcode": "UB3 4AJ",
+    "payPeriod": "year",
+    "payMin": 30000,
+    "payMax": 30000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Visit small fictional offices to swap routers and phone handsets. A van is provided.",
+    "responsibilities": [
+      "Arrive in the window you were given",
+      "Swap the kit using the job card",
+      "Take the old kit back to stores"
+    ],
+    "essential": [
+      "At least one year of hands-on IT or telecoms work",
+      "A full driving licence",
+      "Polite when a customer is still working"
+    ],
+    "desirable": [
+      "A Cisco certification",
+      "Experience of cabling"
+    ],
+    "qualifications": [
+      "A driving licence and a year of hands-on work are essential. A Cisco certification is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2108",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "QA tester",
+    "employer": "Reading Bug Notes",
+    "category": "it",
+    "town": "Reading",
+    "city": "Reading",
+    "postcode": "RG1 1JX",
+    "payPeriod": "year",
+    "payMin": 33000,
+    "payMax": 33000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "contract",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Test a fictional library app before each monthly release and write clear bug notes. A six-month contract.",
+    "responsibilities": [
+      "Follow the test script",
+      "Write bugs that a developer can reproduce",
+      "Retest the fixes"
+    ],
+    "essential": [
+      "At least one year of software testing or a year of very detailed admin checking digital systems",
+      "Patient and precise",
+      "Able to say when something is not ready"
+    ],
+    "desirable": [
+      "An ISTQB certificate",
+      "Coding experience"
+    ],
+    "qualifications": [
+      "An ISTQB certificate is desirable. A year of testing or equivalent detailed digital checking is essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "it"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2109",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Accounts payable clerk",
+    "employer": "Ealing Invoice Hatch",
+    "category": "finance",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 28500,
+    "payMax": 28500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Match supplier invoices to purchase orders for a fictional housing charity. You pay only what the budget holder has approved.",
+    "responsibilities": [
+      "Match invoices to orders",
+      "Prepare the weekly payment run for approval",
+      "Answer supplier calls about a missing payment"
+    ],
+    "essential": [
+      "At least one year of accounts payable or a similar finance admin role",
+      "Accurate",
+      "Able to explain a delay"
+    ],
+    "desirable": [
+      "AAT Level 2",
+      "An accounts package used in housing"
+    ],
+    "qualifications": [
+      "AAT Level 2 is desirable. The year of payables or finance admin is essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2110",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Payroll officer",
+    "employer": "Acton Pay Day",
+    "category": "finance",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 34500,
+    "payMax": 34500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Run monthly payroll for 80 fictional staff. You do not give personal tax advice.",
+    "responsibilities": [
+      "Process starters, leavers and overtime from approved forms",
+      "Check the exception report before the manager approves",
+      "Answer pay questions from a script and pass the rest to the manager"
+    ],
+    "essential": [
+      "At least two years of payroll processing",
+      "Discreet",
+      "Confident with a payroll system after a handover"
+    ],
+    "desirable": [
+      "A CIPP qualification",
+      "Experience of the same payroll software"
+    ],
+    "qualifications": [
+      "A CIPP qualification is desirable. Two years of processing payroll are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2111",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Finance apprentice",
+    "employer": "Hammersmith Ledger Start",
+    "category": "finance",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 16500,
+    "payMax": 16500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "An assistant-accountant apprenticeship. You file invoices and study AAT. You do not authorise payments.",
+    "responsibilities": [
+      "Scan and code invoices for a reviewer",
+      "Reconcile a petty-cash tin with your coach",
+      "Attend college"
+    ],
+    "essential": [
+      "No previous accounts job is required",
+      "Careful with numbers",
+      "Willing to study AAT"
+    ],
+    "desirable": [
+      "AAT Level 2 already completed",
+      "A maths A level"
+    ],
+    "qualifications": [
+      "AAT study is part of the apprenticeship. You do not need AAT Level 2 to start."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2112",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Credit controller",
+    "employer": "Wembley Balance Call",
+    "category": "finance",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 29200,
+    "payMax": 29200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Phone fictional trade customers about overdue invoices and agree a date. You follow a script and a manager approves write-offs.",
+    "responsibilities": [
+      "Call accounts on the overdue list",
+      "Note the promise date",
+      "Pass disputes to the right department"
+    ],
+    "essential": [
+      "At least one year in credit control or collections",
+      "Polite and persistent",
+      "Clear notes"
+    ],
+    "desirable": [
+      "A legal qualification",
+      "Another language"
+    ],
+    "qualifications": [
+      "No legal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2113",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Management accountant",
+    "employer": "Hounslow Month End",
+    "category": "finance",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 42000,
+    "payMax": 42000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Produce the monthly management accounts for a fictional manufacturer and explain the variances.",
+    "responsibilities": [
+      "Close the month with the ledger team",
+      "Write a one-page variance note",
+      "Answer questions from department heads"
+    ],
+    "essential": [
+      "A part-qualified or qualified accountant, such as AAT Level 4, CIMA, ACCA or ACA",
+      "At least three years in a finance team",
+      "Able to explain numbers to non-finance managers"
+    ],
+    "desirable": [
+      "A full ACA qualification specifically",
+      "Manufacturing experience"
+    ],
+    "qualifications": [
+      "A part-qualified or qualified accountancy credential is essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "available",
+    "sponsorshipCondition": "A part-qualified or qualified accountant, such as AAT Level 4, CIMA, ACCA or ACA",
+    "id": "wfj-2114",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Purchase ledger assistant",
+    "employer": "Southall Bill Match",
+    "category": "finance",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 24600,
+    "payMax": 24600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Enter supplier bills for a fictional wholesaler. A senior checks the payment run. Training is five days.",
+    "responsibilities": [
+      "Enter bills from the scan",
+      "Attach the delivery note",
+      "Ask when the supplier name does not match"
+    ],
+    "essential": [
+      "No previous accounts job is required",
+      "Accurate typing of numbers",
+      "Happy to ask"
+    ],
+    "desirable": [
+      "AAT Level 2",
+      "Experience of a busy office"
+    ],
+    "qualifications": [
+      "No AAT is required. Five days of training are given."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2115",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Cashier",
+    "employer": "Brentford Tickets and Till",
+    "category": "finance",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.6,
+    "payMax": 12.6,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Sell tickets and balance a till in a fictional leisure centre. You report a shortage. You do not investigate it.",
+    "responsibilities": [
+      "Sell tickets on the till",
+      "Balance the drawer at the end of the shift",
+      "Report a difference the same day"
+    ],
+    "essential": [
+      "No previous cashier job is required",
+      "Honest",
+      "Comfortable handling cash"
+    ],
+    "desirable": [
+      "A finance qualification",
+      "Leisure experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2116",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Billing clerk",
+    "employer": "Slough Meter Post",
+    "category": "finance",
+    "town": "Slough",
+    "city": "Slough",
+    "postcode": "SL1 1EL",
+    "payPeriod": "year",
+    "payMin": 26800,
+    "payMax": 26800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Send fictional energy bills and correct address errors. This is not Westford Energy and the accounts are invented for practice.",
+    "responsibilities": [
+      "Print the bill run and spot the exceptions list",
+      "Correct addresses from the approved form",
+      "Answer phone queries about what a line on the bill means, using the guide"
+    ],
+    "essential": [
+      "At least one year of billing or customer admin",
+      "Able to read a bill",
+      "Patient on the phone"
+    ],
+    "desirable": [
+      "An energy-industry qualification",
+      "Experience of a similar billing system"
+    ],
+    "qualifications": [
+      "No industry qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "finance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2117",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "HR adviser",
+    "employer": "Ealing People Desk",
+    "category": "hr",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 36000,
+    "payMax": 36000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Advise fictional managers on absence and probation, using the charity's policy. You escalate dismissals to the HR manager.",
+    "responsibilities": [
+      "Talk managers through the absence policy",
+      "Draft letters for the HR manager to approve",
+      "Keep notes of formal meetings"
+    ],
+    "essential": [
+      "At least three years in HR, including advice to managers",
+      "A CIPD Level 5 qualification, or equivalent experience the HR manager can test",
+      "Discreet"
+    ],
+    "desirable": [
+      "A law degree",
+      "Experience of charities"
+    ],
+    "qualifications": [
+      "CIPD Level 5 or equivalent tested experience is essential. You do not decide dismissals alone."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2118",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Recruitment coordinator",
+    "employer": "Acton Shortlist",
+    "category": "hr",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 28000,
+    "payMax": 28000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Book interviews and send offer packs for a fictional hospital support-services team. You do not choose the successful candidate.",
+    "responsibilities": [
+      "Write adverts from a manager's checklist",
+      "Book panels and greet candidates",
+      "Send the offer pack the manager has signed"
+    ],
+    "essential": [
+      "At least one year in recruitment or HR administration",
+      "Organised",
+      "Friendly to a nervous candidate"
+    ],
+    "desirable": [
+      "A CIPD qualification",
+      "Experience of NHS systems"
+    ],
+    "qualifications": [
+      "No CIPD qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2119",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Learning administrator",
+    "employer": "Wembley Course Book",
+    "category": "hr",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 25000,
+    "payMax": 25000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Book training rooms and send joining instructions for a fictional company's courses. You do not teach.",
+    "responsibilities": [
+      "Book rooms and send the joining email",
+      "Print registers",
+      "Chase evaluation forms"
+    ],
+    "essential": [
+      "No previous HR job is required",
+      "Careful with dates",
+      "Confident with email"
+    ],
+    "desirable": [
+      "A training qualification",
+      "Reception experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2120",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "HR apprentice",
+    "employer": "Hammersmith Starter Pack",
+    "category": "hr",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 16000,
+    "payMax": 16000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "An HR-support apprenticeship. You prepare starter forms and study. You do not see salaries beyond what the form needs.",
+    "responsibilities": [
+      "Prepare starter forms for a reviewer",
+      "File leaver checklists",
+      "Attend college"
+    ],
+    "essential": [
+      "No previous HR job is required",
+      "Discreet",
+      "Willing to study"
+    ],
+    "desirable": [
+      "A CIPD qualification already held",
+      "Office experience"
+    ],
+    "qualifications": [
+      "CIPD study starts with the apprenticeship. You do not need the qualification yet."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2121",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "People partner",
+    "employer": "Hounslow Shift Advice",
+    "category": "hr",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 40000,
+    "payMax": 40000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Support fictional warehouse managers with conduct cases and restructures. This is a senior HR role.",
+    "responsibilities": [
+      "Advise on the conduct policy",
+      "Sit in formal meetings",
+      "Write the outcome letter for a director to sign"
+    ],
+    "essential": [
+      "A CIPD Level 5 or above, and at least four years of HR casework",
+      "Able to explain a policy in a warehouse office",
+      "Calm when a meeting is tense"
+    ],
+    "desirable": [
+      "A legal practising certificate",
+      "Experience of logistics"
+    ],
+    "qualifications": [
+      "CIPD Level 5 or above and four years of casework are essential. A legal practising certificate is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2122",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Reward assistant",
+    "employer": "Southall Pay Bands",
+    "category": "hr",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 31000,
+    "payMax": 31000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Maintain the salary spreadsheet and the job-level list for a fictional retailer. You do not decide anyone's pay.",
+    "responsibilities": [
+      "Update the sheet from approved changes",
+      "Check a new role sits in the published band",
+      "Prepare a quarterly summary"
+    ],
+    "essential": [
+      "At least one year in HR or payroll administration",
+      "Careful with confidential numbers",
+      "Confident with spreadsheets"
+    ],
+    "desirable": [
+      "A reward qualification",
+      "AAT"
+    ],
+    "qualifications": [
+      "No reward qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2123",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Staff engagement assistant",
+    "employer": "Brentford Notice Board",
+    "category": "hr",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 13,
+    "payMax": 13,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Organise a fictional staff survey and the poster campaign for a six-month project.",
+    "responsibilities": [
+      "Send the survey link",
+      "Book the canteen for a results session",
+      "Collect comments written on the posters"
+    ],
+    "essential": [
+      "No previous HR job is required",
+      "Organised",
+      "Friendly"
+    ],
+    "desirable": [
+      "A CIPD qualification",
+      "Design skills"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The contract is six months."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2124",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Onboarding officer",
+    "employer": "Greenford Badge Office",
+    "category": "hr",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 27600,
+    "payMax": 27600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Run the first-day process for a fictional factory: badges, lockers and the induction room.",
+    "responsibilities": [
+      "Prepare badges from the approved starter list",
+      "Meet people on their first morning",
+      "Book the health-and-safety induction"
+    ],
+    "essential": [
+      "At least one year in HR, reception or a factory office",
+      "Warm and organised",
+      "Able to spot a missing right-to-work check and stop, rather than guess"
+    ],
+    "desirable": [
+      "An immigration-adviser qualification",
+      "Experience of a factory induction"
+    ],
+    "qualifications": [
+      "No immigration-adviser qualification is required. You follow a checklist. You do not give immigration advice."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "hr"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2125",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Marketing apprentice",
+    "employer": "Acton Poster Route",
+    "category": "marketing",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 15200,
+    "payMax": 15200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "An apprenticeship writing short posts and helping at fictional community events. A manager approves every post.",
+    "responsibilities": [
+      "Draft posts from a fact sheet",
+      "Help set up a stall",
+      "File the photos in the right folder"
+    ],
+    "essential": [
+      "No previous marketing job is required",
+      "Careful spelling",
+      "Willing to study"
+    ],
+    "desirable": [
+      "A marketing degree",
+      "Social media you already run"
+    ],
+    "qualifications": [
+      "A degree is not required. Posts are approved before they go out."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2126",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Communications officer",
+    "employer": "Hanwell Notice Editor",
+    "category": "marketing",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "year",
+    "payMin": 30500,
+    "payMax": 30500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Write the monthly newsletter and the website news for a fictional council-facing charity. This is not a local authority job.",
+    "responsibilities": [
+      "Draft the newsletter from staff notes",
+      "Update the news page",
+      "Answer a journalist with the lines the director has approved"
+    ],
+    "essential": [
+      "At least two years of writing for work, a charity or a newsroom",
+      "Accurate",
+      "Able to keep to an agreed line"
+    ],
+    "desirable": [
+      "A journalism degree",
+      "Experience of a council"
+    ],
+    "qualifications": [
+      "A degree is not required. Two years of workplace writing are required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2127",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Social media assistant",
+    "employer": "Wembley Match Day",
+    "category": "marketing",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 13,
+    "payMax": 13,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Post approved photos during fictional weekend tournaments. You do not invent scores.",
+    "responsibilities": [
+      "Post the photos the manager has marked",
+      "Reply to simple questions with the answers on the card",
+      "Tell a manager about an abusive message and do not argue"
+    ],
+    "essential": [
+      "No previous social-media job is required",
+      "Careful",
+      "Able to work Saturdays in the season"
+    ],
+    "desirable": [
+      "A photography qualification",
+      "Sports knowledge"
+    ],
+    "qualifications": [
+      "No formal qualification is required. You post only what has been approved."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2128",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Brand designer",
+    "employer": "Hammersmith Ink Studio",
+    "category": "marketing",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 34000,
+    "payMax": 34000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Design leaflets and simple digital ads for a fictional theatre. You take a brief and show two options.",
+    "responsibilities": [
+      "Design from the brief",
+      "Prepare print-ready files",
+      "Keep the logo rules"
+    ],
+    "essential": [
+      "A portfolio of real or college work and at least two years of design work",
+      "Able to take feedback",
+      "Organised with deadlines"
+    ],
+    "desirable": [
+      "A design degree specifically",
+      "Experience of a theatre"
+    ],
+    "qualifications": [
+      "A degree is not essential if the portfolio and the two years are strong. The portfolio is essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2129",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "PR assistant",
+    "employer": "Hounslow Story Desk",
+    "category": "marketing",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 25500,
+    "payMax": 25500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Draft local press releases from a manager's notes for a fictional college. You do not speak to journalists alone at first.",
+    "responsibilities": [
+      "Draft the release",
+      "Build the contact list",
+      "Log who was sent what"
+    ],
+    "essential": [
+      "No previous PR job is required",
+      "Clear writing",
+      "Discreet about students"
+    ],
+    "desirable": [
+      "A media degree",
+      "Student-paper experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2130",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Events assistant",
+    "employer": "Southall Hall Booking",
+    "category": "marketing",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 26800,
+    "payMax": 26800,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Run the practical side of fictional community events: stalls, volunteers and the running order. Some Sundays.",
+    "responsibilities": [
+      "Send the stall plan",
+      "Brief volunteers",
+      "Pack down and note what broke"
+    ],
+    "essential": [
+      "At least one year of events or hospitality work",
+      "Organised on the day",
+      "Able to work some Sundays"
+    ],
+    "desirable": [
+      "A PR qualification",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No PR qualification is required. Some Sunday work is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2131",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Copywriter",
+    "employer": "Brentford Plain Words",
+    "category": "marketing",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "year",
+    "payMin": 28000,
+    "payMax": 28000,
+    "hoursPerWeek": 22,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "contract",
+    "workplace": "remote",
+    "experience": "some",
+    "summary": "Write website pages and letters for a fictional building society three days a week, from home. The pay is a part-time salary, not a day rate.",
+    "responsibilities": [
+      "Write to the brief and the tone guide",
+      "Send copy for legal approval where the brief says so",
+      "Keep a list of pages still to do"
+    ],
+    "essential": [
+      "At least two years of writing for customers",
+      "Excellent spelling",
+      "Able to work without an office"
+    ],
+    "desirable": [
+      "A financial qualification",
+      "SEO experience"
+    ],
+    "qualifications": [
+      "No financial qualification is required. The salary is for three days, not a full week."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2132",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Internal communications assistant",
+    "employer": "Greenford Shift News",
+    "category": "marketing",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 24600,
+    "payMax": 24600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Write the weekly note for a fictional factory, from interviews with supervisors. You will be shown how.",
+    "responsibilities": [
+      "Talk to two supervisors a week and write what they agree",
+      "Pin the note on the board and the intranet",
+      "Collect questions and pass them on"
+    ],
+    "essential": [
+      "No previous communications job is required",
+      "Able to listen and write it down plainly",
+      "Comfortable on a factory floor in the PPE provided"
+    ],
+    "desirable": [
+      "A journalism qualification",
+      "Experience of shift work"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "marketing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2133",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Door supervisor",
+    "employer": "Wembley Event Gate",
+    "category": "security",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 14.5,
+    "payMax": 14.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Weekend door work at a fictional events venue. A current SIA door supervisor licence is required.",
+    "responsibilities": [
+      "Check tickets and bags as the brief describes",
+      "Refuse entry when the brief says so, and call the manager rather than argue",
+      "Write an incident note before you leave"
+    ],
+    "essential": [
+      "A current SIA door supervisor licence",
+      "Able to work Friday and Saturday nights",
+      "Calm"
+    ],
+    "desirable": [
+      "A first-aid certificate",
+      "Experience of a similar venue"
+    ],
+    "qualifications": [
+      "An SIA door supervisor licence is essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2134",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "CCTV operator",
+    "employer": "Acton Camera Room",
+    "category": "security",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 27200,
+    "payMax": 27200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Watch cameras in a fictional shopping centre control room and radio the floor team. You do not patrol.",
+    "responsibilities": [
+      "Watch the cameras and keep a log",
+      "Radio concerns using the codes on the card",
+      "Hand over the log"
+    ],
+    "essential": [
+      "An SIA CCTV licence",
+      "Able to concentrate for a shift",
+      "Clear radio speech"
+    ],
+    "desirable": [
+      "A door supervisor licence as well",
+      "Experience of a control room"
+    ],
+    "qualifications": [
+      "An SIA CCTV licence is essential. Patrol work is a different role."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2135",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Mobile patrol officer",
+    "employer": "Hounslow Night Keys",
+    "category": "security",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 29000,
+    "payMax": 29000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Drive between fictional empty sites, check locks and respond to alarms. A car licence and an SIA licence are both required.",
+    "responsibilities": [
+      "Drive the patrol route",
+      "Attend alarms and report what you find",
+      "Do not enter a building the instruction says to leave for the police"
+    ],
+    "essential": [
+      "A full driving licence and a current SIA security licence",
+      "At least one year of security work",
+      "Able to work nights alone"
+    ],
+    "desirable": [
+      "An advanced driving qualification",
+      "First aid"
+    ],
+    "qualifications": [
+      "A driving licence, an SIA licence and a year of security work are all essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2136",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Reception security officer",
+    "employer": "Hammersmith Lobby Watch",
+    "category": "security",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "hour",
+    "payMin": 13.4,
+    "payMax": 13.4,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Meet visitors in a fictional office lobby, issue badges and walk the floor once an hour. The employer will sponsor the SIA application if you pass the interview. Read the training line.",
+    "responsibilities": [
+      "Sign visitors in",
+      "Walk the hourly route",
+      "Call the police or the manager using the card, rather than intervene in a fight"
+    ],
+    "essential": [
+      "No previous security job is required",
+      "Polite and observant",
+      "Willing to gain an SIA licence during the paid training month"
+    ],
+    "desirable": [
+      "A current SIA licence already held",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "No SIA licence is required on day one. Paid training toward the licence is part of this advert. A current licence is desirable, not essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2137",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Lock-up officer",
+    "employer": "Southall Unit Doors",
+    "category": "security",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 13.2,
+    "payMax": 13.2,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Thursday to Sunday, 5:00pm to 10:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Lock a fictional industrial estate at 7:00pm and open it at 6:00am on a split. You need an SIA licence.",
+    "responsibilities": [
+      "Lock each unit on the list",
+      "Report a unit that will not lock",
+      "Open in the morning and note overnight damage"
+    ],
+    "essential": [
+      "A current SIA security licence",
+      "Able to work the early and late split",
+      "Reliable"
+    ],
+    "desirable": [
+      "A driving licence",
+      "Alarm-response experience"
+    ],
+    "qualifications": [
+      "An SIA licence is essential. A driving licence is not, because the estate is one site."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2138",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Events steward",
+    "employer": "Brentford Crowd Edge",
+    "category": "security",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.9,
+    "payMax": 12.9,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Wednesday to Sunday, 10:00am to 6:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Steward a fictional weekend market. This role does not need an SIA licence because you give directions and do not provide licensed security. The advert says that on purpose.",
+    "responsibilities": [
+      "Direct people using the map",
+      "Radio a supervisor if someone needs first aid",
+      "Keep an exit clear"
+    ],
+    "essential": [
+      "No previous stewarding is required",
+      "Friendly and firm",
+      "Able to stand for a shift"
+    ],
+    "desirable": [
+      "An SIA licence",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "No SIA licence is required for this steward role. Read the advert so you do not confuse it with the door-supervisor job."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "security"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2139",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Maintenance electrician",
+    "employer": "Greenford Fuse Board",
+    "category": "maintenance",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "year",
+    "payMin": 40000,
+    "payMax": 40000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Fault-find and repair electrical systems in a fictional factory. You must be qualified to inspect and test.",
+    "responsibilities": [
+      "Repair faults on the day's list",
+      "Inspect and test as the schedule says",
+      "Isolate safely and record it"
+    ],
+    "essential": [
+      "A City and Guilds 2391 or equivalent inspection qualification, and a completed apprenticeship or equivalent experience",
+      "Able to isolate and prove dead",
+      "Factory or industrial experience"
+    ],
+    "desirable": [
+      "A degree in electrical engineering",
+      "18th Edition wiring regulations"
+    ],
+    "qualifications": [
+      "A 2391 or equivalent and a completed electrical apprenticeship, or equivalent experience, are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "available",
+    "sponsorshipCondition": "A City and Guilds 2391 or equivalent inspection qualification, and a completed apprenticeship or equivalent experience",
+    "id": "wfj-2140",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Painter and decorator",
+    "employer": "Ealing Stair Wells",
+    "category": "maintenance",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 30000,
+    "payMax": 30000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Repaint communal stairs in fictional housing blocks. Materials are provided. You need a driving licence for the van.",
+    "responsibilities": [
+      "Prepare surfaces",
+      "Paint to the specification",
+      "Protect floors and leave the site clean"
+    ],
+    "essential": [
+      "At least two years of painting and decorating",
+      "A full driving licence",
+      "Able to work neatly in someone's block"
+    ],
+    "desirable": [
+      "An NVQ in decorating",
+      "Experience of empty commercial sites only"
+    ],
+    "qualifications": [
+      "A driving licence and two years of decorating are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2141",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Carpenter",
+    "employer": "Acton Door Sets",
+    "category": "maintenance",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 34000,
+    "payMax": 34000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Hang doors and repair frames in fictional void properties. You work from a van.",
+    "responsibilities": [
+      "Survey the door and order the right blank",
+      "Fit and adjust the door",
+      "Make the property secure before you leave"
+    ],
+    "essential": [
+      "A recognised carpentry qualification or five years of site carpentry",
+      "A full driving licence",
+      "Able to specify a door that will actually fit"
+    ],
+    "desirable": [
+      "A bench-joinery background",
+      "Experience of fire doors"
+    ],
+    "qualifications": [
+      "A carpentry qualification or five years, plus a driving licence, are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2142",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Handy person",
+    "employer": "Hanwell Small Jobs",
+    "category": "maintenance",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 13.5,
+    "payMax": 13.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Minor repairs in a fictional sheltered scheme: curtains, minor leaks, and flat-pack. Gas and electrical certificates are out of scope.",
+    "responsibilities": [
+      "Complete the jobs on the list",
+      "Know when to stop and call a qualified contractor",
+      "Keep the store cupboard tidy"
+    ],
+    "essential": [
+      "No trade qualification is required",
+      "Practical and polite",
+      "Able to explain what you did in a short note"
+    ],
+    "desirable": [
+      "A plumbing ticket",
+      "Experience with older residents"
+    ],
+    "qualifications": [
+      "No trade ticket is required. Gas and electrical work are not included."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2143",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Multi-skilled technician",
+    "employer": "Wembley Plant Room",
+    "category": "maintenance",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 35500,
+    "payMax": 35500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Planned maintenance on fictional office plant: filters, belts and basic controls. A manager covers gas safety.",
+    "responsibilities": [
+      "Complete the planned-maintenance sheet",
+      "Change filters and belts you are trained on",
+      "Escalate anything outside the sheet"
+    ],
+    "essential": [
+      "An engineering or building-services apprenticeship, or three years of plant-room work",
+      "Able to follow a permit",
+      "Careful with lock-off"
+    ],
+    "desirable": [
+      "A gas-safe registration",
+      "An electrical inspection qualification"
+    ],
+    "qualifications": [
+      "An apprenticeship or three years of plant work are essential. Gas Safe work is not part of your duties."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2144",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Groundskeeper",
+    "employer": "Hounslow Pitch Edge",
+    "category": "maintenance",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "year",
+    "payMin": 26200,
+    "payMax": 26200,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Cut grass and mark a fictional sports pitch. Early starts in summer.",
+    "responsibilities": [
+      "Mow and mark the pitch to the plan",
+      "Check the tractor before you use it",
+      "Report a hole or broken glass before a match"
+    ],
+    "essential": [
+      "At least one year of grounds or landscape work",
+      "Willing to train on the tractor if you are not already passed out",
+      "Able to start early in summer"
+    ],
+    "desirable": [
+      "A chainsaw certificate",
+      "A pesticide certificate"
+    ],
+    "qualifications": [
+      "Tractor training is provided if needed. A chainsaw certificate is not required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2145",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Maintenance apprentice",
+    "employer": "Southall Tool Chest",
+    "category": "maintenance",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 15000,
+    "payMax": 15000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A property-maintenance apprenticeship. You shadow repairs and attend college. You do not work on gas.",
+    "responsibilities": [
+      "Shadow the repairs on the list",
+      "Keep the van tidy",
+      "Complete college assignments"
+    ],
+    "essential": [
+      "No previous trade job is required",
+      "Practical",
+      "Willing to study"
+    ],
+    "desirable": [
+      "A driving licence already held",
+      "GCSEs in maths and English"
+    ],
+    "qualifications": [
+      "No trade qualification is required to start. Gas work is excluded. English and maths support is available."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2146",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Facilities coordinator",
+    "employer": "Hammersmith Job Sheet",
+    "category": "maintenance",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 29000,
+    "payMax": 29000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "some",
+    "summary": "Raise job sheets for a fictional office and chase contractors. You do not carry out the repairs.",
+    "responsibilities": [
+      "Log repairs and assign the contractor on the list",
+      "Check the work is done before you close the job",
+      "Report spend against the monthly budget"
+    ],
+    "essential": [
+      "At least one year in facilities, reception or administration",
+      "Organised",
+      "Able to chase politely"
+    ],
+    "desirable": [
+      "A building-services qualification",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No technical qualification is required for the coordinator role."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "maintenance"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2147",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Bricklayer",
+    "employer": "Greenford Wall Gang",
+    "category": "construction",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 22,
+    "payMax": 22,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Lay bricks and blocks on a fictional housing site. The rate is the employed hourly rate, not a self-employed price.",
+    "responsibilities": [
+      "Work to the line and the drawing",
+      "Keep the gang's area safe",
+      "Record materials used"
+    ],
+    "essential": [
+      "An NVQ in bricklaying or a completed bricklaying apprenticeship",
+      "A CSCS card",
+      "Able to work outdoors"
+    ],
+    "desirable": [
+      "A driving licence",
+      "Supervisory experience"
+    ],
+    "qualifications": [
+      "A bricklaying NVQ or completed apprenticeship, and a CSCS card, are essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2148",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Site administrator",
+    "employer": "Ealing Cabin Desk",
+    "category": "construction",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 28000,
+    "payMax": 28000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Run the site cabin: inductions, deliveries and the signing-in book for a fictional contractor.",
+    "responsibilities": [
+      "Induct visitors using the script",
+      "Book deliveries into the gate",
+      "File RAMS where the manager shows you"
+    ],
+    "essential": [
+      "At least one year in administration",
+      "Confident on a building site after the induction",
+      "Organised"
+    ],
+    "desirable": [
+      "A construction degree",
+      "A CSCS card already held"
+    ],
+    "qualifications": [
+      "No construction degree is required. A CSCS card can be gained in the first month and is not essential on day one."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2149",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Plant operator",
+    "employer": "Acton Digger Seat",
+    "category": "construction",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 20,
+    "payMax": 20,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Operate a 360 excavator on a fictional road job. Tickets must be in date.",
+    "responsibilities": [
+      "Complete the machine check",
+      "Dig to the supervisor's mark",
+      "Do not lift people"
+    ],
+    "essential": [
+      "A current CPCS or NPORS card for a 360 excavator",
+      "At least two years operating similar plant",
+      "Able to work to a banksman's signals"
+    ],
+    "desirable": [
+      "A dumper ticket as well",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A current 360 card and two years of operating are essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2150",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Construction apprentice",
+    "employer": "Hanwell Site Start",
+    "category": "construction",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "year",
+    "payMin": 15600,
+    "payMax": 15600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A construction apprenticeship rotating through a fictional site. College one day a week. You do not operate plant.",
+    "responsibilities": [
+      "Keep the work area tidy",
+      "Learn the task the tradesperson sets",
+      "Attend college"
+    ],
+    "essential": [
+      "No previous site job is required",
+      "Willing to work outdoors and to study",
+      "Able to take an induction seriously"
+    ],
+    "desirable": [
+      "A CSCS card already held",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No CSCS card is required before the first college week. The employer arranges it in this practice advert."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "apprenticeship": true,
+    "id": "wfj-2151",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Scaffolder",
+    "employer": "Wembley Access Crew",
+    "category": "construction",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 21,
+    "payMax": 21,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Erect and alter scaffold on a fictional commercial job with a qualified team.",
+    "responsibilities": [
+      "Follow the supervisor's design",
+      "Wear the harness where the method says so",
+      "Do not alter a tie without agreement"
+    ],
+    "essential": [
+      "A CISRS scaffolder card",
+      "Comfortable working at height",
+      "Able to lift scaffold fittings"
+    ],
+    "desirable": [
+      "An advanced inspection ticket",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A CISRS scaffolder card is essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2152",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "General labourer",
+    "employer": "Hounslow Footings",
+    "category": "construction",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 13.8,
+    "payMax": 13.8,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Dig and barrow on a fictional six-week drainage job. Boots are provided. The job ends with the job.",
+    "responsibilities": [
+      "Barrow spoil to the skip",
+      "Keep the public path clear",
+      "Use the tools you are shown and no others"
+    ],
+    "essential": [
+      "No previous site experience is required",
+      "Physically prepared for digging",
+      "Willing to work in the rain for six weeks"
+    ],
+    "desirable": [
+      "A CSCS card",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No CSCS card is required for this short labouring job. The advert says the induction covers the site rules."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2153",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Forklift on site",
+    "employer": "Southall Materials Bay",
+    "category": "construction",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "hour",
+    "payMin": 16.5,
+    "payMax": 16.5,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Move pallets of materials around a fictional site compound. This is a forklift job, not a labouring job.",
+    "responsibilities": [
+      "Check the truck",
+      "Put materials where the board says",
+      "Keep pedestrians out of the bay"
+    ],
+    "essential": [
+      "A current forklift certificate and a CSCS card",
+      "At least one year using a forklift",
+      "Careful in a shared yard"
+    ],
+    "desirable": [
+      "A telehandler ticket",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A forklift certificate and a CSCS card are essential."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2154",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Civil engineer",
+    "employer": "Hammersmith Set Out",
+    "category": "construction",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 40000,
+    "payMax": 40000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:30pm, with one home day after training",
+    "contract": "permanent",
+    "workplace": "hybrid",
+    "experience": "experienced",
+    "summary": "Set out and check levels for a fictional drainage contractor, and write the daily sheet.",
+    "responsibilities": [
+      "Set out from the drawing",
+      "Check levels and record them",
+      "Raise a concern if the drawing and the ground disagree"
+    ],
+    "essential": [
+      "A degree or HND in civil engineering, or a completed technician apprenticeship plus five years",
+      "Able to use a level",
+      "Clear daily records"
+    ],
+    "desirable": [
+      "Chartership",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A civil engineering degree, HND or technician apprenticeship plus five years is essential. Chartership is desirable."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "construction"
+    ],
+    "sponsorship": "available",
+    "sponsorshipCondition": "A degree or HND in civil engineering, or a completed technician apprenticeship plus five years",
+    "id": "wfj-2155",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Production team leader",
+    "employer": "Ealing Bottle Line",
+    "category": "manufacturing",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 33000,
+    "payMax": 33000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Lead eight people on a fictional bottling line. You still cover a station when someone is on a break.",
+    "responsibilities": [
+      "Brief the team and start the line",
+      "Stop the line for quality faults",
+      "Record output each hour"
+    ],
+    "essential": [
+      "At least two years in food production, including some team leading",
+      "A Level 2 food hygiene certificate",
+      "Able to give a short briefing"
+    ],
+    "desirable": [
+      "A degree",
+      "A forklift licence"
+    ],
+    "qualifications": [
+      "Two years in food production, including team leading, and Level 2 food hygiene are essential."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2156",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Sewing machinist",
+    "employer": "Acton Cloth Line",
+    "category": "manufacturing",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "hour",
+    "payMin": 13.2,
+    "payMax": 13.2,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Sew cushion covers on a fictional line from a pattern. Speed matters less than straight seams in the first month.",
+    "responsibilities": [
+      "Sew the operation you are shown",
+      "Keep to the quality sample",
+      "Tell a supervisor if the fabric is flawed"
+    ],
+    "essential": [
+      "At least six months of machining, in a factory or a serious home business you can describe",
+      "Able to follow a sample",
+      "Comfortable with repetitive work"
+    ],
+    "desirable": [
+      "A fashion degree",
+      "Experience of leather"
+    ],
+    "qualifications": [
+      "No degree is required. Six months of machining are required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2157",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Bakery production assistant",
+    "employer": "Greenford Oven Early",
+    "category": "manufacturing",
+    "town": "Greenford",
+    "city": "London",
+    "postcode": "UB6 8UF",
+    "payPeriod": "hour",
+    "payMin": 13,
+    "payMax": 13,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Sunday to Thursday, 10:00pm to 6:00am",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Mix and tray up bread in a fictional bakery from 8:00pm. The night rate is the rate shown.",
+    "responsibilities": [
+      "Weigh ingredients from the card",
+      "Tray up to the photo",
+      "Clean down before you leave"
+    ],
+    "essential": [
+      "No previous bakery job is required",
+      "Comfortable with nights and flour dust, with the mask provided",
+      "Able to follow a recipe card exactly"
+    ],
+    "desirable": [
+      "A baker's apprenticeship already completed",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No apprenticeship is required. Nights are required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2158",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Quality checker",
+    "employer": "Wembley Gauge Bench",
+    "category": "manufacturing",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "year",
+    "payMin": 27600,
+    "payMax": 27600,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Check machined parts against a drawing for a fictional workshop and quarantine failures.",
+    "responsibilities": [
+      "Measure parts with the tools provided",
+      "Record the result",
+      "Stop a batch when the chart says so"
+    ],
+    "essential": [
+      "At least one year in manufacturing or inspection",
+      "Careful with numbers and gauges",
+      "Able to say that a batch has failed"
+    ],
+    "desirable": [
+      "A metrology qualification",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "No metrology qualification is required. A year of factory or inspection work is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2159",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Print-finishing assistant",
+    "employer": "Hounslow Fold Room",
+    "category": "manufacturing",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 12.7,
+    "payMax": 12.7,
+    "hoursPerWeek": 22,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Fold and pack printed leaflets in a fictional print shop three days a week.",
+    "responsibilities": [
+      "Set the folding machine with a colleague",
+      "Pack to the count on the ticket",
+      "Recycle spoils in the right bin"
+    ],
+    "essential": [
+      "No previous print job is required",
+      "Able to stand",
+      "Careful with counts"
+    ],
+    "desirable": [
+      "A print qualification",
+      "Machine experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2160",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Process operator",
+    "employer": "Southall Mix Plant",
+    "category": "manufacturing",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 34500,
+    "payMax": 34500,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Four days on, four days off, including weekends",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "experienced",
+    "summary": "Operate a fictional mixing plant from a panel, following the batch card. A process safety briefing is compulsory.",
+    "responsibilities": [
+      "Start and stop batches from the card",
+      "Take samples for the lab",
+      "Respond to alarms using the card and call the shift lead"
+    ],
+    "essential": [
+      "At least two years as a process operator",
+      "Willing to complete the site safety ticket",
+      "Able to stay at a panel and still walk the plant"
+    ],
+    "desirable": [
+      "A chemical engineering degree",
+      "A forklift licence"
+    ],
+    "qualifications": [
+      "Two years as a process operator are essential. A degree is not."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2161",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Assembly technician",
+    "employer": "Brentford Kit Bench",
+    "category": "manufacturing",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 13.4,
+    "payMax": 13.4,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Assemble simple electrical housings from a pictorial card. You do not design them and you do not test mains voltage.",
+    "responsibilities": [
+      "Assemble to the card",
+      "Torque the screws with the tool provided",
+      "Place failed units in the red tray"
+    ],
+    "essential": [
+      "No previous assembly job is required",
+      "Able to follow a picture card",
+      "Good eyesight with glasses if you need them"
+    ],
+    "desirable": [
+      "An electrical qualification",
+      "Soldering experience"
+    ],
+    "qualifications": [
+      "No electrical qualification is required. Mains testing is done by someone else."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2162",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "Food production operative",
+    "employer": "Slough Tray Line",
+    "category": "manufacturing",
+    "town": "Slough",
+    "city": "Slough",
+    "postcode": "SL1 1EL",
+    "payPeriod": "hour",
+    "payMin": 12.85,
+    "payMax": 12.85,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 7:00am to 3:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "A three-month contract on a fictional ready-meal line over the winter peak. Hygiene rules are strict.",
+    "responsibilities": [
+      "Add the component on your station",
+      "Keep hair fully covered",
+      "Stop and tell a leader if a foreign object appears"
+    ],
+    "essential": [
+      "No previous factory job is required",
+      "Willing to follow a strict hygiene rule",
+      "Able to work the three months, including the week of Christmas"
+    ],
+    "desirable": [
+      "A food science degree",
+      "A forklift licence"
+    ],
+    "qualifications": [
+      "No degree is required. The contract includes Christmas week. Read that before you apply."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "manufacturing"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2163",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Teaching assistant",
+    "employer": "Hanwell Classroom Two",
+    "category": "education",
+    "town": "Hanwell",
+    "city": "London",
+    "postcode": "W7 2DP",
+    "payPeriod": "hour",
+    "payMin": 13.6,
+    "payMax": 13.6,
+    "hoursPerWeek": 28,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Support a fictional year 3 class four days a week in term time. You follow the teacher's plan.",
+    "responsibilities": [
+      "Support the group the teacher names",
+      "Prepare the materials on the list",
+      "Tell the teacher about a concern the same day"
+    ],
+    "essential": [
+      "At least six months in a school, nursery or youth setting",
+      "Patient",
+      "Able to work term time, four days a week"
+    ],
+    "desirable": [
+      "A degree in education",
+      "A TA Level 3 qualification"
+    ],
+    "qualifications": [
+      "A degree is not required. Six months with children in a supervised setting are required. Term time only."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2164",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Cover supervisor",
+    "employer": "Ealing Hall Duty",
+    "category": "education",
+    "town": "Ealing",
+    "city": "London",
+    "postcode": "W5 3HJ",
+    "payPeriod": "year",
+    "payMin": 25000,
+    "payMax": 25000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Supervise classes in a fictional secondary school when a teacher is absent, using the work that has been set. You are not the teacher.",
+    "responsibilities": [
+      "Give out the set work",
+      "Keep the room calm",
+      "Send a note of what was finished"
+    ],
+    "essential": [
+      "Experience of working with secondary-age pupils",
+      "Confident in front of a class",
+      "Able to follow someone else's lesson plan"
+    ],
+    "desirable": [
+      "Qualified teacher status",
+      "A degree"
+    ],
+    "qualifications": [
+      "Qualified teacher status is not required. This is supervision, not teaching."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2165",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  },
+  {
+    "title": "Nursery assistant",
+    "employer": "Acton Small Chairs",
+    "category": "education",
+    "town": "Acton",
+    "city": "London",
+    "postcode": "W3 6QE",
+    "payPeriod": "year",
+    "payMin": 24000,
+    "payMax": 24000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Support play and care routines in a fictional nursery. A room leader is present.",
+    "responsibilities": [
+      "Set out activities",
+      "Help with meals and personal care for the children",
+      "Write a short observation"
+    ],
+    "essential": [
+      "No previous nursery job is required",
+      "Warm and reliable",
+      "Able to kneel and sit on the floor"
+    ],
+    "desirable": [
+      "A level 3 early years qualification",
+      "A driving licence"
+    ],
+    "qualifications": [
+      "A level 3 early years qualification is not required for the assistant post. The room leader holds it."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2166",
+    "postedOn": "2026-09-29",
+    "closesOn": "2026-11-13"
+  },
+  {
+    "title": "Learning mentor",
+    "employer": "Wembley Tutor Bay",
+    "category": "education",
+    "town": "Wembley",
+    "city": "London",
+    "postcode": "HA9 6BH",
+    "payPeriod": "hour",
+    "payMin": 14,
+    "payMax": 14,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "fixed-term",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Mentor six fictional pupils who are behind with reading, for two terms. You use the scheme the school has bought.",
+    "responsibilities": [
+      "Run the reading sessions",
+      "Record scores on the sheet",
+      "Meet the teacher once a fortnight"
+    ],
+    "essential": [
+      "At least one year of work with young people",
+      "Patient",
+      "Able to follow the reading scheme rather than invent a different one"
+    ],
+    "desirable": [
+      "A teaching qualification",
+      "Experience of the same scheme"
+    ],
+    "qualifications": [
+      "A teaching qualification is not required."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2167",
+    "postedOn": "2026-10-03",
+    "closesOn": "2026-11-20"
+  },
+  {
+    "title": "Exam invigilator",
+    "employer": "Hounslow Sports Hall",
+    "category": "education",
+    "town": "Hounslow",
+    "city": "London",
+    "postcode": "TW3 1ES",
+    "payPeriod": "hour",
+    "payMin": 12.5,
+    "payMax": 12.5,
+    "hoursPerWeek": 18,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 1:00pm",
+    "contract": "temporary",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Invigilate fictional summer exams. The work is quiet and the rules are strict. You cannot bring a phone into the hall.",
+    "responsibilities": [
+      "Give out papers at the stated minute",
+      "Walk the hall",
+      "Report a problem to the lead invigilator and do not answer a candidate's subject question"
+    ],
+    "essential": [
+      "No previous invigilation is required",
+      "Able to sit and walk quietly",
+      "Able to follow a script exactly"
+    ],
+    "desirable": [
+      "A degree",
+      "Teaching experience"
+    ],
+    "qualifications": [
+      "No formal qualification is required. Phones are not allowed in the hall. The job is only for the exam weeks."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2168",
+    "postedOn": "2026-10-08",
+    "closesOn": "2026-11-27"
+  },
+  {
+    "title": "College receptionist",
+    "employer": "Hammersmith Course Gate",
+    "category": "education",
+    "town": "Hammersmith",
+    "city": "London",
+    "postcode": "W6 9DJ",
+    "payPeriod": "year",
+    "payMin": 24400,
+    "payMax": 24400,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 9:00am to 5:00pm",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Reception for a fictional further-education college. You book visitors and answer course-date questions from a list.",
+    "responsibilities": [
+      "Sign visitors in",
+      "Answer course-date questions from the list and pass other questions on",
+      "Sort the student post"
+    ],
+    "essential": [
+      "No previous college job is required",
+      "Clear spoken English",
+      "Confident with a phone"
+    ],
+    "desirable": [
+      "A teaching qualification",
+      "Another language"
+    ],
+    "qualifications": [
+      "No teaching qualification is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2169",
+    "postedOn": "2026-10-13",
+    "closesOn": "2026-12-04"
+  },
+  {
+    "title": "Lab technician",
+    "employer": "Southall Science Prep",
+    "category": "education",
+    "town": "Southall",
+    "city": "London",
+    "postcode": "UB1 1RH",
+    "payPeriod": "year",
+    "payMin": 27000,
+    "payMax": 27000,
+    "hoursPerWeek": 37.5,
+    "hours": "full-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "some",
+    "summary": "Prepare science practicals for a fictional secondary school and clear them away safely. Term time plus one week.",
+    "responsibilities": [
+      "Set out the practical from the technician sheet",
+      "Clear away and store chemicals as the sheet says",
+      "Tell the head of science if stock is low"
+    ],
+    "essential": [
+      "At least one year as a school technician, or a science A level plus a willingness to train",
+      "Careful with chemicals",
+      "Organised"
+    ],
+    "desirable": [
+      "A science degree",
+      "A first-aid certificate"
+    ],
+    "qualifications": [
+      "A science degree is not required. A year as a technician, or a science A level with training, is required."
+    ],
+    "benefits": [
+      "25 days of holiday plus bank holidays"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2170",
+    "postedOn": "2026-10-16",
+    "closesOn": "2026-12-11"
+  },
+  {
+    "title": "Lunchtime supervisor",
+    "employer": "Brentford Playground",
+    "category": "education",
+    "town": "Brentford",
+    "city": "London",
+    "postcode": "TW8 8JW",
+    "payPeriod": "hour",
+    "payMin": 12.4,
+    "payMax": 12.4,
+    "hoursPerWeek": 5,
+    "hours": "part-time",
+    "hoursDetail": "Monday to Friday, 8:30am to 3:30pm, term time only",
+    "contract": "permanent",
+    "workplace": "on-site",
+    "experience": "entry",
+    "summary": "Supervise the fictional school playground at lunch. One hour a day in term time.",
+    "responsibilities": [
+      "Watch the playground",
+      "Follow the school's rule for a disagreement",
+      "Report an injury to the school office"
+    ],
+    "essential": [
+      "No previous school job is required",
+      "Reliable at the same hour each day",
+      "Patient"
+    ],
+    "desirable": [
+      "A teaching assistant qualification",
+      "First aid"
+    ],
+    "qualifications": [
+      "No formal qualification is required. The hour is the middle of the day, term time only."
+    ],
+    "benefits": [
+      "Holiday pay on top of the rate shown"
+    ],
+    "howToApply": "Select Apply now. Use fictional details. This practice form is not sent to the employer.",
+    "keywords": [
+      "education"
+    ],
+    "sponsorship": "not-offered",
+    "id": "wfj-2171",
+    "postedOn": "2026-09-22",
+    "closesOn": "2026-11-06"
+  }
+];
