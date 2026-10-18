@@ -166,18 +166,18 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
     case "complete-application":
       return latestFor("wfj-1060")
         ? { correct: true, feedback: "Your practice application for The Salt Rooms has been recorded on your account. It has not been sent to the restaurant." }
-        : { correct: false, feedback: "Open the Kitchen assistant job at The Salt Rooms, select Apply, complete every step and submit from the review page." };
+        : { correct: false, feedback: "Open the Kitchen assistant job at The Salt Rooms, select Apply, check your CV, then submit from the review page." };
     case "review-application": {
       const application = latestFor("wfj-1050");
       if (!application) {
-        return { correct: false, feedback: "Submit a practice application for the Administrator job at Westford Community Centre. Use 07700 900184 and Westford, and read the review page before you submit." };
+        return { correct: false, feedback: "Submit a practice application for the Administrator job at Westford Community Centre. On the review step, change the telephone number to 07700 900184 and the town to Westford." };
       }
       const phone = application.telephone.replace(/\D/g, "");
       const town = normText(application.town);
       if (phone.includes("7700900184") && town.includes("westford")) {
         return { correct: true, feedback: "The saved application shows 07700 900184 and Westford. Checking the review page is what catches a wrong number before you submit." };
       }
-      return { correct: false, feedback: "An application was saved, but the telephone number or town does not match the practice details. Apply again, type 07700 900184 and Westford, and correct them on the review step before you submit." };
+      return { correct: false, feedback: "An application was saved, but the telephone number or town does not match. On the review step, select Change contact details, set 07700 900184 and Westford, then submit." };
     }
     case "find-qualification":
       return answers.length === 1 && answers[0] === "level2"

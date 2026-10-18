@@ -2,39 +2,41 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ScenarioSignIn } from "../../components/ScenarioSignIn";
 import { useLearner } from "../../lib/learner-session";
-import { validateDraft, type ApplicationDraft, type ApplicationStep } from "../../../workers/practice-bank/src/shared/job-application";
+import { getAccount } from "../practice-bank/bank-api";
+import { applicationFromProfile, validateDraft, type ApplicationDraft } from "../../../workers/practice-bank/src/shared/job-application";
 import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import { formatLocation } from "../../../workers/practice-bank/src/shared/jobs";
+import {
+  SAMPLE_CV_FILE_NAME,
+  cvFileError,
+  practiceProfileFromIdentity,
+  sampleCvText,
+  type PracticeProfile,
+} from "../../../workers/practice-bank/src/shared/practice-profile";
 import { submitPracticeApplication } from "./jobs-api";
-import { clearDraft, safeJobsPath, useJobDraft } from "./jobs-client";
-import { PlaceLookup } from "./PlaceLookup";
+import { clearDraft, readSavedCv, safeJobsPath, useJobDraft, writeSavedCv } from "./jobs-client";
 
 const STEPS = [
-  { id: "personal", label: "Personal details" },
-  { id: "employment", label: "Employment history" },
-  { id: "skills", label: "Skills and experience" },
-  { id: "review", label: "Review" },
+  { id: "cv", label: "Your CV" },
+  { id: "review", label: "Review and apply" },
 ] as const;
 
 type StepId = (typeof STEPS)[number]["id"];
 
+const MAX_CV_BYTES = 5 * 1024 * 1024;
+
 const STEP_FOR_FIELD: Record<string, StepId> = {
-  firstName: "personal",
-  surname: "personal",
-  email: "personal",
-  telephone: "personal",
-  town: "personal",
-  jobTitle: "employment",
-  employerName: "employment",
-  dateFrom: "employment",
-  dateTo: "employment",
-  duties: "employment",
-  skills: "skills",
-  previousExperience: "skills",
-  qualifications: "skills",
-  statement: "skills",
+  cvChoice: "cv",
+  cvFileName: "cv",
+  firstName: "review",
+  surname: "review",
+  email: "review",
+  telephone: "review",
+  town: "review",
+  postcode: "review",
 };
 
 export function ApplyForm() {
@@ -42,10 +44,68 @@ export function ApplyForm() {
   const router = useRouter();
   const username = useLearner();
   const job = findVacancy(params.get("id") ?? "");
-  const [step, setStep] = useState<StepId>("personal");
+  const [step, setStep] = useState<StepId>("cv");
   const [draft, writeDraft] = useJobDraft(job?.id ?? "none");
+  const [profile, setProfile] = useState<PracticeProfile | null>(null);
+  const [profileState, setProfileState] = useState<"loading" | "ready" | "missing">("loading");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [fileNote, setFileNote] = useState("");
+  const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [chosenFile, setChosenFile] = useState<File | null>(null);
+  const filledFor = useRef("");
+  const draftRef = useRef(draft);
+  const fileRef = useRef<HTMLInputElement>(null);
+  draftRef.current = draft;
+
+  useEffect(() => {
+    if (!username) return;
+    let cancelled = false;
+    getAccount(username).then((result) => {
+      if (cancelled) return;
+      if (result.status !== "ready") {
+        setProfileState("missing");
+        return;
+      }
+      setProfile(
+        practiceProfileFromIdentity({
+          fullName: result.account.fullName,
+          addressLine1: result.account.addressLine1,
+          townOrCity: result.account.townOrCity,
+          postcode: result.account.postcode,
+        }),
+      );
+      setProfileState("ready");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [username]);
+
+  useEffect(() => {
+    if (!profile || !username || !job || filledFor.current === job.id) return;
+    filledFor.current = job.id;
+    const current = draftRef.current;
+    const saved = readSavedCv(username);
+    const stored = applicationFromProfile(profile, saved.choice === "upload" ? "upload" : "sample", saved.fileName);
+    const keepContact = Boolean(current.firstName);
+    writeDraft({
+      ...stored,
+      ...(keepContact
+        ? {
+            firstName: current.firstName,
+            surname: current.surname,
+            email: current.email,
+            telephone: current.telephone,
+            addressLine: current.addressLine,
+            town: current.town,
+            postcode: current.postcode,
+          }
+        : {}),
+      cvChoice: current.cvChoice || stored.cvChoice,
+      cvFileName: current.cvFileName || stored.cvFileName,
+    });
+  }, [profile, username, job, writeDraft]);
 
   if (!job) {
     return (
@@ -59,20 +119,40 @@ export function ApplyForm() {
     );
   }
 
-  const index = STEPS.findIndex((item) => item.id === step);
   const signInHref = `/scenarios/jobs/account/?next=${encodeURIComponent(safeJobsPath(`/scenarios/jobs/apply/?id=${job.id}`) ?? "/scenarios/jobs/find/")}`;
+  const index = STEPS.findIndex((item) => item.id === step);
 
   const update = (patch: Partial<ApplicationDraft>) => {
     writeDraft(patch);
     setErrors({});
+    setFileNote("");
+  };
+
+  const rememberCv = (choice: "sample" | "upload", fileName: string) => {
+    if (choice === "sample") setChosenFile(null);
+    if (username) writeSavedCv(username, choice, fileName);
+    update({ cvChoice: choice, cvFileName: fileName });
+  };
+
+  const chooseFile = (file: File | undefined) => {
+    if (!file) return;
+    if (file.size > MAX_CV_BYTES) {
+      setFileNote("That file is larger than 5 MB. Choose a smaller CV.");
+      return;
+    }
+    const problem = cvFileError(file.name);
+    if (problem) {
+      setFileNote(problem);
+      return;
+    }
+    setChosenFile(file);
+    rememberCv("upload", file.name);
   };
 
   const validateCurrent = () => {
     if (step === "review") return true;
-    const found = validateDraft(draft, step as ApplicationStep);
+    const found = validateDraft(draft, "documents");
     setErrors(found);
-    const first = Object.keys(found)[0];
-    if (first) document.getElementById(first)?.focus();
     return Object.keys(found).length === 0;
   };
 
@@ -81,11 +161,13 @@ export function ApplyForm() {
     if (Object.keys(found).length > 0) {
       setErrors(found);
       const first = Object.keys(found)[0];
-      setStep(STEP_FOR_FIELD[first] ?? "personal");
+      const next = STEP_FOR_FIELD[first] ?? "review";
+      setStep(next);
+      if (next === "review") setEditing(true);
       return;
     }
     if (!username) {
-      setErrors({ form: "Sign in to submit this application. Your answers stay in this form." });
+      setErrors({ form: "Sign in to submit this application. Your saved details stay on your account." });
       return;
     }
     setBusy(true);
@@ -115,9 +197,8 @@ export function ApplyForm() {
         {job.title} at {job.employer}, {formatLocation(job)}.
       </p>
       <div className="wj-note" role="note">
-        <p>
-          We do not ask for a National Insurance number, bank details, a password or copies of identity documents.
-        </p>
+        <p>This application is for practice. It is not sent to a real employer.</p>
+        <p>Your name, address and CV are already saved on your Computer Steps account. You do not type them again for each job.</p>
       </div>
       {job.suspicious ? (
         <div className="wj-warn" role="note">
@@ -127,51 +208,94 @@ export function ApplyForm() {
         </div>
       ) : null}
 
-      <ol className="wj-steps">
-        {STEPS.map((item, itemIndex) => (
-          <li key={item.id} aria-current={item.id === step ? "step" : undefined}>
-            Step {itemIndex + 1}: {item.label}
-          </li>
-        ))}
-      </ol>
-
-      {errors.form ? (
+      {username === undefined ? <p>Loading your saved details…</p> : null}
+      {username === null ? (
+        <div>
+          <p>Sign in to use the details saved on your account.</p>
+          <ScenarioSignIn />
+        </div>
+      ) : null}
+      {username && profileState === "loading" ? <p>Loading your saved details…</p> : null}
+      {username && profileState === "missing" ? (
         <p className="wj-error" role="alert">
-          {errors.form} {username ? null : <Link href={signInHref}>Sign in</Link>}
+          Your saved details could not be loaded. Check your connection and try again.
         </p>
       ) : null}
 
-      {step === "personal" ? (
-        <PersonalStep draft={draft} errors={errors} update={update} />
-      ) : null}
-      {step === "employment" ? (
-        <EmploymentStep draft={draft} errors={errors} update={update} />
-      ) : null}
-      {step === "skills" ? <SkillsStep draft={draft} errors={errors} update={update} /> : null}
-      {step === "review" ? <ReviewStep draft={draft} onEdit={setStep} /> : null}
+      {username && profile ? (
+        <>
+          <ol className="wj-steps">
+            {STEPS.map((item, itemIndex) => (
+              <li key={item.id} aria-current={item.id === step ? "step" : undefined}>
+                Step {itemIndex + 1}: {item.label}
+              </li>
+            ))}
+          </ol>
 
-      <div className="wj-actions">
-        {index > 0 ? (
-          <button type="button" className="wj-btn wj-btn--ghost" onClick={() => setStep(STEPS[index - 1].id)}>
-            Back
-          </button>
-        ) : null}
-        {step !== "review" ? (
-          <button
-            type="button"
-            className="wj-btn"
-            onClick={() => {
-              if (validateCurrent()) setStep(STEPS[index + 1].id);
-            }}
-          >
-            Continue
-          </button>
-        ) : (
-          <button type="button" className="wj-btn wj-btn--accent" disabled={busy} onClick={() => void submit()}>
-            {busy ? "Submitting application…" : "Submit application"}
-          </button>
-        )}
-      </div>
+          {errors.form ? (
+            <p className="wj-error" role="alert">
+              {errors.form} {username ? null : <Link href={signInHref}>Sign in</Link>}
+            </p>
+          ) : null}
+
+          {step === "cv" ? (
+            <CvStep
+              draft={draft}
+              profile={profile}
+              chosenFile={chosenFile}
+              errors={errors}
+              fileNote={fileNote}
+              fileRef={fileRef}
+              onSample={() => rememberCv("sample", SAMPLE_CV_FILE_NAME)}
+              onFile={chooseFile}
+              onRemove={() => {
+                if (fileRef.current) fileRef.current.value = "";
+                setChosenFile(null);
+                update({ cvChoice: "", cvFileName: "" });
+              }}
+              onReplace={() => {
+                if (fileRef.current) fileRef.current.value = "";
+                fileRef.current?.click();
+              }}
+            />
+          ) : null}
+          {step === "review" ? (
+            <ReviewStep
+              draft={draft}
+              profile={profile}
+              chosenFile={chosenFile}
+              editing={editing}
+              errors={errors}
+              update={update}
+              onEdit={() => setEditing(true)}
+              onCv={() => setStep("cv")}
+            />
+          ) : null}
+
+          <div className="wj-actions">
+            {index > 0 ? (
+              <button type="button" className="wj-btn wj-btn--ghost" onClick={() => setStep(STEPS[index - 1].id)}>
+                Back
+              </button>
+            ) : null}
+            {step !== "review" ? (
+              <button
+                type="button"
+                className="wj-btn"
+                onClick={() => {
+                  if (validateCurrent()) setStep("review");
+                }}
+              >
+                Review your details
+              </button>
+            ) : (
+              <button type="button" className="wj-btn wj-btn--accent" disabled={busy} onClick={() => void submit()}>
+                {busy ? "Submitting application…" : "Submit application"}
+              </button>
+            )}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -179,29 +303,20 @@ export function ApplyForm() {
 function Field({
   id,
   label,
-  hint,
   error,
   children,
 }: {
   id: string;
   label: string;
-  hint?: string;
   error?: string;
   children: ReactNode;
 }) {
-  const hintId = hint ? `${id}-hint` : undefined;
-  const errorId = error ? `${id}-error` : undefined;
   return (
     <div className="wj-field">
       <label htmlFor={id}>{label}</label>
       {children}
-      {hint ? (
-        <p className="wj-help" id={hintId}>
-          {hint}
-        </p>
-      ) : null}
       {error ? (
-        <p className="wj-error" id={errorId} role="alert">
+        <p className="wj-error" id={`${id}-error`} role="alert">
           {error}
         </p>
       ) : null}
@@ -209,177 +324,209 @@ function Field({
   );
 }
 
-function PersonalStep({
+function CvStep({
   draft,
+  profile,
+  chosenFile,
   errors,
-  update,
+  fileNote,
+  fileRef,
+  onSample,
+  onFile,
+  onRemove,
+  onReplace,
 }: {
   draft: ApplicationDraft;
+  profile: PracticeProfile;
+  chosenFile: File | null;
   errors: Record<string, string>;
-  update: (patch: Partial<ApplicationDraft>) => void;
+  fileNote: string;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  onSample: () => void;
+  onFile: (file: File | undefined) => void;
+  onRemove: () => void;
+  onReplace: () => void;
 }) {
+  const attached = draft.cvChoice === "sample" || (draft.cvChoice === "upload" && draft.cvFileName);
+
   return (
     <div>
-      <h2>Personal details</h2>
-      <Field id="firstName" label="First name" error={errors.firstName}>
-        <input id="firstName" autoComplete="given-name" value={draft.firstName} aria-invalid={Boolean(errors.firstName)} onChange={(event) => update({ firstName: event.target.value })} />
-      </Field>
-      <Field id="surname" label="Surname" error={errors.surname}>
-        <input id="surname" autoComplete="family-name" value={draft.surname} aria-invalid={Boolean(errors.surname)} onChange={(event) => update({ surname: event.target.value })} />
-      </Field>
-      <Field id="email" label="Email address" error={errors.email}>
-        <input id="email" autoComplete="email" inputMode="email" value={draft.email} aria-invalid={Boolean(errors.email)} onChange={(event) => update({ email: event.target.value })} />
-      </Field>
-      <Field id="telephone" label="Telephone number" error={errors.telephone}>
-        <input id="telephone" autoComplete="tel" inputMode="tel" value={draft.telephone} aria-invalid={Boolean(errors.telephone)} onChange={(event) => update({ telephone: event.target.value })} />
-      </Field>
-      <PlaceLookup
-        id="address"
-        label="Address or postcode"
-        value={[draft.addressLine, draft.town, draft.postcode].filter(Boolean).join(", ")}
-        onChange={(text) => update({ addressLine: "", town: text, postcode: "" })}
-        onPlace={(place) => update({ addressLine: place.addressLine, town: place.town, postcode: place.postcode })}
-      />
-      {errors.town ? (
+      <h2>Your CV</h2>
+      <p>The sample CV is already on your account. You can keep it, or upload a different file.</p>
+      <div className="wj-warn" role="note">
+        <p>Do not upload a real CV unless you are comfortable doing so. A practice CV is enough. Westford Jobs keeps the file name only. The document is not stored and is not sent to an employer.</p>
+      </div>
+      {attached ? (
+        <div className="wj-cv-file">
+          <p>
+            Selected file: <strong>{draft.cvChoice === "sample" ? SAMPLE_CV_FILE_NAME : draft.cvFileName}</strong>
+          </p>
+          <p>{draft.cvChoice === "sample" ? "This is the sample CV saved on your account." : "This file was chosen on this device."}</p>
+          <CvPreview draft={draft} profile={profile} chosenFile={chosenFile} />
+        </div>
+      ) : (
+        <p>No CV is attached yet.</p>
+      )}
+      {errors.cvChoice || errors.cvFileName || fileNote ? (
         <p className="wj-error" role="alert">
-          {errors.town}
+          {errors.cvFileName || errors.cvChoice || fileNote}
         </p>
       ) : null}
-    </div>
-  );
-}
-
-function EmploymentStep({
-  draft,
-  errors,
-  update,
-}: {
-  draft: ApplicationDraft;
-  errors: Record<string, string>;
-  update: (patch: Partial<ApplicationDraft>) => void;
-}) {
-  return (
-    <div>
-      <h2>Employment history</h2>
-      <label className="wj-check">
-        <input
-          type="checkbox"
-          checked={draft.noExperience}
-          onChange={(event) => update({ noExperience: event.target.checked })}
-        />
-        <span>I have no previous paid employment</span>
-      </label>
-      {draft.noExperience ? (
-        <p>You can continue to skills and experience.</p>
-      ) : (
-        <>
-          <Field id="jobTitle" label="Previous job title" error={errors.jobTitle}>
-            <input id="jobTitle" value={draft.jobTitle} aria-invalid={Boolean(errors.jobTitle)} onChange={(event) => update({ jobTitle: event.target.value })} />
-          </Field>
-          <Field id="employerName" label="Employer name" error={errors.employerName}>
-            <input id="employerName" value={draft.employerName} aria-invalid={Boolean(errors.employerName)} onChange={(event) => update({ employerName: event.target.value })} />
-          </Field>
-          <Field id="dateFrom" label="Start date" hint="For example, March 2024." error={errors.dateFrom}>
-            <input id="dateFrom" value={draft.dateFrom} aria-invalid={Boolean(errors.dateFrom)} aria-describedby="dateFrom-hint" onChange={(event) => update({ dateFrom: event.target.value })} />
-          </Field>
-          <Field id="dateTo" label="End date" hint="For example, June 2026, or Still in this job." error={errors.dateTo}>
-            <input id="dateTo" value={draft.dateTo} aria-invalid={Boolean(errors.dateTo)} aria-describedby="dateTo-hint" onChange={(event) => update({ dateTo: event.target.value })} />
-          </Field>
-          <Field id="duties" label="What did you do?" error={errors.duties}>
-            <textarea id="duties" maxLength={500} value={draft.duties} aria-invalid={Boolean(errors.duties)} onChange={(event) => update({ duties: event.target.value })} />
-          </Field>
-        </>
-      )}
-    </div>
-  );
-}
-
-function SkillsStep({
-  draft,
-  errors,
-  update,
-}: {
-  draft: ApplicationDraft;
-  errors: Record<string, string>;
-  update: (patch: Partial<ApplicationDraft>) => void;
-}) {
-  return (
-    <div>
-      <h2>Skills and experience</h2>
-      <Field id="skills" label="Relevant skills" hint="You can write None yet." error={errors.skills}>
-        <textarea id="skills" maxLength={400} value={draft.skills} aria-invalid={Boolean(errors.skills)} aria-describedby="skills-hint" onChange={(event) => update({ skills: event.target.value })} />
-      </Field>
-      <Field id="previousExperience" label="Previous experience" hint="A few sentences, or None yet." error={errors.previousExperience}>
-        <textarea id="previousExperience" maxLength={500} value={draft.previousExperience} aria-invalid={Boolean(errors.previousExperience)} aria-describedby="previousExperience-hint" onChange={(event) => update({ previousExperience: event.target.value })} />
-      </Field>
-      <Field id="qualifications" label="Qualifications or training" hint="Include courses, or write None yet." error={errors.qualifications}>
-        <textarea id="qualifications" maxLength={300} value={draft.qualifications} aria-invalid={Boolean(errors.qualifications)} aria-describedby="qualifications-hint" onChange={(event) => update({ qualifications: event.target.value })} />
-      </Field>
-      <Field id="statement" label="Why you are suitable for this role" hint="Write at least a couple of sentences. Do not include private information." error={errors.statement}>
-        <textarea id="statement" maxLength={800} value={draft.statement} aria-invalid={Boolean(errors.statement)} aria-describedby="statement-hint" onChange={(event) => update({ statement: event.target.value })} />
-      </Field>
-    </div>
-  );
-}
-
-function ReviewStep({ draft, onEdit }: { draft: ApplicationDraft; onEdit: (step: StepId) => void }) {
-  return (
-    <div>
-      <h2>Review your application</h2>
-      <p>Read every answer. If something is wrong, go back and correct it before you submit.</p>
-      <div className="wj-note" role="note">
-        <p>Check the details below. You can go back and change an answer before you submit.</p>
+      <div className="wj-actions">
+        {draft.cvChoice !== "sample" ? (
+          <button type="button" className="wj-btn" onClick={onSample}>
+            Use the sample CV
+          </button>
+        ) : null}
+        <button type="button" className="wj-btn wj-btn--ghost" onClick={onReplace}>
+          Upload a different CV
+        </button>
+        {attached ? (
+          <button type="button" className="wj-btn wj-btn--ghost" onClick={onRemove}>
+            Remove attachment
+          </button>
+        ) : null}
       </div>
-      <h3>Personal details</h3>
-      <dl className="wj-facts">
-        <dt>First name</dt>
-        <dd>{draft.firstName}</dd>
-        <dt>Surname</dt>
-        <dd>{draft.surname}</dd>
-        <dt>Email</dt>
-        <dd>{draft.email}</dd>
-        <dt>Telephone</dt>
-        <dd>{draft.telephone}</dd>
-        <dt>Address</dt>
-        <dd>{[draft.addressLine, draft.town, draft.postcode].filter(Boolean).join(", ")}</dd>
-      </dl>
-      <button type="button" className="wj-btn wj-btn--ghost" onClick={() => onEdit("personal")}>
-        Change personal details
+      <input
+        ref={fileRef}
+        id="cvFile"
+        className="wj-cv-input"
+        type="file"
+        accept=".pdf,.doc,.docx,.txt,.rtf,application/pdf,application/msword,text/plain"
+        onChange={(event) => onFile(event.target.files?.[0])}
+      />
+    </div>
+  );
+}
+
+function ReviewStep({
+  draft,
+  profile,
+  chosenFile,
+  editing,
+  errors,
+  update,
+  onEdit,
+  onCv,
+}: {
+  draft: ApplicationDraft;
+  profile: PracticeProfile;
+  chosenFile: File | null;
+  editing: boolean;
+  errors: Record<string, string>;
+  update: (patch: Partial<ApplicationDraft>) => void;
+  onEdit: () => void;
+  onCv: () => void;
+}) {
+  const address = [draft.addressLine, draft.town, draft.postcode].filter(Boolean).join(", ");
+  return (
+    <div>
+      <h2>Review your details</h2>
+      <p>These details are saved on your account and taken from your CV. Read them, then apply.</p>
+      <h3>CV</h3>
+      <p>
+        <strong>{draft.cvFileName || "No CV attached"}</strong>
+      </p>
+      {draft.cvFileName ? <CvPreview draft={draft} profile={profile} chosenFile={chosenFile} /> : null}
+      <button type="button" className="wj-btn wj-btn--ghost" onClick={onCv}>
+        Upload a different CV
       </button>
-      <h3>Employment history</h3>
-      {draft.noExperience ? (
-        <p>No previous paid employment.</p>
+      <h3>Contact details</h3>
+      {editing ? (
+        <div>
+          <Field id="firstName" label="First name" error={errors.firstName}>
+            <input id="firstName" autoComplete="given-name" value={draft.firstName} aria-invalid={Boolean(errors.firstName)} onChange={(event) => update({ firstName: event.target.value })} />
+          </Field>
+          <Field id="surname" label="Surname" error={errors.surname}>
+            <input id="surname" autoComplete="family-name" value={draft.surname} aria-invalid={Boolean(errors.surname)} onChange={(event) => update({ surname: event.target.value })} />
+          </Field>
+          <Field id="email" label="Email address" error={errors.email}>
+            <input id="email" autoComplete="email" inputMode="email" value={draft.email} aria-invalid={Boolean(errors.email)} onChange={(event) => update({ email: event.target.value })} />
+          </Field>
+          <Field id="telephone" label="Telephone number" error={errors.telephone}>
+            <input id="telephone" autoComplete="tel" inputMode="tel" value={draft.telephone} aria-invalid={Boolean(errors.telephone)} onChange={(event) => update({ telephone: event.target.value })} />
+          </Field>
+          <Field id="addressLine" label="Address" error={errors.addressLine}>
+            <input id="addressLine" autoComplete="address-line1" value={draft.addressLine} onChange={(event) => update({ addressLine: event.target.value })} />
+          </Field>
+          <Field id="town" label="Town" error={errors.town}>
+            <input id="town" autoComplete="address-level2" value={draft.town} aria-invalid={Boolean(errors.town)} onChange={(event) => update({ town: event.target.value })} />
+          </Field>
+          <Field id="postcode" label="Postcode" error={errors.postcode}>
+            <input id="postcode" autoComplete="postal-code" value={draft.postcode} aria-invalid={Boolean(errors.postcode)} onChange={(event) => update({ postcode: event.target.value })} />
+          </Field>
+        </div>
       ) : (
         <dl className="wj-facts">
-          <dt>Job title</dt>
-          <dd>{draft.jobTitle}</dd>
-          <dt>Employer</dt>
-          <dd>{draft.employerName}</dd>
-          <dt>Dates</dt>
+          <dt>Name</dt>
           <dd>
-            {draft.dateFrom} to {draft.dateTo}
+            {draft.firstName} {draft.surname}
           </dd>
-          <dt>Responsibilities</dt>
-          <dd>{draft.duties}</dd>
+          <dt>Email</dt>
+          <dd>{draft.email}</dd>
+          <dt>Telephone</dt>
+          <dd>{draft.telephone}</dd>
+          <dt>Address</dt>
+          <dd>{address}</dd>
         </dl>
       )}
-      <button type="button" className="wj-btn wj-btn--ghost" onClick={() => onEdit("employment")}>
-        Change employment history
-      </button>
-      <h3>Skills and experience</h3>
+      {editing ? null : (
+        <button type="button" className="wj-btn wj-btn--ghost" onClick={onEdit}>
+          Change contact details
+        </button>
+      )}
+      <h3>From your CV</h3>
       <dl className="wj-facts">
+        <dt>Recent job</dt>
+        <dd>
+          {draft.jobTitle} at {draft.employerName}, {draft.dateFrom} to {draft.dateTo}
+        </dd>
+        <dt>What you did</dt>
+        <dd>{draft.duties}</dd>
         <dt>Skills</dt>
         <dd>{draft.skills}</dd>
-        <dt>Experience</dt>
-        <dd>{draft.previousExperience}</dd>
         <dt>Qualifications</dt>
         <dd>{draft.qualifications}</dd>
-        <dt>Supporting statement</dt>
-        <dd>{draft.statement}</dd>
       </dl>
-      <button type="button" className="wj-btn wj-btn--ghost" onClick={() => onEdit("skills")}>
-        Change skills and experience
+      <div className="wj-note" role="note">
+        <p>Check the details above. You can change your contact details before you submit. The CV file is not kept after you apply.</p>
+      </div>
+    </div>
+  );
+}
+
+function CvPreview({ draft, profile, chosenFile }: { draft: ApplicationDraft; profile: PracticeProfile; chosenFile: File | null }) {
+  const [open, setOpen] = useState(false);
+  const [uploadedText, setUploadedText] = useState("");
+  const [viewNote, setViewNote] = useState("");
+
+  const view = async () => {
+    setViewNote("");
+    if (draft.cvChoice === "sample") {
+      setOpen((current) => !current);
+      return;
+    }
+    if (!chosenFile) {
+      setViewNote("This file name is saved, but the document is not kept on the account. Upload it again if you want to open it.");
+      return;
+    }
+    if (chosenFile.type.startsWith("text/") || chosenFile.name.toLowerCase().endsWith(".txt")) {
+      setUploadedText(await chosenFile.text());
+      setOpen((current) => !current);
+      return;
+    }
+    const url = URL.createObjectURL(chosenFile);
+    window.open(url, "_blank", "noopener");
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  };
+
+  return (
+    <div className="wj-cv-view-wrap">
+      <button type="button" className="wj-btn wj-btn--ghost" onClick={() => void view()}>
+        {open ? "Hide CV" : "View CV"}
       </button>
+      {viewNote ? <p>{viewNote}</p> : null}
+      {open ? <pre className="wj-cv-view">{draft.cvChoice === "sample" ? sampleCvText(profile) : uploadedText}</pre> : null}
     </div>
   );
 }

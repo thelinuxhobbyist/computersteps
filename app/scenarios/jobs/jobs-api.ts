@@ -1,5 +1,6 @@
 import { request } from "../practice-bank/bank-api";
 import type { ApplicationDraft } from "../../../workers/practice-bank/src/shared/job-application";
+import type { PracticeProfile } from "../../../workers/practice-bank/src/shared/practice-profile";
 
 export type SavedJob = { jobId: string; savedAt: string };
 
@@ -25,6 +26,7 @@ export type PracticeApplication = {
 
 export type JobsAccount = {
   username: string;
+  profile: PracticeProfile;
   saved: SavedJob[];
   applications: PracticeApplication[];
   exercises: { id: string; completedAt: string }[];

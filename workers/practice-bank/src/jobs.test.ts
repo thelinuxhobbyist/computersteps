@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { validateDraft, practiceStatus, interviewDate, type ApplicationDraft, EMPTY_DRAFT } from "./shared/job-application";
+import { validateDraft, practiceStatus, interviewDate, readDraft, applicationFromProfile, type ApplicationDraft, EMPTY_DRAFT } from "./shared/job-application";
+import { SAMPLE_CV_FILE_NAME, cvFileError, practiceProfileFromIdentity, sampleCvText } from "./shared/practice-profile";
 import { VACANCIES } from "./shared/job-catalogue";
 import { VACANCY_EXPANSION } from "./shared/vacancy-expansion";
 import { validateVacancyList } from "./shared/validate-vacancies";
@@ -166,10 +167,44 @@ test("practice applications reject missing details and do not need a National In
   draft.previousExperience = "None yet";
   draft.qualifications = "None yet";
   draft.statement = "I am practising this form and I can work carefully in a kitchen.";
-  assert.deepEqual(validateDraft(draft, "all"), {});
+  assert.ok(validateDraft(draft, "all").cvChoice);
+  draft.cvChoice = "upload";
+  draft.cvFileName = "notes.exe";
+  assert.match(validateDraft(draft, "documents").cvFileName ?? "", /PDF/);
+  draft.cvChoice = "sample";
+  draft.cvFileName = "ignored.pdf";
+  const stored = readDraft(draft);
+  assert.equal(stored.cvFileName, SAMPLE_CV_FILE_NAME);
+  assert.equal(stored.cvChoice, "sample");
+  assert.deepEqual(validateDraft(stored, "all"), {});
+  assert.equal(cvFileError("C:\\Users\\me\\cv.pdf"), "Choose a file with a short name and no folder path.");
   assert.equal(practiceStatus("wfj-1040", false), "interview");
   assert.equal(practiceStatus("wfj-1901", true), "submitted");
   assert.equal(interviewDate("2026-10-15T12:00:00.000Z"), "2026-10-26");
+});
+
+test("a practice profile reuses the account name and address and stays fictional", () => {
+  const profile = practiceProfileFromIdentity({
+    fullName: "Alex Morgan",
+    addressLine1: "14 Willow Lane",
+    townOrCity: "Townsville",
+    postcode: "PB4 7XY",
+  });
+  assert.equal(profile.firstName, "Alex");
+  assert.equal(profile.surname, "Morgan");
+  assert.equal(profile.email, "alex.morgan@computersteps.practice");
+  assert.equal(profile.addressLine, "14 Willow Lane");
+  assert.equal(profile.town, "Townsville");
+  assert.match(profile.telephone, /^07700 900\d{3}$/);
+  assert.equal(practiceProfileFromIdentity({
+    fullName: "Alex Morgan",
+    addressLine1: "14 Willow Lane",
+    townOrCity: "Townsville",
+    postcode: "PB4 7XY",
+  }).telephone, profile.telephone);
+  assert.match(sampleCvText(profile), /Alex Morgan/);
+  assert.match(sampleCvText(profile), /fictional/);
+  assert.deepEqual(validateDraft(applicationFromProfile(profile), "all"), {});
 });
 
 test("every guided task can be checked, and a wrong answer explains where to look", () => {

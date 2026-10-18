@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import { EMPTY_DRAFT, type ApplicationDraft } from "../../../workers/practice-bank/src/shared/job-application";
+import { EMPTY_DRAFT, type ApplicationDraft, type CvChoice } from "../../../workers/practice-bank/src/shared/job-application";
+import { SAMPLE_CV_FILE_NAME, cvFileError } from "../../../workers/practice-bank/src/shared/practice-profile";
 
 const COMPARE_KEY = "westford-jobs-compare";
 const TASK_KEY = "westford-jobs-task";
@@ -95,6 +96,35 @@ export function clearDraft(jobId: string) {
     // The confirmation page does not need the draft.
   }
   window.dispatchEvent(new Event(DRAFT_EVENT));
+}
+
+function cvStorageKey(username: string) {
+  return `westford-jobs-cv:${username.trim().toLowerCase()}`;
+}
+
+/** The CV chosen on this device. The sample CV is used until the learner uploads another file. */
+export function readSavedCv(username: string): { choice: CvChoice; fileName: string } {
+  const sample = { choice: "sample" as const, fileName: SAMPLE_CV_FILE_NAME };
+  try {
+    const parsed: unknown = JSON.parse(window.localStorage.getItem(cvStorageKey(username)) ?? "");
+    if (!parsed || typeof parsed !== "object") return sample;
+    const choice = (parsed as { choice?: unknown }).choice;
+    const fileName = (parsed as { fileName?: unknown }).fileName;
+    if (choice === "upload" && typeof fileName === "string" && !cvFileError(fileName)) {
+      return { choice: "upload", fileName };
+    }
+  } catch {
+    // A missing or blocked store just means the sample CV is still attached.
+  }
+  return sample;
+}
+
+export function writeSavedCv(username: string, choice: "sample" | "upload", fileName: string) {
+  try {
+    window.localStorage.setItem(cvStorageKey(username), JSON.stringify({ choice, fileName }));
+  } catch {
+    // The choice still applies to this application.
+  }
 }
 
 export function useJobDraft(jobId: string): [ApplicationDraft, (patch: Partial<ApplicationDraft>) => void] {

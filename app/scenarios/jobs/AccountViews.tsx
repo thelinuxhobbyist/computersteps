@@ -3,13 +3,58 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getAccount } from "../practice-bank/bank-api";
+import { practiceProfileFromIdentity, sampleCvText, type PracticeProfile } from "../../../workers/practice-bank/src/shared/practice-profile";
 import { ScenarioSignIn } from "../../components/ScenarioSignIn";
 import { clearLearner, useLearner } from "../../lib/learner-session";
-import { APPLICATION_STATUS_LABELS, type ApplicationStatus } from "../../../workers/practice-bank/src/shared/job-application";
+import { APPLICATION_STATUS_LABELS, type ApplicationDraft, type ApplicationStatus } from "../../../workers/practice-bank/src/shared/job-application";
 import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import { formatLocation, formatUkDate } from "../../../workers/practice-bank/src/shared/jobs";
 import { getJobsAccount, unsaveVacancy, type JobsAccount, type PracticeApplication } from "./jobs-api";
 import { safeJobsPath } from "./jobs-client";
+
+function SavedDetails({ username }: { username: string }) {
+  const [profile, setProfile] = useState<PracticeProfile | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getAccount(username).then((result) => {
+      if (cancelled || result.status !== "ready") return;
+      setProfile(
+        practiceProfileFromIdentity({
+          fullName: result.account.fullName,
+          addressLine1: result.account.addressLine1,
+          townOrCity: result.account.townOrCity,
+          postcode: result.account.postcode,
+        }),
+      );
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [username]);
+
+  if (!profile) return null;
+
+  return (
+    <section className="wj-panel" style={{ padding: 16, margin: "16px 0" }}>
+      <h2>Details saved on your account</h2>
+      <p>Job applications use these details and your CV. You do not type them again for each job.</p>
+      <dl className="wj-facts">
+        <dt>Name</dt>
+        <dd>{profile.fullName}</dd>
+        <dt>Email</dt>
+        <dd>{profile.email}</dd>
+        <dt>Telephone</dt>
+        <dd>{profile.telephone}</dd>
+        <dt>Address</dt>
+        <dd>
+          {profile.addressLine}, {profile.town}, {profile.postcode}
+        </dd>
+      </dl>
+    </section>
+  );
+}
 
 function statusLabel(status: string) {
   return status in APPLICATION_STATUS_LABELS ? APPLICATION_STATUS_LABELS[status as ApplicationStatus] : status;
@@ -64,8 +109,9 @@ export function AccountHome() {
     <div className="ps-wrap">
       <h1>My account</h1>
       <p>
-        You are signed in as <strong>{username}</strong>.
+        You are signed in as <strong>{username}</strong>. The same username works on every Computer Steps practice website.
       </p>
+      <SavedDetails username={username} />
       <ul>
         <li>
           <Link href="/scenarios/jobs/saved/">Saved jobs</Link>
@@ -267,7 +313,7 @@ export function ApplyDone() {
       <h1>Application submitted</h1>
       <div className="wj-ok" role="status">
         <p>
-          <strong>Thank you.</strong> Your application has been received. Keep the reference for your records.
+          <strong>Thank you.</strong> This practice application is saved on your account. It has not been sent to an employer. The CV file was not kept. Keep the reference for your records.
         </p>
       </div>
       {application ? (
@@ -296,6 +342,34 @@ export function ApplyDone() {
           Find another job
         </Link>
       </div>
+    </div>
+  );
+}
+
+function SavedCvView({ form }: { form: ApplicationDraft }) {
+  const [open, setOpen] = useState(false);
+  if (form.cvChoice !== "sample") {
+    return <p>The document was not kept. Only the file name is saved with this practice application.</p>;
+  }
+  return (
+    <div className="wj-cv-view-wrap">
+      <button type="button" className="wj-btn wj-btn--ghost" onClick={() => setOpen((current) => !current)}>
+        {open ? "Hide CV" : "View CV"}
+      </button>
+      {open ? (
+        <pre className="wj-cv-view">
+          {sampleCvText({
+            firstName: form.firstName,
+            surname: form.surname,
+            fullName: `${form.firstName} ${form.surname}`.trim(),
+            email: form.email,
+            telephone: form.telephone,
+            addressLine: form.addressLine,
+            town: form.town,
+            postcode: form.postcode,
+          })}
+        </pre>
+      ) : null}
     </div>
   );
 }
@@ -331,8 +405,17 @@ function ApplicationBody({ application }: { application: PracticeApplication }) 
       ) : null}
       {form ? (
         <>
-          <h2>What you entered</h2>
+          <h2>Details saved with this application</h2>
           <dl className="wj-facts">
+            {form.cvFileName ? (
+              <>
+                <dt>CV</dt>
+                <dd>
+                  {form.cvFileName}
+                  <SavedCvView form={form} />
+                </dd>
+              </>
+            ) : null}
             <dt>Name</dt>
             <dd>
               {form.firstName} {form.surname}

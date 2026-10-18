@@ -702,6 +702,51 @@
   font-weight: 700;
 }
 
+.wj-cv-file {
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--ps-line);
+  border-radius: 8px;
+}
+
+.wj-cv-file p {
+  margin: 0 0 6px;
+}
+
+.wj-cv-file strong {
+  word-break: break-word;
+}
+
+.wj-cv-view-wrap {
+  margin-top: 8px;
+}
+
+.wj-cv-view {
+  margin: 12px 0 0;
+  padding: 14px;
+  max-width: 40rem;
+  white-space: pre-wrap;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background: #fff;
+  border: 1px solid var(--ps-line);
+  border-radius: 8px;
+}
+
+.wj-cv-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .wj-banner {
   background: #e8eef6;
   border-bottom: 1px solid var(--ps-line);

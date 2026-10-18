@@ -1,3 +1,15 @@
+import {
+  PRACTICE_EMPLOYMENT,
+  SAMPLE_CV_FILE_NAME,
+  SAVED_CV_QUALIFICATIONS,
+  SAVED_CV_SKILLS,
+  SAVED_CV_STATEMENT,
+  cvFileError,
+  type PracticeProfile,
+} from "./practice-profile";
+
+export type CvChoice = "" | "sample" | "upload";
+
 export type ApplicationDraft = {
   firstName: string;
   surname: string;
@@ -16,9 +28,11 @@ export type ApplicationDraft = {
   previousExperience: string;
   qualifications: string;
   statement: string;
+  cvChoice: CvChoice;
+  cvFileName: string;
 };
 
-export type ApplicationStep = "personal" | "employment" | "skills" | "all";
+export type ApplicationStep = "personal" | "employment" | "skills" | "documents" | "all";
 
 export const EMPTY_DRAFT: ApplicationDraft = {
   firstName: "",
@@ -38,6 +52,8 @@ export const EMPTY_DRAFT: ApplicationDraft = {
   previousExperience: "",
   qualifications: "",
   statement: "",
+  cvChoice: "",
+  cvFileName: "",
 };
 
 const LIMITS = {
@@ -57,6 +73,7 @@ const LIMITS = {
   previousExperience: 500,
   qualifications: 300,
   statement: 800,
+  cvFileName: 80,
 } as const;
 
 export type ApplicationStatus = "submitted" | "under_review" | "interview" | "unsuccessful";
@@ -75,6 +92,35 @@ const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
 
 function clip(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+/** The application a real jobs site would build from the account and the CV already on file. */
+export function applicationFromProfile(
+  profile: PracticeProfile,
+  cvChoice: CvChoice = "sample",
+  cvFileName = SAMPLE_CV_FILE_NAME,
+): ApplicationDraft {
+  return {
+    firstName: profile.firstName,
+    surname: profile.surname,
+    email: profile.email,
+    telephone: profile.telephone,
+    addressLine: profile.addressLine,
+    town: profile.town,
+    postcode: profile.postcode,
+    noExperience: false,
+    jobTitle: PRACTICE_EMPLOYMENT.jobTitle,
+    employerName: PRACTICE_EMPLOYMENT.employerName,
+    dateFrom: PRACTICE_EMPLOYMENT.dateFrom,
+    dateTo: PRACTICE_EMPLOYMENT.dateTo,
+    duties: PRACTICE_EMPLOYMENT.duties,
+    skills: SAVED_CV_SKILLS,
+    previousExperience: PRACTICE_EMPLOYMENT.duties,
+    qualifications: SAVED_CV_QUALIFICATIONS,
+    statement: SAVED_CV_STATEMENT,
+    cvChoice,
+    cvFileName: cvChoice === "sample" ? SAMPLE_CV_FILE_NAME : cvFileName,
+  };
 }
 
 export function readDraft(body: Record<string, unknown>): ApplicationDraft {
@@ -96,6 +142,8 @@ export function readDraft(body: Record<string, unknown>): ApplicationDraft {
     previousExperience: clip(body.previousExperience, LIMITS.previousExperience),
     qualifications: clip(body.qualifications, LIMITS.qualifications),
     statement: clip(body.statement, LIMITS.statement),
+    cvChoice: body.cvChoice === "sample" || body.cvChoice === "upload" ? body.cvChoice : "",
+    cvFileName: body.cvChoice === "sample" ? SAMPLE_CV_FILE_NAME : clip(body.cvFileName, LIMITS.cvFileName),
   };
 }
 
@@ -104,6 +152,7 @@ export function validateDraft(draft: ApplicationDraft, step: ApplicationStep): R
   const personal = step === "personal" || step === "all";
   const employment = step === "employment" || step === "all";
   const skills = step === "skills" || step === "all";
+  const documents = step === "documents" || step === "all";
 
   if (personal) {
     if (!NAME.test(draft.firstName)) errors.firstName = "Enter a first name using letters, such as Sam.";
@@ -130,6 +179,15 @@ export function validateDraft(draft: ApplicationDraft, step: ApplicationStep): R
     if (draft.previousExperience.length < 2) errors.previousExperience = "Describe any related experience, or write None yet.";
     if (draft.qualifications.length < 2) errors.qualifications = "List a qualification or course, or write None yet.";
     if (draft.statement.length < 30) errors.statement = "Write at least a couple of sentences about why you are suitable. You do not need to share anything private.";
+  }
+
+  if (documents) {
+    if (draft.cvChoice !== "sample" && draft.cvChoice !== "upload") {
+      errors.cvChoice = "Choose the sample CV, or upload a file of your own.";
+    } else if (draft.cvChoice === "upload") {
+      const problem = cvFileError(draft.cvFileName);
+      if (problem) errors.cvFileName = problem;
+    }
   }
 
   return errors;

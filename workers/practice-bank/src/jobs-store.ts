@@ -1,4 +1,4 @@
-import { findAccountRow } from "./accounts";
+import { findAccountRow, identityOf } from "./accounts";
 import { usernameKey, validateUsername } from "./bank";
 import { checkJobExercise, type ExerciseApplication, type ExerciseSnapshot } from "./job-exercise-checks";
 import { json, readJson, secureRandom } from "./http";
@@ -14,6 +14,7 @@ import {
 import { findVacancy } from "./shared/job-catalogue";
 import { formatLocation } from "./shared/jobs";
 import { getPublicExercise } from "./shared/job-exercises";
+import { practiceProfileFromIdentity } from "./shared/practice-profile";
 
 const APPLICATION_BODY_BYTES = 12000;
 
@@ -117,6 +118,7 @@ export async function getJobs(env: Env, rawUsername: string): Promise<Response> 
   const data = await loadSnapshot(env.BANK_DB, key);
   return json({
     username: account.username,
+    profile: practiceProfileFromIdentity(identityOf(account)),
     saved: data.saved.map((row) => ({ jobId: row.job_id, savedAt: row.saved_at })),
     applications: data.applications.map(presentApplication),
     exercises: data.progress.map((row) => ({ id: row.exercise_id, completedAt: row.completed_at })),
