@@ -41,7 +41,7 @@ function matches(existing: ExistingDebit, debit: SharedDebit): boolean {
 }
 
 /**
- * Subtracts from the Practice Bank ledger only when the balance covers it.
+ * Subtracts from the Westford Bank ledger only when the balance covers it.
  * The same idempotency key returns the original transaction instead of charging again.
  */
 export async function debitSharedBalance(db: D1Database, debit: SharedDebit): Promise<DebitResult> {
@@ -111,7 +111,7 @@ export async function debitSharedBalance(db: D1Database, debit: SharedDebit): Pr
   return { ok: true, duplicate: false, reference: debit.reference, balancePence: await balanceOf(db, debit.usernameKey) };
 }
 
-/** Puts money back into Practice Bank. The same idempotency key cannot refund twice. */
+/** Puts money back into Westford Bank. The same idempotency key cannot refund twice. */
 export async function creditSharedBalance(db: D1Database, credit: SharedDebit): Promise<DebitResult> {
   if (credit.idempotencyKey) {
     const existing = await findExisting(db, credit.idempotencyKey);

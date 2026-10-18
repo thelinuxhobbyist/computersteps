@@ -138,7 +138,7 @@ function Dashboard({ tutorKey }: { tutorKey: string }) {
           {learners === null ? (
             <p className="tm-muted">Loading…</p>
           ) : learners.length === 0 ? (
-            <p className="tm-muted">Nobody yet. Learners appear here once they log in to Practice Bank or Westford Energy.</p>
+            <p className="tm-muted">Nobody yet. Learners appear here once they log in to Westford Bank or Westford Energy.</p>
           ) : (
             <ul className="tm-learner-list">
               {learners.map((learner) => (

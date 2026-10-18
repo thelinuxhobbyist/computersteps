@@ -51,7 +51,7 @@ export default function OrderConfirmation() {
         ) : (
           <section className="success-hero success-hero--none">
             <h1>No practice order yet</h1>
-            <p>Visit the Practice Shop, add some items to your basket and check out to see your order here.</p>
+            <p>Visit Westford Foods, add some items to your basket and check out to see your order here.</p>
           </section>
         )}
 
@@ -59,11 +59,11 @@ export default function OrderConfirmation() {
           <div className="bank-paid" role="note">
             <FontAwesomeIcon icon={faBuildingColumns} aria-hidden="true" className="bank-paid__icon" />
             <p>
-              <strong>{formatPrice(order.bankPayment.amountPence)}</strong> was paid from your Practice Bank account. Your new
+              <strong>{formatPrice(order.bankPayment.amountPence)}</strong> was paid from your Westford Bank account. Your new
               balance is <strong>{formatPrice(order.bankPayment.balancePence)}</strong>.
             </p>
             <Link href={`${BANK_BASE}/transactions/`} className="btn btn-outline">
-              Find this payment in Practice Bank
+              Find this payment in Westford Bank
             </Link>
           </div>
         ) : null}

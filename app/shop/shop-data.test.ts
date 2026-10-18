@@ -106,7 +106,7 @@ test("rejects details that do not match the practice card", () => {
   assert.ok(errors.cvv);
 });
 
-test("format check accepts any well-formed card, like a Practice Bank card", () => {
+test("format check accepts any well-formed card, like a Westford Bank card", () => {
   assert.deepEqual(validateCardFormat({ nameOnCard: "JOHNSMITH", cardNumber: "4196 0714 6901 1277", expiry: "10/30", cvv: "901" }), {});
   assert.equal(isPracticeCardNumber("4196 0714 6901 1277"), false);
   assert.equal(isPracticeCardNumber("4532012345678901"), true);

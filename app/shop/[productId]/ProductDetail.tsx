@@ -10,7 +10,7 @@ import SiteHeader from "../../components/SiteHeader";
 import ShopBar from "../../components/shop/ShopBar";
 import StarRating from "../../components/shop/StarRating";
 import { setQuantity, useBasket } from "../basket-store";
-import { MAX_QUANTITY_PER_ITEM, formatItemCount, formatPrice, getPhotoCredit, getProduct } from "../shop-data";
+import { MAX_QUANTITY_PER_ITEM, SHOP_NAME, formatItemCount, formatPrice, getPhotoCredit, getProduct } from "../shop-data";
 import { getAverageRating, getProductDetails, type Nutrition } from "../product-details";
 
 const NUTRITION_ROWS: { key: keyof Omit<Nutrition, "per" | "serving">; label: string; indent?: boolean }[] = [
@@ -55,7 +55,7 @@ export default function ProductDetail({ productId }: { productId: string }) {
         <nav className="breadcrumb product-breadcrumb" aria-label="Breadcrumb">
           <Link href="/scenarios/">Scenarios</Link>
           <span aria-hidden="true">›</span>
-          <Link href="/shop/">Practice Shop</Link>
+          <Link href="/shop/">{SHOP_NAME}</Link>
           <span aria-hidden="true">›</span>
           <span>{categoryLabel}</span>
           <span aria-hidden="true">›</span>

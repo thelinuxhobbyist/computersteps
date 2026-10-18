@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import ShopCatalog from "./ShopCatalog";
+import { SHOP_NAME } from "./shop-data";
 
 export const metadata: Metadata = {
-  title: "Practice Shop | Computer Steps",
+  title: `${SHOP_NAME} | Computer Steps`,
   description: "Practise online shopping safely: search for items, fill a basket and check out with a pretend bank card.",
 };
 

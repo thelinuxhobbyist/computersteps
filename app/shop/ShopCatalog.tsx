@@ -19,6 +19,7 @@ import {
   filterProducts,
   formatItemCount,
   formatPrice,
+  SHOP_NAME,
   type CategoryFilter,
   type SortOrder,
 } from "./shop-data";
@@ -42,11 +43,11 @@ export default function ShopCatalog() {
         <nav className="breadcrumb shop-breadcrumb" aria-label="Breadcrumb">
           <Link href="/scenarios/">Scenarios</Link>
           <span aria-hidden="true">›</span>
-          <span aria-current="page">Practice Shop</span>
+          <span aria-current="page">{SHOP_NAME}</span>
         </nav>
 
         <section className="shop-intro">
-          <h1>Practice Shop</h1>
+          <h1>{SHOP_NAME}</h1>
           <p>
             Click on an item to see more about it, then add it to your basket. Nothing here costs real money — it is a safe
             place to practise shopping online.

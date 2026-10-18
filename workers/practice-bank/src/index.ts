@@ -134,7 +134,7 @@ async function takePayment(request: Request, env: Env): Promise<Response> {
     usernameKey: key,
     amountPence,
     postedAt: now,
-    description: "Practice Shop",
+    description: "Westford Foods",
     type: "Card payment",
     category: "Shopping",
     reference: reference ?? `PS${now.slice(0, 10)}`,
@@ -304,7 +304,7 @@ const practiceBankWorker = {
     try {
       return await route(request, env, pathname);
     } catch (error) {
-      console.error(JSON.stringify({ message: "Practice Bank request failed", path: pathname, error: String(error) }));
+      console.error(JSON.stringify({ message: "Westford Bank request failed", path: pathname, error: String(error) }));
       return json({ error: "server_error" }, 500);
     }
   },

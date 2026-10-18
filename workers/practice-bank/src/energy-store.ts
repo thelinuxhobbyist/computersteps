@@ -68,7 +68,7 @@ function readUsername(raw: string): string | null {
 }
 
 /**
- * Opens a Westford Energy account for an existing Practice Bank identity.
+ * Opens a Westford Energy account for an existing Westford Bank identity.
  * Past energy payments are copied into the bank history, and the bank's opening balance goes up
  * by the same amount, so the learner's current balance does not change.
  */
@@ -234,7 +234,7 @@ export async function getEnergy(env: Env, rawUsername: string): Promise<Response
   return energy ? json({ energy }) : json({ error: "account_not_found" }, 404);
 }
 
-/** Pays the energy bill with a Practice Bank card. The bank payment and the energy payment are saved together. */
+/** Pays the energy bill with a Westford Bank card. The bank payment and the energy payment are saved together. */
 export async function payEnergyByCard(request: Request, env: Env, rawUsername: string): Promise<Response> {
   const key = readUsername(rawUsername);
   if (!key) return json({ error: "account_not_found" }, 404);
@@ -261,7 +261,7 @@ export async function payEnergyByCard(request: Request, env: Env, rawUsername: s
   return takeEnergyPayment(env.BANK_DB, key, amountPence, "card_online", idempotencyKey);
 }
 
-/** Money leaves Practice Bank only if there is enough, and Westford Energy records it only if it left. */
+/** Money leaves Westford Bank only if there is enough, and Westford Energy records it only if it left. */
 async function takeEnergyPayment(
   db: D1Database,
   key: string,
@@ -309,7 +309,7 @@ async function takeEnergyPayment(
   });
 }
 
-/** "Pay a bill" in Practice Bank. */
+/** "Pay a bill" in Westford Bank. */
 export async function payByBankTransfer(request: Request, env: Env, rawUsername: string): Promise<Response> {
   const key = readUsername(rawUsername);
   if (!key) return json({ error: "account_not_found" }, 404);

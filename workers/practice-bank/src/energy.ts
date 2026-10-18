@@ -157,7 +157,7 @@ export function buildEnergyHistory(today: Day, random: Random) {
   };
 }
 
-/** How each energy payment appears in Practice Bank. */
+/** How each energy payment appears in Westford Bank. */
 export function bankTransactionFor(payment: NewEnergyPayment): NewTransaction {
   return {
     postedAt: payment.paidAt,
@@ -215,7 +215,7 @@ export function readPaymentAmount(value: unknown): number | null {
 
 export type DirectDebitRequest = { accountName: string; sortCode: string; accountNumber: string; day: number };
 
-/** Checks a Direct Debit form against the learner's own Practice Bank account. */
+/** Checks a Direct Debit form against the learner's own Westford Bank account. */
 export function checkDirectDebit(
   body: Record<string, unknown>,
   owner: Identity,
@@ -229,13 +229,13 @@ export function checkDirectDebit(
 
   if (!accountName) errors.accountName = "Type the name of the person who owns the bank account.";
   else if (squash(accountName) !== squash(owner.fullName)) {
-    errors.accountName = "The name must match the name on the bank account. Check it in Practice Bank.";
+    errors.accountName = "The name must match the name on the bank account. Check it in Westford Bank.";
   }
 
   if (sortCode.length !== 6) errors.sortCode = "A sort code has 6 numbers, like 00-12-34.";
   if (accountNumber.length !== 8) errors.accountNumber = "An account number has 8 numbers.";
   if (!errors.sortCode && !errors.accountNumber && (sortCode !== onlyDigits(bank.sortCode) || accountNumber !== bank.accountNumber)) {
-    errors.accountNumber = "We could not find a bank account with this sort code and account number. Check both in Practice Bank.";
+    errors.accountNumber = "We could not find a bank account with this sort code and account number. Check both in Westford Bank.";
   }
 
   if (!Number.isInteger(day) || day < DIRECT_DEBIT_FIRST_DAY || day > DIRECT_DEBIT_LAST_DAY) {
@@ -276,7 +276,7 @@ export type TransferRequest =
   | { payee: "other"; amountPence: number; reference: string; payeeName: string };
 
 /**
- * A bank transfer from Practice Bank.
+ * A bank transfer from Westford Bank.
  * Westford Energy is recognised so the payment can be applied to the energy bill.
  * It needs the energy account number as the reference. Any other sort code and account number is paid as a normal transfer.
  */

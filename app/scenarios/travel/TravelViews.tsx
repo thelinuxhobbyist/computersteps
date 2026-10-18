@@ -876,12 +876,12 @@ function BookingForm() {
     event.preventDefault();
     if (!username || !priced.ok || busy) return;
     const missing: Partial<CheckoutFields> = {};
-    if (!fields.fullName.trim()) missing.fullName = "Type the name on your Practice Bank account.";
-    if (!fields.addressLine1.trim()) missing.addressLine1 = "Type the first line of the address from Practice Bank.";
-    if (!fields.townOrCity.trim()) missing.townOrCity = "Type the town from Practice Bank.";
-    if (!fields.postcode.trim()) missing.postcode = "Type the postcode from Practice Bank.";
-    if (!fields.nameOnCard.trim()) missing.nameOnCard = "Type the name on your Practice Bank card.";
-    if (fields.cardNumber.replace(/\D/g, "").length !== 16) missing.cardNumber = "Type the 16-digit card number from Practice Bank.";
+    if (!fields.fullName.trim()) missing.fullName = "Type the name on your Westford Bank account.";
+    if (!fields.addressLine1.trim()) missing.addressLine1 = "Type the first line of the address from Westford Bank.";
+    if (!fields.townOrCity.trim()) missing.townOrCity = "Type the town from Westford Bank.";
+    if (!fields.postcode.trim()) missing.postcode = "Type the postcode from Westford Bank.";
+    if (!fields.nameOnCard.trim()) missing.nameOnCard = "Type the name on your Westford Bank card.";
+    if (fields.cardNumber.replace(/\D/g, "").length !== 16) missing.cardNumber = "Type the 16-digit card number from Westford Bank.";
     if (fields.expiry.replace(/\D/g, "").length !== 4) missing.expiry = "Type the expiry date from your card.";
     if (fields.cvv.length !== 3) missing.cvv = "Type the 3-digit security code from your card.";
     if (Object.keys(missing).length > 0) {
@@ -915,7 +915,7 @@ function BookingForm() {
     }
     if (result.reason === "details") {
       setFieldErrors(result.errors);
-      setError("Those details do not match the address and card Practice Bank gave you when you registered.");
+      setError("Those details do not match the address and card Westford Bank gave you when you registered.");
       return;
     }
     setError(
@@ -939,7 +939,7 @@ function BookingForm() {
             <span>Total paid</span>
             <span>{formatMoney(priced.quote.totalPence)}</span>
           </p>
-          {done.balancePence !== null ? <p className="wt-note">Practice Bank balance left: {formatMoney(done.balancePence)}.</p> : null}
+          {done.balancePence !== null ? <p className="wt-note">Westford Bank balance left: {formatMoney(done.balancePence)}.</p> : null}
           <p className="wt-note">
             This is a practice booking on your account. No airline, hotel or card company has been contacted. Find it again under My trips.
           </p>
@@ -960,7 +960,7 @@ function BookingForm() {
           <p className="wt-kicker">Checkout</p>
           <h1 className="wt-title">Passenger details</h1>
           <p className="wt-meta">
-            Type the name, address and card from your Practice Bank account. Practice Bank gives you these details when you register.{" "}
+            Type the name, address and card from your Westford Bank account. Westford Bank gives you these details when you register.{" "}
             <Link className="wt-textlink" href={`${BANK_BASE}/card/`}>
               Look at your card
             </Link>{" "}
@@ -977,7 +977,7 @@ function BookingForm() {
             <CheckoutField id="wt-address" label="Address" hint="House number and street" value={fields.addressLine1} error={fieldErrors.addressLine1} onChange={(value) => setField("addressLine1", value)} />
             <CheckoutField id="wt-town" label="Town or city" value={fields.townOrCity} error={fieldErrors.townOrCity} onChange={(value) => setField("townOrCity", value)} />
             <CheckoutField id="wt-postcode" label="Postcode" value={fields.postcode} error={fieldErrors.postcode} onChange={(value) => setField("postcode", value)} />
-            <h2>Practice Bank card</h2>
+            <h2>Westford Bank card</h2>
             <CheckoutField id="wt-card-name" label="Name on card" value={fields.nameOnCard} error={fieldErrors.nameOnCard} onChange={(value) => setField("nameOnCard", value)} />
             <CheckoutField id="wt-card-number" label="Card number" hint="16 digits. Spaces are added as you type." value={fields.cardNumber} error={fieldErrors.cardNumber} onChange={(value) => setField("cardNumber", value)} inputMode="numeric" />
             <div className="wt-payrow">

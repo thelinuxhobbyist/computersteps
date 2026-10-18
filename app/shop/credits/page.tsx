@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
-import { PHOTO_CREDITS, getProduct } from "../shop-data";
+import { PHOTO_CREDITS, SHOP_NAME, getProduct } from "../shop-data";
 
 export const metadata: Metadata = {
-  title: "Photo credits | Practice Shop | Computer Steps",
+  title: `Photo credits | ${SHOP_NAME} | Computer Steps`,
 };
 
 export default function PhotoCreditsPage() {
@@ -19,7 +19,7 @@ export default function PhotoCreditsPage() {
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/scenarios/">Scenarios</Link>
           <span aria-hidden="true">›</span>
-          <Link href="/shop/">Practice Shop</Link>
+          <Link href="/shop/">{SHOP_NAME}</Link>
           <span aria-hidden="true">›</span>
           <span aria-current="page">Photo credits</span>
         </nav>

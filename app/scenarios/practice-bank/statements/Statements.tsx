@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import AccountGate from "../components/AccountGate";
 import { buildStatements, formatMoney, formatShortDate, statementFileName, type BankAccount, type Statement } from "../bank-data";
-import { downloadStatementPdf } from "../statement-pdf";
+import { downloadStatementPdf, statementPdfBlob } from "../statement-pdf";
 
 export default function Statements() {
   return <AccountGate>{(account) => <StatementList account={account} />}</AccountGate>;
@@ -15,6 +15,7 @@ function StatementList({ account }: { account: BankAccount }) {
   const statements = buildStatements(account, new Date());
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [downloaded, setDownloaded] = useState<string | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const hasNavigated = useRef(false);
   const open = statements.find((statement) => statement.key === openKey);
@@ -24,6 +25,15 @@ function StatementList({ account }: { account: BankAccount }) {
     headingRef.current?.focus();
     headingRef.current?.scrollIntoView({ block: "start" });
   }, [openKey]);
+
+  useEffect(() => {
+    if (!openKey) return;
+    const statement = buildStatements(account, new Date()).find((item) => item.key === openKey);
+    if (!statement) return;
+    const url = URL.createObjectURL(statementPdfBlob(account, statement));
+    setPdfUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [account, openKey]);
 
   const show = (key: string | null) => {
     hasNavigated.current = true;
@@ -52,7 +62,8 @@ function StatementList({ account }: { account: BankAccount }) {
           Statement: {open.title}
         </h1>
         <p className="pb-lead">
-          {account.username} · Sort code {account.sortCode} · Account number {account.accountNumber}
+          {account.username} · Sort code {account.sortCode} · Account number {account.accountNumber}. The PDF is shown below.
+          Download it when you want a copy in your Downloads folder.
         </p>
 
         <dl className="pb-statement-summary">
@@ -78,8 +89,19 @@ function StatementList({ account }: { account: BankAccount }) {
           <button type="button" className="pb-btn pb-btn--primary" onClick={() => download(open)}>
             <FontAwesomeIcon icon={faDownload} aria-hidden="true" /> Download as PDF
           </button>
+          {pdfUrl ? (
+            <a className="pb-btn pb-btn--secondary" href={pdfUrl} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faEye} aria-hidden="true" /> Open PDF in a new tab
+            </a>
+          ) : null}
         </div>
         {downloadedNote}
+
+        {pdfUrl ? (
+          <iframe className="pb-pdf" title={`PDF statement for ${open.title}`} src={pdfUrl} />
+        ) : null}
+
+        <h2>Transactions in this statement</h2>
 
         <div className="pb-table-wrap">
           <table className="pb-table">

@@ -43,7 +43,7 @@ const account = {
     tx("2026-09-01T06:00:00Z", "Pension payment", 72000),
     tx("2026-09-15T08:00:00Z", "Clearwater Water", -3000),
     tx("2026-10-01T06:00:00Z", "Pension payment", 72000),
-    tx("2026-10-02T15:00:00Z", "Practice Shop", -2450, "PS-123456"),
+    tx("2026-10-02T15:00:00Z", "Westford Foods", -2450, "PS-123456"),
   ],
 };
 
@@ -69,7 +69,7 @@ test("running balance adds each transaction in date order", () => {
 
 test("this month only shows this month's transactions", () => {
   const rows = filterTransactions(account.transactions, { period: "this-month", now });
-  assert.deepEqual(rows.map((row) => row.description), ["Pension payment", "Practice Shop"]);
+  assert.deepEqual(rows.map((row) => row.description), ["Pension payment", "Westford Foods"]);
 });
 
 test("months follow UK time, so 11:30pm on 31 August BST counts as September", () => {
@@ -86,9 +86,9 @@ test("last 6 months goes back to the start of April", () => {
 
 test("search matches names, references and amounts", () => {
   const search = (query: string) => filterTransactions(account.transactions, { period: "last-6-months", query, now }).map((row) => row.description);
-  assert.deepEqual(search("practice shop"), ["Practice Shop"]);
-  assert.deepEqual(search("PS-123456"), ["Practice Shop"]);
-  assert.deepEqual(search("£24.50"), ["Practice Shop"]);
+  assert.deepEqual(search("westford foods"), ["Westford Foods"]);
+  assert.deepEqual(search("PS-123456"), ["Westford Foods"]);
+  assert.deepEqual(search("£24.50"), ["Westford Foods"]);
   assert.deepEqual(search("cafe"), []);
   assert.deepEqual(search("café"), ["Hillside Café"]);
 });
@@ -110,7 +110,7 @@ test("statements are newest first and their balances join up", () => {
   const [october, september] = statements;
   assert.equal(october.openingBalancePence, september.closingBalancePence);
   assert.equal(september.closingBalancePence, september.openingBalancePence + september.inPence - september.outPence);
-  assert.equal(statementFileName(september), "Practice-Bank-statement-September-2026.pdf");
+  assert.equal(statementFileName(september), "Westford-Bank-statement-September-2026.pdf");
 });
 
 test("statement PDF is a valid single-byte PDF with a correct cross-reference table", () => {
@@ -119,7 +119,7 @@ test("statement PDF is a valid single-byte PDF with a correct cross-reference ta
   const text = String.fromCharCode(...bytes);
   assert.ok(text.startsWith("%PDF-1.4"));
   assert.ok(text.trimEnd().endsWith("%%EOF"));
-  assert.ok(text.includes("(Practice Shop \\(PS-123456\\)) Tj"));
+  assert.ok(text.includes("(Westford Foods \\(PS-123456\\)) Tj"));
   assert.ok(text.includes("(Address: 14 Willow Lane, Townsville, PB4 7XY) Tj"));
   assert.ok(text.includes("(\xA32,165.50) Tj"), "pound sign is encoded as a single byte");
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { useBasket } from "../../shop/basket-store";
-import { formatItemCount, formatPrice } from "../../shop/shop-data";
+import { formatItemCount, formatPrice, SHOP_NAME } from "../../shop/shop-data";
 
 const STEPS = [
   { id: "shop", label: "Shop", href: "/shop/" },
@@ -24,7 +24,7 @@ export default function ShopBar({ current }: { current: ShopStep }) {
     <div className="shop-bar">
       <div className="wrap shop-bar__inner">
         <div className="shop-bar__brand">
-          <span className="shop-bar__name">Practice Shop</span>
+          <span className="shop-bar__name">{SHOP_NAME}</span>
           <span className="shop-bar__tag">Pretend money only</span>
         </div>
 

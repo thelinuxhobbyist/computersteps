@@ -34,7 +34,7 @@ export default function BankCard({ account, revealed }: BankCardProps) {
           <span>Security code</span>
           <strong>{revealed ? account.cvv : "•••"}</strong>
         </div>
-        <span className="pb-card__small">Not a real card. Only works in the Computer Steps Practice Shop.</span>
+        <span className="pb-card__small">Not a real card. Only works at Westford Foods.</span>
       </div>
     </div>
   );

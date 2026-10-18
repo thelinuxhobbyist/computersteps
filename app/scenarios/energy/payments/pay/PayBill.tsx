@@ -83,7 +83,7 @@ function PayForm({ energy, update }: { energy: EnergyAccount; update: (energy: E
     }
     if (result.reason === "card-details") show(result.errors);
     else if (result.reason === "card-not-found") show({ cardNumber: "We don't recognise this card number. Check each group of 4 numbers." });
-    else if (result.reason === "not-your-card") show({ cardNumber: `This card is not in ${energy.fullName}'s name. Use the card from ${energy.fullName}'s Practice Bank account.` });
+    else if (result.reason === "not-your-card") show({ cardNumber: `This card is not in ${energy.fullName}'s name. Use the card from ${energy.fullName}'s Westford Bank account.` });
     else if (result.reason === "insufficient-funds") show({}, "Your bank declined this payment because there is not enough money in the account. Try a smaller amount.");
     else show({}, "We couldn't take the payment. Check you are connected to the internet, then try again.");
   };
@@ -208,7 +208,7 @@ function PayForm({ energy, update }: { energy: EnergyAccount; update: (energy: E
           <p className="we-hint">
             Type the details exactly as they are on the card. Practice cards are in{" "}
             <Link href={`${BANK_BASE}/card/`} className="we-link">
-              Practice Bank under My card
+              Westford Bank under My card
             </Link>
             .
           </p>

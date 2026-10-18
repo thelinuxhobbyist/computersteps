@@ -96,10 +96,10 @@ function Overview({ account, refresh }: { account: BankAccount; refresh: () => v
       <aside className="pb-shop-callout">
         <FontAwesomeIcon icon={faBasketShopping} aria-hidden="true" className="pb-shop-callout__icon" />
         <p>
-          <strong>Try your card.</strong> Buy something in the Practice Shop, then come back here to find the payment.
+          <strong>Try your card.</strong> Buy something at Westford Foods, then come back here to find the payment.
         </p>
         <Link href="/shop/" className="pb-btn pb-btn--secondary">
-          Go to the Practice Shop
+          Go to Westford Foods
         </Link>
       </aside>
     </div>

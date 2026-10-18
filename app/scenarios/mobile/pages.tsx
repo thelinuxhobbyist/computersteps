@@ -245,7 +245,7 @@ function Pay({ mobile, replace }: { mobile: MobileAccount; replace: (mobile: Mob
       return;
     }
     if (result.reason === "insufficient-funds") {
-      setError(`Practice Bank declined this payment. The balance is ${formatMoney(result.balancePence ?? 0)}.`);
+      setError(`Westford Bank declined this payment. The balance is ${formatMoney(result.balancePence ?? 0)}.`);
       return;
     }
     setError("The bill was not paid. Try again. You will not be charged twice for this attempt.");
@@ -253,11 +253,11 @@ function Pay({ mobile, replace }: { mobile: MobileAccount; replace: (mobile: Mob
   return (
     <div className="ps-wrap">
       <h1>Payments</h1>
-      <p>This uses your Practice Bank balance. Westford Mobile does not ask for a card number.</p>
+      <p>This uses your Westford Bank balance. Westford Mobile does not ask for a card number.</p>
       {done ? (
         <p className="ps-ok">
           Payment received. You paid {formatMoney(done.amountPence)}. Reference <strong>{done.reference}</strong>.
-          {done.balancePence !== null ? ` Practice Bank balance: ${formatMoney(done.balancePence)}.` : ""}
+          {done.balancePence !== null ? ` Westford Bank balance: ${formatMoney(done.balancePence)}.` : ""}
         </p>
       ) : null}
       {error ? <p className="ps-error">{error}</p> : null}
@@ -291,7 +291,7 @@ export function MobileHelpPage() {
         </section>
         <section className="ps-panel">
           <h2>Reading your bill</h2>
-          <p>The amount to pay and the due date are on My Bill. Paying updates Practice Bank as well as this account.</p>
+          <p>The amount to pay and the due date are on My Bill. Paying updates Westford Bank as well as this account.</p>
         </section>
         <section className="ps-panel">
           <h2>Contact</h2>

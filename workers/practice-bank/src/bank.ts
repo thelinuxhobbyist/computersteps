@@ -135,16 +135,16 @@ export function readDeliveryDetails(body: Record<string, unknown>): Identity {
 export function checkDeliveryDetails(account: Identity, details: Identity): DeliveryErrors {
   const errors: DeliveryErrors = {};
   if (squashText(details.fullName) !== squashText(account.fullName)) {
-    errors.fullName = "The name does not match your Practice Bank account. Use the name shown in Practice Bank under My card.";
+    errors.fullName = "The name does not match your Westford Bank account. Use the name shown in Westford Bank under My card.";
   }
   if (squashText(details.addressLine1) !== squashText(account.addressLine1)) {
-    errors.addressLine1 = "The address does not match your Practice Bank account. Check the house number and street.";
+    errors.addressLine1 = "The address does not match your Westford Bank account. Check the house number and street.";
   }
   if (squashText(details.townOrCity) !== squashText(account.townOrCity)) {
-    errors.townOrCity = "The town does not match your Practice Bank account.";
+    errors.townOrCity = "The town does not match your Westford Bank account.";
   }
   if (squashText(details.postcode) !== squashText(account.postcode)) {
-    errors.postcode = "The postcode does not match your Practice Bank account.";
+    errors.postcode = "The postcode does not match your Westford Bank account.";
   }
   return errors;
 }

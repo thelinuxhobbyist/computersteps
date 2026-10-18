@@ -37,16 +37,16 @@ export default function LogIn() {
       setError(`We can't find an account called ${typed}. Check the spelling, or open a new account below.`);
       inputRef.current?.focus();
     } else {
-      setError("We couldn't reach Practice Bank. Check you are connected to the internet, then try again.");
+      setError("We couldn't reach Westford Bank. Check you are connected to the internet, then try again.");
     }
   };
 
   return (
     <div className="pb-wrap pb-content">
       <section className="pb-welcome">
-        <h1>Welcome to Practice Bank</h1>
+        <h1>Welcome to Westford Bank</h1>
         <p className="pb-lead">
-          Your own pretend bank account and bank card. Use the card in the Practice Shop, then come back here to see your money go out.
+          Your own pretend bank account and bank card. Use the card at Westford Foods, then come back here to see your money go out.
         </p>
       </section>
 
@@ -102,7 +102,7 @@ export default function LogIn() {
           </form>
 
           <div className="pb-panel pb-panel--tint">
-            <h2>New to Practice Bank?</h2>
+            <h2>New to Westford Bank?</h2>
             <p>Open an account in one step. You only need to choose a username.</p>
             <ul className="pb-ticks">
               <li>

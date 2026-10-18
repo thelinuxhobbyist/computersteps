@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetail from "./ProductDetail";
-import { PRODUCTS, getProduct } from "../shop-data";
+import { PRODUCTS, SHOP_NAME, getProduct } from "../shop-data";
 
 type ProductPageProps = {
   params: Promise<{ productId: string }>;
@@ -16,7 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const product = getProduct((await params).productId);
   return {
-    title: product ? `${product.name} | Practice Shop | Computer Steps` : "Practice Shop | Computer Steps",
+    title: product ? `${product.name} | ${SHOP_NAME} | Computer Steps` : `${SHOP_NAME} | Computer Steps`,
   };
 }
 

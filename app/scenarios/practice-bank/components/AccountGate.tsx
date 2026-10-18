@@ -43,7 +43,7 @@ export default function AccountGate({ children }: { children: (account: BankAcco
     return (
       <div className="pb-panel pb-notice">
         <h1>Something went wrong</h1>
-        <p>We couldn&rsquo;t reach Practice Bank. Check you are connected to the internet, then try again.</p>
+        <p>We couldn&rsquo;t reach Westford Bank. Check you are connected to the internet, then try again.</p>
         <button type="button" className="pb-btn pb-btn--primary" onClick={state.retry}>
           Try again
         </button>

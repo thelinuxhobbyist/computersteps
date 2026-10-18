@@ -83,7 +83,7 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
     ...checkCardDetails({ nameOnCard: account.name_on_card, cardNumber: account.card_number, expiry: account.expiry, cvv: account.cvv }, card),
   };
   if (normaliseCardNumber(card.cardNumber) !== account.card_number) {
-    errors.cardNumber = "We don't recognise this card number. Use the card Practice Bank gave you when you registered.";
+    errors.cardNumber = "We don't recognise this card number. Use the card Westford Bank gave you when you registered.";
   }
   if (Object.keys(errors).length > 0) return json({ error: "card_details_wrong", errors }, 400);
 

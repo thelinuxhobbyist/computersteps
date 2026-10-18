@@ -170,9 +170,12 @@ function assemblePdf(pageStreams: string[]): Uint8Array {
   return Uint8Array.from(output, (char) => char.charCodeAt(0));
 }
 
+export function statementPdfBlob(account: StatementAccount, statement: Statement): Blob {
+  return new Blob([buildStatementPdf(account, statement) as BlobPart], { type: "application/pdf" });
+}
+
 export function downloadStatementPdf(account: StatementAccount, statement: Statement, fileName: string) {
-  const blob = new Blob([buildStatementPdf(account, statement) as BlobPart], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(statementPdfBlob(account, statement));
   const link = document.createElement("a");
   link.href = url;
   link.download = fileName;

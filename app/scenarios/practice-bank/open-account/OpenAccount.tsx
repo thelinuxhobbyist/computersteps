@@ -50,7 +50,7 @@ export default function OpenAccount() {
         ? `Someone is already using ${typed}. Try adding a number, like ${typed}2.`
         : result.reason === "invalid"
           ? result.message || checkUsername(typed)
-          : "We couldn't reach Practice Bank. Check you are connected to the internet, then try again.",
+          : "We couldn't reach Westford Bank. Check you are connected to the internet, then try again.",
     );
     inputRef.current?.focus();
   };
@@ -81,7 +81,7 @@ export default function OpenAccount() {
             <FontAwesomeIcon icon={faPenToSquare} aria-hidden="true" /> Write these down now
           </h2>
           <p>
-            You will need your username to log in again. To pay in the Practice Shop you will need your card details, and the
+            You will need your username to log in again. To pay at Westford Foods you will need your card details, and the
             pretend name and address we have given you. The shop checks they all belong to the same person.
           </p>
 

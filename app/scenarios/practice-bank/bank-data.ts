@@ -1,5 +1,5 @@
 export const BANK_BASE = "/scenarios/practice-bank";
-export const BANK_NAME = "Practice Bank";
+export const BANK_NAME = "Westford Bank";
 
 export const BANK_NAV = [
   { label: "My account", href: `${BANK_BASE}/account/` },
@@ -19,7 +19,7 @@ export type BankTransaction = {
   reference: string | null;
 };
 
-/** The same rules the Worker uses for Practice Bank and Yama Clinic usernames. */
+/** The same rules the Worker uses for Westford Bank and Yama Clinic usernames. */
 export function checkUsername(username: string): string {
   if (!username) return "Please choose a username.";
   if (/\s/.test(username)) return "A username cannot have spaces. Try JohnSmith instead of John Smith.";
@@ -235,5 +235,5 @@ export function buildStatements(account: Pick<BankAccount, "openingBalancePence"
 }
 
 export function statementFileName(statement: Statement): string {
-  return `Practice-Bank-statement-${monthName(statement.key).replace(" ", "-")}.pdf`;
+  return `Westford-Bank-statement-${monthName(statement.key).replace(" ", "-")}.pdf`;
 }

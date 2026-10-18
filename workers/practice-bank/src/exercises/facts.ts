@@ -119,7 +119,7 @@ function bankFacts(facts: Facts, bank: BankAccountView, energy: EnergyAccount | 
 
   const newestFirst = [...bank.transactions].sort((a, b) => b.postedAt.localeCompare(a.postedAt) || b.id - a.id);
   const energyPayments = newestFirst.filter((transaction) => transaction.description === WESTFORD.name);
-  // The same window as Practice Bank's "Last 6 months" filter.
+  // The same window as Westford Bank's "Last 6 months" filter.
   const { year, month } = splitDay(ukToday(now));
   const sixMonthsAgo = makeDay(year, month - 6, 1);
   facts["bank.energyPayments.count"] = num(energyPayments.filter((transaction) => ukDayOf(transaction.postedAt) >= sixMonthsAgo).length);
@@ -128,7 +128,9 @@ function bankFacts(facts: Facts, bank: BankAccountView, energy: EnergyAccount | 
     facts["bank.lastEnergyPayment.date"] = day(ukDayOf(energyPayments[0].postedAt));
   }
 
-  const shop = newestFirst.find((transaction) => transaction.description === "Practice Shop");
+  const shop = newestFirst.find(
+    (transaction) => transaction.description === "Westford Foods" || transaction.description === "Practice Shop",
+  );
   facts["bank.hasShopPurchase"] = bool(Boolean(shop));
   if (shop) {
     facts["bank.lastShopPurchase.amount"] = money(-shop.amountPence);

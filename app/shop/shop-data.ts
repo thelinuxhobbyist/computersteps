@@ -1,3 +1,6 @@
+/** Learner-facing name. New shops and services use Westford plus the kind of organisation. */
+export const SHOP_NAME = "Westford Foods";
+
 export type ProductCategory = "groceries" | "household";
 
 export type Product = {
@@ -259,7 +262,7 @@ export function isPracticeCardNumber(cardNumber: string): boolean {
   return digitsOnly(cardNumber) === digitsOnly(PRACTICE_CARD.cardNumber);
 }
 
-/** Checks the details against the Sam Taylor practice card. Practice Bank cards are checked by the bank instead. */
+/** Checks the details against the Sam Taylor practice card. Westford Bank cards are checked by the bank instead. */
 export function validateCardDetails(details: CardDetails): FieldErrors<CardDetails> {
   const errors = validateCardFormat(details);
 

@@ -32,7 +32,7 @@ function TaxContent({ account, replace }: { account: CouncilAccount; replace: (a
       return;
     }
     if (result.reason === "insufficient-funds") {
-      setProblem(`Practice Bank declined this payment. The balance is ${formatMoney(result.balancePence)}, which is not enough for this instalment.`);
+      setProblem(`Westford Bank declined this payment. The balance is ${formatMoney(result.balancePence)}, which is not enough for this instalment.`);
       return;
     }
     if (result.reason === "nothing-to-pay") {
@@ -103,12 +103,12 @@ function TaxContent({ account, replace }: { account: CouncilAccount; replace: (a
       </div>
 
       <section className="council-section">
-        <h2>Pay with Practice Bank</h2>
-        <p>This uses the same pretend balance as Westford Energy and the Practice Shop. No card number is stored by the council.</p>
+        <h2>Pay with Westford Bank</h2>
+        <p>This uses the same pretend balance as Westford Energy and Westford Foods. No card number is stored by the council.</p>
         {done ? (
           <div className="council-success" role="status">
             Payment received. You paid {formatMoney(done.amountPence)}. Reference <strong>{done.reference}</strong>.
-            {done.balancePence !== null ? ` Your Practice Bank balance is now ${formatMoney(done.balancePence)}.` : ""}
+            {done.balancePence !== null ? ` Your Westford Bank balance is now ${formatMoney(done.balancePence)}.` : ""}
           </div>
         ) : null}
         {problem ? (

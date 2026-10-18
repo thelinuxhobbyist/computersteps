@@ -194,7 +194,7 @@ async function rememberCouncilPayment(db: D1Database, key: string, paidAt: strin
     .run();
 }
 
-/** Pays the next unpaid council tax instalment from the shared Practice Bank balance. */
+/** Pays the next unpaid council tax instalment from the shared Westford Bank balance. */
 export async function payCouncilTax(request: Request, env: Env, rawUsername: string): Promise<Response> {
   const key = readUsername(rawUsername);
   if (!key) return json({ error: "account_not_found" }, 404);

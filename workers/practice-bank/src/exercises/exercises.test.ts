@@ -66,7 +66,7 @@ function sampleWorld(options: { paid?: boolean; directDebit?: boolean } = {}): L
   const transactions = [
     { postedAt: "2026-09-01T06:00:00Z", description: "Pension payment", type: "Payment in", category: "Money in", amountPence: 72000, reference: null },
     { postedAt: "2026-09-01T07:00:00Z", description: "Oakfield Housing (rent)", type: "Direct Debit", category: "Bills", amountPence: -26000, reference: null },
-    { postedAt: "2026-10-05T14:00:00Z", description: "Practice Shop", type: "Card payment", category: "Shopping", amountPence: -1234, reference: "PS-123456" },
+    { postedAt: "2026-10-05T14:00:00Z", description: "Westford Foods", type: "Card payment", category: "Shopping", amountPence: -1234, reference: "PS-123456" },
     ...history.payments.map(bankTransactionFor),
   ].map((transaction, index) => ({ ...transaction, id: index + 1 }));
 

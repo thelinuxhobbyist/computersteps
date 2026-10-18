@@ -26,10 +26,15 @@ export type Scenario = {
   badge?: string;
 };
 
+/**
+ * Learner-facing names are "Westford" plus the kind of organisation:
+ * Westford Foods, Westford Bank, Westford Energy, and so on.
+ * New scenarios use that same pattern. Page addresses can stay as they are.
+ */
 export const SCENARIOS: Scenario[] = [
   {
     id: "practice-shop",
-    name: "Practice Shop",
+    name: "Westford Foods",
     icon: faCartShopping,
     summary: "Buy groceries online with a pretend bank card",
     description:
@@ -45,22 +50,22 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: "practice-bank",
-    name: "Practice Bank",
+    name: "Westford Bank",
     icon: faBuildingColumns,
     summary: "Your own pretend bank account and card",
     description:
-      "Open a pretend bank account with £5,000 and a bank card. Pay with the card in the Practice Shop, send a bank transfer, then check your balance, find the payment and download a statement. Come back any time with your username.",
+      "Open a pretend bank account with £5,000 and a bank card. Pay with the card at Westford Foods, send a bank transfer, then check your balance, find the payment and download a statement. Come back any time with your username.",
     href: "/scenarios/practice-bank/",
-    skills: ["Opening an account", "Keeping card details safe", "Checking a balance", "Finding transactions", "Downloading a statement"],
+    skills: ["Opening an account", "Keeping card details safe", "Checking a balance", "Finding transactions", "Viewing and downloading a statement"],
     tutorTasks: [
-      "Open a Practice Bank account. Write down your username and card details.",
-      "Use your Practice Bank card to buy some groceries in the Practice Shop. Then find the payment in Practice Bank.",
+      "Open a Westford Bank account. Write down your username and card details.",
+      "Use your Westford Bank card to buy some groceries at Westford Foods. Then find the payment in Westford Bank.",
       "Check your balance before and after shopping. How much money went out?",
       "How much money went out of your account last month?",
       "Look at the last 6 months of transactions. When did you last take money from a cash machine?",
       "Find out how much your broadband bill is each month.",
-      "Download last month's statement, then find it in your Downloads folder.",
-      "You have lost the paper with your card details. Find them again in Practice Bank.",
+      "Open last month's statement and look at the PDF, then download it and find it in your Downloads folder.",
+      "You have lost the paper with your card details. Find them again in Westford Bank.",
     ],
   },
   {
@@ -98,13 +103,13 @@ export const SCENARIOS: Scenario[] = [
     icon: faBolt,
     summary: "Read an electricity bill, pay it and find help",
     description:
-      "The website of a pretend electricity supplier. It uses your Practice Bank username: read your bills, check your energy use, send a meter reading and pay with your Practice Bank account. Practice tasks appear on the screen and check your answers as you go.",
+      "The website of a pretend electricity supplier. It uses your Westford Bank username: read your bills, check your energy use, send a meter reading and pay with your Westford Bank account. Practice tasks appear on the screen and check your answers as you go.",
     href: "/scenarios/energy/",
     skills: ["Reading a bill", "Working with money and dates", "Paying a bill online", "Finding help and contact details", "Using two websites together"],
     tutorTasks: [
-      "Log in with your Practice Bank username, then choose “Start a practice task”.",
+      "Log in with your Westford Bank username, then choose “Start a practice task”.",
       "Find out how much your latest electricity bill is and when it must be paid by.",
-      "Pay your electricity bill online with your Practice Bank card, then check your bank balance.",
+      "Pay your electricity bill online with your Westford Bank card, then check your bank balance.",
       "Find out what help Westford Energy offers if you are struggling to pay.",
     ],
   },
@@ -130,13 +135,13 @@ export const SCENARIOS: Scenario[] = [
     icon: faMobileScreen,
     summary: "Check data, read a bill and ask for help",
     description:
-      "A pretend mobile phone provider. See your number, data allowance and bill, compare plans, pay with Practice Bank and save a support request.",
+      "A pretend mobile phone provider. See your number, data allowance and bill, compare plans, pay with Westford Bank and save a support request.",
     href: "/scenarios/mobile/",
     skills: ["Reading an allowance", "Comparing plans", "Paying a bill", "Sending a support message"],
     tutorTasks: [
       "Find how much mobile data is left.",
       "Find the date the current bill must be paid.",
-      "Pay the current bill with Practice Bank and note the reference.",
+      "Pay the current bill with Westford Bank and note the reference.",
       "Compare Everyday and Essential and say which has more data.",
       "Report a mobile internet problem and find the reference number.",
     ],
@@ -165,7 +170,7 @@ export const SCENARIOS: Scenario[] = [
     icon: faPlane,
     summary: "Compare flights and places to stay, then book",
     description:
-      "A pretend travel website for flights, hotels and holiday rentals in the UK. Compare prices, review the total and pay with Practice Bank.",
+      "A pretend travel website for flights, hotels and holiday rentals in the UK. Compare prices, review the total and pay with Westford Bank.",
     href: "/scenarios/travel/",
     skills: ["Searching", "Comparing prices and times", "Reading a booking total", "Paying and finding a reference"],
     tutorTasks: [
@@ -174,7 +179,7 @@ export const SCENARIOS: Scenario[] = [
       "Find a hotel or rental for two nights.",
       "Compare a hotel with a holiday rental.",
       "Review a combined booking total before paying.",
-      "Pay with Practice Bank, then find the booking reference in My trips.",
+      "Pay with Westford Bank, then find the booking reference in My trips.",
     ],
   },
   {

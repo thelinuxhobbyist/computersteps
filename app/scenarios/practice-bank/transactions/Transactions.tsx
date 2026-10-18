@@ -52,7 +52,7 @@ function TransactionFinder({ account }: { account: BankAccount }) {
             Search
           </label>
           <p id="pb-search-hint" className="pb-hint">
-            Type a shop name, a type of payment or an amount. For example: Practice Shop
+            Type a shop name, a type of payment or an amount. For example: Westford Foods
           </p>
           <div className="pb-search__field">
             <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />

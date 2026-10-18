@@ -190,10 +190,10 @@ export default function CheckoutForm() {
     } else if (result.reason === "insufficient-funds") {
       showErrors(
         {},
-        `Payment declined: there is not enough money in your Practice Bank account. Your balance is ${formatPrice(result.balancePence)}. Remove something from your basket and try again.`,
+        `Payment declined: there is not enough money in your Westford Bank account. Your balance is ${formatPrice(result.balancePence)}. Remove something from your basket and try again.`,
       );
     } else {
-      showErrors({}, "We couldn't reach Practice Bank to take the payment. Check you are connected to the internet, then try again.");
+      showErrors({}, "We couldn't reach Westford Bank to take the payment. Check you are connected to the internet, then try again.");
     }
   };
 
@@ -292,7 +292,7 @@ export default function CheckoutForm() {
                   <span className="checkout-section__num">1</span> Delivery details
                 </legend>
                 <p className="checkout-section__intro">
-                  Paying with a Practice Bank card? Use the name and address shown in Practice Bank under <strong>My card</strong>.
+                  Paying with a Westford Bank card? Use the name and address shown in Westford Bank under <strong>My card</strong>.
                   The bank checks they match the card.
                 </p>
                 {renderField("fullName")}
@@ -307,10 +307,10 @@ export default function CheckoutForm() {
                   <span className="checkout-section__num">2</span> Payment
                 </legend>
                 <p className="checkout-section__intro">
-                  Type the details exactly as they appear on your card. You can use your Practice Bank card or the practice card
+                  Type the details exactly as they appear on your card. You can use your Westford Bank card or the practice card
                   you were given.{" "}
                   <Link href={`${BANK_BASE}/`} className="checkout-section__link">
-                    No card? Open a Practice Bank account
+                    No card? Open a Westford Bank account
                   </Link>{" "}
                   (your basket will be kept).
                 </p>

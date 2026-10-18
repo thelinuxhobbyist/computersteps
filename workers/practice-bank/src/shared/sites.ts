@@ -1,3 +1,5 @@
+// Learner-facing site names are "Westford" plus the kind of organisation
+// (Westford Foods, Westford Bank, Westford Energy, and so on). New sites use that pattern.
 // Every ComputerSteps website, and how its pages are named for exercises.
 // Exercises refer to page ids like "energy.bills.history", never to buttons or layouts,
 // so a page can be redesigned without touching the exercise library.
@@ -8,8 +10,8 @@ export type Site = { id: SiteId; name: string; href: string; bases: string[] };
 
 export const SITES: Site[] = [
   { id: "energy", name: "Westford Energy", href: "/scenarios/energy/", bases: ["/scenarios/energy"] },
-  { id: "bank", name: "Practice Bank", href: "/scenarios/practice-bank/", bases: ["/scenarios/practice-bank"] },
-  { id: "shop", name: "Practice Shop", href: "/shop/", bases: ["/shop", "/basket", "/checkout"] },
+  { id: "bank", name: "Westford Bank", href: "/scenarios/practice-bank/", bases: ["/scenarios/practice-bank"] },
+  { id: "shop", name: "Westford Foods", href: "/shop/", bases: ["/shop", "/basket", "/checkout"] },
   { id: "gp", name: "Yama Clinic", href: "/scenarios/gp-surgery/", bases: ["/scenarios/gp-surgery"] },
   { id: "council", name: "Westford Council", href: "/scenarios/council/", bases: ["/scenarios/council"] },
   { id: "mobile", name: "Westford Mobile", href: "/scenarios/mobile/", bases: ["/scenarios/mobile"] },

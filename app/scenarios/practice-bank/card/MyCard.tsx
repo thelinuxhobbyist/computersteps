@@ -21,7 +21,7 @@ function CardDetails({ account }: { account: BankAccount }) {
     <div className="pb-wrap pb-content">
       <h1>My card</h1>
       <p className="pb-lead">
-        Your Practice Bank debit card. Use these details, with your name and address below, to pay in the Practice Shop.
+        Your Westford Bank debit card. Use these details, with your name and address below, to pay at Westford Foods.
       </p>
 
       <div className="pb-card-layout">
@@ -58,7 +58,7 @@ function CardDetails({ account }: { account: BankAccount }) {
       <section className="pb-panel pb-holder" aria-labelledby="pb-holder-heading">
         <h2 id="pb-holder-heading">Your name and address</h2>
         <p>
-          This is the pretend person the card belongs to. When you pay in the Practice Shop, type this name and address as the
+          This is the pretend person the card belongs to. When you pay at Westford Foods, type this name and address as the
           delivery details.
         </p>
         <dl className="pb-details pb-details--large">
@@ -85,7 +85,7 @@ function CardDetails({ account }: { account: BankAccount }) {
 
       <div className="pb-actions">
         <Link href="/shop/" className="pb-btn pb-btn--secondary">
-          Use my card in the Practice Shop
+          Use my card at Westford Foods
         </Link>
       </div>
     </div>
