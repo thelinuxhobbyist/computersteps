@@ -2750,19 +2750,8 @@ body.nav-open {
 }
 
 .cs-footer__inner {
-  max-width: 56rem;
+  max-width: 40rem;
   margin: 0 auto;
-}
-
-.cs-footer__top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1.5rem 3rem;
-}
-
-.cs-footer__brand {
-  max-width: 24rem;
 }
 
 .cs-footer__logo {
@@ -2777,8 +2766,20 @@ body.nav-open {
 
 .cs-footer__nav {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0;
+  margin-top: 1.25rem;
+}
+
+.cs-footer__nav-item {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.cs-footer__dot {
+  margin: 0 0.45rem;
+  color: var(--ink-soft);
 }
 
 .cs-footer__nav a {
@@ -2798,29 +2799,28 @@ body.nav-open {
   border-radius: 2px;
 }
 
-.cs-footer__bottom {
-  margin-top: 2rem;
+.cs-footer__patience {
+  margin: 1.5rem 0 0;
   padding-top: 1.25rem;
   border-top: 1px solid var(--cs-line);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
+  font-size: 0.95rem;
+}
+
+.cs-footer__legal {
+  margin: 0.35rem 0 0;
   font-size: 0.9rem;
 }
 
 .cs-footer__dev {
-  flex-basis: 100%;
-  font-size: 0.85rem;
-  opacity: 0.85;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-decoration: none;
 }
 
-.cs-footer__bottom a {
-  color: inherit;
-}
-
-.cs-footer__bottom a:hover {
-  color: var(--teal);
+.cs-footer__dev:hover {
+  color: var(--ink);
+  text-decoration: underline;
 }
 
 .behind {
