@@ -207,6 +207,34 @@ test("a practice profile reuses the account name and address and stays fictional
   assert.deepEqual(validateDraft(applicationFromProfile(profile), "all"), {});
 });
 
+test("a practice application keeps more than one job, duty, skill and qualification", () => {
+  const profile = practiceProfileFromIdentity({
+    fullName: "Alex Morgan",
+    addressLine1: "14 Willow Lane",
+    townOrCity: "Townsville",
+    postcode: "PB4 7XY",
+  });
+  const draft = applicationFromProfile(profile);
+  draft.jobs = [
+    ...draft.jobs,
+    { jobTitle: "Shop assistant", employerName: "Westford Stores", dateFrom: "June 2022", dateTo: "February 2024" },
+  ];
+  draft.dutyItems = ["Helped visitors find books.", "Stacked shelves and served customers."];
+  draft.skillItems = ["Clear spoken English", "Careful with personal information"];
+  draft.qualificationItems = ["Computer Steps practice courses", "Food hygiene certificate"];
+  const stored = readDraft(draft);
+  assert.equal(stored.jobs.length, 2);
+  assert.equal(stored.jobTitle, "Customer service assistant");
+  assert.equal(stored.jobs[1]?.employerName, "Westford Stores");
+  assert.match(stored.duties, /Stacked shelves/);
+  assert.equal(stored.skillItems.length, 2);
+  assert.equal(stored.qualificationItems.length, 2);
+  assert.deepEqual(validateDraft(stored, "all"), {});
+  const missing = validateDraft({ ...stored, jobs: [...stored.jobs, { jobTitle: "", employerName: "", dateFrom: "", dateTo: "" }] }, "all");
+  assert.ok(missing["jobTitle-1"] === undefined);
+  assert.ok(missing["jobTitle-2"]);
+});
+
 test("every guided task can be checked, and a wrong answer explains where to look", () => {
   assert.ok(JOB_EXERCISES.length >= 20);
   assert.equal(new Set(JOB_EXERCISES.map((exercise) => exercise.id)).size, JOB_EXERCISES.length);

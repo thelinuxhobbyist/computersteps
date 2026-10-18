@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAccount } from "../practice-bank/bank-api";
-import { practiceProfileFromIdentity, sampleCvText, type PracticeProfile } from "../../../workers/practice-bank/src/shared/practice-profile";
+import { practiceProfileFromIdentity, type PracticeProfile } from "../../../workers/practice-bank/src/shared/practice-profile";
+import { SampleCv } from "./SampleCv";
 import { ScenarioSignIn } from "../../components/ScenarioSignIn";
 import { clearLearner, useLearner } from "../../lib/learner-session";
-import { APPLICATION_STATUS_LABELS, type ApplicationDraft, type ApplicationStatus } from "../../../workers/practice-bank/src/shared/job-application";
+import { APPLICATION_STATUS_LABELS, cvContent, type ApplicationDraft, type ApplicationStatus } from "../../../workers/practice-bank/src/shared/job-application";
 import { findVacancy } from "../../../workers/practice-bank/src/shared/job-catalogue";
 import { formatLocation, formatUkDate } from "../../../workers/practice-bank/src/shared/jobs";
 import { getJobsAccount, unsaveVacancy, type JobsAccount, type PracticeApplication } from "./jobs-api";
@@ -357,8 +358,8 @@ function SavedCvView({ form }: { form: ApplicationDraft }) {
         {open ? "Hide CV" : "View CV"}
       </button>
       {open ? (
-        <pre className="wj-cv-view">
-          {sampleCvText({
+        <SampleCv
+          profile={{
             firstName: form.firstName,
             surname: form.surname,
             fullName: `${form.firstName} ${form.surname}`.trim(),
@@ -367,8 +368,9 @@ function SavedCvView({ form }: { form: ApplicationDraft }) {
             addressLine: form.addressLine,
             town: form.town,
             postcode: form.postcode,
-          })}
-        </pre>
+          }}
+          cv={{ ...cvContent(form), statement: form.statement }}
+        />
       ) : null}
     </div>
   );
@@ -427,13 +429,18 @@ function ApplicationBody({ application }: { application: PracticeApplication }) 
             <dt>Address</dt>
             <dd>{[form.addressLine, form.town, form.postcode].filter(Boolean).join(", ")}</dd>
             <dt>Employment</dt>
-            <dd>{form.noExperience ? "No previous paid employment" : `${form.jobTitle} at ${form.employerName}, ${form.dateFrom} to ${form.dateTo}. ${form.duties}`}</dd>
+            <dd>
+              {cvContent(form).jobs.length === 0
+                ? "No previous paid employment"
+                : cvContent(form).jobs.map((job) => `${job.jobTitle} at ${job.employerName}, ${job.dateFrom} to ${job.dateTo}`).join("; ")}
+              {form.duties ? `. ${form.duties}` : ""}
+            </dd>
             <dt>Skills</dt>
-            <dd>{form.skills}</dd>
+            <dd>{cvContent(form).skillItems.filter(Boolean).join(". ") || form.skills}</dd>
             <dt>Experience</dt>
             <dd>{form.previousExperience}</dd>
             <dt>Qualifications</dt>
-            <dd>{form.qualifications}</dd>
+            <dd>{cvContent(form).qualificationItems.filter(Boolean).join(". ") || form.qualifications}</dd>
             <dt>Statement</dt>
             <dd>{form.statement}</dd>
           </dl>

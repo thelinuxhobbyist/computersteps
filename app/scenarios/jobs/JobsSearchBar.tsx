@@ -9,7 +9,8 @@ import { PlaceLookup } from "./PlaceLookup";
 export function JobsSearchBar() {
   const params = useSearchParams();
   const pathname = usePathname();
-  const job = pathname.includes("/job") ? findVacancy(params.get("id") ?? "") : undefined;
+  if (pathname.includes("/apply")) return null;
+  const job = /\/job\/?$/.test(pathname) || pathname.includes("/job/") ? findVacancy(params.get("id") ?? "") : undefined;
   const title = job?.title ?? params.get("q") ?? "";
   const place = job ? job.town : (params.get("where") ?? "");
   return <SearchForm key={`${pathname}?${params.toString()}`} title={title} place={place} />;
