@@ -7,6 +7,7 @@ import {
   MAIL_ORGS,
   MAIL_RETENTION_DAYS,
   checkOutgoing,
+  spamExamples,
   findOrg,
   learnerAddress,
   organisationReply,
@@ -21,6 +22,9 @@ import {
 type MailRow = {
   id: number;
   mailbox: "inbox" | "sent";
+  folder: string;
+  starred: number;
+  note: string;
   from_name: string;
   from_address: string;
   to_name: string;
@@ -48,6 +52,9 @@ function present(row: MailRow) {
   return {
     id: row.id,
     mailbox: row.mailbox,
+    folder: row.folder || row.mailbox,
+    starred: row.starred === 1,
+    note: row.note,
     fromName: row.from_name,
     fromAddress: row.from_address,
     toName: row.to_name,
@@ -92,14 +99,17 @@ async function capMailbox(db: D1Database, key: string): Promise<void> {
 async function insertDrafts(db: D1Database, key: string, drafts: MailDraft[]): Promise<void> {
   const statement = db.prepare(
     `INSERT OR IGNORE INTO mail_messages
-      (username_key, mailbox, from_name, from_address, to_name, to_address, subject, body, sent_at, visible_at, read_at, conversation_id, scenario, event_key, event_ref, attachments_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (username_key, mailbox, folder, starred, note, from_name, from_address, to_name, to_address, subject, body, sent_at, visible_at, read_at, conversation_id, scenario, event_key, event_ref, attachments_json)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   );
   for (const draft of drafts) {
     await statement
       .bind(
         key,
         draft.mailbox,
+        draft.folder,
+        draft.starred ? 1 : 0,
+        draft.note,
         draft.fromName,
         draft.fromAddress,
         draft.toName,
@@ -108,7 +118,7 @@ async function insertDrafts(db: D1Database, key: string, drafts: MailDraft[]): P
         draft.body,
         draft.sentAt,
         draft.visibleAt,
-        draft.mailbox === "sent" ? draft.sentAt : null,
+        draft.folder === "inbox" || draft.folder === "spam" ? null : draft.sentAt,
         draft.conversationId,
         draft.scenario,
         draft.eventKey,
@@ -209,10 +219,11 @@ export async function getMailbox(env: Env, rawUsername: string): Promise<Respons
   const holder = await holderOf(env.BANK_DB, key);
   if (!holder) return json({ error: "account_not_found" }, 404);
   const now = new Date();
+  await sendScenarioMail(env.BANK_DB, key, (person) => spamExamples(person, now.toISOString()));
   await pruneMail(env.BANK_DB, now);
   await env.BANK_DB.prepare("UPDATE accounts SET last_used_at = ? WHERE username_key = ?").bind(now.toISOString(), key).run();
   const listed = await env.BANK_DB.prepare(
-    `SELECT id, mailbox, from_name, from_address, to_name, to_address, subject, body, sent_at, read_at, conversation_id, scenario, event_ref, attachments_json
+    `SELECT id, mailbox, folder, starred, note, from_name, from_address, to_name, to_address, subject, body, sent_at, read_at, conversation_id, scenario, event_ref, attachments_json
      FROM mail_messages WHERE username_key = ? AND visible_at <= ? ORDER BY sent_at DESC, id DESC`,
   )
     .bind(key, now.toISOString())
@@ -238,10 +249,82 @@ export async function markMailRead(request: Request, env: Env, rawUsername: stri
   const body = await readJson(request);
   const id = body && typeof body.id === "number" ? body.id : 0;
   if (!id) return json({ error: "bad_request" }, 400);
-  await env.BANK_DB.prepare("UPDATE mail_messages SET read_at = ? WHERE id = ? AND username_key = ? AND mailbox = 'inbox' AND read_at IS NULL")
+  await env.BANK_DB.prepare("UPDATE mail_messages SET read_at = ? WHERE id = ? AND username_key = ? AND read_at IS NULL")
     .bind(new Date().toISOString(), id, key)
     .run();
   return json({ ok: true });
+}
+
+const MAIL_FOLDERS = new Set(["inbox", "sent", "drafts", "spam", "bin"]);
+
+export async function updateMail(request: Request, env: Env, rawUsername: string): Promise<Response> {
+  const key = accountKey(rawUsername);
+  if (!key) return json({ error: "account_not_found" }, 404);
+  const body = await readJson(request);
+  const id = body && typeof body.id === "number" ? body.id : 0;
+  if (!id) return json({ error: "bad_request" }, 400);
+  const owned = await env.BANK_DB.prepare("SELECT id FROM mail_messages WHERE id = ? AND username_key = ?").bind(id, key).first();
+  if (!owned) return json({ error: "not_found" }, 404);
+  if (typeof body?.starred === "boolean") {
+    await env.BANK_DB.prepare("UPDATE mail_messages SET starred = ? WHERE id = ? AND username_key = ?").bind(body.starred ? 1 : 0, id, key).run();
+  }
+  if (typeof body?.folder === "string" && MAIL_FOLDERS.has(body.folder)) {
+    await env.BANK_DB.prepare("UPDATE mail_messages SET folder = ? WHERE id = ? AND username_key = ?").bind(body.folder, id, key).run();
+  }
+  return json({ ok: true });
+}
+
+export async function saveDraftMail(request: Request, env: Env, rawUsername: string): Promise<Response> {
+  const key = accountKey(rawUsername);
+  if (!key) return json({ error: "account_not_found" }, 404);
+  const holder = await holderOf(env.BANK_DB, key);
+  if (!holder) return json({ error: "account_not_found" }, 404);
+  const body = await readJson(request, 8000);
+  if (!body) return json({ error: "bad_request" }, 400);
+  const to = typeof body.to === "string" ? body.to.trim().slice(0, 120) : "";
+  const subject = typeof body.subject === "string" ? body.subject.trim().slice(0, 120) : "";
+  const message = typeof body.body === "string" ? body.body.slice(0, 2000) : "";
+  const attachmentName = typeof body.attachmentName === "string" ? body.attachmentName.trim().slice(0, 80) : "";
+  const id = typeof body.id === "number" ? body.id : 0;
+  const now = new Date().toISOString();
+  if (!to && !subject && !message.trim() && !attachmentName) {
+    if (id) await env.BANK_DB.prepare("DELETE FROM mail_messages WHERE id = ? AND username_key = ? AND folder = 'drafts'").bind(id, key).run();
+    return json({ ok: true, id: null });
+  }
+  if (id) {
+    const existing = await env.BANK_DB.prepare("SELECT id FROM mail_messages WHERE id = ? AND username_key = ? AND folder = 'drafts'").bind(id, key).first();
+    if (!existing) return json({ error: "not_found" }, 404);
+    await env.BANK_DB.prepare(
+      "UPDATE mail_messages SET to_address = ?, subject = ?, body = ?, attachments_json = ?, sent_at = ?, visible_at = ? WHERE id = ? AND username_key = ?",
+    )
+      .bind(to, subject, message, JSON.stringify(attachmentName ? [{ name: attachmentName }] : []), now, now, id, key)
+      .run();
+    return json({ ok: true, id });
+  }
+  const eventKey = `draft:${crypto.randomUUID()}`;
+  await insertDrafts(env.BANK_DB, key, [
+    {
+      mailbox: "sent",
+      folder: "drafts",
+      starred: false,
+      note: "",
+      fromName: holder.fullName,
+      fromAddress: learnerAddress(holder.username),
+      toName: to,
+      toAddress: to,
+      subject,
+      body: message,
+      sentAt: now,
+      visibleAt: now,
+      conversationId: eventKey,
+      scenario: "mail",
+      eventKey,
+      eventRef: null,
+      attachments: attachmentName ? [{ name: attachmentName }] : [],
+    },
+  ]);
+  const saved = await env.BANK_DB.prepare("SELECT id FROM mail_messages WHERE username_key = ? AND event_key = ?").bind(key, eventKey).first<{ id: number }>();
+  return json({ ok: true, id: saved?.id ?? null }, 201);
 }
 
 export async function sendLearnerMail(request: Request, env: Env, rawUsername: string): Promise<Response> {
@@ -253,6 +336,7 @@ export async function sendLearnerMail(request: Request, env: Env, rawUsername: s
   if (!body) return json({ error: "bad_request" }, 400);
   const checked = checkOutgoing(body);
   if (!checked.ok) return json({ error: "invalid_message", errors: checked.errors }, 400);
+  const draftId = typeof body.draftId === "number" ? body.draftId : 0;
   const destination = findOrg(checked.value.to);
   if (!destination || destination.id === "mail") return json({ error: "invalid_message", errors: { to: "Choose a practice organisation." } }, 400);
 
@@ -272,6 +356,9 @@ export async function sendLearnerMail(request: Request, env: Env, rawUsername: s
   await insertDrafts(env.BANK_DB, key, [
     {
       mailbox: "sent",
+      folder: "sent",
+      starred: false,
+      note: "",
       fromName: holder.fullName,
       fromAddress: learnerAddress(holder.username),
       toName: destination.name,
@@ -293,6 +380,9 @@ export async function sendLearnerMail(request: Request, env: Env, rawUsername: s
   await insertDrafts(env.BANK_DB, key, [
     {
       mailbox: "inbox",
+      folder: "inbox",
+      starred: false,
+      note: "",
       fromName: destination.name,
       fromAddress: destination.address,
       toName: holder.fullName,
@@ -308,6 +398,9 @@ export async function sendLearnerMail(request: Request, env: Env, rawUsername: s
       attachments: [],
     },
   ]);
+  if (draftId) {
+    await env.BANK_DB.prepare("DELETE FROM mail_messages WHERE id = ? AND username_key = ? AND folder = 'drafts'").bind(draftId, key).run();
+  }
   return json({ ok: true }, 201);
 }
 

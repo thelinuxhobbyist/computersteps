@@ -44,7 +44,7 @@ import { checkJobsExercise, getJobs, saveJob, submitJobApplication } from "./job
 import { searchAddresses } from "./place-search";
 import { bookTrip, cancelTrip, getTravel } from "./travel-store";
 import { creditSharedBalance, debitSharedBalance, readIdempotencyKey } from "./payments";
-import { getMailbox, markMailRead, pruneMail, recordClientEvent, sendLearnerMail, sendScenarioMail } from "./mail-store";
+import { getMailbox, markMailRead, pruneMail, recordClientEvent, saveDraftMail, sendLearnerMail, sendScenarioMail, updateMail } from "./mail-store";
 import { foodsOrderMail, movementMail, openedAccountMail } from "./shared/mail";
 import { createPatient, getPatient, orderPrescription } from "./patients";
 
@@ -252,13 +252,15 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
     if (post && deliveries[2]) return saveDeliveryRequest(request, env, username);
   }
 
-  const mail = pathname.match(/^\/mail\/([^/]+)(?:\/(send|read|events))?$/);
+  const mail = pathname.match(/^\/mail\/([^/]+)(?:\/(send|read|events|draft|update))?$/);
   if (mail) {
     const username = decodeURIComponent(mail[1]);
     if (get && !mail[2]) return getMailbox(env, username);
     if (post && mail[2] === "send") return sendLearnerMail(request, env, username);
     if (post && mail[2] === "read") return markMailRead(request, env, username);
     if (post && mail[2] === "events") return recordClientEvent(request, env, username);
+    if (post && mail[2] === "draft") return saveDraftMail(request, env, username);
+    if (post && mail[2] === "update") return updateMail(request, env, username);
   }
 
   if (get && pathname === "/places/search") return searchAddresses(new URL(request.url));

@@ -2,9 +2,14 @@ import { request } from "../practice-bank/bank-api";
 
 export type MailAttachment = { name: string };
 
+export type MailFolder = "inbox" | "sent" | "drafts" | "spam" | "bin";
+
 export type MailMessage = {
   id: number;
   mailbox: "inbox" | "sent";
+  folder: MailFolder;
+  starred: boolean;
+  note: string;
   fromName: string;
   fromAddress: string;
   toName: string;
@@ -38,7 +43,7 @@ export async function getMailbox(username: string): Promise<Mailbox | "missing" 
 
 export async function sendMail(
   username: string,
-  body: { to: string; subject: string; body: string; attachmentName?: string; inReplyTo?: number },
+  body: { to: string; subject: string; body: string; attachmentName?: string; inReplyTo?: number; draftId?: number },
 ): Promise<{ ok: true } | { ok: false; errors: Record<string, string> } | { ok: false; reason: "unavailable" }> {
   const result = await request(`/mail/${encodeURIComponent(username)}/send`, { method: "POST", body: JSON.stringify(body) });
   if (result?.status === 201) return { ok: true };
@@ -46,6 +51,19 @@ export async function sendMail(
     return { ok: false, errors: result.body.errors as Record<string, string> };
   }
   return { ok: false, reason: "unavailable" };
+}
+
+export async function saveDraft(
+  username: string,
+  body: { id?: number; to: string; subject: string; body: string; attachmentName?: string },
+): Promise<number | null> {
+  const result = await request(`/mail/${encodeURIComponent(username)}/draft`, { method: "POST", body: JSON.stringify(body), quiet: true });
+  if (result?.status === 200 || result?.status === 201) return typeof result.body.id === "number" ? result.body.id : null;
+  return null;
+}
+
+export async function updateMessage(username: string, body: { id: number; folder?: MailFolder; starred?: boolean }): Promise<void> {
+  await request(`/mail/${encodeURIComponent(username)}/update`, { method: "POST", body: JSON.stringify(body), quiet: true });
 }
 
 export async function markRead(username: string, id: number): Promise<void> {

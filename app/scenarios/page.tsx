@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import ScenarioCard from "../components/ScenarioCard";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
@@ -17,56 +15,16 @@ export default function ScenariosPage() {
       <SiteHeader />
 
       <main className="wrap">
-        <section className="hero" aria-labelledby="scenarios-heading">
+        <section className="hero hero--compact" aria-labelledby="scenarios-heading">
           <h1 id="scenarios-heading">Practise everyday tasks online</h1>
-          <p className="hero-lead">
-            Courses teach one computer skill at a time, such as clicking, typing or choosing an item. Scenarios are longer pretend websites. You sign in once, then practise tasks such as paying a bill, tracking a parcel, booking a trip or searching for a job. Nothing here is a real company, and no real payment is taken.
-          </p>
+          <p className="hero-lead">Pretend websites for paying a bill, tracking a parcel, booking a trip or searching for a job. Nothing here is real.</p>
         </section>
 
-        <div className="safety-banner safety-banner--simulation" role="note">
-          <FontAwesomeIcon icon={faShieldHalved} aria-hidden="true" className="safety-banner__icon" />
-          <p>
-            <strong>These are practice websites.</strong> Use the pretend details you are given. Nothing you do here is real, and no payment or service request is sent to a real organisation.
-          </p>
+        <div className="scenario-grid">
+          {SCENARIOS.map((scenario) => (
+            <ScenarioCard key={scenario.id} scenario={scenario} showTutorTasks />
+          ))}
         </div>
-
-        <section className="section" aria-labelledby="choose-scenario-heading">
-          <div className="section-head">
-            <h2 id="choose-scenario-heading">Choose a scenario</h2>
-            <p>Each one works like a realistic website. Follow the page, complete the task and build confidence step by step.</p>
-          </div>
-
-          <div className="scenario-grid">
-            {SCENARIOS.map((scenario) => (
-              <ScenarioCard key={scenario.id} scenario={scenario} showTutorTasks />
-            ))}
-          </div>
-        </section>
-
-        <section className="section section--tight" aria-labelledby="how-scenarios-work-heading">
-          <div className="section-head">
-            <h2 id="how-scenarios-work-heading">How scenarios work</h2>
-          </div>
-          <ol className="how-list">
-            <li>
-              <strong>Choose a fictional website</strong>
-              <span>Pick a scenario that matches the task you want to practise.</span>
-            </li>
-            <li>
-              <strong>Explore the pages</strong>
-              <span>Browse around, read the information and look for the right place to act.</span>
-            </li>
-            <li>
-              <strong>Complete a task</strong>
-              <span>Fill in forms, check dates, submit requests and review what happened.</span>
-            </li>
-            <li>
-              <strong>Get feedback</strong>
-              <span>Learn from what worked and what you need to look for next time.</span>
-            </li>
-          </ol>
-        </section>
       </main>
 
       <SiteFooter />

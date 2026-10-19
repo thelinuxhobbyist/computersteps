@@ -452,6 +452,15 @@ body.nav-open {
   padding-bottom: 48px;
 }
 
+.hero--compact {
+  padding-top: 28px;
+  padding-bottom: 12px;
+}
+
+.hero--compact .hero-lead {
+  margin-bottom: 0;
+}
+
 .eyebrow {
   font-weight: 700;
   font-size: 0.82rem;
@@ -2894,6 +2903,11 @@ body.nav-open {
   .hero {
     padding-top: 36px;
     padding-bottom: 32px;
+  }
+
+  .hero--compact {
+    padding-top: 20px;
+    padding-bottom: 8px;
   }
 
   .section {

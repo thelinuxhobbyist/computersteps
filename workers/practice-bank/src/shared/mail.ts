@@ -22,8 +22,14 @@ export type MailOrgId = (typeof MAIL_ORGS)[number]["id"];
 
 export type MailAttachment = { name: string };
 
+export type MailFolder = "inbox" | "sent" | "drafts" | "spam" | "bin";
+
 export type MailDraft = {
+  /** Stored in the original inbox/sent column. Drafts use "sent" and Spam uses "inbox"; `folder` is what the learner sees. */
   mailbox: "inbox" | "sent";
+  folder: MailFolder;
+  starred: boolean;
+  note: string;
   fromName: string;
   fromAddress: string;
   toName: string;
@@ -97,6 +103,9 @@ function letter(input: {
   const sender = org(input.from);
   return {
     mailbox: "inbox",
+    folder: "inbox",
+    starred: false,
+    note: "",
     fromName: sender.name,
     fromAddress: sender.address,
     toName: input.holder.fullName,
@@ -116,21 +125,32 @@ function letter(input: {
 export function openedAccountMail(holder: MailHolder, details: { sortCode: string; accountNumber: string; openedAt: string }): MailDraft[] {
   const at = details.openedAt;
   return [
-    letter({
-      holder,
-      from: "mail",
-      subject: "Welcome to Westford Mail",
-      body: `Dear ${holder.fullName},
+    {
+      ...letter({
+        holder,
+        from: "mail",
+        subject: "Welcome to Westford Mail",
+        body: `Hello,
 
-Your Computer Steps username is ${holder.username}. This inbox is ${learnerAddress(holder.username)}.
+Welcome to Westford Mail. This is a practice inbox, so you can learn about email without any worry.
 
-Messages from Westford Bank, Westford Jobs, Westford Foods and the other practice websites arrive here. You can write back. Nothing is sent to a real email address.
+Your address is ${learnerAddress(holder.username)}. Messages from Westford Bank, Westford Jobs, Westford Foods and the other practice websites arrive here. You can write back. Nothing is sent to a real person.
 
-Westford Mail`,
-      at,
-      scenario: "mail",
-      eventKey: "mail.welcome",
-    }),
+Try these three things:
+1. Open this email.
+2. Click Reply and write a short answer.
+3. Click Write email and send a message to one of the practice contacts.
+
+You cannot break anything.
+
+The Westford Mail Team`,
+        at,
+        scenario: "mail",
+        eventKey: "mail.welcome",
+      }),
+      fromName: "Westford Mail Team",
+      fromAddress: "team@westfordmail.practice",
+    },
     letter({
       holder,
       from: "bank",
@@ -150,6 +170,65 @@ Westford Bank`,
       eventKey: "bank.opened",
     }),
   ];
+}
+
+/** Fictional junk mail, already filed in Spam, so learners can practise spotting it. */
+export function spamExamples(holder: MailHolder, at: string): MailDraft[] {
+  const samples: { key: string; name: string; address: string; subject: string; body: string; note: string }[] = [
+    {
+      key: "prize",
+      name: "Prize Centre",
+      address: "win-now@free-prizes.example",
+      subject: "YOU HAVE WON £5,000!!! Click now",
+      body: `CONGRATULATIONS!!!
+
+You have been chosen to receive £5,000. Click the link below and enter your bank details within 24 hours.
+
+[ Claim your prize ]`,
+      note: "This is spam. You did not enter a prize draw, it rushes you, it asks for bank details, and the address looks odd. Do not click links. Delete it.",
+    },
+    {
+      key: "bank",
+      name: "Westford Bank Security",
+      address: "alert@westford-bank-secure.example",
+      subject: "Your account will be closed today",
+      body: `Dear customer,
+
+We noticed a problem with your Westford Bank account. Confirm your card number, expiry date and security code in the next hour or the account will be closed.
+
+[ Confirm my card ]`,
+      note: "A real bank will not ask for your card number or security code by email. The address is not help@westfordbank.practice. This is a pretend phishing email.",
+    },
+    {
+      key: "parcel",
+      name: "Parcel Release",
+      address: "pay-now@parcel-release.example",
+      subject: "Pay £2.99 or your parcel will be returned",
+      body: `Your parcel is being held. Pay a £2.99 release fee in the next 12 hours or it will be sent back.
+
+[ Pay the fee ]`,
+      note: "Westford Deliveries will not ask you to pay a surprise fee from an address like this. Check the tracking code on the Westford Deliveries website instead.",
+    },
+  ];
+  return samples.map((sample) => ({
+    mailbox: "inbox" as const,
+    folder: "spam" as const,
+    starred: false,
+    note: sample.note,
+    fromName: sample.name,
+    fromAddress: sample.address,
+    toName: holder.fullName,
+    toAddress: learnerAddress(holder.username),
+    subject: sample.subject,
+    body: sample.body,
+    sentAt: at,
+    visibleAt: at,
+    conversationId: `mail.spam.${sample.key}`,
+    scenario: "mail",
+    eventKey: `mail.spam.${sample.key}`,
+    eventRef: null,
+    attachments: [],
+  }));
 }
 
 export function movementMail(

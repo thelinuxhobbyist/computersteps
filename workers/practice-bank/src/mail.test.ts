@@ -9,6 +9,7 @@ import {
   learnerAddress,
   openedAccountMail,
   organisationReply,
+  spamExamples,
   retentionCutoff,
   type ReplyContext,
 } from "./shared/mail.ts";
@@ -33,6 +34,8 @@ test("opening an account writes a welcome and a bank confirmation with the same 
   const messages = openedAccountMail(holder, { sortCode: "04-00-12", accountNumber: "12345678", openedAt: "2026-10-19T09:00:00.000Z" });
   assert.equal(messages.length, 2);
   assert.equal(new Set(messages.map((message) => message.eventKey)).size, 2);
+  assert.equal(messages[0].fromName, "Westford Mail Team");
+  assert.equal(messages[0].fromAddress, "team@westfordmail.practice");
   assert.match(messages[1].body, /04-00-12/);
   assert.match(messages[1].body, /12345678/);
   assert.equal(messages[0].toAddress, "yama4225@westfordmail.practice");
@@ -85,6 +88,15 @@ test("a bank reply uses the learner's own transactions", () => {
   assert.match(reply, /Westford Foods/);
   assert.match(reply, /PS1842/);
   assert.match(reply, /£12\.50/);
+});
+
+test("a new inbox includes example spam that is not from a practice address", () => {
+  const spam = spamExamples(holder, "2026-10-19T09:00:00.000Z");
+  assert.equal(spam.length, 3);
+  assert.ok(spam.every((message) => message.folder === "spam"));
+  assert.ok(spam.some((message) => /£5,000/.test(message.subject)));
+  assert.ok(spam.every((message) => message.note.length > 20));
+  assert.ok(spam.every((message) => !message.fromAddress.endsWith(".practice")));
 });
 
 test("messages are removed after two weeks, which is long enough to return to class", () => {

@@ -1,38 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { ScenarioSignIn } from "../../components/ScenarioSignIn";
 import { clearLearner, useLearner } from "../../lib/learner-session";
-import { getMailbox, markRead, sendMail, type Mailbox, type MailMessage } from "./mail-api";
+import { getMailbox, markRead, saveDraft, sendMail, updateMessage, type Mailbox, type MailFolder, type MailMessage } from "./mail-api";
 
-type Folder = "inbox" | "sent" | "compose";
+type Folder = MailFolder | "starred";
 
-const FILE_TYPES = [".pdf", ".txt", ".doc", ".docx", ".jpg", ".jpeg", ".png"];
+const FOLDERS: { id: Folder; label: string }[] = [
+  { id: "inbox", label: "Inbox" },
+  { id: "starred", label: "Starred" },
+  { id: "sent", label: "Sent" },
+  { id: "drafts", label: "Drafts" },
+  { id: "spam", label: "Spam" },
+  { id: "bin", label: "Bin" },
+];
+
+const ICONS: Record<string, string> = {
+  write: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
+  search: "M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z",
+  inbox: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H5V5h14v10z",
+  starred: "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z",
+  sent: "M2.01 21L23 12 2.01 3 2 10l15 2-15 2z",
+  drafts: "M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z",
+  spam: "M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z",
+  bin: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
+  back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
+};
+
+function Icon({ name }: { name: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d={ICONS[name]} />
+    </svg>
+  );
+}
 
 function when(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }).format(new Date(iso));
+  const date = new Date(iso);
+  const now = new Date();
+  const sameDay = date.toDateString() === now.toDateString();
+  if (sameDay) return new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }).format(date);
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "Europe/London" }).format(date);
+}
+
+function inFolder(message: MailMessage, folder: Folder): boolean {
+  if (folder === "starred") return message.starred && message.folder !== "bin";
+  return message.folder === folder;
 }
 
 export default function MailboxApp() {
   const username = useLearner();
   const [mailbox, setMailbox] = useState<Mailbox | "missing" | "error" | null>(null);
   const [folder, setFolder] = useState<Folder>("inbox");
+  const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<number | null>(null);
+  const [composing, setComposing] = useState(false);
+  const [draftId, setDraftId] = useState<number | null>(null);
+  const [composeTitle, setComposeTitle] = useState("New email");
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [attachmentName, setAttachmentName] = useState<string | null>(null);
-  const [replyTo, setReplyTo] = useState<number | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [notice, setNotice] = useState("");
+  const [attachmentName, setAttachmentName] = useState("");
+  const [error, setError] = useState("");
+  const [warned, setWarned] = useState(false);
+  const [toast, setToast] = useState("");
   const [sending, setSending] = useState(false);
 
   const load = useCallback(async (name: string) => {
-    const next = await getMailbox(name);
-    setMailbox(next);
+    setMailbox(await getMailbox(name));
   }, []);
 
   useEffect(() => {
@@ -47,16 +87,38 @@ export default function MailboxApp() {
     return () => window.clearInterval(timer);
   }, [username, mailbox, load]);
 
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(""), 5000);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
   const messages = mailbox && mailbox !== "missing" && mailbox !== "error" ? mailbox.messages : [];
-  const visible = messages.filter((message) => message.mailbox === (folder === "sent" ? "sent" : "inbox"));
-  const open = messages.find((message) => message.id === openId) ?? null;
-  const thread = useMemo(() => (open ? messages.filter((message) => message.conversationId === open.conversationId) : []), [messages, open]);
-  const unread = messages.filter((message) => message.mailbox === "inbox" && !message.read).length;
+  const unread = (id: Folder) => messages.filter((message) => inFolder(message, id) && !message.read && (id === "inbox" || id === "spam")).length;
+  const visible = messages.filter((message) => {
+    if (!inFolder(message, folder)) return false;
+    const haystack = `${message.subject} ${message.body} ${message.fromName} ${message.toAddress}`.toLowerCase();
+    return !query.trim() || haystack.includes(query.trim().toLowerCase());
+  });
+  const open = messages.find((message) => message.id === openId && inFolder(message, folder)) ?? null;
+
+  const show = (message: string) => setToast(message);
+
+  const patch = async (id: number, change: { folder?: MailFolder; starred?: boolean }) => {
+    if (!username) return;
+    setMailbox((current) => {
+      if (!current || current === "missing" || current === "error") return current;
+      return {
+        ...current,
+        messages: current.messages.map((item) => (item.id === id ? { ...item, ...change } : item)),
+      };
+    });
+    await updateMessage(username, { id, ...change });
+  };
 
   const openMessage = (message: MailMessage) => {
     setOpenId(message.id);
-    setFolder(message.mailbox);
-    if (username && message.mailbox === "inbox" && !message.read) {
+    if (username && !message.read && (message.folder === "inbox" || message.folder === "spam")) {
       void markRead(username, message.id);
       setMailbox((current) => {
         if (!current || current === "missing" || current === "error") return current;
@@ -65,210 +127,261 @@ export default function MailboxApp() {
     }
   };
 
-  const startCompose = (next?: { to: string; subject: string; replyTo: number }) => {
+  const startCompose = (next?: { title: string; to: string; subject: string; body: string; draftId: number | null; attachmentName?: string }) => {
+    setComposeTitle(next?.title ?? "New email");
     setTo(next?.to ?? "");
     setSubject(next?.subject ?? "");
-    setBody("");
-    setAttachmentName(null);
-    setReplyTo(next?.replyTo ?? null);
-    setErrors({});
-    setNotice("");
-    setFolder("compose");
+    setBody(next?.body ?? "");
+    setAttachmentName(next?.attachmentName ?? "");
+    setDraftId(next?.draftId ?? null);
+    setError("");
+    setWarned(false);
+    setComposing(true);
   };
 
-  const onFile = (file: File | undefined) => {
-    if (!file) return;
-    const lower = file.name.toLowerCase();
-    if (!FILE_TYPES.some((ext) => lower.endsWith(ext))) {
-      setErrors((current) => ({ ...current, attachmentName: "Use a pdf, txt, doc, docx, jpg or png file." }));
-      return;
+  const closeCompose = async (save: boolean) => {
+    if (username && save && (to.trim() || subject.trim() || body.trim() || attachmentName)) {
+      await saveDraft(username, { id: draftId ?? undefined, to, subject, body, attachmentName });
+      show("Saved in Drafts, in case you want to finish it later.");
+      await load(username);
+    } else if (username && !save && draftId) {
+      await saveDraft(username, { id: draftId, to: "", subject: "", body: "" });
+      await load(username);
     }
-    setAttachmentName(file.name);
-    setErrors((current) => ({ ...current, attachmentName: "" }));
+    setComposing(false);
+    setDraftId(null);
   };
 
   const onSend = async (event: FormEvent) => {
     event.preventDefault();
     if (!username) return;
+    if (!to.trim()) {
+      setError("Add who this email is for. Type an address, or click a practice contact.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to.trim())) {
+      setError("That does not look like an email address. It needs a name, then @, then a website ending.");
+      return;
+    }
+    if (subject.trim().length < 3 && !warned) {
+      setWarned(true);
+      setError("Add a subject of at least 3 letters so the person knows what the email is about. Click Send again if you still want to change it.");
+      return;
+    }
+    if (body.trim().length < 10) {
+      setError("Write a short message in the big box (at least 10 letters).");
+      return;
+    }
     setSending(true);
-    const result = await sendMail(username, { to, subject, body, attachmentName: attachmentName ?? undefined, inReplyTo: replyTo ?? undefined });
+    const result = await sendMail(username, { to, subject, body, attachmentName: attachmentName || undefined, draftId: draftId ?? undefined });
     setSending(false);
     if (!result.ok && "errors" in result) {
-      setErrors(result.errors);
+      setError(Object.values(result.errors)[0] ?? "Check the address and try again.");
       return;
     }
     if (!result.ok) {
-      setNotice("We could not send that message. Check you are connected to the internet, then try again.");
+      setError("We could not send that message. Check you are connected to the internet, then try again.");
       return;
     }
-    setNotice("");
+    setComposing(false);
+    setDraftId(null);
     setFolder("inbox");
     setOpenId(null);
+    show("Email sent. The reply will appear in your Inbox.");
     await load(username);
   };
 
-  if (username === undefined || (username && mailbox === null)) return <p className="wm-wrap">Loading your inbox…</p>;
-
-  if (!username) {
-    return (
-      <div className="wm-wrap wm-narrow">
-        <h1>Sign in to Westford Mail</h1>
-        <p>Use the same Computer Steps username you use for Westford Bank and the other practice websites.</p>
-        <ScenarioSignIn onSignedIn={() => setMailbox(null)} />
-      </div>
-    );
-  }
-
-  if (mailbox === "missing") {
-    return (
-      <div className="wm-wrap wm-narrow">
-        <h1>We can't find that account</h1>
-        <p>Open a Computer Steps account on Westford Bank, then come back here.</p>
-        <button type="button" className="wm-btn" onClick={() => clearLearner()}>
-          Use a different username
-        </button>
-      </div>
-    );
-  }
-
-  if (mailbox === "error" || mailbox === null) {
-    return (
-      <div className="wm-wrap wm-narrow">
-        <h1>Westford Mail is not available</h1>
-        <p>Check you are connected to the internet, then try again.</p>
-        <button type="button" className="wm-btn" onClick={() => void load(username)}>
-          Try again
-        </button>
-      </div>
-    );
-  }
+  const initial = mailbox && mailbox !== "missing" && mailbox !== "error" ? mailbox.fullName.trim().charAt(0).toUpperCase() || "Y" : "Y";
 
   return (
-    <div className="wm-wrap">
-      <div className="wm-top">
-        <div>
-          <h1>Inbox</h1>
-          <p>
-            {mailbox.address}
-            <span> · {mailbox.fullName}</span>
-          </p>
+    <>
+      <header className="wm-head">
+        <Link href="/scenarios/mail/" className="wm-logo">
+          <span className="wm-mark" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 34 34">
+              <rect x="2" y="6" width="30" height="22" rx="4" fill="#fff" />
+              <path d="M4 9l13 10L30 9" fill="none" stroke="#b3402f" strokeWidth="3" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span>Westford Mail</span>
+        </Link>
+        <div className="wm-search">
+          <Icon name="search" />
+          <input type="search" value={query} placeholder="Search your mail" aria-label="Search your mail" onChange={(event) => { setQuery(event.target.value); setOpenId(null); }} />
         </div>
-        <button type="button" className="wm-text" onClick={() => clearLearner()}>
-          Sign out
-        </button>
+        {username ? (
+          <button type="button" className="wm-hbtn" onClick={() => clearLearner()}>
+            Sign out
+          </button>
+        ) : null}
+        <div className="wm-av" aria-label="You">{initial}</div>
+      </header>
+      <div className="wm-banner">
+        Practice mode: nothing you write here is sent to a real person. <Link href="/scenarios/">Back to Computer Steps</Link>
       </div>
-
-      <p className="wm-note">
-        Messages stay for {mailbox.retentionDays} days, then Westford Mail deletes them. Your applications, orders and payments stay on the websites they belong to. Nothing here is sent to a real email address.
-        {mailbox.pending > 0 ? " Another message is on its way." : ""}
-      </p>
-
-      <div className="wm-layout">
-        <div className="wm-folders" role="tablist" aria-label="Folders">
-          <button type="button" role="tab" aria-selected={folder === "inbox"} onClick={() => { setFolder("inbox"); setOpenId(null); }}>
-            Inbox{unread > 0 ? ` (${unread})` : ""}
+      <main className="wm-main">
+        <nav className="wm-nav" aria-label="Folders">
+          <button type="button" className="wm-compose" onClick={() => startCompose()}>
+            <Icon name="write" />
+            <span className="wm-label">Write email</span>
           </button>
-          <button type="button" role="tab" aria-selected={folder === "sent"} onClick={() => { setFolder("sent"); setOpenId(null); }}>
-            Sent
-          </button>
-          <button type="button" className="wm-btn" onClick={() => startCompose()}>
-            New message
-          </button>
-        </div>
-
-        {folder === "compose" ? (
-          <form className="wm-read" onSubmit={onSend}>
-            <h2>{replyTo ? "Reply" : "New message"}</h2>
-            <label htmlFor="wm-to">To</label>
-            <input id="wm-to" list="wm-orgs" value={to} autoComplete="off" onChange={(event) => setTo(event.target.value)} />
-            <datalist id="wm-orgs">
-              {mailbox.organisations.filter((item) => item.id !== "mail").map((item) => (
-                <option key={item.id} value={item.address}>{item.name}</option>
-              ))}
-            </datalist>
-            {errors.to ? <p className="wm-error">{errors.to}</p> : null}
-            <label htmlFor="wm-subject">Subject</label>
-            <input id="wm-subject" value={subject} onChange={(event) => setSubject(event.target.value)} />
-            {errors.subject ? <p className="wm-error">{errors.subject}</p> : null}
-            <label htmlFor="wm-body">Message</label>
-            <textarea id="wm-body" rows={10} value={body} onChange={(event) => setBody(event.target.value)} />
-            {errors.body ? <p className="wm-error">{errors.body}</p> : null}
-            <label className="wm-file" htmlFor="wm-file">
-              <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" /> Add a practice attachment
-              <input id="wm-file" type="file" onChange={(event) => onFile(event.target.files?.[0])} />
-            </label>
-            {attachmentName ? <p>File name recorded: {attachmentName}. The file stays on this device.</p> : null}
-            {errors.attachmentName ? <p className="wm-error">{errors.attachmentName}</p> : null}
-            {notice ? <p className="wm-error">{notice}</p> : null}
-            <button type="submit" className="wm-btn" disabled={sending}>
-              <FontAwesomeIcon icon={faPaperPlane} aria-hidden="true" /> {sending ? "Sending…" : "Send"}
-            </button>
-          </form>
-        ) : open ? (
-          <article className="wm-read">
-            <button type="button" className="wm-text" onClick={() => setOpenId(null)}>
-              Back to {open.mailbox === "sent" ? "Sent" : "Inbox"}
-            </button>
-            <h2>{open.subject}</h2>
-            <p className="wm-meta">
-              {open.mailbox === "sent" ? `To ${open.toName} <${open.toAddress}>` : `From ${open.fromName} <${open.fromAddress}>`}
-              <br />
-              {when(open.sentAt)}
-              {open.eventRef ? ` · Reference ${open.eventRef}` : ""}
-            </p>
-            {open.attachments.map((file) => (
-              <p key={file.name} className="wm-file-pill">
-                <FontAwesomeIcon icon={faPaperclip} aria-hidden="true" /> {file.name}
-              </p>
-            ))}
-            {open.body.split("\n").map((line, index) => (
-              <p key={`${open.id}-${index}`}>{line || "\u00a0"}</p>
-            ))}
-            {thread.length > 1 ? (
-              <section>
-                <h3>This conversation</h3>
-                <ul className="wm-thread">
-                  {thread.map((message) => (
-                    <li key={message.id}>
-                      <button type="button" onClick={() => openMessage(message)}>
-                        {message.mailbox === "sent" ? "You" : message.fromName}: {message.subject}
+          {FOLDERS.map((item) => {
+            const count = item.id === "inbox" || item.id === "spam" ? unread(item.id) : 0;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className="wm-folder"
+                title={item.label}
+                aria-current={folder === item.id ? "true" : undefined}
+                onClick={() => { setFolder(item.id); setOpenId(null); }}
+              >
+                <Icon name={item.id} />
+                <span className="wm-label">{item.label}</span>
+                {count > 0 ? <span className="wm-count">{count}</span> : null}
+              </button>
+            );
+          })}
+        </nav>
+        <div className={`wm-card${open ? " is-reading" : ""}`}>
+          {username === undefined || (username && mailbox === null) ? <p className="wm-empty">Loading your inbox…</p> : null}
+          {!username ? (
+            <div className="wm-gate">
+              <h1>Sign in to Westford Mail</h1>
+              <p>Use the same Computer Steps username you use for the other practice websites.</p>
+              <ScenarioSignIn onSignedIn={() => setMailbox(null)} />
+            </div>
+          ) : null}
+          {username && mailbox === "missing" ? (
+            <div className="wm-gate">
+              <h1>We can&apos;t find that account</h1>
+              <p>Open a Computer Steps account on Westford Bank, then come back here.</p>
+              <button type="button" className="wm-btn wm-btn--main" onClick={() => clearLearner()}>Use a different username</button>
+            </div>
+          ) : null}
+          {username && (mailbox === "error" || mailbox === null) && mailbox !== null ? (
+            <div className="wm-gate">
+              <h1>Westford Mail is not available</h1>
+              <p>Check you are connected to the internet, then try again.</p>
+              <button type="button" className="wm-btn wm-btn--main" onClick={() => void load(username)}>Try again</button>
+            </div>
+          ) : null}
+          {mailbox && mailbox !== "missing" && mailbox !== "error" ? (
+            <>
+              <ul className="wm-list" aria-live="polite">
+                {visible.length === 0 ? <li className="wm-empty" style={{ display: "block" }}>{query ? "No emails match your search." : "Nothing here yet."}</li> : null}
+                {visible.map((message) => {
+                  const who = message.folder === "drafts" ? "Draft" : message.folder === "sent" ? `To: ${message.toName || message.toAddress}` : message.fromName;
+                  return (
+                    <li key={message.id} className={message.read ? "" : "is-unread"}>
+                      <button type="button" className={`wm-star${message.starred ? " is-on" : ""}`} aria-label={message.starred ? "Remove star" : "Add star"} onClick={() => void patch(message.id, { starred: !message.starred })}>
+                        <Icon name="starred" />
+                      </button>
+                      <button type="button" className="wm-row" onClick={() => openMessage(message)}>
+                        <span className="wm-who">{who}</span>
+                        <span className="wm-mid">
+                          <span className="wm-subj">{message.subject || "(no subject)"}</span>
+                          <span className="wm-snip"> – {message.body.replace(/\s+/g, " ").slice(0, 80)}</span>
+                        </span>
+                        <time className="wm-when" dateTime={message.sentAt}>{when(message.sentAt)}</time>
                       </button>
                     </li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
-            {open.mailbox === "inbox" ? (
-              <button
-                type="button"
-                className="wm-btn"
-                onClick={() => startCompose({ to: open.fromAddress, subject: open.subject.startsWith("Re:") ? open.subject : `Re: ${open.subject}`, replyTo: open.id })}
-              >
-                Reply
-              </button>
-            ) : null}
-          </article>
-        ) : (
-          <div className="wm-list">
-            {visible.length === 0 ? <p>No messages in {folder === "sent" ? "Sent" : "Inbox"} yet.</p> : null}
-            <ul>
-              {visible.map((message) => (
-                <li key={message.id}>
-                  <button type="button" className={message.read ? "" : "is-unread"} onClick={() => openMessage(message)}>
-                    <span>{message.mailbox === "sent" ? message.toName : message.fromName}</span>
-                    <strong>{message.subject}</strong>
-                    <time dateTime={message.sentAt}>{when(message.sentAt)}</time>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-      <p className="wm-addresses">
-        Practice addresses: {mailbox.organisations.filter((item) => item.id !== "mail").map((item) => item.address).join(", ")}.{" "}
-        <Link href="/scenarios/">Back to scenarios</Link>
-      </p>
-    </div>
+                  );
+                })}
+              </ul>
+              {open ? (
+                <article className="wm-reader" aria-live="polite">
+                  <div className="wm-tools">
+                    <button type="button" className="wm-btn" onClick={() => setOpenId(null)}>
+                      <Icon name="back" /> Back to {FOLDERS.find((item) => item.id === folder)?.label}
+                    </button>
+                    {open.folder === "drafts" ? (
+                      <button type="button" className="wm-btn wm-btn--main" onClick={() => startCompose({ title: "Draft", to: open.toAddress, subject: open.subject, body: open.body, draftId: open.id, attachmentName: open.attachments[0]?.name ?? "" })}>
+                        Keep writing
+                      </button>
+                    ) : null}
+                    {open.folder !== "drafts" && open.folder !== "sent" && open.folder !== "bin" ? (
+                      <button
+                        type="button"
+                        className="wm-btn wm-btn--main"
+                        onClick={() => startCompose({
+                          title: "Reply",
+                          to: open.fromAddress,
+                          subject: open.subject.toLowerCase().startsWith("re:") ? open.subject : `Re: ${open.subject}`,
+                          body: `\n\n— On ${when(open.sentAt)}, ${open.fromName} wrote:\n${open.body.split("\n").map((line) => `> ${line}`).join("\n")}`,
+                          draftId: null,
+                        })}
+                      >
+                        Reply
+                      </button>
+                    ) : null}
+                    <button type="button" className="wm-btn" onClick={() => void patch(open.id, { starred: !open.starred })}>
+                      {open.starred ? "Remove star" : "Add star"}
+                    </button>
+                    {open.folder === "bin" ? (
+                      <button type="button" className="wm-btn" onClick={() => { void patch(open.id, { folder: open.mailbox === "sent" ? "sent" : "inbox" }); setOpenId(null); show("Put back."); }}>
+                        Put back
+                      </button>
+                    ) : (
+                      <button type="button" className="wm-btn" onClick={() => { void patch(open.id, { folder: "bin" }); setOpenId(null); show("Moved to Bin. You can get it back from the Bin folder."); }}>
+                        <Icon name="bin" /> Delete
+                      </button>
+                    )}
+                    {open.folder === "spam" ? (
+                      <button type="button" className="wm-btn" onClick={() => { void patch(open.id, { folder: "inbox" }); setOpenId(null); show("Moved to Inbox."); }}>
+                        This is not spam
+                      </button>
+                    ) : null}
+                  </div>
+                  <h1>{open.subject || "(no subject)"}</h1>
+                  <div className="wm-meta">
+                    <div className="wm-av" aria-hidden="true">{(open.folder === "sent" || open.folder === "drafts" ? open.toAddress || "?" : open.fromName).charAt(0).toUpperCase()}</div>
+                    <div>
+                      <b>{open.folder === "sent" || open.folder === "drafts" ? `To: ${open.toAddress || "nobody yet"}` : open.fromName}</b>
+                      {open.folder === "sent" || open.folder === "drafts" ? null : <> &lt;{open.fromAddress}&gt;</>}
+                      <small>{when(open.sentAt)}{open.eventRef ? ` · ${open.eventRef}` : ""}</small>
+                    </div>
+                  </div>
+                  {open.attachments.map((file) => <p key={file.name}>Attachment: {file.name}</p>)}
+                  <div className="wm-body">{open.body}</div>
+                  {open.note ? <div className="wm-tip"><b>Tip.</b> {open.note}</div> : null}
+                </article>
+              ) : null}
+            </>
+          ) : null}
+        </div>
+      </main>
+      <form className={`wm-win${composing ? " is-open" : ""}`} role="dialog" aria-label="Write new email" onSubmit={onSend}>
+        <div className="wm-wh">
+          <span>{composeTitle}</span>
+          <button type="button" aria-label="Close and save draft" onClick={() => void closeCompose(true)}>×</button>
+        </div>
+        <div className="wm-fld">
+          <label htmlFor="wm-to">To</label>
+          <input id="wm-to" value={to} autoComplete="off" onChange={(event) => setTo(event.target.value)} />
+        </div>
+        <div className="wm-chips">
+          Practice contacts:{" "}
+          {(mailbox && mailbox !== "missing" && mailbox !== "error" ? mailbox.organisations : []).filter((item) => item.id !== "mail").map((item) => (
+            <button key={item.id} type="button" className="wm-chip" onClick={() => setTo(item.address)}>{item.name}</button>
+          ))}
+        </div>
+        <div className="wm-fld">
+          <label htmlFor="wm-subject">Subject</label>
+          <input id="wm-subject" value={subject} autoComplete="off" onChange={(event) => setSubject(event.target.value)} />
+        </div>
+        <textarea id="wm-body" className="wm-msg" aria-label="Your message" placeholder="Type your message here" value={body} onChange={(event) => setBody(event.target.value)} />
+        <label className="wm-file" htmlFor="wm-file">
+          Add a practice file name
+          <input id="wm-file" value={attachmentName} onChange={(event) => setAttachmentName(event.target.value)} placeholder="for example notes.pdf" />
+        </label>
+        {error ? <p className="wm-err" role="alert">{error}</p> : null}
+        <div className="wm-wf">
+          <button type="submit" className="wm-btn wm-btn--main" disabled={sending}>{sending ? "Sending…" : "Send"}</button>
+          <button type="button" className="wm-btn" onClick={() => void closeCompose(false)}>Throw away</button>
+        </div>
+      </form>
+      {toast ? <div className="wm-toast" role="status">{toast}</div> : null}
+    </>
   );
 }
