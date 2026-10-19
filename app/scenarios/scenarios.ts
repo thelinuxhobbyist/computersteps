@@ -3,6 +3,7 @@ import {
   faBolt,
   faBox,
   faBriefcase,
+  faEnvelope,
   faBuildingColumns,
   faCartShopping,
   faLandmark,
@@ -207,6 +208,23 @@ export const SCENARIOS: Scenario[] = [
       "Complete a practice application and find the reference in My applications.",
       "Read a practice interview invitation and note the time and place.",
       "Find the warning signs in a suspicious fictional advert.",
+    ],
+  },
+  {
+    id: "westford-mail",
+    name: "Westford Mail",
+    icon: faEnvelope,
+    summary: "Read and send practice emails from your other scenarios",
+    description:
+      "A pretend email service for the same Computer Steps username. Applications, orders, bills and requests show up here, and you can write to the practice organisations.",
+    href: "/scenarios/mail/",
+    badge: "New",
+    skills: ["Reading an inbox", "Writing an email", "Replying to a message", "Adding an attachment"],
+    tutorTasks: [
+      "Open Westford Mail with your Computer Steps username and find the message about your bank account.",
+      "Apply for a job, then find the confirmation in Westford Mail.",
+      "Reply to Westford Bank and ask about a payment.",
+      "Send a message to Yama Clinic with a practice attachment.",
     ],
   },
 ];

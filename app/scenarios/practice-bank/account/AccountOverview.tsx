@@ -28,6 +28,9 @@ function Overview({ account, refresh }: { account: BankAccount; refresh: () => v
   return (
     <div className="pb-wrap pb-content">
       <h1>Hello, {account.username}</h1>
+      <p>
+        Messages about this account are in <Link href="/scenarios/mail/">Westford Mail</Link>.
+      </p>
 
       <section className="pb-balance" aria-labelledby="pb-balance-heading">
         <div>

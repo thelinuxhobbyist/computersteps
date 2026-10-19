@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleCheck, faIdCard, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import UrgentHelp from "../components/UrgentHelp";
 import { GpDoDont, GpSteps } from "../components/GpBlocks";
+import { useLearner } from "../../../lib/learner-session";
+import { recordPracticeEvent } from "../../mail/mail-api";
 import { GP_BASE } from "../surgery-data";
 import {
   CONTACT_METHODS,
@@ -73,6 +75,7 @@ export default function ConsultationForm() {
   const [returnToCheck, setReturnToCheck] = useState(false);
   const [reference, setReference] = useState("");
   const [situationId, setSituationId] = useState(PRACTICE_SITUATIONS[0].id);
+  const username = useLearner();
   const headingRef = useRef<HTMLHeadingElement>(null);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const hasNavigated = useRef(false);
@@ -112,7 +115,10 @@ export default function ConsultationForm() {
     }
 
     if (stage === "check") {
-      setReference(makeReference());
+      const nextReference = makeReference();
+      setReference(nextReference);
+      const reason = REASONS.find((item) => item.id === answers.reason)?.label ?? "Online consultation";
+      if (username) void recordPracticeEvent(username, { type: "gp.consultation", reference: nextReference, reason });
       goTo("done");
       return;
     }

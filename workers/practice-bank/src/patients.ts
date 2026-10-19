@@ -1,4 +1,6 @@
 import { makeIdentity, usernameKey, validateUsername } from "./bank";
+import { sendScenarioMail } from "./mail-store";
+import { serviceMail } from "./shared/mail";
 import { json, readJson, secureRandom } from "./http";
 import {
   getMedicine,
@@ -159,6 +161,28 @@ export async function orderPrescription(request: Request, env: Env, rawUsername:
     ),
     env.BANK_DB.prepare("UPDATE patients SET last_used_at = ? WHERE username_key = ?").bind(now, key),
   ]);
+  const items = orderItems(order).join(", ");
+  await sendScenarioMail(env.BANK_DB, key, (holder) =>
+    serviceMail(holder, {
+      from: "gp",
+      scenario: "gp",
+      subject: `Prescription request — ${reference}`,
+      body: `Dear ${holder.fullName},
+
+Yama Clinic has received your prescription request.
+
+Reference: ${reference}
+Items: ${items}
+Status: ${order.kind === "repeat" && !order.message ? "Sent to your practice pharmacy" : "Waiting for a doctor to check"}
+
+You can see this request in your prescription history. No real medicine will be prepared.
+
+Yama Clinic`,
+      at: now,
+      eventKey: `gp.prescription:${reference}`,
+      eventRef: reference,
+    }),
+  );
 
   return json({ reference, patient: await loadPatient(env.BANK_DB, key) }, 201);
 }

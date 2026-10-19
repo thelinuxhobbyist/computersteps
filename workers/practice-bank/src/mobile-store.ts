@@ -3,6 +3,8 @@ import { findAccountRow, identityOf, loadAccount } from "./accounts";
 import { json, readJson, secureRandom } from "./http";
 import { makeEnquiryReference, simulatedReply } from "./messaging";
 import { debitSharedBalance, readIdempotencyKey } from "./payments";
+import { sendScenarioMail } from "./mail-store";
+import { movementMail, pounds, serviceMail } from "./shared/mail";
 import { CURRENT_BILL_PENCE, MOBILE, MOBILE_TOPICS, PREVIOUS_BILL_PENCE, planById, usageFor, type MobilePlanId } from "./shared/mobile";
 import type { MobileAccount, MobileBill, MobileMessage, MobilePayment } from "./shared/mobile-types";
 
@@ -162,6 +164,34 @@ export async function payMobileBill(request: Request, env: Env, rawUsername: str
     .bind(key, now, next.amountPence, debit.reference)
     .run();
   const [updated, bank] = await Promise.all([loadMobile(env.BANK_DB, key), loadAccount(env.BANK_DB, key)]);
+  if (!debit.duplicate && updated) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) => [
+      ...movementMail(holder, {
+        description: MOBILE.name,
+        amountPence: next.amountPence,
+        reference: debit.reference,
+        paidAt: now,
+        balancePence: bank?.balancePence ?? debit.balancePence,
+        kind: "card",
+      }),
+      ...serviceMail(holder, {
+        from: "mobile",
+        scenario: "mobile",
+        subject: `Bill payment received — ${debit.reference}`,
+        body: `Dear ${holder.fullName},
+
+We have received ${pounds(next.amountPence)} for ${updated.mobileNumber}.
+
+Reference: ${debit.reference}
+Customer number: ${updated.customerNumber}
+
+Westford Mobile`,
+        at: now,
+        eventKey: `mobile.payment:${debit.reference}`,
+        eventRef: debit.reference,
+      }),
+    ]);
+  }
   return json({ ok: true, reference: debit.reference, amountPence: next.amountPence, balancePence: bank?.balancePence ?? debit.balancePence, mobile: updated, duplicate: debit.duplicate });
 }
 
@@ -175,7 +205,27 @@ export async function changeMobilePlan(request: Request, env: Env, rawUsername: 
   const mobile = await loadMobile(env.BANK_DB, key);
   if (!mobile) return json({ error: "account_not_found" }, 404);
   await env.BANK_DB.prepare("UPDATE mobile_accounts SET plan_id = ? WHERE username_key = ?").bind(plan.id satisfies MobilePlanId, key).run();
-  return json({ mobile: await loadMobile(env.BANK_DB, key) });
+  const updated = await loadMobile(env.BANK_DB, key);
+  if (updated) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) =>
+      serviceMail(holder, {
+        from: "mobile",
+        scenario: "mobile",
+        subject: `Plan changed to ${plan.name}`,
+        body: `Dear ${holder.fullName},
+
+Your practice plan for ${updated.mobileNumber} is now ${plan.name} at ${pounds(plan.monthlyPence)} a month.
+
+This change is only inside Computer Steps.
+
+Westford Mobile`,
+        at: new Date().toISOString(),
+        eventKey: `mobile.plan:${plan.id}:${new Date().toISOString()}`,
+        eventRef: updated.customerNumber,
+      }),
+    );
+  }
+  return json({ mobile: updated });
 }
 
 export async function sendMobileMessage(request: Request, env: Env, rawUsername: string): Promise<Response> {
@@ -202,6 +252,25 @@ export async function sendMobileMessage(request: Request, env: Env, rawUsername:
       )
         .bind(key, now.toISOString(), topic.id, message, reference, now.toISOString(), reply)
         .run();
+      await sendScenarioMail(env.BANK_DB, key, (holder) =>
+        serviceMail(holder, {
+          from: "mobile",
+          scenario: "mobile",
+          subject: `Message received — ${reference}`,
+          body: `Dear ${holder.fullName},
+
+We have your message about “${topic.label}” for ${mobile.mobileNumber}.
+
+Reference: ${reference}
+
+A member of the team will look at it within two working days.
+
+Westford Mobile`,
+          at: now.toISOString(),
+          eventKey: `mobile.message:${reference}`,
+          eventRef: reference,
+        }),
+      );
       return json({ mobile: await loadMobile(env.BANK_DB, key), reference }, 201);
     } catch (error) {
       if (!String(error).includes("UNIQUE")) throw error;

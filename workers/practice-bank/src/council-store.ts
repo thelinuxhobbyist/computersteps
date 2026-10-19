@@ -4,6 +4,8 @@ import { addDays, ukToday } from "./energy";
 import { json, readJson, secureRandom } from "./http";
 import { makeEnquiryReference, simulatedReply } from "./messaging";
 import { debitSharedBalance, readIdempotencyKey } from "./payments";
+import { sendScenarioMail } from "./mail-store";
+import { movementMail, pounds, serviceMail } from "./shared/mail";
 import { COUNCIL, COUNCIL_INSTALMENT_PENCE, COUNCIL_REQUEST_KINDS, type CouncilRequestKind } from "./shared/council";
 import type { CouncilAccount, CouncilBill, CouncilPayment, CouncilServiceRequest } from "./shared/council-types";
 
@@ -230,6 +232,36 @@ export async function payCouncilTax(request: Request, env: Env, rawUsername: str
 
   await rememberCouncilPayment(env.BANK_DB, key, now, next.amountPence, debit.reference);
   const [updated, bank] = await Promise.all([loadCouncil(env.BANK_DB, key), loadAccount(env.BANK_DB, key)]);
+  if (!debit.duplicate) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) => [
+      ...movementMail(holder, {
+        description: COUNCIL.name,
+        amountPence: next.amountPence,
+        reference: debit.reference,
+        paidAt: now,
+        balancePence: bank?.balancePence ?? debit.balancePence,
+        kind: "card",
+      }),
+      ...serviceMail(holder, {
+        from: "council",
+        scenario: "council",
+        subject: `Council Tax payment received — ${debit.reference}`,
+        body: `Dear ${holder.fullName},
+
+We have received ${pounds(next.amountPence)} towards your Council Tax.
+
+Reference: ${debit.reference}
+Council Tax reference: ${council.councilTaxReference}
+
+You can see the payment in My Account. This is practice money only.
+
+Westford Council`,
+        at: now,
+        eventKey: `council.payment:${debit.reference}`,
+        eventRef: debit.reference,
+      }),
+    ]);
+  }
   return json({
     ok: true,
     duplicate: debit.duplicate,
@@ -272,6 +304,26 @@ export async function sendCouncilRequest(request: Request, env: Env, rawUsername
       )
         .bind(key, kind satisfies CouncilRequestKind, topic, location || null, message, reference, sentAt, sentAt, reply)
         .run();
+      await sendScenarioMail(env.BANK_DB, key, (holder) =>
+        serviceMail(holder, {
+          from: "council",
+          scenario: "council",
+          subject: `Request received — ${reference}`,
+          body: `Dear ${holder.fullName},
+
+Westford Council has logged your ${kind === "report" ? "problem report" : "service request"}.
+
+Topic: ${topic}
+${location ? `Place: ${location}\n` : ""}Reference: ${reference}
+
+You can check the status in My Account. Nothing has been sent to a real council.
+
+Westford Council`,
+          at: sentAt,
+          eventKey: `council.request:${reference}`,
+          eventRef: reference,
+        }),
+      );
       return json({ council: await loadCouncil(env.BANK_DB, key), reference }, 201);
     } catch (error) {
       if (!String(error).includes("UNIQUE")) throw error;

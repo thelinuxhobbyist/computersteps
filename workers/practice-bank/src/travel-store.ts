@@ -3,6 +3,8 @@ import { findAccountRow, identityOf, loadAccount } from "./accounts";
 import { json, readJson, secureRandom } from "./http";
 import { makeEnquiryReference } from "./messaging";
 import { creditSharedBalance, debitSharedBalance, readIdempotencyKey } from "./payments";
+import { sendScenarioMail } from "./mail-store";
+import { movementMail, pounds, serviceMail } from "./shared/mail";
 import { TRAVEL, quoteTrip, type TravelQuote } from "./shared/travel";
 
 function readUsername(raw: string): string | null {
@@ -125,6 +127,37 @@ export async function bookTrip(request: Request, env: Env, rawUsername: string):
   }
   if (!reference) throw new Error("Could not save the booking.");
   const bank = await loadAccount(env.BANK_DB, key);
+  if (!debit.duplicate) {
+    const summary = quote.lines.map((line) => line.label).join("; ");
+    await sendScenarioMail(env.BANK_DB, key, (holder) => [
+      ...movementMail(holder, {
+        description: TRAVEL.name,
+        amountPence: quote.totalPence,
+        reference: debit.reference,
+        paidAt: now.toISOString(),
+        balancePence: bank?.balancePence ?? debit.balancePence,
+        kind: "card",
+      }),
+      ...serviceMail(holder, {
+        from: "travel",
+        scenario: "travel",
+        subject: `Booking confirmed — ${reference}`,
+        body: `Dear ${holder.fullName},
+
+Your practice trip is booked.
+
+Booking reference: ${reference}
+Total paid: ${pounds(quote.totalPence)}
+${summary ? `What you booked: ${summary}\n` : ""}
+The same payment is in Westford Bank. You can open My trips to see this booking. No real travel has been reserved.
+
+Westford Travel`,
+        at: now.toISOString(),
+        eventKey: `travel.booking:${reference}`,
+        eventRef: reference,
+      }),
+    ]);
+  }
   return json({ ok: true, reference, duplicate: debit.duplicate, balancePence: bank?.balancePence ?? debit.balancePence, bookings: await bookingsFor(env.BANK_DB, key) });
 }
 
@@ -150,6 +183,21 @@ export async function cancelTrip(request: Request, env: Env, rawUsername: string
   });
   if (!credit.ok) return json({ error: credit.error }, 409);
   await env.BANK_DB.prepare("UPDATE travel_bookings SET status = 'cancelled' WHERE username_key = ? AND reference = ?").bind(key, reference).run();
+  await sendScenarioMail(env.BANK_DB, key, (holder) =>
+    serviceMail(holder, {
+      from: "travel",
+      scenario: "travel",
+      subject: `Booking cancelled — ${reference}`,
+      body: `Dear ${holder.fullName},
+
+Booking ${reference} is cancelled. ${pounds(booking.total_pence)} has been returned to your Westford Bank account as pretend money.
+
+Westford Travel`,
+      at: now,
+      eventKey: `travel.cancel:${reference}`,
+      eventRef: reference,
+    }),
+  );
   const bank = await loadAccount(env.BANK_DB, key);
   return json({ ok: true, balancePence: bank?.balancePence ?? credit.balancePence, bookings: await bookingsFor(env.BANK_DB, key) });
 }

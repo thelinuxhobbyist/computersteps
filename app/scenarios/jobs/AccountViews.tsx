@@ -342,6 +342,9 @@ export function ApplyDone() {
         <Link className="wj-btn wj-btn--ghost" href="/scenarios/jobs/find/">
           Find another job
         </Link>
+        <Link className="wj-btn wj-btn--ghost" href="/scenarios/mail/">
+          Open Westford Mail
+        </Link>
       </div>
     </div>
   );

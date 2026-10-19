@@ -17,6 +17,8 @@ import { debitSharedBalance, readIdempotencyKey } from "./payments";
 import { makeEnquiryReference, simulatedReply } from "./messaging";
 import type { EnergyAccount, EnergyBill, EnergyMessage, EnergyPayment, EnergyReading } from "./shared/energy-types";
 import type { MessageStatus } from "./shared/messaging-types";
+import { sendScenarioMail } from "./mail-store";
+import { directDebitMail, energyPaymentMail, meterMail, movementMail, serviceMail } from "./shared/mail";
 import { BILL_ENQUIRY_TOPICS, WESTFORD, contactTopicLabel, type EnergyPaymentMethod } from "./shared/westford";
 
 type EnergyRow = {
@@ -299,6 +301,20 @@ async function takeEnergyPayment(
     .run();
 
   const [bank, energy] = await Promise.all([loadAccount(db, key), loadEnergy(db, key)]);
+  if (!debit.duplicate && energy) {
+    const methodLabel = method === "bank_transfer" ? "Bank transfer" : "Debit card";
+    await sendScenarioMail(db, key, (holder) => [
+      ...movementMail(holder, {
+        description: WESTFORD.name,
+        amountPence,
+        reference: debit.reference,
+        paidAt: now,
+        balancePence: bank?.balancePence ?? debit.balancePence,
+        kind: method === "bank_transfer" ? "transfer" : "card",
+      }),
+      ...energyPaymentMail(holder, { accountNumber: energy.accountNumber, amountPence, reference: debit.reference, paidAt: now, method: methodLabel }),
+    ]);
+  }
   return json({
     ok: true,
     duplicate: debit.duplicate,
@@ -334,11 +350,12 @@ export async function payByBankTransfer(request: Request, env: Env, rawUsername:
   }
 
   const now = new Date().toISOString();
+  const payeeName = checked.request.payeeName;
   const debit = await debitSharedBalance(env.BANK_DB, {
     usernameKey: key,
     amountPence: checked.request.amountPence,
     postedAt: now,
-    description: checked.request.payeeName,
+    description: payeeName,
     type: "Bank transfer",
     category: "Transfers",
     reference: checked.request.reference,
@@ -348,6 +365,18 @@ export async function payByBankTransfer(request: Request, env: Env, rawUsername:
   if (!debit.ok) {
     if (debit.error === "insufficient_funds") return json({ error: "insufficient_funds", balancePence: debit.balancePence }, 402);
     return json({ error: debit.error }, 409);
+  }
+  if (!debit.duplicate) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) =>
+      movementMail(holder, {
+        description: payeeName,
+        amountPence: checked.request.amountPence,
+        reference: debit.reference,
+        paidAt: now,
+        balancePence: debit.balancePence,
+        kind: "transfer",
+      }),
+    );
   }
 
   return json({
@@ -380,7 +409,13 @@ export async function setUpDirectDebit(request: Request, env: Env, rawUsername: 
     .bind(accountName, sortCode, accountNumber, day, new Date().toISOString(), key)
     .run();
 
-  return json({ energy: await loadEnergy(env.BANK_DB, key) });
+  const energy = await loadEnergy(env.BANK_DB, key);
+  if (energy) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) =>
+      directDebitMail(holder, { accountNumber: energy.accountNumber, day, at: new Date().toISOString() }),
+    );
+  }
+  return json({ energy });
 }
 
 export async function cancelDirectDebit(env: Env, rawUsername: string): Promise<Response> {
@@ -410,9 +445,13 @@ export async function submitMeterReading(request: Request, env: Env, rawUsername
   if ("errors" in checked) return json({ error: "invalid_reading", errors: checked.errors }, 400);
 
   const now = new Date();
+  const readOn = ukToday(now);
   await env.BANK_DB.prepare("INSERT INTO energy_readings (username_key, read_on, submitted_at, reading, source) VALUES (?, ?, ?, ?, 'customer')")
-    .bind(key, ukToday(now), now.toISOString(), checked.reading)
+    .bind(key, readOn, now.toISOString(), checked.reading)
     .run();
+  await sendScenarioMail(env.BANK_DB, key, (holder) =>
+    meterMail(holder, { accountNumber: energy.accountNumber, reading: checked.reading, readOn, at: now.toISOString() }),
+  );
 
   return json({ energy: await loadEnergy(env.BANK_DB, key) }, 201);
 }
@@ -442,6 +481,25 @@ export async function sendEnergyMessage(request: Request, env: Env, rawUsername:
       )
         .bind(key, sentAt, checked.topic, checked.message, reference, sentAt, reply)
         .run();
+      await sendScenarioMail(env.BANK_DB, key, (holder) =>
+        serviceMail(holder, {
+          from: "energy",
+          scenario: "energy",
+          subject: `Message received — ${reference}`,
+          body: `Dear ${holder.fullName},
+
+We have your message about “${contactTopicLabel(checked.topic)}” for account ${energy.accountNumber}.
+
+Reference: ${reference}
+
+A member of the team will look at it within two working days. You can also see this message on the Westford Energy website.
+
+Westford Energy`,
+          at: sentAt,
+          eventKey: `energy.message:${reference}`,
+          eventRef: reference,
+        }),
+      );
       return json({ energy: await loadEnergy(env.BANK_DB, key) }, 201);
     } catch (error) {
       if (!String(error).includes("energy_messages.reference") && !String(error).includes("UNIQUE")) throw error;

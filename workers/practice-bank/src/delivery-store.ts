@@ -2,6 +2,8 @@ import { usernameKey, validateUsername } from "./bank";
 import { findAccountRow, identityOf } from "./accounts";
 import { ACTION_LABELS, findParcel, type DeliveryAction } from "./shared/deliveries";
 import { json, readJson, secureRandom } from "./http";
+import { sendScenarioMail } from "./mail-store";
+import { serviceMail, FOLLOW_UP_DELAY_MS } from "./shared/mail";
 import { makeEnquiryReference } from "./messaging";
 
 function readUsername(raw: string): string | null {
@@ -70,6 +72,50 @@ export async function saveDeliveryRequest(request: Request, env: Env, rawUsernam
       )
         .bind(key, action === "support" ? "GENERAL" : code, action, `${ACTION_LABELS[action] ?? action}: ${savedDetail}`, reference, now.toISOString())
         .run();
+      const parcel = action === "support" ? null : findParcel(code);
+      const later = new Date(now.getTime() + FOLLOW_UP_DELAY_MS).toISOString();
+      await sendScenarioMail(env.BANK_DB, key, (holder) => {
+        const received = serviceMail(holder, {
+          from: "deliveries",
+          scenario: "deliveries",
+          subject: `Delivery request ${reference}`,
+          body: `Dear ${holder.fullName},
+
+We have saved your request.
+
+Tracking code: ${action === "support" ? "Not given" : code}
+Request: ${ACTION_LABELS[action] ?? action}
+Reference: ${reference}
+
+You can see it in My deliveries. No real courier has been contacted.
+
+Westford Deliveries`,
+          at: now.toISOString(),
+          eventKey: `deliveries.request:${reference}`,
+          eventRef: reference,
+        });
+        if (!parcel) return received;
+        return [
+          ...received,
+          {
+            ...received[0],
+            subject: `Update for ${code}`,
+            body: `Dear ${holder.fullName},
+
+Here is the latest practice status for ${code}.
+
+Status: ${parcel.statusLabel}
+${parcel.estimatedDelivery ? `Estimated delivery: ${parcel.estimatedDelivery}\n` : ""}Reference: ${reference}
+
+Open Westford Deliveries and enter ${code} if you want to check again.
+
+Westford Deliveries`,
+            sentAt: later,
+            visibleAt: later,
+            eventKey: `deliveries.update:${reference}`,
+          },
+        ];
+      });
       return json({ reference, requests: await requestsFor(env.BANK_DB, key) }, 201);
     } catch (error) {
       if (!String(error).includes("UNIQUE")) throw error;

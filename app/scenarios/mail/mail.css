@@ -1,0 +1,212 @@
+.wm-site {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f4f7fb;
+  color: #1b1d1f;
+  font-family: var(--font-sans, "Segoe UI", sans-serif);
+}
+
+.wm-site :focus-visible {
+  outline: 3px solid #f4c95d;
+  outline-offset: 2px;
+}
+
+.wm-wrap {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.wm-narrow {
+  max-width: 520px;
+  padding: 32px 0 64px;
+}
+
+.wm-strip {
+  background: #1f2937;
+  color: #fff;
+}
+
+.wm-strip__inner,
+.wm-header .wm-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.wm-strip a,
+.wm-header a {
+  color: inherit;
+}
+
+.wm-header {
+  background: #1d4f91;
+  color: #fff;
+}
+
+.wm-brand {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+.wm-brand span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #f4c95d;
+  color: #1b1d1f;
+}
+
+.wm-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  padding-top: 28px;
+}
+
+.wm-top h1,
+.wm-read h2 {
+  margin: 0 0 4px;
+}
+
+.wm-note,
+.wm-addresses {
+  color: #3d4a55;
+}
+
+.wm-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 40px;
+}
+
+.wm-folders {
+  display: grid;
+  gap: 8px;
+}
+
+.wm-folders button,
+.wm-list button,
+.wm-thread button,
+.wm-text,
+.wm-btn {
+  font: inherit;
+}
+
+.wm-folders [role="tab"] {
+  text-align: left;
+  background: #fff;
+  border: 1px solid #d5dee8;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.wm-folders [aria-selected="true"] {
+  border-color: #1d4f91;
+  font-weight: 700;
+}
+
+.wm-btn {
+  background: #1d4f91;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.wm-text {
+  background: none;
+  border: 0;
+  color: #1d4f91;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.wm-list,
+.wm-read {
+  background: #fff;
+  border: 1px solid #d5dee8;
+  border-radius: 12px;
+  padding: 8px 16px 16px;
+}
+
+.wm-list ul,
+.wm-thread {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wm-list button {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr auto;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #e6edf4;
+  padding: 12px 4px;
+  cursor: pointer;
+}
+
+.wm-list .is-unread strong,
+.wm-list .is-unread span {
+  font-weight: 700;
+}
+
+.wm-read label,
+.wm-read input,
+.wm-read textarea {
+  display: block;
+  width: 100%;
+}
+
+.wm-read input,
+.wm-read textarea {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid #b7c3d0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.wm-file input {
+  margin-top: 6px;
+}
+
+.wm-error {
+  color: #9b1c1c;
+}
+
+.wm-file-pill {
+  display: inline-flex;
+  gap: 8px;
+  background: #eef3f8;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.wm-meta {
+  color: #52606d;
+}
+
+@media (max-width: 720px) {
+  .wm-layout,
+  .wm-list button {
+    grid-template-columns: 1fr;
+  }
+}

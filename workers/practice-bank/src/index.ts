@@ -44,6 +44,8 @@ import { checkJobsExercise, getJobs, saveJob, submitJobApplication } from "./job
 import { searchAddresses } from "./place-search";
 import { bookTrip, cancelTrip, getTravel } from "./travel-store";
 import { creditSharedBalance, debitSharedBalance, readIdempotencyKey } from "./payments";
+import { getMailbox, markMailRead, pruneMail, recordClientEvent, sendLearnerMail, sendScenarioMail } from "./mail-store";
+import { foodsOrderMail, movementMail, openedAccountMail } from "./shared/mail";
 import { createPatient, getPatient, orderPrescription } from "./patients";
 
 const INACTIVE_DAYS = 365;
@@ -91,6 +93,9 @@ async function createAccount(request: Request, env: Env): Promise<Response> {
         ),
         insertTransactions(env.BANK_DB, key, history.transactions),
       ]);
+      await sendScenarioMail(env.BANK_DB, key, (holder) =>
+        openedAccountMail(holder, { sortCode: card.sortCode, accountNumber: card.accountNumber, openedAt: now.toISOString() }),
+      );
       return json({ account: await loadAccount(env.BANK_DB, key) }, 201);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -145,6 +150,19 @@ async function takePayment(request: Request, env: Env): Promise<Response> {
     if (debit.error === "insufficient_funds") return json({ error: "insufficient_funds", balancePence: debit.balancePence }, 402);
     return json({ error: debit.error }, 409);
   }
+  if (!debit.duplicate) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) => [
+      ...movementMail(holder, {
+        description: "Westford Foods",
+        amountPence,
+        reference: debit.reference,
+        paidAt: now,
+        balancePence: debit.balancePence,
+        kind: "card",
+      }),
+      ...foodsOrderMail(holder, { reference: debit.reference, amountPence, paidAt: now }),
+    ]);
+  }
   return json({ ok: true, duplicate: debit.duplicate, username: account.username, balancePence: debit.balancePence });
 }
 
@@ -173,6 +191,18 @@ async function addPracticeMoney(request: Request, env: Env, rawUsername: string)
     idempotencyKey,
   });
   if (!credit.ok) return json({ error: credit.error }, 409);
+  if (!credit.duplicate) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) =>
+      movementMail(holder, {
+        description: "Extra practice money",
+        amountPence: TOP_UP_PENCE,
+        reference: "TOPUP",
+        paidAt: now,
+        balancePence: credit.balancePence,
+        kind: "in",
+      }),
+    );
+  }
   return json({ ok: true, duplicate: credit.duplicate, amountPence: TOP_UP_PENCE, balancePence: credit.balancePence });
 }
 
@@ -220,6 +250,15 @@ async function route(request: Request, env: Env, pathname: string): Promise<Resp
     const username = decodeURIComponent(deliveries[1]);
     if (get && !deliveries[2]) return getDeliveries(env, username);
     if (post && deliveries[2]) return saveDeliveryRequest(request, env, username);
+  }
+
+  const mail = pathname.match(/^\/mail\/([^/]+)(?:\/(send|read|events))?$/);
+  if (mail) {
+    const username = decodeURIComponent(mail[1]);
+    if (get && !mail[2]) return getMailbox(env, username);
+    if (post && mail[2] === "send") return sendLearnerMail(request, env, username);
+    if (post && mail[2] === "read") return markMailRead(request, env, username);
+    if (post && mail[2] === "events") return recordClientEvent(request, env, username);
   }
 
   if (get && pathname === "/places/search") return searchAddresses(new URL(request.url));
@@ -314,6 +353,7 @@ const practiceBankWorker = {
   // catalogue is source data, so this cleanup does not delete fictional vacancies.
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
     const cutoff = new Date(Date.now() - INACTIVE_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    await pruneMail(env.BANK_DB);
     const [accounts, patients] = await env.BANK_DB.batch([
       env.BANK_DB.prepare("DELETE FROM accounts WHERE last_used_at < ?").bind(cutoff),
       env.BANK_DB.prepare("DELETE FROM patients WHERE last_used_at < ?").bind(cutoff),

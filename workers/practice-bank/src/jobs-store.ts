@@ -14,6 +14,8 @@ import {
 import { findVacancy } from "./shared/job-catalogue";
 import { formatLocation } from "./shared/jobs";
 import { getPublicExercise } from "./shared/job-exercises";
+import { sendScenarioMail } from "./mail-store";
+import { jobApplicationMail } from "./shared/mail";
 import { practiceProfileFromIdentity } from "./shared/practice-profile";
 
 const APPLICATION_BODY_BYTES = 12000;
@@ -193,6 +195,19 @@ export async function submitJobApplication(request: Request, env: Env, rawUserna
     }
   }
   await touch(env.BANK_DB, key);
+  if (reference) {
+    await sendScenarioMail(env.BANK_DB, key, (holder) =>
+      jobApplicationMail(holder, {
+        reference,
+        title: job.title,
+        employer: job.employer,
+        status,
+        submittedAt: now.toISOString(),
+        cvFileName: draft.cvFileName,
+        interview,
+      }),
+    );
+  }
   const data = await loadSnapshot(env.BANK_DB, key);
   return json({ reference, applications: data.applications.map(presentApplication) }, 201);
 }
