@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { ScenarioSignIn } from "../../components/ScenarioSignIn";
 import { clearLearner, useLearner } from "../../lib/learner-session";
 import { getMailbox, markRead, saveDraft, sendMail, updateMessage, type Mailbox, type MailFolder, type MailMessage } from "./mail-api";
@@ -27,7 +27,28 @@ const ICONS: Record<string, string> = {
   spam: "M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z",
   bin: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
   back: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
+  clip: "M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z",
 };
+
+const PRACTICE_FILES = [
+  { name: "ComputerSteps-sample-CV.txt", size: "4 KB" },
+  { name: "electricity-bill.pdf", size: "86 KB" },
+  { name: "photo-of-meter.jpg", size: "1.2 MB" },
+];
+
+const FILE_TYPES = [".pdf", ".txt", ".doc", ".docx", ".jpg", ".jpeg", ".png"];
+
+type AttachedFile = { name: string; size: string };
+
+function fileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function safeFileName(name: string): boolean {
+  return /^[\w .\-()]{1,80}$/.test(name) && FILE_TYPES.some((ext) => name.toLowerCase().endsWith(ext));
+}
 
 function Icon({ name }: { name: string }) {
   return (
@@ -65,7 +86,8 @@ export default function MailboxApp() {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [attachmentName, setAttachmentName] = useState("");
+  const [attachments, setAttachments] = useState<AttachedFile[]>([]);
+  const fileInput = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
   const [warned, setWarned] = useState(false);
   const [toast, setToast] = useState("");
@@ -127,21 +149,43 @@ export default function MailboxApp() {
     }
   };
 
-  const startCompose = (next?: { title: string; to: string; subject: string; body: string; draftId: number | null; attachmentName?: string }) => {
+  const startCompose = (next?: { title: string; to: string; subject: string; body: string; draftId: number | null; attachments?: AttachedFile[] }) => {
     setComposeTitle(next?.title ?? "New email");
     setTo(next?.to ?? "");
     setSubject(next?.subject ?? "");
     setBody(next?.body ?? "");
-    setAttachmentName(next?.attachmentName ?? "");
+    setAttachments(next?.attachments ?? []);
     setDraftId(next?.draftId ?? null);
     setError("");
     setWarned(false);
     setComposing(true);
   };
 
+  const addAttachments = (files: AttachedFile[]) => {
+    setAttachments((current) => {
+      const next = [...current];
+      let problem = "";
+      for (const file of files) {
+        if (!safeFileName(file.name)) {
+          problem = "Use a pdf, txt, doc, docx, jpg or png file.";
+          continue;
+        }
+        if (next.some((item) => item.name === file.name)) continue;
+        if (next.length >= 3) {
+          problem = "You can attach up to 3 files.";
+          break;
+        }
+        next.push(file);
+      }
+      const notice = problem;
+      queueMicrotask(() => setError(notice));
+      return next;
+    });
+  };
+
   const closeCompose = async (save: boolean) => {
-    if (username && save && (to.trim() || subject.trim() || body.trim() || attachmentName)) {
-      await saveDraft(username, { id: draftId ?? undefined, to, subject, body, attachmentName });
+    if (username && save && (to.trim() || subject.trim() || body.trim() || attachments.length > 0)) {
+      await saveDraft(username, { id: draftId ?? undefined, to, subject, body, attachmentNames: attachments.map((file) => file.name) });
       show("Saved in Drafts, in case you want to finish it later.");
       await load(username);
     } else if (username && !save && draftId) {
@@ -173,7 +217,7 @@ export default function MailboxApp() {
       return;
     }
     setSending(true);
-    const result = await sendMail(username, { to, subject, body, attachmentName: attachmentName || undefined, draftId: draftId ?? undefined });
+    const result = await sendMail(username, { to, subject, body, attachmentNames: attachments.map((file) => file.name), draftId: draftId ?? undefined });
     setSending(false);
     if (!result.ok && "errors" in result) {
       setError(Object.values(result.errors)[0] ?? "Check the address and try again.");
@@ -283,7 +327,7 @@ export default function MailboxApp() {
                           <span className="wm-subj">{message.subject || "(no subject)"}</span>
                           <span className="wm-snip"> – {message.body.replace(/\s+/g, " ").slice(0, 80)}</span>
                         </span>
-                        <time className="wm-when" dateTime={message.sentAt}>{when(message.sentAt)}</time>
+                        <time className="wm-when" dateTime={message.sentAt}>{message.attachments.length > 0 ? <Icon name="clip" /> : null}{when(message.sentAt)}</time>
                       </button>
                     </li>
                   );
@@ -296,7 +340,7 @@ export default function MailboxApp() {
                       <Icon name="back" /> Back to {FOLDERS.find((item) => item.id === folder)?.label}
                     </button>
                     {open.folder === "drafts" ? (
-                      <button type="button" className="wm-btn wm-btn--main" onClick={() => startCompose({ title: "Draft", to: open.toAddress, subject: open.subject, body: open.body, draftId: open.id, attachmentName: open.attachments[0]?.name ?? "" })}>
+                      <button type="button" className="wm-btn wm-btn--main" onClick={() => startCompose({ title: "Draft", to: open.toAddress, subject: open.subject, body: open.body, draftId: open.id, attachments: open.attachments.map((file) => ({ name: file.name, size: "Practice file" })) })}>
                         Keep writing
                       </button>
                     ) : null}
@@ -342,7 +386,15 @@ export default function MailboxApp() {
                       <small>{when(open.sentAt)}{open.eventRef ? ` · ${open.eventRef}` : ""}</small>
                     </div>
                   </div>
-                  {open.attachments.map((file) => <p key={file.name}>Attachment: {file.name}</p>)}
+                  {open.attachments.length > 0 ? (
+                    <div className="wm-attl">
+                      {open.attachments.map((file) => (
+                        <button key={file.name} type="button" className="wm-att" onClick={() => show(`${file.name} is a practice file. It stays inside Westford Mail and is not downloaded.`)}>
+                          <Icon name="clip" /> {file.name}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
                   <div className="wm-body">{open.body}</div>
                   {open.note ? <div className="wm-tip"><b>Tip.</b> {open.note}</div> : null}
                 </article>
@@ -371,13 +423,37 @@ export default function MailboxApp() {
           <input id="wm-subject" value={subject} autoComplete="off" onChange={(event) => setSubject(event.target.value)} />
         </div>
         <textarea id="wm-body" className="wm-msg" aria-label="Your message" placeholder="Type your message here" value={body} onChange={(event) => setBody(event.target.value)} />
-        <label className="wm-file" htmlFor="wm-file">
-          Add a practice file name
-          <input id="wm-file" value={attachmentName} onChange={(event) => setAttachmentName(event.target.value)} placeholder="for example notes.pdf" />
-        </label>
+        <div className="wm-attl" aria-live="polite">
+          {attachments.map((file) => (
+            <span key={file.name} className="wm-att">
+              <Icon name="clip" /> {file.name} <small>{file.size}</small>
+              <button type="button" aria-label={`Remove ${file.name}`} onClick={() => setAttachments((current) => current.filter((item) => item.name !== file.name))}>×</button>
+            </span>
+          ))}
+        </div>
+        <div className="wm-chips" style={{ borderTop: "1px solid var(--line)", borderBottom: 0 }}>
+          Practice files:{" "}
+          {PRACTICE_FILES.map((file) => (
+            <button key={file.name} type="button" className="wm-chip" onClick={() => addAttachments([file])}>{file.name}</button>
+          ))}
+        </div>
+        <input
+          ref={fileInput}
+          type="file"
+          multiple
+          hidden
+          accept=".pdf,.txt,.doc,.docx,.jpg,.jpeg,.png"
+          onChange={(event) => {
+            addAttachments(Array.from(event.target.files ?? []).map((file) => ({ name: file.name, size: fileSize(file.size) })));
+            event.target.value = "";
+          }}
+        />
         {error ? <p className="wm-err" role="alert">{error}</p> : null}
         <div className="wm-wf">
           <button type="submit" className="wm-btn wm-btn--main" disabled={sending}>{sending ? "Sending…" : "Send"}</button>
+          <button type="button" className="wm-btn" onClick={() => fileInput.current?.click()}>
+            <Icon name="clip" /> Attach files
+          </button>
           <button type="button" className="wm-btn" onClick={() => void closeCompose(false)}>Throw away</button>
         </div>
       </form>

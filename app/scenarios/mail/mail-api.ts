@@ -43,7 +43,7 @@ export async function getMailbox(username: string): Promise<Mailbox | "missing" 
 
 export async function sendMail(
   username: string,
-  body: { to: string; subject: string; body: string; attachmentName?: string; inReplyTo?: number; draftId?: number },
+  body: { to: string; subject: string; body: string; attachmentNames?: string[]; inReplyTo?: number; draftId?: number },
 ): Promise<{ ok: true } | { ok: false; errors: Record<string, string> } | { ok: false; reason: "unavailable" }> {
   const result = await request(`/mail/${encodeURIComponent(username)}/send`, { method: "POST", body: JSON.stringify(body) });
   if (result?.status === 201) return { ok: true };
@@ -55,7 +55,7 @@ export async function sendMail(
 
 export async function saveDraft(
   username: string,
-  body: { id?: number; to: string; subject: string; body: string; attachmentName?: string },
+  body: { id?: number; to: string; subject: string; body: string; attachmentNames?: string[] },
 ): Promise<number | null> {
   const result = await request(`/mail/${encodeURIComponent(username)}/draft`, { method: "POST", body: JSON.stringify(body), quiet: true });
   if (result?.status === 200 || result?.status === 201) return typeof result.body.id === "number" ? result.body.id : null;

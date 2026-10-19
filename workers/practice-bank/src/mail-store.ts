@@ -284,10 +284,14 @@ export async function saveDraftMail(request: Request, env: Env, rawUsername: str
   const to = typeof body.to === "string" ? body.to.trim().slice(0, 120) : "";
   const subject = typeof body.subject === "string" ? body.subject.trim().slice(0, 120) : "";
   const message = typeof body.body === "string" ? body.body.slice(0, 2000) : "";
-  const attachmentName = typeof body.attachmentName === "string" ? body.attachmentName.trim().slice(0, 80) : "";
+  const attachmentNames = (Array.isArray(body.attachmentNames) ? body.attachmentNames : typeof body.attachmentName === "string" ? [body.attachmentName] : [])
+    .filter((item): item is string => typeof item === "string")
+    .map((item) => item.trim().slice(0, 80))
+    .filter(Boolean)
+    .slice(0, 3);
   const id = typeof body.id === "number" ? body.id : 0;
   const now = new Date().toISOString();
-  if (!to && !subject && !message.trim() && !attachmentName) {
+  if (!to && !subject && !message.trim() && attachmentNames.length === 0) {
     if (id) await env.BANK_DB.prepare("DELETE FROM mail_messages WHERE id = ? AND username_key = ? AND folder = 'drafts'").bind(id, key).run();
     return json({ ok: true, id: null });
   }
@@ -297,7 +301,7 @@ export async function saveDraftMail(request: Request, env: Env, rawUsername: str
     await env.BANK_DB.prepare(
       "UPDATE mail_messages SET to_address = ?, subject = ?, body = ?, attachments_json = ?, sent_at = ?, visible_at = ? WHERE id = ? AND username_key = ?",
     )
-      .bind(to, subject, message, JSON.stringify(attachmentName ? [{ name: attachmentName }] : []), now, now, id, key)
+      .bind(to, subject, message, JSON.stringify(attachmentNames.map((name) => ({ name }))), now, now, id, key)
       .run();
     return json({ ok: true, id });
   }
@@ -320,7 +324,7 @@ export async function saveDraftMail(request: Request, env: Env, rawUsername: str
       scenario: "mail",
       eventKey,
       eventRef: null,
-      attachments: attachmentName ? [{ name: attachmentName }] : [],
+      attachments: attachmentNames.map((name) => ({ name })),
     },
   ]);
   const saved = await env.BANK_DB.prepare("SELECT id FROM mail_messages WHERE username_key = ? AND event_key = ?").bind(key, eventKey).first<{ id: number }>();
@@ -371,12 +375,12 @@ export async function sendLearnerMail(request: Request, env: Env, rawUsername: s
       scenario: destination.scenario,
       eventKey: sentKey,
       eventRef: null,
-      attachments: checked.value.attachmentName ? [{ name: checked.value.attachmentName }] : [],
+      attachments: checked.value.attachmentNames.map((name) => ({ name })),
     },
   ]);
 
   const context = await replyContext(env.BANK_DB, key);
-  const replyBody = organisationReply(destination.id, holder, subject, checked.value.message, checked.value.attachmentName, context);
+  const replyBody = organisationReply(destination.id, holder, subject, checked.value.message, checked.value.attachmentNames.join(", ") || null, context);
   await insertDrafts(env.BANK_DB, key, [
     {
       mailbox: "inbox",

@@ -477,23 +477,33 @@ Westford Jobs`,
   return [received];
 }
 
-export type Outgoing = { to: string; subject: string; message: string; attachmentName: string | null; inReplyTo: number | null };
+export type Outgoing = { to: string; subject: string; message: string; attachmentNames: string[]; inReplyTo: number | null };
+
+function attachmentNamesFrom(body: Record<string, unknown>): string[] {
+  const listed = Array.isArray(body.attachmentNames) ? body.attachmentNames : [];
+  const single = typeof body.attachmentName === "string" ? [body.attachmentName] : [];
+  return [...listed, ...single]
+    .filter((item): item is string => typeof item === "string")
+    .map((item) => item.trim().slice(0, 80))
+    .filter(Boolean)
+    .slice(0, 3);
+}
 
 export function checkOutgoing(body: Record<string, unknown>): { ok: true; value: Outgoing } | { ok: false; errors: Record<string, string> } {
   const to = typeof body.to === "string" ? body.to.trim().toLowerCase() : "";
   const subject = typeof body.subject === "string" ? body.subject.trim().slice(0, 120) : "";
   const message = typeof body.body === "string" ? body.body.trim().slice(0, 2000) : "";
-  const attachmentName = typeof body.attachmentName === "string" ? body.attachmentName.trim().slice(0, 80) : "";
+  const attachmentNames = attachmentNamesFrom(body);
   const inReplyTo = typeof body.inReplyTo === "number" && Number.isInteger(body.inReplyTo) ? body.inReplyTo : null;
   const errors: Record<string, string> = {};
   if (!findOrg(to)) errors.to = "Use an address from the list. Westford Mail only delivers to practice organisations.";
   if (subject.length < 3) errors.subject = "Add a subject of at least 3 letters.";
   if (message.length < 10) errors.body = "Write a short message (at least 10 letters).";
-  if (attachmentName && (!FILE_NAME.test(attachmentName) || !SAFE_EXTENSIONS.some((ext) => attachmentName.toLowerCase().endsWith(ext)))) {
+  if (attachmentNames.some((name) => !FILE_NAME.test(name) || !SAFE_EXTENSIONS.some((ext) => name.toLowerCase().endsWith(ext)))) {
     errors.attachmentName = "Use a practice file name ending in pdf, txt, doc, docx, jpg or png.";
   }
   if (Object.keys(errors).length > 0) return { ok: false, errors };
-  return { ok: true, value: { to, subject, message, attachmentName: attachmentName || null, inReplyTo } };
+  return { ok: true, value: { to, subject, message, attachmentNames, inReplyTo } };
 }
 
 function mentions(text: string, pattern: RegExp): boolean {
@@ -508,7 +518,7 @@ export function organisationReply(
   attachmentName: string | null,
   context: ReplyContext,
 ): string {
-  const file = attachmentName ? `\n\nWe have noted the file “${attachmentName}”. The file itself stays on your device and is not kept by Computer Steps.` : "";
+  const file = attachmentName ? `\n\nWe have noted ${attachmentName.includes(",") ? "the files" : "the file"} “${attachmentName}”. The files stay on your device and are not kept by Computer Steps.` : "";
   const sign = (name: string, text: string) => `Dear ${holder.fullName},\n\n${text}${file}\n\nThis reply exists only inside Computer Steps.\n\n${name}`;
   const asked = `${subject}\n${body}`;
   if (orgId === "bank") {
