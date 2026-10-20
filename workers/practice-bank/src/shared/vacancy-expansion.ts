@@ -187,7 +187,7 @@ export const VACANCY_EXPANSION: VacancyInput[] = [
       "Uniform is provided",
       "Free tea and coffee"
     ],
-    "howToApply": "Select Apply now. There is no separate email address for this practice vacancy.",
+    "howToApply": "Select Apply now. There is no separate email address for this practice job.",
     "keywords": [
       "front desk",
       "reception"
@@ -2553,7 +2553,7 @@ export const VACANCY_EXPANSION: VacancyInput[] = [
       "Accurate"
     ],
     "desirable": [
-      "A driving licence, which is a different vacancy",
+      "A driving licence, which is a different job",
       "First aid"
     ],
     "qualifications": [
@@ -4567,7 +4567,7 @@ export const VACANCY_EXPANSION: VacancyInput[] = [
     "contract": "permanent",
     "workplace": "on-site",
     "experience": "entry",
-    "summary": "Daytime support in a fictional flat for two people. The sleep-in is a different vacancy and is not included.",
+    "summary": "Daytime support in a fictional flat for two people. The sleep-in is a different job and is not included.",
     "responsibilities": [
       "Help with lunch and housework skills",
       "Support an appointment by bus",

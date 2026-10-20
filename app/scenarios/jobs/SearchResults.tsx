@@ -249,8 +249,8 @@ export function SearchResults() {
                 </div>
               </div>
               {empty.related ? (
-                <section className="wj-related" aria-label="Related vacancies">
-                  <h2>Related vacancies</h2>
+                <section className="wj-related" aria-label="Related jobs">
+                  <h2>Related jobs</h2>
                   <p>{empty.related.reason}</p>
                   {empty.related.jobs.map((job) => (
                     <JobCard

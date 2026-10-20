@@ -4,12 +4,12 @@ export const EXERCISE_LEVELS: { id: ExerciseLevel; label: string; summary: strin
   {
     id: "beginner",
     label: "Beginner",
-    summary: "Find the search, open a vacancy and read the main facts.",
+    summary: "Find the search, open a job and read the main facts.",
   },
   {
     id: "intermediate",
     label: "Intermediate",
-    summary: "Use filters, compare jobs, save a vacancy and complete an application.",
+    summary: "Use filters, compare jobs, save a job and complete an application.",
   },
   {
     id: "advanced",
@@ -61,7 +61,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     level: "beginner",
     title: "Search for a warehouse operative",
     situation: "A friend has suggested warehouse work. You want to see which fictional employers are advertising it.",
-    task: "Search for a warehouse operative vacancy and note one employer from the results.",
+    task: "Search for a warehouse operative job and note one employer from the results.",
     steps: [
       "Go to Find jobs.",
       "Type warehouse operative in the job title box. Leave the location box empty if you want jobs in every town.",
@@ -95,9 +95,9 @@ export const JOB_EXERCISES: PublicExercise[] = [
     id: "open-vacancy",
     number: 4,
     level: "beginner",
-    title: "Open a vacancy from the results",
+    title: "Open a job from the results",
     situation: "You have a list of jobs. You need the reference number from one advert before you can talk about it.",
-    task: "Open the Northgate Storage warehouse operative vacancy and find the job reference.",
+    task: "Open the Northgate Storage warehouse operative job and find the job reference.",
     steps: [
       "Search for warehouse operative in Ealing, or open the job from the results.",
       "Select the job title Warehouse operative at Northgate Storage.",
@@ -133,7 +133,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     situation: "You can only work a few shifts a week. You need to check the hours before you read the whole advert.",
     task: "Open the retail assistant job at Harrow Lane Stores and see whether it is full-time or part-time.",
     steps: [
-      "Open the Retail assistant vacancy at Harrow Lane Stores.",
+      "Open the Retail assistant job at Harrow Lane Stores.",
       "Find the line that says Full-time or Part-time.",
       "Read the working hours as well, so you know which days are involved.",
     ],
@@ -155,7 +155,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     number: 7,
     level: "beginner",
     title: "Find the application closing date",
-    situation: "You do not want to miss the closing date for the Northgate Storage vacancy.",
+    situation: "You do not want to miss the closing date for the Northgate Storage job.",
     task: "Find the date applications close.",
     steps: [
       "Open the Warehouse operative job at Northgate Storage.",
@@ -182,13 +182,13 @@ export const JOB_EXERCISES: PublicExercise[] = [
     hint: "Set the location and the part-time filter together. If the list is empty, clear other filters and try again.",
     startHref: "/scenarios/jobs/search/?q=retail%20assistant&where=Leeds&hours=part-time",
     needsAccount: false,
-    check: { kind: "text", prompt: "What is the job title of the part-time retail vacancy in Leeds?", example: "The title on the result" },
+    check: { kind: "text", prompt: "What is the job title of the part-time retail job in Leeds?", example: "The title on the result" },
   },
   {
     id: "filter-contract",
     number: 9,
     level: "intermediate",
-    title: "Filter vacancies by employment type",
+    title: "Filter jobs by employment type",
     situation: "You can only take a temporary job at the moment. You want the reference for a particular cleaning role.",
     task: "Show temporary jobs and find the reference for the specialist cleaner at Clearpath Homes.",
     steps: [
@@ -223,7 +223,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     id: "compare-two",
     number: 11,
     level: "intermediate",
-    title: "Compare two vacancies",
+    title: "Compare two jobs",
     situation: "You are choosing between a junior web developer role and an IT support role. You want to know which pays more each year.",
     task: "Compare Bramble Digital and Westford College IT, then say which advert offers the higher yearly pay.",
     steps: [
@@ -274,9 +274,9 @@ export const JOB_EXERCISES: PublicExercise[] = [
     id: "save-job",
     number: 13,
     level: "intermediate",
-    title: "Save a suitable vacancy",
-    situation: "You want to come back to the Willow Court Care vacancy after you have read another job.",
-    task: "Save that vacancy to your Computer Steps account.",
+    title: "Save a suitable job",
+    situation: "You want to come back to the Willow Court Care job after you have read another job.",
+    task: "Save that job to your Computer Steps account.",
     steps: [
       "Sign in if you are asked to. Use your Computer Steps username.",
       "Open the Care assistant job at Willow Court Care.",
@@ -286,15 +286,15 @@ export const JOB_EXERCISES: PublicExercise[] = [
     hint: "Save job is on the advert, near Apply. If you are signed out, the page explains how to sign in and brings you back.",
     startHref: "/scenarios/jobs/job/?id=wfj-1070",
     needsAccount: true,
-    check: { kind: "progress", prompt: "Save the Willow Court Care vacancy, then check." },
+    check: { kind: "progress", prompt: "Save the Willow Court Care job, then check." },
   },
   {
     id: "find-saved",
     number: 14,
     level: "intermediate",
-    title: "Find the vacancy again in Saved jobs",
+    title: "Find the job again in Saved jobs",
     situation: "You saved a job earlier. You now need to find it without searching the whole site again.",
-    task: "Open Saved jobs, find the Willow Court Care vacancy and read the town.",
+    task: "Open Saved jobs, find the Willow Court Care job and read the town.",
     steps: [
       "Save the Care assistant job at Willow Court Care if it is not saved yet.",
       "Open Saved jobs in the menu.",
@@ -303,7 +303,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     hint: "Saved jobs is in the main menu. The town is written under the job title.",
     startHref: "/scenarios/jobs/saved/",
     needsAccount: true,
-    check: { kind: "text", prompt: "In Saved jobs, what town is the Willow Court Care vacancy in?", example: "The town name" },
+    check: { kind: "text", prompt: "In Saved jobs, what town is the Willow Court Care job in?", example: "The town name" },
   },
   {
     id: "complete-application",
@@ -488,7 +488,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     level: "advanced",
     title: "Find an entry-level role with no employment history",
     situation: "You have no previous paid job. You need an advert that says that is acceptable.",
-    task: "Find which of these vacancies says no previous paid employment is needed.",
+    task: "Find which of these jobs says no previous paid employment is needed.",
     steps: [
       "Filter Experience level to Entry level, or open each job from this list.",
       "Read the essential requirements, not only the job title.",
@@ -499,7 +499,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     needsAccount: false,
     check: {
       kind: "choice",
-      prompt: "Which vacancy says no previous paid employment is needed?",
+      prompt: "Which job says no previous paid employment is needed?",
       options: [
         { id: "salt-rooms", label: "Kitchen assistant at The Salt Rooms" },
         { id: "lantern", label: "Chef de partie at Lantern Kitchen" },
@@ -520,9 +520,9 @@ export const JOB_EXERCISES: PublicExercise[] = [
       "Set Hours to Part-time and Category to Hospitality.",
       "Open Breakfast assistant at Harbour and Clock Hotel.",
       "Save the job.",
-      "Open Saved jobs and check that the same vacancy is listed.",
+      "Open Saved jobs and check that the same job is listed.",
     ],
-    hint: "You can remove a filter from the chips above the results if the list becomes too narrow. Saved jobs keeps the vacancy after you leave the advert.",
+    hint: "You can remove a filter from the chips above the results if the list becomes too narrow. Saved jobs keeps the job after you leave the advert.",
     startHref: "/scenarios/jobs/search/?where=Bristol&hours=part-time&category=hospitality",
     needsAccount: true,
     check: { kind: "progress", prompt: "Save the breakfast assistant job in Bristol, then check." },
@@ -610,7 +610,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     number: 29,
     level: "beginner",
     title: "Find customer service work in Southall",
-    situation: "You want to see which practice vacancies mention customer service in Southall.",
+    situation: "You want to see which practice jobs mention customer service in Southall.",
     task: "Search for customer service jobs in Southall and note one job title.",
     steps: [
       "Type customer service in the job box and Southall in the location box.",
@@ -620,14 +620,14 @@ export const JOB_EXERCISES: PublicExercise[] = [
     hint: "The job title is the large text on each result. The employer is underneath it.",
     startHref: "/scenarios/jobs/search/?q=customer%20service&where=Southall",
     needsAccount: false,
-    check: { kind: "text", prompt: "Type the job title of one customer service vacancy in Southall.", example: "The full job title" },
+    check: { kind: "text", prompt: "Type the job title of one customer service job in Southall.", example: "The full job title" },
   },
   {
     id: "west-london-entry",
     number: 30,
     level: "intermediate",
     title: "Find entry-level work in West London",
-    situation: "You can travel across West London and you want practice vacancies that do not ask for years of experience.",
+    situation: "You can travel across West London and you want practice jobs that do not ask for years of experience.",
     task: "Search West London, set Experience level to Entry level, and note one employer.",
     steps: [
       "Type West London in the location box.",
@@ -647,7 +647,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     situation: "Two practice employers advertise an office administrator. The experience they ask for is not the same.",
     task: "Compare Larch Ledger and Holt and Penny and choose the statement that matches.",
     steps: [
-      "Open the compare page for the two office administrator vacancies.",
+      "Open the compare page for the two office administrator jobs.",
       "Read the essential requirements on each side.",
       "Check which town each job is in.",
     ],
@@ -669,9 +669,9 @@ export const JOB_EXERCISES: PublicExercise[] = [
     id: "suitability-priya",
     number: 32,
     level: "advanced",
-    title: "Match a fictional applicant to a vacancy",
+    title: "Match a fictional applicant to a job",
     situation: "Priya Shah is a fictional applicant. She lives in Hanwell, already has the right to work in the UK, has no paid job history, can use email and a word processor, and does not have a driving licence or an AAT qualification. Do not use your own details.",
-    task: "Choose the vacancy whose essential requirements Priya meets.",
+    task: "Choose the job whose essential requirements Priya meets.",
     steps: [
       "Read the essential requirements and the right-to-work section for Office administrator at Larch Ledger.",
       "Read the experience line for Office administrator at Holt and Penny.",
@@ -683,7 +683,7 @@ export const JOB_EXERCISES: PublicExercise[] = [
     needsAccount: false,
     check: {
       kind: "choice",
-      prompt: "Which vacancy can Priya Shah meet the essential requirements for?",
+      prompt: "Which job can Priya Shah meet the essential requirements for?",
       options: [
         { id: "larch", label: "Office administrator at Larch Ledger" },
         { id: "holt", label: "Office administrator at Holt and Penny" },

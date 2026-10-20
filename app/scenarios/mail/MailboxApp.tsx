@@ -247,7 +247,7 @@ export default function MailboxApp() {
               <path d="M4 9l13 10L30 9" fill="none" stroke="#b3402f" strokeWidth="3" strokeLinejoin="round" />
             </svg>
           </span>
-          <span>Westford Mail</span>
+          <span className="wm-logo__name">Westford Mail</span>
         </Link>
         <div className="wm-search">
           <Icon name="search" />

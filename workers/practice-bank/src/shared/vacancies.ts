@@ -2408,7 +2408,7 @@ export const VACANCY_INPUTS: VacancyInput[] = [
     experience: "entry",
     postedOn: "2026-10-14",
     closesOn: "2026-11-25",
-    summary: "Morning reception at the care home. You sign visitors in and answer the phone. Care work is a different vacancy.",
+    summary: "Morning reception at the care home. You sign visitors in and answer the phone. Care work is a different job.",
     responsibilities: [
       "Sign visitors in and offer them a seat",
       "Answer the phone and transfer calls",

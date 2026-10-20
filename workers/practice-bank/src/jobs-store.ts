@@ -59,7 +59,7 @@ function presentApplication(row: ApplicationRow) {
   return {
     reference: row.reference,
     jobId: row.job_id,
-    jobTitle: job?.title ?? "Practice vacancy",
+    jobTitle: job?.title ?? "Practice job",
     employer: job?.employer ?? "Fictional employer",
     location: job ? formatLocation(job) : "",
     submittedAt: row.submitted_at,

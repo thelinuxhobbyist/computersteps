@@ -257,9 +257,9 @@ export function rightToWorkText(input: Pick<VacancyInput, "sponsorship" | "spons
   if (input.rightToWork) return input.rightToWork;
   if (input.sponsorship === "available") {
     const condition = input.sponsorshipCondition?.trim() || "the essential requirements in this advert";
-    return `Sponsorship may be available for eligible applicants who already meet this condition: ${condition}. This is a fictional practice vacancy and is not immigration advice.`;
+    return `Sponsorship may be available for eligible applicants who already meet this condition: ${condition}. This is a fictional practice job and is not immigration advice.`;
   }
-  return "You must already have the right to work in the UK. This employer does not offer visa sponsorship. This is a fictional practice vacancy and is not immigration advice.";
+  return "You must already have the right to work in the UK. This employer does not offer visa sponsorship. This is a fictional practice job and is not immigration advice.";
 }
 
 export function toVacancy(input: VacancyInput): Vacancy {
@@ -676,19 +676,19 @@ export function explainEmptySearch(
   if (query.q) {
     const place = query.where ? ` in ${query.where}` : "";
     const kind = query.category ? `${categoryLabel(query.category)} jobs` : "Jobs";
-    offer(`${kind}${place} without “${query.q}”`, `These vacancies are in the same search, without the word “${query.q}”.`, { ...query, q: "" });
+    offer(`${kind}${place} without “${query.q}”`, `These jobs are in the same search, without the word “${query.q}”.`, { ...query, q: "" });
   }
   if (query.where) {
     const kept = query.category ? `, ${categoryLabel(query.category)}` : "";
-    offer(query.q ? `“${query.q}” anywhere${kept}` : "Jobs anywhere", "These vacancies are outside that place.", { ...query, where: "" });
+    offer(query.q ? `“${query.q}” anywhere${kept}` : "Jobs anywhere", "These jobs are outside that place.", { ...query, where: "" });
     for (const city of broaderPlaces(jobs, query.where)) {
       offer(
         query.q ? `“${query.q}” in ${city}${kept}` : `Jobs in ${city}`,
-        `${query.where} is in ${city}. These vacancies are in ${city}, not only in ${query.where}.`,
+        `${query.where} is in ${city}. These jobs are in ${city}, not only in ${query.where}.`,
         { ...query, where: city },
       );
       if (query.category && query.q) {
-        offer(`All “${query.q}” jobs in ${city}`, `These “${query.q}” vacancies are in ${city}, in any category.`, {
+        offer(`All “${query.q}” jobs in ${city}`, `These “${query.q}” jobs are in ${city}, in any category.`, {
           ...query,
           where: city,
           category: "",
@@ -712,10 +712,10 @@ export function explainEmptySearch(
 }
 
 function emptyDetail(query: JobQuery): string {
-  if (query.q && query.where) return `There are no vacancies for “${query.q}” in ${query.where}.`;
-  if (query.q) return `There are no vacancies for “${query.q}”.`;
-  if (query.where) return `There are no vacancies in ${query.where}.`;
-  return "No vacancies match these filters.";
+  if (query.q && query.where) return `There are no jobs for “${query.q}” in ${query.where}.`;
+  if (query.q) return `There are no jobs for “${query.q}”.`;
+  if (query.where) return `There are no jobs in ${query.where}.`;
+  return "No jobs match these filters.";
 }
 
 function rankAlternative(item: SearchAlternative & { total: number }, query: JobQuery): number {

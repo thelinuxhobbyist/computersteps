@@ -178,7 +178,7 @@ async function replyContext(db: D1Database, key: string): Promise<ReplyContext> 
       const job = findVacancy(application.job_id);
       empty.application = {
         reference: application.reference,
-        title: job?.title ?? "Practice vacancy",
+        title: job?.title ?? "Practice job",
         employer: job?.employer ?? "Fictional employer",
         status: application.status,
       };

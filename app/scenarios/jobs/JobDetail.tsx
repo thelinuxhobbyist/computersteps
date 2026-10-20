@@ -62,7 +62,7 @@ export function JobDetail() {
     return (
       <div className="ps-wrap">
         <h1>Job not found</h1>
-        <p>That job is no longer listed. Go back to search and choose another vacancy.</p>
+        <p>That job is no longer listed. Go back to search and choose another job.</p>
         <Link className="wj-btn" href="/scenarios/jobs/search/">
           Back to search results
         </Link>
@@ -122,52 +122,17 @@ export function JobDetail() {
               </div>
             </div>
             <p className="wj-summary__pay">{job.payLabel}</p>
-            <p className="wj-practice-flag">Practice vacancy. This employer and this job are fictional.</p>
+            <p className="wj-practice-flag">Practice job. This employer and this job are fictional.</p>
             <ul className="wj-tags">
               <li>{HOURS_LABELS[job.hours]}</li>
               <li>{CONTRACT_LABELS[job.contract]}</li>
               <li>{WORKPLACE_LABELS[job.workplace]}</li>
               {shift && shift.length <= 42 ? <li>{shift}</li> : null}
             </ul>
-            <div className="wj-actions">
-              {closed ? (
-                <p className="wj-summary__closed">The closing date has passed.</p>
-              ) : (
-                <Link className="wj-btn" href={applyHref}>
-                  Apply now
-                </Link>
-              )}
-              {username ? (
-                <button type="button" className="wj-btn wj-btn--ghost" disabled={busy} onClick={save}>
-                  {saved ? "Job saved" : "Save job"}
-                </button>
-              ) : (
-                <Link className="wj-btn wj-btn--ghost" href={signInHref}>
-                  Sign in to save this job
-                </Link>
-              )}
-              <CompareButton jobId={job.id} />
-            </div>
-            {message ? (
-              <p role="status">
-                <strong>{message}</strong>
-              </p>
-            ) : null}
             <p className="wj-posted">
               {daysAgo(job.postedOn)} · Closes {formatUkDate(job.closesOn)} · Ref: {job.reference}
             </p>
           </section>
-
-          {courses.length ? (
-            <div className="wj-practice">
-              <strong>Practise the computer skills for this job:</strong>
-              {courses.map((course) => (
-                <Link key={course.id} href={course.href}>
-                  {course.title}
-                </Link>
-              ))}
-            </div>
-          ) : null}
 
           <section className="wj-card wj-desc" aria-label="Job description">
             <h2>Job description</h2>
@@ -212,18 +177,46 @@ export function JobDetail() {
             <h3>How to apply</h3>
             <p>{job.howToApply}</p>
             <p>Hours: {job.hoursDetail.replace(/\.+$/, "").trim()}.</p>
-            {closed ? null : (
-              <div className="wj-actions">
+            <div className="wj-actions">
+              {closed ? (
+                <p className="wj-summary__closed">The closing date has passed.</p>
+              ) : (
                 <Link className="wj-btn" href={applyHref}>
                   Apply now
                 </Link>
-              </div>
-            )}
+              )}
+              {username ? (
+                <button type="button" className="wj-btn wj-btn--ghost" disabled={busy} onClick={save}>
+                  {saved ? "Job saved" : "Save job"}
+                </button>
+              ) : (
+                <Link className="wj-btn wj-btn--ghost" href={signInHref}>
+                  Sign in to save this job
+                </Link>
+              )}
+              <CompareButton jobId={job.id} />
+            </div>
+            {message ? (
+              <p role="status">
+                <strong>{message}</strong>
+              </p>
+            ) : null}
             <p className="wj-scam">
               <strong>Stay safe.</strong> Westford Jobs will not ask you to pay a fee, or to send bank details or identity documents, in order to apply. If an advert asks for those things, treat it as a warning sign.{" "}
               <Link href="/scenarios/jobs/safety/">Avoid job scams</Link>
             </p>
           </section>
+
+          {courses.length ? (
+            <div className="wj-practice">
+              <strong>Practise the computer skills for this job:</strong>
+              {courses.map((course) => (
+                <Link key={course.id} href={course.href}>
+                  {course.title}
+                </Link>
+              ))}
+            </div>
+          ) : null}
 
           <section className="wj-card" aria-label="Job details">
             <h2>Job details</h2>

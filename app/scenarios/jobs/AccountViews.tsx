@@ -175,7 +175,7 @@ export function SavedJobs() {
       {message ? <p role="status">{message}</p> : null}
       {jobs.length === 0 ? (
         <div className="wj-note" role="status">
-          <p>You have no saved jobs yet. Open a vacancy and select Save job.</p>
+          <p>You have no saved jobs yet. Open a job and select Save job.</p>
           <Link className="wj-btn" href="/scenarios/jobs/find/">
             Find jobs
           </Link>

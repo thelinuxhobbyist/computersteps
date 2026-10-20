@@ -118,7 +118,7 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
         : { correct: false, feedback: "Type Ealing in the location box and search. Then type the full job title from one result, such as the words in the large heading." };
     case "open-vacancy":
       return referenceMatches(answer, "WFJ-1001")
-        ? { correct: true, feedback: "WFJ-1001 is the reference on the Northgate Storage advert. A reference helps you find the same vacancy again." }
+        ? { correct: true, feedback: "WFJ-1001 is the reference on the Northgate Storage advert. A reference helps you find the same job again." }
         : { correct: false, feedback: "Open the Warehouse operative advert at Northgate Storage. The reference begins with WFJ- and is shown with the location and pay." };
     case "find-salary":
       return moneyMentions(answer, "12.21")
@@ -154,14 +154,14 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
         : { correct: false, feedback: "Open the Willow Court Care advert and read the essential list separately from the desirable list. The driving licence is not in the essential list." };
     case "save-job":
       return saved.has("wfj-1070")
-        ? { correct: true, feedback: "The Willow Court Care vacancy is saved on your account. You can close the advert and find it again under Saved jobs." }
+        ? { correct: true, feedback: "The Willow Court Care job is saved on your account. You can close the advert and find it again under Saved jobs." }
         : { correct: false, feedback: "Open the Care assistant job at Willow Court Care and select Save job. If you are signed out, sign in and return to the same advert." };
     case "find-saved":
       if (!saved.has("wfj-1070")) {
         return { correct: false, feedback: "The Willow Court Care job is not in your saved list yet. Save it from the advert, open Saved jobs, then read the town." };
       }
       return normText(answer) === "leeds"
-        ? { correct: true, feedback: "Saved jobs still shows Leeds. Saving a vacancy keeps the same advert, including the location." }
+        ? { correct: true, feedback: "Saved jobs still shows Leeds. Saving a job keeps the same advert, including the location." }
         : { correct: false, feedback: "Open Saved jobs and find Willow Court Care. Type the town written under the job title." };
     case "complete-application":
       return latestFor("wfj-1060")
@@ -190,7 +190,7 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
     case "find-application":
       return applications.some((item) => referenceMatches(answer, item.reference))
         ? { correct: true, feedback: "That reference is on your account. Job adverts use WFJ- references. Your own application uses a different WJ- reference." }
-        : { correct: false, feedback: "Open My applications and copy the reference that starts with WJ-. The WFJ- number on the job advert is the vacancy, not your application." };
+        : { correct: false, feedback: "Open My applications and copy the reference that starts with WJ-. The WFJ- number on the job advert is the job reference, not your application." };
     case "interview-invitation": {
       const application = latestFor("wfj-1040");
       if (!application || application.status !== "interview") {
@@ -220,7 +220,7 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
         : { correct: false, feedback: "Open the Kitchen assistant advert at The Salt Rooms and read the essential requirements. Compare that sentence with the chef, HGV and personal assistant adverts." };
     case "multi-step":
       return saved.has("wfj-1062")
-        ? { correct: true, feedback: "The breakfast assistant job is in Saved jobs. You combined a place, part-time hours and the hospitality category, then came back to the saved vacancy." }
+        ? { correct: true, feedback: "The breakfast assistant job is in Saved jobs. You combined a place, part-time hours and the hospitality category, then came back to the saved job." }
         : { correct: false, feedback: "Search Bristol, set Part-time and Hospitality, open Breakfast assistant at Harbour and Clock Hotel, and select Save job. Then look in Saved jobs." };
     case "office-ealing":
       return looseMatch(answer, ["Larch Ledger"])
@@ -236,7 +236,7 @@ export function checkJobExercise(exerciseId: string, answer: string, answers: st
         : { correct: false, feedback: "Search for reception in Acton and set Working hours to Part-time. Type the employer under the job title, not the town." };
     case "warehouse-greenford":
       return looseMatch(answer, allMatches({ ...emptyJobQuery(), q: "warehouse operative", where: "Greenford" }).map((job) => job.employer))
-        ? { correct: true, feedback: "That employer has a warehouse operative vacancy in Greenford. The location box is what kept Ealing and other towns out." }
+        ? { correct: true, feedback: "That employer has a warehouse operative job in Greenford. The location box is what kept Ealing and other towns out." }
         : { correct: false, feedback: "Search for warehouse operative in Greenford, then copy an employer name from under a job title." };
     case "service-southall":
       return fullTitle(answer, allMatches({ ...emptyJobQuery(), q: "customer service", where: "Southall" }).map((job) => job.title))

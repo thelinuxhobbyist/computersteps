@@ -441,7 +441,7 @@ Thank you for applying for ${details.title} at ${details.employer}. We will not 
 
 Reference: ${details.reference}
 
-You can apply for another vacancy on Westford Jobs.
+You can apply for another job on Westford Jobs.
 
 Westford Jobs`,
         at: details.submittedAt,
