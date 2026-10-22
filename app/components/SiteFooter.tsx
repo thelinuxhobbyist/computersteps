@@ -9,19 +9,20 @@ const LINKS = [
 
 export default function SiteFooter({ hideDeveloperLink = false }: { hideDeveloperLink?: boolean }) {
   return (
-    <footer className="cs-footer">
-      <div className="wrap">
-        <Link href="/" className="logo">
-          <span className="logo-mark" aria-hidden="true">
-            C
-          </span>
-          Computer<span className="accent">Steps</span>
-        </Link>
-        <p className="cs-footer__tagline">
-          Free, friendly computer practice for anyone starting out. Take your time. Mistakes are welcome here, and nothing you try can break anything.
-        </p>
+    <footer className="site-footer">
+      <div className="footer-main">
+        <div className="footer-brand">
+          <Link href="/" className="footer-logo">
+            ComputerSteps
+          </Link>
 
-        <nav className="cs-footer__nav" aria-label="Footer">
+          <p className="footer-description">
+            Free, friendly computer practice for anyone starting out. Take your time. Mistakes are welcome here, and
+            nothing you try can break anything.
+          </p>
+        </div>
+
+        <nav className="footer-nav" aria-label="Footer navigation">
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href}>
               {link.label}
@@ -29,20 +30,19 @@ export default function SiteFooter({ hideDeveloperLink = false }: { hideDevelope
           ))}
         </nav>
 
-        <div className="cs-footer__end">
-          <p className="cs-footer__patience">Made with patience, for learners everywhere.</p>
-          <p className="cs-footer__legal">
-            <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps</span>
-            {hideDeveloperLink ? null : (
-              <>
-                {" "}
-                <Link href="/behind-the-scenes/" className="cs-footer__dev">
-                  Developer Info
-                </Link>
-              </>
-            )}
-          </p>
-        </div>
+        <p className="footer-tagline">Made with patience, for learners everywhere.</p>
+      </div>
+
+      <div className="footer-bottom">
+        <p className="footer-copyright">
+          <span suppressHydrationWarning>© {new Date().getFullYear()} ComputerSteps</span>
+        </p>
+
+        {hideDeveloperLink ? null : (
+          <div className="footer-developer">
+            <Link href="/behind-the-scenes/">Developer Info</Link>
+          </div>
+        )}
       </div>
     </footer>
   );
